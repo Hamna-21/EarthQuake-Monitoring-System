@@ -1,0 +1,6 @@
+{
+  "name": "GeoPulse",
+  "description": "Real-time global seismic monitoring, historical earthquake catalogs, and interactive analysis.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
