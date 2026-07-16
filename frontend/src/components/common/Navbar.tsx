@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Activity, Globe, Menu, X, ShieldAlert } from 'lucide-react';
+import { Activity, Globe, Menu, X, ShieldAlert, House } from 'lucide-react';
 import DesktopNav from './Navbar/components/DesktopNav';
 import MobileNav from './Navbar/components/MobileNav';
 
@@ -7,6 +7,7 @@ interface NavLink {
   name: string;
   href: string;
   disabled?: boolean;
+  
 }
 
 interface NavbarProps {
@@ -27,20 +28,17 @@ export default function Navbar({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const baseLinks = [
-    { name: 'Home', href: 'home' },
-    { name: 'Dashboard', href: '#dashboard-deck' },
-    { name: 'Safety Hub', href: '#safety-hub' },
+    { name: 'Home', href: 'home',icon: House },
+    { name: 'Dashboard', href: 'Login.tsx',icon: Activity },
+    { name: 'Safety Hub', href: '#safety-hub',icon: ShieldAlert },
   ];
 
-  const authLinks = userEmail 
-    ? [
-        { name: `Node: ${userEmail.split('@')[0]}`, href: 'profile', disabled: true },
-        { name: 'Logout', href: 'logout' }
-      ]
-    : [
-        { name: 'Register', href: 'Register.tsx' },
-        { name: 'Login', href: 'Login.tsx' }
-      ];
+  const authLinks = userEmail
+  ? [
+      { name: `Node: ${userEmail.split('@')[0]}`, href: 'profile', disabled: true },
+      { name: 'Logout', href: 'logout' }
+    ]
+  : [];
 
   const navLinks = [...baseLinks, ...authLinks];
 
@@ -123,25 +121,38 @@ export default function Navbar({
         </div>
 
         {/* Right CTA / Action Buttons */}
-        <div className="flex items-center space-x-3">
-          <a
-            href="https://earthquake.usgs.gov/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 rounded-full bg-white/5 border border-white/10 text-white/70 hover:text-red-400 hover:bg-red-500/10 transition-all duration-300 shadow-lg hover:shadow-red-500/20"
-          >
-            <Globe className="h-5 w-5 stroke-[1.8]" />
-          </a>
-          
-          <button
-            onClick={onOpenWarningHub}
-            className="group px-5 py-2.5 rounded-full bg-gradient-to-r from-red-600 via-red-500 to-orange-500 text-white text-xs font-bold uppercase tracking-widest shadow-xl shadow-red-600/30 hover:shadow-red-500/60 hover:scale-105 transition-all duration-300 flex items-center gap-2 border border-red-400/20"
-          >
-            <ShieldAlert className="h-4 w-4 group-hover:animate-pulse" />
-            <span className="hidden sm:inline">Early Warning Hub</span>
-            <span className="sm:hidden">Alerts</span>
-          </button>
-        </div>
+<div className="flex items-center gap-3">
+ {!userEmail && (
+    <>
+      {/* Login */}
+      <button
+        onClick={() => handleLinkClick("Login.tsx")}
+        className="relative overflow-hidden px-4 py-2 rounded-lg border border-white/20 bg-white/5 backdrop-blur-xl text-white font-medium tracking-wide hover:border-red-400/60 hover:bg-white/10 hover:text-red-300 transition-all duration-300 hover:scale-105 shadow-lg"
+      >
+        Login
+      </button>
+
+      {/* Register */}
+      <button
+        onClick={() => handleLinkClick("Register.tsx")}
+        className="relative overflow-hidden px-4 py-2 rounded-lg bg-gradient-to-r from-red-600 via-red-500 to-orange-500 text-white font-semibold tracking-wide shadow-xl shadow-red-600/30 hover:shadow-red-500/60 hover:scale-105 transition-all duration-300"
+      >
+        Register
+      </button>
+    </>
+  )}
+
+
+  <button
+    onClick={onOpenWarningHub}
+    className="group px-5 py-2.5 rounded-lg bg-gradient-to-r from-red-600 via-red-500 to-orange-500 text-white text-xs font-bold uppercase tracking-widest shadow-xl shadow-red-600/30 hover:shadow-red-500/60 hover:scale-105 transition-all duration-300 flex items-center gap-2 border border-red-400/20"
+  >
+    <ShieldAlert className="h-4 w-4 group-hover:animate-pulse" />
+    <span className="hidden sm:inline">Early Warning Hub</span>
+    <span className="sm:hidden">Alerts</span>
+  </button>
+
+</div>
       </nav>
 
       {/* Mobile Menu Drawer Overlay */}
