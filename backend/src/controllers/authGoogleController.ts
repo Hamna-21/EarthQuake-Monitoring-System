@@ -7,7 +7,12 @@ export const getGoogleUrl = (req: Request, res: Response) => {
   const googleClientId = process.env.GOOGLE_CLIENT_ID;
   const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
   
-  const appUrl = process.env.APP_URL || "http://localhost:3000";
+const appUrl = process.env.APP_URL;
+
+if (!appUrl) {
+  throw new Error("APP_URL environment variable is required.");
+}
+
   const redirectUri = `${appUrl}/auth/callback`;
 
   if (googleClientId && googleClientSecret) {
