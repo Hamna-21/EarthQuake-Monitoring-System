@@ -1,5 +1,6 @@
 import React from 'react';
-import { Clock } from 'lucide-react';
+import { AlertTriangle, Clock, Wifi } from 'lucide-react';
+import { ds } from './designSystem';
 
 export default function RefreshNote({
   isLoading,
@@ -10,18 +11,18 @@ export default function RefreshNote({
 }) {
   if (error)
     return (
-      <div className="mt-16 mb-7 rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-900">
-        {error}
+      <div className={`${ds.surface} mb-7 flex items-center gap-3 border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-900`}>
+        <AlertTriangle className="h-5 w-5" /> {error}
       </div>
     );
 
   return (
-    <div className="mb-10 flex items-center gap-3 rounded-none border border-slate-200 bg-white px-5 py-4 shadow-sm">
-      <Clock className={`h-5 w-5 ${isLoading ? "animate-spin" : ""}`} />
+    <div className={`${ds.surface} mb-8 flex items-center gap-3 px-5 py-4`}>
+      {isLoading ? <Clock className="h-5 w-5 animate-spin text-cyan-700" /> : <Wifi className="h-5 w-5 text-emerald-600" />}
       <span className="text-sm font-medium text-slate-600">
         {isLoading
           ? "Refreshing earthquake records..."
-          : "Live earthquake Feed is connected."}
+          : "Live earthquake feed is connected."}
       </span>
     </div>
   );

@@ -33,7 +33,7 @@ export function useEarthquakes() {
       }
     } catch (err) {
       console.error(err);
-      setDataError(err instanceof Error ? err.message : "Unable to fetch USGS earthquake data.");
+      setDataError(err instanceof Error ? err.message : "Unable to fetch earthquake data.");
     } finally {
       setIsSearching(false);
     }

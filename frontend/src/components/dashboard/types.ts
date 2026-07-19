@@ -35,6 +35,7 @@ export type DashboardProps = {
   dataError: string | null;
   selectedEvent: Earthquake | null;
   setSelectedId: (id: string | null) => void;
+  setSelectedEvent?: (event: Earthquake | null) => void;
   openPage: (page: DashboardPage) => void;
 };
 

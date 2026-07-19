@@ -1,75 +1,81 @@
-import React from 'react';
-import { haversineKm } from '../../../components/dashboard/data';
+import { AlertTriangle, MapPin, RadioTower } from 'lucide-react';
+import { countryOf, fmtDate } from '../../../components/dashboard/data';
+import { alertStyle, depthStyle, magnitudeStyle } from '../../../components/dashboard/colors';
 import { DashboardProps } from '../../../components/dashboard/types';
-import EventDetailsAside from './components/EventDetailsAside';
-import EventDetailsMap from './components/EventDetailsMap';
-import EventDetailsNearby from './components/EventDetailsNearby';
+import DetailCard from './components/DetailCard';
+import DetailsActions from './components/DetailsActions';
 
-export default function DetailsPage({ earthquakes, selectedEvent, setSelectedId }: DashboardProps) {
+function regionOf(place: string) {
+  const parts = place.split(',').map((part) => part.trim()).filter(Boolean);
+  return parts.length > 1 ? parts.slice(0, -1).join(', ') : place;
+}
+
+export default function DetailsPage({ earthquakes, selectedEvent }: DashboardProps) {
   const event = selectedEvent || earthquakes[0] || null;
-  const nearby = event
-    ? earthquakes
-        .filter((e) => e.id !== event.id)
-        .map((e) => ({ e, d: haversineKm({ lat: event.latitude, lon: event.longitude }, { lat: e.latitude, lon: e.longitude }) }))
-        .sort((a, b) => a.d - b.d)
-        .slice(0, 5)
-        .map((x) => x.e)
-    : [];
-  return (
-    <>
-      <section className="relative overflow-hidden rounded-none bg-gradient-to-r from-[#3b0a0a] via-[#651010] to-[#8b1e1e] px-10 py-12 text-white shadow-xl">
-        {/* Background Effects */}
-        <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-red-500/20 blur-3xl"></div>
-        <div className="absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-orange-500/10 blur-3xl"></div>
 
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="h-full w-full bg-[linear-gradient(rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.08)_1px,transparent_1px)] bg-[size:42px_42px]" />
-        </div>
-
-        <div className="relative flex flex-col justify-between gap-10 lg:flex-row lg:items-center">
-          {/* Left */}
-          <div className="max-w-3xl">
-            <p className="mb-3 text-xs font-black uppercase tracking-[0.35em] text-red-200">
-              EARTHQUAKE EVENT ANALYSIS
-            </p>
-            <h1 className="text-5xl font-black leading-tight">
-               Event Record
-            </h1>
-            <p className="mt-5 text-lg leading-8 text-red-100">
-              Explore comprehensive information for the selected Earthquake
-            </p>
-          </div>
-        </div>
+  if (!event) {
+    return (
+      <section className="rounded-3xl border border-slate-200 bg-white p-12 text-center shadow-sm">
+        <h1 className="text-3xl font-black text-slate-950">No Earthquake Selected</h1>
+        <p className="mt-3 text-slate-500">Select an earthquake from Feed, Map, or History.</p>
       </section>
-      
-      {!event ? (
-        <div className="flex h-[450px] items-center justify-center border border-slate-200 bg-white text-slate-500 shadow-sm">
-          <div className="text-center">
-            <h3 className="text-2xl font-black text-slate-800">
-              No Earthquake Selected
-            </h3>
-            <p className="mt-3 text-sm text-slate-500">
-              Select an earthquake from the Live Feed, Map, or History page to
-              inspect its complete details.
+    );
+  }
+
+  const detailCards = [
+    { label: 'Date & Time', value: fmtDate(event.time, 'UTC') },
+    { label: 'Country', value: countryOf(event.place) },
+    { label: 'City / Region', value: regionOf(event.place) },
+    { label: 'Coordinates', value: `${event.latitude.toFixed(4)}, ${event.longitude.toFixed(4)}` },
+    { label: 'Depth', value: `${event.depth.toFixed(1)} km`, tone: 'text-orange-700' },
+    { label: 'Tsunami Status', value: event.tsunami ? 'Tsunami possible' : 'No tsunami flag' },
+    { label: 'Alert Level', value: event.alert ?? 'No alert' },
+    { label: 'Significance', value: event.sig },
+    { label: 'Status', value: event.status },
+    { label: 'Data Source', value: 'Official seismic network' },
+  ];
+
+  return (
+    <section className="space-y-8">
+      <div className="relative overflow-hidden rounded-3xl border border-red-100 bg-gradient-to-br from-white via-red-50 to-orange-50 p-8 shadow-xl">
+        <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-red-300/20 blur-3xl" />
+        <div className="relative flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.28em] text-red-700">
+              <RadioTower className="h-4 w-4" /> Earthquake Event Analysis
+            </p>
+            <h1 className="mt-4 max-w-4xl text-4xl font-black leading-tight text-slate-950 lg:text-6xl">
+              {event.place}
+            </h1>
+            <p className="mt-4 flex items-center gap-2 text-slate-600">
+              <MapPin className="h-4 w-4 text-red-600" /> {fmtDate(event.time, 'UTC')}
             </p>
           </div>
-        </div>
-      ) : (
-        <section className="grid gap-5 xl:grid-cols-[400px_1fr]">
-          {/* LEFT PANEL */}
-          <EventDetailsAside event={event} />
-
-          {/* RIGHT PANEL */}
-          <div className="space-y-11">
-            {/* MAP */}
-            <EventDetailsMap event={event} nearby={nearby} setSelectedId={setSelectedId} />
-
-            {/* Nearby */}
-            <EventDetailsNearby nearby={nearby} setSelectedId={setSelectedId} />
+          <div className={`rounded-3xl border px-8 py-6 text-center ${magnitudeStyle(event.magnitude)}`}>
+            <p className="text-xs font-black uppercase tracking-[0.22em] opacity-80">Magnitude</p>
+            <strong className="block text-6xl font-black">{event.magnitude.toFixed(1)}</strong>
           </div>
-        </section>
-      )}
-    </>
+        </div>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+        <DetailCard label="Risk Color" value={event.alert ?? 'Low Risk'} tone={alertStyle(event.alert)} />
+        <DetailCard label="Depth Band" value={`${event.depth.toFixed(1)} km`} tone={depthStyle(event.depth)} />
+        <DetailCard label="Magnitude Type" value={event.magType} />
+        <DetailCard label="Felt Reports" value={event.felt ?? 'Not reported'} />
+        <DetailCard label="Intensity" value={event.mmi ?? event.cdi ?? 'Unavailable'} />
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+        {detailCards.map((card) => <DetailCard key={card.label} {...card} />)}
+      </div>
+
+      <div className="rounded-3xl border border-white/70 bg-white/80 p-6 shadow-sm backdrop-blur">
+        <p className="mb-4 flex items-center gap-2 text-sm font-bold text-slate-700">
+          <AlertTriangle className="h-4 w-4 text-red-600" /> Event actions
+        </p>
+        <DetailsActions event={event} />
+      </div>
+    </section>
   );
 }

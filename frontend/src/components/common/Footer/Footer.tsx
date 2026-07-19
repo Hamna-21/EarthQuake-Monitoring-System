@@ -12,9 +12,9 @@ export default function Footer() {
   ];
 
   const resourceLinks = [
-    { label: 'USGS', href: 'https://earthquake.usgs.gov/', external: true },
-    { label: 'EMSC', href: 'https://www.emsc-csem.org/', external: true },
-    { label: 'NASA Earth', href: 'https://earthobservatory.nasa.gov/', external: true },
+    { label: 'Official Reports', href: '#', external: false },
+    { label: 'Emergency Guidance', href: '#', external: false },
+    { label: 'Earth Science', href: '#', external: false },
   ];
 
   return (
@@ -66,7 +66,7 @@ export default function Footer() {
               GeoPulse The Earthquake Monitoring System
             </p>
             <p className="font-light italic mt-1 text-xs tracking-widest uppercase text-red-200/40">
-              Powered by ------------------
+              Global seismic intelligence platform
             </p>
           </div>
         </div>

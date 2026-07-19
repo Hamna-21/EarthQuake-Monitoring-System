@@ -17,7 +17,7 @@ export default function AnalyticsPage({ earthquakes, isLoading, dataError }: Das
         <MetricCard label="Significant Events" value={major} help="Magnitude 5+ or alert-worthy records" />
         <MetricCard label="Reviewed Events" value={stats.reviewed} help="Status equals reviewed" />
         <MetricCard label="Max Depth" value={`${stats.maxDepth.toFixed(0)} km`} help="Deepest returned event" />
-        <MetricCard label="Red Alerts" value={stats.red} help="USGS alert level red" />
+        <MetricCard label="Red Alerts" value={stats.red} help="Critical alert level records" />
       </section>
       <section className="grid gap-6 xl:grid-cols-2">
         <MagnitudeChart events={earthquakes} />

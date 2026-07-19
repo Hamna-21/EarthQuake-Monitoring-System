@@ -1,42 +1,91 @@
-import React, { useMemo, useState } from 'react';
-import { LocateFixed } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { Earthquake } from '../../../types';
 import { haversineKm } from '../../../components/dashboard/data';
 import { DashboardProps } from '../../../components/dashboard/types';
-import { DataTable, MetricCard } from '../../../components/dashboard/ui';
-import { PageTitle } from '../../../components/dashboard/Shell';
+import EmptyState from '../../../components/dashboard/EmptyState';
+import LocationCard from './LocationCard';
+import NearbyEarthquakeCard from './NearbyEarthquakeCard';
+import RadiusControl from './RadiusControl';
+import { UserLocation, directionFromUser, reverseLocation } from './nearbyUtils';
 
 export default function NearbyPage({ earthquakes, setSelectedId, openPage }: DashboardProps) {
-  const [location, setLocation] = useState<{ lat: number; lon: number } | null>(null);
+  const [location, setLocation] = useState<UserLocation | null>(null);
+  const [radius, setRadius] = useState(200);
+  const [locating, setLocating] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const nearby = useMemo(() => {
-    if (!location) return [];
-    return earthquakes
-      .map((e) => ({ ...e, distance: haversineKm(location, { lat: e.latitude, lon: e.longitude }) }))
-      .sort((a, b) => a.distance - b.distance)
-      .slice(0, 25);
-  }, [earthquakes, location]);
+
   const locate = () => {
+    setLocating(true);
     setError(null);
     navigator.geolocation.getCurrentPosition(
-      (pos) => setLocation({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
-      (err) => setError(err.message),
+      async (pos) => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        try {
+          setLocation(await reverseLocation(lat, lon));
+        } catch {
+          setLocation({ lat, lon });
+        } finally {
+          setLocating(false);
+        }
+      },
+      (err) => {
+        setError(err.message);
+        setLocating(false);
+      },
       { enableHighAccuracy: true, timeout: 12000 }
     );
   };
+
+  useEffect(() => {
+    locate();
+  }, []);
+
+  const nearby = useMemo(() => {
+    if (!location) return [];
+    return earthquakes
+      .map((event) => {
+        const distance = haversineKm(location, { lat: event.latitude, lon: event.longitude });
+        return {
+          ...event,
+          distance,
+          direction: directionFromUser(event.latitude - location.lat, event.longitude - location.lon),
+        };
+      })
+      .filter((event) => event.distance <= radius)
+      .sort((a, b) => a.distance - b.distance);
+  }, [earthquakes, location, radius]);
+
+  const select = (event: Earthquake) => {
+    setSelectedId(event.id);
+    openPage('details');
+  };
+
   return (
-    <>
-      <PageTitle eyebrow="Nearby Earthquakes" title="Location-relevant seismic activity" subtitle="Use browser geolocation to calculate closest real USGS events and local activity context." />
-      <section className="mb-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <button onClick={locate} className="flex items-center gap-2 rounded-xl bg-red-700 px-4 py-3 text-sm font-black text-white hover:bg-red-800"><LocateFixed className="h-4 w-4" /> Locate me</button>
-        {location && <p className="mt-3 text-sm text-slate-600">Using {location.lat.toFixed(4)}, {location.lon.toFixed(4)}</p>}
-        {error && <p className="mt-3 rounded-xl bg-red-50 p-3 text-sm font-semibold text-red-800">{error}</p>}
-      </section>
-      <section className="mb-6 grid gap-4 md:grid-cols-3">
-        <MetricCard label="Closest Distance" value={nearby[0] ? `${nearby[0].distance.toFixed(0)} km` : 'N/A'} help="Calculated with Haversine distance" />
-        <MetricCard label="Closest Magnitude" value={nearby[0] ? `M ${nearby[0].magnitude.toFixed(1)}` : 'N/A'} help="Nearest event from loaded records" />
-        <MetricCard label="Events Within 1000 km" value={nearby.filter((e) => e.distance <= 1000).length} help="Based on your browser location" />
-      </section>
-      <DataTable events={nearby} onSelect={(e) => { setSelectedId(e.id); openPage('details'); }} />
-    </>
+    <section className="space-y-6">
+      <LocationCard location={location} error={error} locating={locating} onLocate={locate} />
+      <RadiusControl radius={radius} onChange={setRadius} />
+      <div className="grid gap-4 md:grid-cols-3">
+        <Summary label="Within Radius" value={nearby.length} />
+        <Summary label="Closest Event" value={nearby[0] ? `${nearby[0].distance.toFixed(0)} km` : 'N/A'} />
+        <Summary label="Radius" value={`${radius} km`} />
+      </div>
+      {!nearby.length ? (
+        <EmptyState title="No Nearby Earthquakes" text="No loaded earthquake records fall inside the selected radius." />
+      ) : (
+        <div className="grid gap-5 lg:grid-cols-2 2xl:grid-cols-3">
+          {nearby.map((event) => <NearbyEarthquakeCard key={event.id} event={event} onSelect={select} />)}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function Summary({ label, value }: { label: string; value: string | number }) {
+  return (
+    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+      <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-500">{label}</p>
+      <strong className="mt-2 block text-3xl font-black text-slate-950">{value}</strong>
+    </article>
   );
 }

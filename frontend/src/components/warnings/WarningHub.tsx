@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Activity, X } from 'lucide-react';
-import CrackOverlay from './components/CrackOverlay';
+import SafetyAssistantPanel from './components/SafetyAssistantPanel';
+import SafetyChecklist from './components/SafetyChecklist';
+import SafetyHubVideo from './components/SafetyHubVideo';
+import SafetyMetricGrid from './components/SafetyMetricGrid';
 
 interface WarningHubProps {
   isOpen: boolean;
@@ -11,106 +14,63 @@ export default function WarningHub({ isOpen, onClose }: WarningHubProps) {
   const [showCrack, setShowCrack] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
-      setShowCrack(false);
-      const timer = setTimeout(() => {
-        setShowCrack(true);
-      }, 2400); // shake duration (3 shakes of 0.8s = 2.4s)
-      return () => clearTimeout(timer);
-    }
+    if (!isOpen) return;
+    setShowCrack(false);
+    const timer = window.setTimeout(() => setShowCrack(true), 2200);
+    return () => window.clearTimeout(timer);
   }, [isOpen]);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in">
-      
-      {/* Background Glow inside modal view */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-none bg-red-700/10 blur-[140px]" />
-      </div>
-
-      {/* Main Container styled to match home page exactly (rounded-none, red border, dark background) */}
-      <div
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 p-4 backdrop-blur-xl">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(14,165,233,0.16),transparent_34%),radial-gradient(circle_at_80%_30%,rgba(239,68,68,0.16),transparent_32%)]" />
+      <section
         id="safety-hub"
-        className="
-        relative
-        z-10
-        animate-earthquake
-        bg-[#120B0A]
-        border
-        border-red-900/40
-        rounded-none
-        w-full
-        max-w-4xl
-        max-h-[90vh]
-        overflow-y-auto
-        shadow-2xl
-        shadow-red-950/40
-        "
+        className="relative z-10 max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-[28px] border border-white/10 bg-white/[0.06] text-white shadow-2xl shadow-black/40 backdrop-blur-2xl animate-earthquake"
       >
-        
-        {/* Crack Overlay */}
-        <CrackOverlay showCrack={showCrack} />
-        
-        {/* Header */}
-        <div className="p-6 bg-black/40 border-b border-red-900/20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-red-500/10 text-red-500 rounded-none animate-pulse">
-              <Activity className="h-6 w-6 stroke-[2.5]" />
-            </div>
-            <div>
-              <h3 className="text-lg font-bold tracking-[0.2em] text-white uppercase">
-                Early Warning Hub
-              </h3>
-              <p className="text-xs font-light  text-red-100/60 mt-0.5">
-                Critical global earthquake warning & preparation intelligence.
-              </p>
-            </div>
+       
+        <header className="sticky top-0 z-20 flex items-start justify-between gap-4 border-b border-white/10 bg-slate-950/85 p-6 backdrop-blur-xl">
+          <div>
+            <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.3em] text-cyan-200">
+              <Activity className="h-4 w-4" /> Safety Hub
+            </p>
+            <h2 className="mt-3 text-3xl font-black tracking-tight md:text-5xl">
+              Emergency readiness center
+            </h2>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">
+              Preparedness score, emergency kit, family plan, learning tools,
+              and calm earthquake response guidance in one command surface.
+            </p>
           </div>
-          <button 
+          <button
             onClick={onClose}
-            className="text-red-200/70 hover:text-white font-mono text-xs uppercase px-3 py-1.5 border border-red-900/30 bg-white/5 rounded-none hover:bg-red-500/10 transition-all cursor-pointer flex items-center gap-1.5"
-            title="Close Broadcast"
+            className="rounded-2xl border border-white/10 bg-white/10 p-3 text-slate-200 transition hover:bg-white/20"
+            aria-label="Close Safety Hub"
           >
-            <X className="h-4 w-4" />
-            <span>Close</span>
+            <X className="h-5 w-5" />
           </button>
-        </div>
-
-        {/* Video Content */}
-        <div className="bg-black p-4 md:p-8 flex items-center justify-center border-b border-red-900/10">
-          <div className="aspect-video w-full max-w-3xl bg-neutral-950 border border-red-900/20 shadow-inner relative">
-            <iframe 
-              className="w-full h-full absolute inset-0"
-              src="https://www.youtube.com/embed/avvBpyh1kdE?si=tGbetz6P-Cgzn7dx" 
-              title="YouTube video player" 
-              frameBorder="0" 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-              referrerPolicy="strict-origin-when-cross-origin" 
-              allowFullScreen
-            />
+        </header>
+        <div className="space-y-5 p-5 md:p-6">
+          <SafetyMetricGrid />
+          <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+            <SafetyHubVideo />
+            <SafetyAssistantPanel />
+          </div>
+          <SafetyChecklist />
+          <div className="flex flex-col items-center justify-between gap-4 rounded-3xl border border-red-300/20 bg-red-500/10 p-5 sm:flex-row">
+            <p className="text-sm font-semibold text-red-50">
+              Emergency Mode: share location, follow local instructions, and keep this checklist visible.
+            </p>
+            <button
+              onClick={onClose}
+              className="rounded-2xl bg-gradient-to-r from-red-600 to-orange-500 px-6 py-3 text-xs font-black uppercase tracking-[0.2em] text-white shadow-lg shadow-red-700/25"
+            >
+              Acknowledge
+            </button>
           </div>
         </div>
-
-        {/* Footer */}
-        <div className="p-6 bg-black/40 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="h-2.5 w-2.5 rounded-full bg-red-500 animate-ping" />
-            <span className="font-light  text-xs text-red-100/60">
-              Broadcast synthesized live. Citizen safety protocols active.
-            </span>
-          </div>
-          
-          <button 
-            onClick={onClose}
-            className="w-full sm:w-auto px-8 py-3 rounded-none bg-gradient-to-r from-red-600 via-red-500 to-orange-500 text-white font-bold text-xs uppercase tracking-[0.2em] shadow-lg shadow-red-700/30 hover:scale-105 hover:shadow-red-500/55 transition-all duration-300 cursor-pointer"
-          >
-            Acknowledge Safety Broadcast
-          </button>
-        </div>
-
-      </div>
+      </section>
     </div>
   );
 }

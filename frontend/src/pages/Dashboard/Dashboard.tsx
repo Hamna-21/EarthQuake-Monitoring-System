@@ -10,6 +10,7 @@ import AnalyticsPage from './Analytics/AnalyticsPage';
 import DetailsPage from './Details/DetailsPage';
 import NearbyPage from './Nearby/NearbyPage';
 import AlertsPage from './Alerts/AlertsPage';
+import GeoAssistant from '../../components/dashboard/GeoAssistant';
 
 interface UserDashboardProps {
   userEmail: string | null;
@@ -25,16 +26,26 @@ interface UserDashboardProps {
 export default function Dashboard(props: UserDashboardProps) {
   const [page, setPage] = useState<DashboardPage>('overview');
   const [selectedId, setSelectedId] = useState<string | null>(props.earthquakes[0]?.id ?? null);
+  const [selectedHistoryEvent, setSelectedHistoryEvent] = useState<Earthquake | null>(null);
+  const selectLiveEvent = (id: string | null) => {
+    setSelectedHistoryEvent(null);
+    setSelectedId(id);
+  };
   const selectedEvent = useMemo(
-    () => props.earthquakes.find((event) => event.id === selectedId) ?? props.earthquakes[0] ?? null,
-    [props.earthquakes, selectedId]
+    () =>
+      selectedHistoryEvent ??
+      props.earthquakes.find((event) => event.id === selectedId) ??
+      props.earthquakes[0] ??
+      null,
+    [props.earthquakes, selectedHistoryEvent, selectedId]
   );
   const pageProps = {
     earthquakes: props.earthquakes,
     isLoading: props.isLoading,
     dataError: props.dataError,
     selectedEvent,
-    setSelectedId,
+    setSelectedId: selectLiveEvent,
+    setSelectedEvent: setSelectedHistoryEvent,
     openPage: setPage
   };
 
@@ -60,6 +71,7 @@ export default function Dashboard(props: UserDashboardProps) {
       {page === 'details' && <DetailsPage {...pageProps} />}
       {page === 'nearby' && <NearbyPage {...pageProps} />}
       {page === 'alerts' && <AlertsPage {...pageProps} />}
+      <GeoAssistant openPage={setPage} />
     </Shell>
   );
 }

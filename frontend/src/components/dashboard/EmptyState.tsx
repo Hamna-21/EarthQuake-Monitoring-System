@@ -1,4 +1,6 @@
 import React from 'react';
+import { SearchX } from 'lucide-react';
+import { ds } from './designSystem';
 
 export default function EmptyState({
   title,
@@ -8,9 +10,12 @@ export default function EmptyState({
   text: string;
 }) {
   return (
-    <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center">
-      <p className="font-black text-slate-900">{title}</p>
-      <p className="mt-2 text-sm text-slate-500">{text}</p>
+    <div className={`${ds.surface} border-dashed p-8 text-center`}>
+      <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-cyan-50 text-cyan-700">
+        <SearchX className="h-6 w-6" />
+      </span>
+      <p className="mt-4 text-lg font-black text-slate-950">{title}</p>
+      <p className={ds.caption}>{text}</p>
     </div>
   );
 }
