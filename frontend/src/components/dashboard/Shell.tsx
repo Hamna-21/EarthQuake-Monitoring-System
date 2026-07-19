@@ -31,17 +31,36 @@ export default function Shell(props: Props) {
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,#fee2e2,transparent_32%),linear-gradient(135deg,#f8fafc,#eef2ff)] text-slate-900">
-      <aside className={`fixed inset-y-4 left-4 z-30 hidden flex-col overflow-hidden rounded-[24px] border border-white/70 bg-slate-950/90 text-white shadow-2xl backdrop-blur-xl transition-all lg:flex ${collapsed ? 'w-24' : 'w-76'}`}>
+    <aside
+  className={`fixed inset-y-4 left-4
+z-30
+hidden
+flex-col
+overflow-hidden
+rounded-none
+border
+border-white/30
+bg-white/25
+backdrop-blur-[30px]
+shadow-[0_20px_70px_rgba(0,0,0,0.15)]
+transition-all
+duration-500
+lg:flex
+${collapsed ? "w-24" : "w-80"}
+`}
+>
         <div className="flex h-24 items-center gap-4 border-b border-white/10 px-5">
           <span className="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-red-600 to-orange-500 shadow-lg"><Activity className="h-6 w-6" /></span>
-          {!collapsed && <div><h1 className="text-xl font-black tracking-tight">GeoPulse</h1><p className="text-xs font-semibold text-slate-400">Enterprise EOC v2.0</p></div>}
+          {!collapsed && <div><h1 className="text-xl font-black tracking-tight">GeoPulse</h1><p className="text-xs font-semibold text-slate-400"></p></div>}
         </div>
         <nav className="flex-1 space-y-5 overflow-y-auto px-4 py-5">
           {[...new Set(nav.map((item) => item[3]))].map((section) => (
             <div key={section}>
               {!collapsed && <p className="mb-2 px-3 text-[10px] font-black uppercase tracking-[0.22em] text-slate-500">{section}</p>}
               {nav.filter((item) => item[3] === section).map(([key, Icon, label]) => (
-                <button key={key} title={label} onClick={() => props.setPage(key)} className={`group relative mb-2 flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold transition ${props.page === key ? 'bg-white/12 text-white shadow-lg' : 'text-slate-400 hover:bg-white/8 hover:text-white'}`}>
+                <button key={key} title={label} onClick={() => props.setPage(key)} className={`group relative mb-2 flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold transition ${props.page === key
+  ? 'bg-white/50 border border-white/40 text-slate-900 shadow-xl backdrop-blur-xl'
+  : 'text-slate-700 hover:bg-white/30 hover:text-slate-900'}`}>
                   <span className={`absolute left-0 h-8 w-1 rounded-full transition ${props.page === key ? 'bg-red-500 opacity-100' : 'opacity-0'}`} />
                   <Icon className="h-5 w-5 transition group-hover:scale-110" /> {!collapsed && label}
                 </button>
