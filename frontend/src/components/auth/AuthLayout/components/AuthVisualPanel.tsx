@@ -40,7 +40,7 @@ export default function AuthVisualPanel() {
 
       <style>{`
         .earth-texture {
-         background-image: url('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg');
+         background-image: url('https://www.solarsystemscope.com/textures/download/2k_earth_daymap.jpg');
           background-size: 200% 100%;
           background-repeat: repeat-x;
           animation: earthRotate 18s linear infinite;
