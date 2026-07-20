@@ -88,8 +88,7 @@ export default function MatchingRecordsPage({ earthquakes, setSelectedId, openPa
 
                 <div className="mt-3 flex items-center justify-between text-xs font-bold text-slate-600">
                   <span className="flex items-center gap-1"><Layers className="h-3.5 w-3.5 text-orange-500" /> {event.depth.toFixed(1)} km</span>
-                  <span className="flex items-center gap-1"><CalendarClock className="h-3.5 w-3.5 text-cyan-500" /> {fmtDate(event.time, 'UTC')}</span>
-                </div>
+                  <span className="flex items-center gap-1"><CalendarClock className="h-3.5 w-3.5 text-cyan-500" /> {fmtDate(event.time, 'UTC')}</span> </div>
               </article>
             );
           })}
@@ -98,7 +97,4 @@ export default function MatchingRecordsPage({ earthquakes, setSelectedId, openPa
         <p className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-8 text-center text-sm font-semibold text-slate-500">
           {rules.length ? 'No records currently match your rules.' : 'Create a rule on the Alerts page to see matches here.'}
         </p>
-      )}
-    </>
-  );
-}
+      )}  </>  );}
