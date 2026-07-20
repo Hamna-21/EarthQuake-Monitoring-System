@@ -10,7 +10,7 @@ import AnalyticsPage from './Analytics/AnalyticsPage';
 import DetailsPage from './Details/DetailsPage';
 import NearbyPage from './Nearby/NearbyPage';
 import AlertsPage from './Alerts/AlertsPage';
-import GeoAssistant from '../../components/dashboard/GeoAssistant';
+
 
 interface UserDashboardProps {
   userEmail: string | null;
@@ -71,7 +71,7 @@ export default function Dashboard(props: UserDashboardProps) {
       {page === 'details' && <DetailsPage {...pageProps} />}
       {page === 'nearby' && <NearbyPage {...pageProps} />}
       {page === 'alerts' && <AlertsPage {...pageProps} />}
-      <GeoAssistant openPage={setPage} />
+    
     </Shell>
   );
 }

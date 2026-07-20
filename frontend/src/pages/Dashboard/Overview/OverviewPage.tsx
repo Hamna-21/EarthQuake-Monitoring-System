@@ -4,7 +4,6 @@ import { RefreshNote } from '../../../components/dashboard/Shell';
 import ActiveRegions from './components/ActiveRegions';
 import ActivitySummary from './components/ActivitySummary';
 import MagnitudeDistribution from './components/MagnitudeDistribution';
-import MajorTimeline from './components/MajorTimeline';
 import OverviewHero from './components/OverviewHero';
 import OverviewStatGrid from './components/OverviewStatGrid';
 
@@ -26,7 +25,7 @@ export default function OverviewPage({ earthquakes, isLoading, dataError, setSel
       </div>
       <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
         <ActiveRegions earthquakes={earthquakes} />
-        <MajorTimeline events={major} onSelect={(event) => select(event.id)} />
+      
       </div>
     </section>
   );

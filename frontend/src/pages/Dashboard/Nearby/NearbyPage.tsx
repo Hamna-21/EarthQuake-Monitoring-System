@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Radar, Target, Gauge } from 'lucide-react';
 import { Earthquake } from '../../../types';
 import { haversineKm } from '../../../components/dashboard/data';
 import { DashboardProps } from '../../../components/dashboard/types';
@@ -65,11 +66,34 @@ export default function NearbyPage({ earthquakes, setSelectedId, openPage }: Das
     <section className="space-y-6">
       <LocationCard location={location} error={error} locating={locating} onLocate={locate} />
       <RadiusControl radius={radius} onChange={setRadius} />
+
       <div className="grid gap-4 md:grid-cols-3">
-        <Summary label="Within Radius" value={nearby.length} />
-        <Summary label="Closest Event" value={nearby[0] ? `${nearby[0].distance.toFixed(0)} km` : 'N/A'} />
-        <Summary label="Radius" value={`${radius} km`} />
+        <Summary
+          icon={<Target className="h-4 w-4" />}
+          label="Within Radius"
+          value={nearby.length}
+          gradient="from-cyan-500 via-sky-600 to-blue-600"
+          tint="from-cyan-50 to-sky-50"
+          border="border-cyan-200"
+        />
+        <Summary
+          icon={<Radar className="h-4 w-4" />}
+          label="Closest Event"
+          value={nearby[0] ? `${nearby[0].distance.toFixed(0)} km` : 'N/A'}
+          gradient="from-fuchsia-500 via-pink-600 to-rose-600"
+          tint="from-fuchsia-50 to-rose-50"
+          border="border-fuchsia-200"
+        />
+        <Summary
+          icon={<Gauge className="h-4 w-4" />}
+          label="Radius"
+          value={`${radius} km`}
+          gradient="from-amber-500 via-orange-600 to-red-600"
+          tint="from-amber-50 to-orange-50"
+          border="border-amber-200"
+        />
       </div>
+
       {!nearby.length ? (
         <EmptyState title="No Nearby Earthquakes" text="No loaded earthquake records fall inside the selected radius." />
       ) : (
@@ -81,11 +105,30 @@ export default function NearbyPage({ earthquakes, setSelectedId, openPage }: Das
   );
 }
 
-function Summary({ label, value }: { label: string; value: string | number }) {
+function Summary({
+  icon, label, value, gradient, tint, border,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string | number;
+  gradient: string;
+  tint: string;
+  border: string;
+}) {
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-500">{label}</p>
-      <strong className="mt-2 block text-3xl font-black text-slate-950">{value}</strong>
-    </article>
+   <article className={`group relative overflow-hidden rounded-2xl border ${border} bg-gradient-to-br ${tint} p-5 shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl`}>
+  <div className={`pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br ${gradient} opacity-[0.12] blur-2xl transition-opacity group-hover:opacity-20`} />
+
+  <div className="relative flex items-center gap-2">
+    <span className={`grid h-8 w-8 flex-shrink-0 place-items-center rounded-xl bg-gradient-to-br ${gradient} text-white shadow-md`}>
+      {icon}
+    </span>
+    <p className="font-mono text-[10px] font-black uppercase tracking-[0.18em] text-slate-500">{label}</p>
+  </div>
+
+  <strong className="relative mt-3 block font-serif text-3xl font-black italic tracking-tight text-slate-900">
+    {value}
+  </strong>
+</article>
   );
 }
