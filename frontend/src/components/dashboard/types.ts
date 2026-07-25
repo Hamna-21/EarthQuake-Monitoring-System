@@ -8,7 +8,8 @@ export type DashboardPage =
   | 'analytics'
   | 'details'
   | 'nearby'
-  | 'alerts';
+  | 'alerts'
+  | 'ai_assistant';
 
 export type SortKey = 'time' | 'magnitude' | 'depth' | 'place' | 'alert' | 'status';
 export type SortDirection = 'asc' | 'desc';

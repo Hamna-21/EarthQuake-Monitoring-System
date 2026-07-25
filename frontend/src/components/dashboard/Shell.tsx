@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Activity, AlertCircle, BarChart3, Bell, ChevronLeft, Clock, Globe2, History, Home, List, LocateFixed, LogOut, Map, Search, ShieldAlert, User } from 'lucide-react';
+import { Activity, AlertCircle, BarChart3, Bell, ChevronLeft, Clock, Globe2, History, Home, List, LocateFixed, LogOut, Map, Search, ShieldAlert, User, Bot } from 'lucide-react';
 import { DashboardPage } from './types';
 import PageTitle from './PageTitle';
 import RefreshNote from './RefreshNote';
@@ -12,6 +12,7 @@ const nav = [
   ['history', History, 'Historical', 'Analysis'],
   ['analytics', BarChart3, 'Analytics', 'Analysis'],
   ['details', AlertCircle, 'Details', 'Analysis'],
+  ['ai_assistant', Bot, 'AI Assistant', 'Analysis'],
   ['nearby', LocateFixed, 'Nearby', 'Safety'],
   ['alerts', Bell, 'Alerts', 'Safety'],
 ] as const;
