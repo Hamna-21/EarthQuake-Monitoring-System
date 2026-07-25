@@ -31,10 +31,11 @@ export default function AuthField({
           value={value}
           onChange={(event) => onChange(event.target.value)}
           placeholder={placeholder}
-          className="w-full rounded-2xl border border-white/10 bg-black/25 py-3.5 pl-12 pr-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300 focus:ring-4 focus:ring-cyan-300/10"
+          className="w-full rounded-none border border-white/10 bg-black/25 py-3.5 pl-12 pr-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300 focus:ring-4 focus:ring-cyan-300/10"
           disabled={disabled}
         />
       </span>
     </label>
   );
 }
+

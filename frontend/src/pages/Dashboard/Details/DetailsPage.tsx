@@ -16,7 +16,7 @@ export default function DetailsPage({ earthquakes, selectedEvent }: DashboardPro
 
   if (!event) {
     return (
-      <section className="relative overflow-hidden rounded-lg border border-white/10 bg-slate-950 p-12 text-center shadow-2xl">
+      <section className="relative overflow-hidden rounded-2xl border border-white/10 bg-slate-950 p-12 text-center shadow-2xl">
         <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-fuchsia-500/10 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-cyan-500/10 blur-3xl" />
         <h1 className="relative text-3xl font-black text-white">No Earthquake Selected</h1>
@@ -49,7 +49,7 @@ export default function DetailsPage({ earthquakes, selectedEvent }: DashboardPro
   return (
     <section className="space-y-6">
       {/* Hero — dark, matches Analytics */}
-      <div className="relative overflow-hidden rounded-lg border border-fuchsia-500/20 bg-slate-950 p-6 shadow-2xl sm:p-8">
+      <div className="relative overflow-hidden rounded-2xl border border-fuchsia-500/20 bg-slate-950 p-6 shadow-2xl sm:p-8">
         <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-fuchsia-500/20 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-cyan-500/20 blur-3xl" />
         <div className="pointer-events-none absolute right-1/3 top-0 h-32 w-32 rounded-full bg-amber-400/10 blur-3xl" />
@@ -66,7 +66,7 @@ export default function DetailsPage({ earthquakes, selectedEvent }: DashboardPro
               <MapPin className="h-4 w-4 flex-shrink-0 text-fuchsia-400" /> {fmtDate(event.time, 'UTC')}
             </p>
           </div>
-           <div className={`flex-shrink-0 rounded-lg border px-8 py-6 text-center shadow-xl ${magnitudeStyle(event.magnitude)}`}>
+           <div className={`flex-shrink-0 rounded-2xl border px-8 py-6 text-center shadow-xl ${magnitudeStyle(event.magnitude)}`}>
             <p className="font-mono text-[10px] font-black uppercase tracking-[0.22em] opacity-80">Magnitude</p>
             <strong className="mt-1 block text-6xl font-black tabular-nums">{event.magnitude.toFixed(1)}</strong>
           </div>
@@ -93,8 +93,9 @@ export default function DetailsPage({ earthquakes, selectedEvent }: DashboardPro
       </div>
 
       {/* Actions */}
-      <div className="rounded-lg border border-white/10 bg-slate-950 p-6 shadow-xl"><p className="mb-4 flex items-center gap-2 text-sm font-bold text-slate-300">
+      <div className="rounded-2xl border border-white/10 bg-slate-950 p-6 shadow-xl"><p className="mb-4 flex items-center gap-2 text-sm font-bold text-slate-300">
           <AlertTriangle className="h-4 w-4 text-rose-400" /> Event Actions</p>
         <DetailsActions event={event} />
       </div>
     </section> );}
+

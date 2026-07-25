@@ -4,11 +4,11 @@ import { fmtDate } from '../../../../components/dashboard/data';
 
 export default function LiveTimeline({ events }: { events: Earthquake[] }) {
   return (
-    <aside className="relative overflow-hidden rounded-3xl border border-white/70 bg-white/85 p-5 shadow-sm backdrop-blur">
+    <aside className="relative overflow-hidden rounded-2xl border border-white/12 bg-white/[0.07] p-5 shadow-sm backdrop-blur">
       <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-gradient-to-br from-cyan-400/10 via-fuchsia-400/10 to-amber-400/10 blur-3xl" />
 
       <p className="relative font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-red-700">As It Happens</p>
-      <h2 className="relative mt-1.5 font-serif text-xl font-black italic tracking-tight text-slate-950">Live Timeline</h2>
+      <h2 className="relative mt-1.5 font-serif text-xl font-black italic tracking-tight text-white">Live Timeline</h2>
 
       {events.length > 0 ? (
         <div className="relative mt-5 space-y-4 border-l-2 border-dashed border-slate-200 pl-4">
@@ -38,3 +38,5 @@ export default function LiveTimeline({ events }: { events: Earthquake[] }) {
     </aside>
   );
 }
+
+

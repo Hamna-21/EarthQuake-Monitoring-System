@@ -40,7 +40,7 @@ export default function MatchingRecordsPage({ earthquakes, setSelectedId, openPa
 
   return (
     <>
-      <div className="relative mb-6 overflow-hidden rounded-3xl border border-fuchsia-500/20 bg-slate-950 px-6 py-6 shadow-2xl sm:px-8">
+      <div className="relative mb-6 overflow-hidden rounded-2xl border border-fuchsia-500/20 bg-slate-950 px-6 py-6 shadow-2xl sm:px-8">
         <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-fuchsia-500/20 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-cyan-500/20 blur-3xl" />
         <div className="pointer-events-none absolute right-1/3 top-0 h-32 w-32 rounded-full bg-amber-400/10 blur-3xl" />
@@ -71,7 +71,7 @@ export default function MatchingRecordsPage({ earthquakes, setSelectedId, openPa
                 className={`group relative cursor-pointer overflow-hidden rounded-2xl border ${s.border} bg-gradient-to-br ${s.tint} p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg`}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <span className={`rounded-xl border px-3 py-1.5 text-sm font-black ${magnitudeStyle(event.magnitude)}`}>
+                  <span className={`rounded-2xl border px-3 py-1.5 text-sm font-black ${magnitudeStyle(event.magnitude)}`}>
                     M {event.magnitude.toFixed(1)}
                   </span>
                   <span className={`rounded-full border px-2.5 py-0.5 font-mono text-[10px] font-black uppercase tracking-wide ${alertStyle(event.alert)}`}>
@@ -98,3 +98,4 @@ export default function MatchingRecordsPage({ earthquakes, setSelectedId, openPa
           {rules.length ? 'No records currently match your rules.' : 'Create a rule on the Alerts page to see matches here.'}
         </p>
       )}  </>  );}
+

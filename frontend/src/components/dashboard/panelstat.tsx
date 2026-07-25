@@ -1,6 +1,6 @@
 export function Panel({ children }: { children: React.ReactNode }) {
   return (
-    <aside className="rounded-3xl border border-cyan-400/20 bg-gradient-to-br from-slate-950/90 via-slate-900/85 to-cyan-950/40 p-5 text-white shadow-2xl shadow-cyan-900/20 backdrop-blur">
+    <aside className="rounded-2xl border border-cyan-400/20 bg-gradient-to-br from-slate-950/90 via-slate-900/85 to-cyan-950/40 p-5 text-white shadow-2xl shadow-cyan-900/20 backdrop-blur">
       {children}
     </aside>
   );
@@ -34,3 +34,4 @@ export function Divider() {
     <div className="my-4 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
   );
 }
+

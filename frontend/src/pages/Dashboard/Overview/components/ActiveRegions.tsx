@@ -4,7 +4,7 @@ import { countryOf } from '../../../../components/dashboard/data';
 
 const rankStyles = [
   { badge: 'bg-gradient-to-br from-amber-300 to-amber-500 text-amber-950', bar: 'from-amber-400 to-orange-500', tint: 'bg-amber-50/60 border-amber-200/70' },
-  { badge: 'bg-gradient-to-br from-slate-300 to-slate-400 text-slate-800', bar: 'from-orange-400 to-red-500', tint: 'border-transparent' },
+  { badge: 'bg-gradient-to-br from-slate-300 to-slate-400 text-slate-900', bar: 'from-orange-400 to-red-500', tint: 'border-transparent' },
   { badge: 'bg-gradient-to-br from-orange-300 to-orange-400 text-orange-950', bar: 'from-orange-400 to-red-600', tint: 'border-transparent' },
   { badge: 'bg-slate-200 text-slate-600', bar: 'from-red-400 to-red-600', tint: 'border-transparent' },
 ] as const;
@@ -20,17 +20,17 @@ export default function ActiveRegions({ earthquakes }: { earthquakes: Earthquake
   const total = earthquakes.length;
 
   return (
-    <section className="rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm backdrop-blur">
+    <section className="rounded-2xl border border-white/12 bg-white/[0.07] p-6 shadow-sm backdrop-blur">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-red-700">Seismic Analysis</p>
-          <h2 className="mt-1.5 font-serif text-2xl font-black italic tracking-tight text-slate-950">
+          <h2 className="mt-1.5 font-serif text-2xl font-black italic tracking-tight text-white">
             Most Active Regions
           </h2>
         </div>
         {regions.length > 0 && (
           <div className="text-right">
-            <p className="font-serif text-2xl font-black leading-none text-slate-950">{regions.length}</p>
+            <p className="font-serif text-2xl font-black leading-none text-white">{regions.length}</p>
             <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">tracked</p>
           </div>
         )}
@@ -47,7 +47,7 @@ export default function ActiveRegions({ earthquakes }: { earthquakes: Earthquake
               <article
                 key={country}
                 className={`group rounded-2xl border p-4 transition-colors ${
-                  isLeader ? style.tint : 'border-slate-100 bg-slate-50 hover:bg-slate-100'
+                  isLeader ? style.tint : 'border-white/10 bg-white/[0.05] hover:bg-white/[0.08]'
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -58,7 +58,7 @@ export default function ActiveRegions({ earthquakes }: { earthquakes: Earthquake
                   <div className="flex flex-1 items-center justify-between gap-4">
                     <div className="flex items-center gap-1.5">
                       <MapPin className="h-3.5 w-3.5 shrink-0 text-slate-400" />
-                      <strong className="font-serif text-base font-black text-slate-950">{country}</strong>
+                      <strong className="font-serif text-base font-black text-white">{country}</strong>
                       {isLeader && (
                         <span className="ml-1 rounded-full bg-slate-950 px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wide text-white">
                           Leading
@@ -88,3 +88,5 @@ export default function ActiveRegions({ earthquakes }: { earthquakes: Earthquake
     </section>
   );
 }
+
+

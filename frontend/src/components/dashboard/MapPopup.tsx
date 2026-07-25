@@ -34,7 +34,7 @@ export default function MapPopup({ event, onSelect, onDetails }: MapPopupProps) 
       {/* Single horizontal row: dial | place | stats | action */}
       <div className="flex items-center gap-3 p-3">
         {/* Magnitude dial — compact square, not a tall column */}
-        <div className={`flex h-20 w-20 flex-shrink-0 flex-col items-center justify-center gap-0.5 rounded-xl bg-gradient-to-br ${tierGradient} shadow-md`}>
+        <div className={`flex h-20 w-20 flex-shrink-0 flex-col items-center justify-center gap-0.5 rounded-2xl bg-gradient-to-br ${tierGradient} shadow-md`}>
           <span className="text-[9px] font-black uppercase tracking-widest text-white/85">Mag</span>
           <span className="text-2xl font-black leading-none text-white">{event.magnitude.toFixed(1)}</span>
           <span className="mt-0.5 rounded-full bg-white/90 px-1.5 py-0.5 text-[8px] font-black uppercase text-slate-700">
@@ -62,7 +62,7 @@ export default function MapPopup({ event, onSelect, onDetails }: MapPopupProps) 
         {/* Action button — fixed width, sits at the end of the row */}
         <button
           onClick={() => (onDetails ?? onSelect)(event)}
-          className={`flex-shrink-0 rounded-xl bg-gradient-to-r ${tierGradient} px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.12em] text-white shadow-md transition hover:brightness-105`}
+          className={`flex-shrink-0 rounded-2xl bg-gradient-to-r ${tierGradient} px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.12em] text-white shadow-md transition hover:brightness-105`}
         >
           Details
         </button>
@@ -83,7 +83,7 @@ function Stat({
   bg?: string;
 }) {
   return (
-    <div className={`rounded-lg ${bg} px-2.5 py-1.5 ring-1 ring-slate-200`}>
+    <div className={`rounded-2xl ${bg} px-2.5 py-1.5 ring-1 ring-slate-200`}>
       <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400">{label}</p>
       <p className={`whitespace-nowrap text-[11px] font-black ${tone}`} title={value}>
         {value}
@@ -91,3 +91,5 @@ function Stat({
     </div>
   );
 }
+
+

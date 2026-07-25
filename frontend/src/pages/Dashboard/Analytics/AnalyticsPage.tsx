@@ -12,7 +12,7 @@ export default function AnalyticsPage({ earthquakes, isLoading, dataError }: Das
   return (
     <>
       {/* Colorful hero header */}
-      <div className="relative mb-6 overflow-hidden rounded-3xl border border-fuchsia-500/20 bg-slate-950 px-6 py-6 shadow-2xl sm:px-8">
+      <div className="relative mb-6 overflow-hidden rounded-2xl border border-fuchsia-500/20 bg-slate-950 px-6 py-6 shadow-2xl sm:px-8">
         <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-fuchsia-500/20 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-cyan-500/20 blur-3xl" />
         <div className="pointer-events-none absolute right-1/3 top-0 h-32 w-32 rounded-full bg-amber-400/10 blur-3xl" />
@@ -107,7 +107,7 @@ function StatCard({
       <div className={`pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br ${gradient} opacity-20 blur-2xl transition-opacity group-hover:opacity-30`} />
 
       <div className="relative flex items-center gap-2">
-        <span className={`grid h-8 w-8 flex-shrink-0 place-items-center rounded-xl bg-gradient-to-br ${gradient} text-white shadow-lg ${glow}`}>
+        <span className={`grid h-8 w-8 flex-shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${gradient} text-white shadow-lg ${glow}`}>
           {icon}
         </span>
         <p className="font-mono text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">{label}</p>
@@ -120,3 +120,4 @@ function StatCard({
     </div>
   );
 }
+

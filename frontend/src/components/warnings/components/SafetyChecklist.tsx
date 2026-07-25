@@ -26,7 +26,7 @@ export default function SafetyChecklist() {
       </div>
       <div className="mt-5 grid gap-3 md:grid-cols-2">
         {checks.map((check) => (
-          <p key={check} className="flex gap-3 rounded-2xl bg-white/[0.05] p-4 text-sm text-slate-200">
+          <p key={check} className="flex gap-3 rounded-none bg-white/[0.05] p-4 text-sm text-slate-200">
             <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-200" />
             {check}
           </p>
@@ -35,3 +35,4 @@ export default function SafetyChecklist() {
     </SafetyCard>
   );
 }
+

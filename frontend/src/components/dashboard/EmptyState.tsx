@@ -14,8 +14,11 @@ export default function EmptyState({
       <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-cyan-50 text-cyan-700">
         <SearchX className="h-6 w-6" />
       </span>
-      <p className="mt-4 text-lg font-black text-slate-950">{title}</p>
+      <p className="mt-4 text-lg font-black text-white">{title}</p>
       <p className={ds.caption}>{text}</p>
     </div>
   );
 }
+
+
+

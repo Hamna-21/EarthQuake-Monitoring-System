@@ -59,7 +59,7 @@ export default function Dashboard(props: UserDashboardProps) {
       onOpenWarningHub={props.onOpenWarningHub}
     >
       <div className="mb-5 flex justify-end">
-        <button onClick={props.onRefresh} className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm hover:bg-slate-50 cursor-pointer">
+        <button onClick={props.onRefresh} className="cursor-pointer rounded-2xl border border-cyan-300/20 bg-white/10 px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:bg-white/15">
           Refresh Data
         </button>
       </div>
@@ -75,3 +75,6 @@ export default function Dashboard(props: UserDashboardProps) {
     </Shell>
   );
 }
+
+
+

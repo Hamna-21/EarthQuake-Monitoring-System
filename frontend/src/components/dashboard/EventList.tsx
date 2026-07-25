@@ -71,7 +71,7 @@ export default function EventList({
                 Time (UTC)
               </span>
 
-              <span className="font-semibold text-slate-700">
+              <span className="font-semibold text-slate-200">
                 {fmtDate(e.time, "UTC")}
               </span>
             </div>
@@ -81,3 +81,4 @@ export default function EventList({
     </div>
   );
 }
+

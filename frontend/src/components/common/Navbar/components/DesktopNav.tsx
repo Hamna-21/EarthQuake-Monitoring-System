@@ -25,7 +25,7 @@ export default function DesktopNav({ navLinks, handleLinkClick }: DesktopNavProp
   key={link.href}
   onClick={() => handleLinkClick(link.href)}
   disabled={link.disabled}
-  className="group relative flex flex-row items-center justify-center gap-2 px-9.5 py-2.5 rounded-lg bg-white/5 backdrop-blur-xl
+  className="group relative flex flex-row items-center justify-center gap-2 px-9.5 py-2.5 rounded-none bg-white/5 backdrop-blur-xl
     border
     border-white/10
     text-white/80
@@ -53,3 +53,4 @@ export default function DesktopNav({ navLinks, handleLinkClick }: DesktopNavProp
     </div>
   );
 }
+

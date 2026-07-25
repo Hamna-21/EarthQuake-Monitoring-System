@@ -40,7 +40,7 @@ export default function NearbyEarthquakeCard({ event, onSelect }: NearbyEarthqua
 
   return (
     <article
-      className={`group relative overflow-hidden rounded-3xl border ${severity.border} bg-gradient-to-br ${severity.tint} p-5 shadow-md transition-all hover:-translate-y-1 hover:shadow-xl`}
+      className={`group relative overflow-hidden rounded-2xl border ${severity.border} bg-gradient-to-br ${severity.tint} p-5 shadow-md transition-all hover:-translate-y-1 hover:shadow-xl`}
     >
       <div className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full ${severity.glow} blur-3xl transition-opacity group-hover:opacity-80`} />
 
@@ -80,7 +80,7 @@ export default function NearbyEarthquakeCard({ event, onSelect }: NearbyEarthqua
 
       <button
         onClick={() => onSelect(event)}
-        className={`relative mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r ${severity.gradient} px-4 py-3 font-mono text-xs font-black uppercase tracking-[0.14em] text-white shadow-md transition hover:brightness-110 active:scale-95`}
+        className={`relative mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r ${severity.gradient} px-4 py-3 font-mono text-xs font-black uppercase tracking-[0.14em] text-white shadow-md transition hover:brightness-110 active:scale-95`}
       >
         View Details <ArrowUpRight className="h-4 w-4" />
       </button>
@@ -112,3 +112,4 @@ function Info({
     </div>
   );
 }
+

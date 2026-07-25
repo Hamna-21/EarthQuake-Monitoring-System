@@ -7,30 +7,30 @@ type Tone = 'cyan' | 'violet' | 'emerald' | 'amber';
 const TONE_STYLES: Record<Tone, { bar: string; track: string; text: string; chip: string; dot: string }> = {
   cyan: {
     bar: 'from-cyan-400 via-sky-500 to-blue-500',
-    track: 'bg-cyan-50',
-    text: 'text-blue-600',
-    chip: 'bg-cyan-50 text-cyan-700',
+    track: 'bg-white/10',
+    text: 'text-cyan-200',
+    chip: 'bg-cyan-400/10 text-cyan-100 ring-1 ring-cyan-300/20',
     dot: 'bg-gradient-to-br from-cyan-400 to-blue-500',
   },
   violet: {
     bar: 'from-fuchsia-400 via-purple-500 to-violet-500',
-    track: 'bg-fuchsia-50',
-    text: 'text-fuchsia-600',
-    chip: 'bg-fuchsia-50 text-fuchsia-700',
+    track: 'bg-white/10',
+    text: 'text-fuchsia-200',
+    chip: 'bg-fuchsia-400/10 text-fuchsia-100 ring-1 ring-fuchsia-300/20',
     dot: 'bg-gradient-to-br from-fuchsia-400 to-violet-500',
   },
   emerald: {
     bar: 'from-emerald-400 via-teal-500 to-cyan-500',
-    track: 'bg-emerald-50',
-    text: 'text-emerald-600',
-    chip: 'bg-emerald-50 text-emerald-700',
+    track: 'bg-white/10',
+    text: 'text-emerald-200',
+    chip: 'bg-emerald-400/10 text-emerald-100 ring-1 ring-emerald-300/20',
     dot: 'bg-gradient-to-br from-emerald-400 to-teal-500',
   },
   amber: {
     bar: 'from-amber-400 via-orange-500 to-rose-500',
-    track: 'bg-amber-50',
-    text: 'text-orange-600',
-    chip: 'bg-amber-50 text-orange-700',
+    track: 'bg-white/10',
+    text: 'text-amber-200',
+    chip: 'bg-amber-400/10 text-amber-100 ring-1 ring-amber-300/20',
     dot: 'bg-gradient-to-br from-amber-400 to-orange-500',
   },
 };
@@ -40,7 +40,7 @@ function Bar({ label, value, max, tone }: { label: string; value: number; max: n
   const pct = max ? (value / max) * 100 : 0;
   return (
     <div>
-      <div className="mb-1.5 flex items-center justify-between text-xs font-bold text-slate-500">
+      <div className="mb-1.5 flex items-center justify-between text-xs font-bold text-slate-300">
         <span className="truncate pr-2">{label}</span>
         <span className={`flex-shrink-0 rounded-full px-2 py-0.5 text-[11px] font-black ${style.chip}`}>{value}</span>
       </div>
@@ -134,13 +134,13 @@ function ChartCard({
 }) {
   const style = TONE_STYLES[tone];
   return (
-    <section className="relative overflow-hidden rounded-3xl border border-slate-100 bg-white p-5 shadow-md shadow-slate-200/60 sm:p-6">
-      <div className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br ${style.bar} opacity-[0.08] blur-2xl`} />
+    <section className="group relative overflow-hidden rounded-2xl border border-white/12 bg-white/[0.07] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.24)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-cyan-300/25 sm:p-6">
+      <div className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br ${style.bar} opacity-[0.16] blur-2xl transition group-hover:opacity-25`} />
 
       <div className="relative mb-5 flex items-start gap-2.5">
         <span className={`mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full ${style.dot}`} />
         <div>
-          <h3 className="text-base font-black text-slate-800">{title}</h3>
+          <h3 className="text-base font-black text-white">{title}</h3>
           {subtitle && <p className="mt-0.5 text-xs font-medium text-slate-400">{subtitle}</p>}
         </div>
       </div>
@@ -149,3 +149,4 @@ function ChartCard({
     </section>
   );
 }
+

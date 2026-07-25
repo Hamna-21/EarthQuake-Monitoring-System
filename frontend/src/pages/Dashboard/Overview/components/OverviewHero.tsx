@@ -2,7 +2,7 @@ import { Activity, Radio } from 'lucide-react';
 
 export default function OverviewHero() {
   return (
-    <section className="relative overflow-hidden rounded-lg bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-5 text-white shadow-2xl">
+    <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-5 text-white shadow-2xl">
       {/* ambient color blobs */}
       <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-red-500/15 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-cyan-500/10 blur-3xl" />
@@ -48,3 +48,4 @@ export default function OverviewHero() {
     </section>
   );
 }
+

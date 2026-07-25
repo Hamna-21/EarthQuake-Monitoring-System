@@ -45,7 +45,7 @@ export default function WarningHub({ isOpen, onClose }: WarningHubProps) {
           </div>
           <button
             onClick={onClose}
-            className="rounded-2xl border border-white/10 bg-white/10 p-3 text-slate-200 transition hover:bg-white/20"
+            className="rounded-none border border-white/10 bg-white/10 p-3 text-slate-200 transition hover:bg-white/20"
             aria-label="Close Safety Hub"
           >
             <X className="h-5 w-5" />
@@ -58,13 +58,13 @@ export default function WarningHub({ isOpen, onClose }: WarningHubProps) {
             <SafetyAssistantPanel />
           </div>
           <SafetyChecklist />
-          <div className="flex flex-col items-center justify-between gap-4 rounded-3xl border border-red-300/20 bg-red-500/10 p-5 sm:flex-row">
+          <div className="flex flex-col items-center justify-between gap-4 rounded-none border border-red-300/20 bg-red-500/10 p-5 sm:flex-row">
             <p className="text-sm font-semibold text-red-50">
               Emergency Mode: share location, follow local instructions, and keep this checklist visible.
             </p>
             <button
               onClick={onClose}
-              className="rounded-2xl bg-gradient-to-r from-red-600 to-orange-500 px-6 py-3 text-xs font-black uppercase tracking-[0.2em] text-white shadow-lg shadow-red-700/25"
+              className="rounded-none bg-gradient-to-r from-red-600 to-orange-500 px-6 py-3 text-xs font-black uppercase tracking-[0.2em] text-white shadow-lg shadow-red-700/25"
             >
               Acknowledge
             </button>
@@ -74,3 +74,4 @@ export default function WarningHub({ isOpen, onClose }: WarningHubProps) {
     </div>
   );
 }
+

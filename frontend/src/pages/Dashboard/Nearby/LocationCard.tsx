@@ -12,7 +12,7 @@ export default function LocationCard({ location, error, locating, onLocate }: Lo
   const title = [location?.city, location?.country].filter(Boolean).join(', ');
 
   return (
-    <section className="relative overflow-hidden rounded-lg border border-cyan-500/20 bg-slate-950 p-6 shadow-2xl">
+    <section className="relative overflow-hidden rounded-2xl border border-cyan-500/20 bg-slate-950 p-6 shadow-2xl">
       <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-cyan-500/20 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-blue-500/20 blur-3xl" />
       <div className="pointer-events-none absolute right-1/3 top-0 h-32 w-32 rounded-full bg-fuchsia-400/10 blur-3xl" />
@@ -32,7 +32,7 @@ export default function LocationCard({ location, error, locating, onLocate }: Lo
           )}
           {location?.region && <p className="mt-1 text-sm text-slate-500">{location.region}</p>}
           {error && (
-            <p className="mt-3 rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-sm font-bold text-rose-300">
+            <p className="mt-3 rounded-2xl border border-rose-500/30 bg-rose-500/10 p-3 text-sm font-bold text-rose-300">
               {error}
             </p>
           )}
@@ -40,7 +40,7 @@ export default function LocationCard({ location, error, locating, onLocate }: Lo
         <button
           onClick={onLocate}
           disabled={locating}
-          className="inline-flex flex-shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 via-sky-600 to-blue-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-cyan-900/40 transition hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex flex-shrink-0 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-500 via-sky-600 to-blue-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-cyan-900/40 transition hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <LocateFixed className={`h-4 w-4 ${locating ? 'animate-spin' : ''}`} /> {locating ? 'Detecting...' : 'Refresh Location'}
         </button>
@@ -48,3 +48,4 @@ export default function LocationCard({ location, error, locating, onLocate }: Lo
     </section>
   );
 }
+

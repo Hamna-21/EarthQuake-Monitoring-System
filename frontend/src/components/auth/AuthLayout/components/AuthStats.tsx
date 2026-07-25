@@ -11,7 +11,7 @@ export default function AuthStats() {
   return (
     <div className="grid grid-cols-2 gap-4">
       {stats.map(({ label, value, icon: Icon }) => (
-        <div key={label} className="rounded-3xl border border-white/10 bg-white/[0.06] p-4">
+        <div key={label} className="rounded-none border border-white/10 bg-white/[0.06] p-4">
           <Icon className="h-5 w-5 text-cyan-200" />
           <span className="mt-4 block text-lg font-black text-white">{value}</span>
           <span className="mt-1 block text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400">
@@ -22,3 +22,4 @@ export default function AuthStats() {
     </div>
   );
 }
+

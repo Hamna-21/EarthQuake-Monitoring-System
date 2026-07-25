@@ -15,22 +15,22 @@ export default function MagnitudeDistribution({ earthquakes }: { earthquakes: Ea
   const dominant = counts.indexOf(Math.max(...counts));
 
   return (
-    <section className="rounded-3xl border border-white/70 bg-white/85 p-6 shadow-sm backdrop-blur">
+    <section className="rounded-2xl border border-white/12 bg-white/[0.07] p-6 shadow-sm backdrop-blur">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-red-700">Seismic Analysis</p>
-          <h2 className="mt-1.5 font-serif text-2xl font-black italic tracking-tight text-slate-950">
+          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-red-400">Seismic Analysis</p>
+          <h2 className="mt-1.5 font-serif text-2xl font-black italic tracking-tight text-white">
             Magnitude Distribution
           </h2>
         </div>
         <div className="text-right">
-          <p className="font-serif text-3xl font-black leading-none text-slate-950">{total}</p>
+          <p className="font-serif text-3xl font-black leading-none text-white">{total}</p>
           <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">total events</p>
         </div>
       </div>
 
       {/* unified scale strip — one continuous gauge instead of six separate bars */}
-      <div className="mt-6 flex h-2.5 overflow-hidden rounded-full bg-slate-100">
+      <div className="mt-6 flex h-2.5 overflow-hidden rounded-full bg-white/10">
         {buckets.map(([label, , , , bar], i) => {
           const width = total > 0 ? Math.max(counts[i] > 0 ? 3 : 0, (counts[i] / total) * 100) : 100 / buckets.length;
           return width > 0 ? (
@@ -53,19 +53,22 @@ export default function MagnitudeDistribution({ earthquakes }: { earthquakes: Ea
           const count = counts[i];
           const pct = total > 0 ? Math.round((count / total) * 100) : 0;
           const isDominant = i === dominant && count > 0;
+          const labelColor = isDominant ? 'text-slate-900' : 'text-white';
+          const countColor = isDominant ? 'text-slate-900' : 'text-white';
+          const pctColor = isDominant ? 'text-slate-500' : 'text-slate-400';
 
           return (
             <div
               key={label}
               className={`flex items-center gap-3 rounded-2xl border px-3 py-2.5 transition-colors ${
-                isDominant ? `${tint} ${border}` : 'border-transparent hover:bg-slate-50'
+                isDominant ? `${tint} ${border}` : 'border-transparent hover:bg-white/5'
               }`}
             >
               <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${bar}`} />
 
               <div className="flex-1">
                 <div className="flex items-baseline gap-2">
-                  <span className="font-serif text-sm font-black text-slate-950">M {label}</span>
+                  <span className={`font-serif text-sm font-black ${labelColor}`}>M {label}</span>
                   <span className={`text-[10px] font-bold uppercase tracking-wide ${text}`}>{severity}</span>
                   {isDominant && (
                     <span className="rounded-full bg-slate-950 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">
@@ -76,8 +79,8 @@ export default function MagnitudeDistribution({ earthquakes }: { earthquakes: Ea
               </div>
 
               <div className="text-right">
-                <span className="font-mono text-sm font-bold text-slate-950">{count}</span>
-                {total > 0 && <span className="ml-1 font-mono text-[10px] text-slate-400">{pct}%</span>}
+                <span className={`font-mono text-sm font-bold ${countColor}`}>{count}</span>
+                {total > 0 && <span className={`ml-1 font-mono text-[10px] ${pctColor}`}>{pct}%</span>}
               </div>
             </div>
           );

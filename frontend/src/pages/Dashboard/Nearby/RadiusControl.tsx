@@ -15,7 +15,7 @@ interface RadiusControlProps {
 
 export default function RadiusControl({ radius, onChange }: RadiusControlProps) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <div className="rounded-2xl border border-white/12 bg-white/[0.07] p-4 shadow-sm backdrop-blur">
       <p className="flex items-center gap-2 font-mono text-[10px] font-black uppercase tracking-[0.18em] text-slate-500">
         <Radar className="h-3.5 w-3.5 text-violet-500" /> Search Radius
       </p>
@@ -24,10 +24,10 @@ export default function RadiusControl({ radius, onChange }: RadiusControlProps) 
           <button
             key={km}
             onClick={() => onChange(km)}
-            className={`rounded-xl px-4 py-2 text-sm font-black transition active:scale-95 ${
+            className={`rounded-2xl px-4 py-2 text-sm font-black transition active:scale-95 ${
               radius === km
                 ? `bg-gradient-to-r ${gradient} text-white shadow-lg`
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                : 'bg-white/10 text-slate-100 hover:bg-white/15'
             }`}
           >
             {km} km
@@ -37,3 +37,5 @@ export default function RadiusControl({ radius, onChange }: RadiusControlProps) 
     </div>
   );
 }
+
+

@@ -19,17 +19,20 @@ export default function DetailsActions({ event }: { event: Earthquake }) {
 
   return (
     <div className="flex flex-wrap gap-3">
-      <button onClick={share} className="inline-flex items-center gap-2 rounded-xl bg-slate-950 px-4 py-3 text-sm font-bold text-white transition hover:bg-slate-800">
+      <button onClick={share} className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-3 text-sm font-bold text-white transition hover:bg-slate-800">
         <Share2 className="h-4 w-4" /> Share
       </button>
-      <button onClick={exportJson} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-800 transition hover:bg-slate-50">
+      <button onClick={exportJson} className="inline-flex items-center gap-2 rounded-2xl border border-cyan-300/20 bg-white/10 px-4 py-3 text-sm font-bold text-white transition hover:bg-white/15">
         <Download className="h-4 w-4" /> Export
       </button>
       {event.url && (
-        <a href={event.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl bg-red-700 px-4 py-3 text-sm font-bold text-white transition hover:bg-red-800">
+        <a href={event.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-2xl bg-red-700 px-4 py-3 text-sm font-bold text-white transition hover:bg-red-800">
           <ExternalLink className="h-4 w-4" /> View Official Report
         </a>
       )}
     </div>
   );
 }
+
+
+

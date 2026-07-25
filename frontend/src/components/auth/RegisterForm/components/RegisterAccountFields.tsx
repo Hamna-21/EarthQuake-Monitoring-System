@@ -27,7 +27,7 @@ export default function RegisterAccountFields(props: RegisterAccountFieldsProps)
             <select
               value={props.country}
               onChange={(event) => props.setCountry(event.target.value)}
-              className="w-full appearance-none rounded-2xl border border-white/10 bg-black/25 py-3.5 pl-12 pr-4 text-sm text-white outline-none focus:border-cyan-300"
+              className="w-full appearance-none rounded-none border border-white/10 bg-black/25 py-3.5 pl-12 pr-4 text-sm text-white outline-none focus:border-cyan-300"
               disabled={props.isLoading}
             >
               {props.countries.map((country) => <option key={country} className="bg-slate-950">{country}</option>)}
@@ -39,3 +39,4 @@ export default function RegisterAccountFields(props: RegisterAccountFieldsProps)
     </>
   );
 }
+

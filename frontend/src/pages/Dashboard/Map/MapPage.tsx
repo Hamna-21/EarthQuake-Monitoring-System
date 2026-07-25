@@ -86,7 +86,7 @@ export default function MapPage({ earthquakes, selectedEvent, setSelectedId, ope
 
   return (
     <section className="space-y-4">
-      <div className="relative flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-lg border border-cyan-500/20 bg-slate-950 px-6 py-4 shadow-2xl">
+      <div className="relative flex flex-wrap items-center justify-between gap-4 overflow-hidden rounded-2xl border border-cyan-500/20 bg-slate-950 px-6 py-4 shadow-2xl">
         <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-cyan-500/15 blur-3xl" />
         <div className="pointer-events-none absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-fuchsia-500/10 blur-3xl" />
 
@@ -115,7 +115,7 @@ export default function MapPage({ earthquakes, selectedEvent, setSelectedId, ope
 
       <MapControlPanel {...controlPanelProps} />
 
-      <div className="h-[65vh] min-h-[480px] overflow-hidden rounded-3xl border border-cyan-500/20">
+      <div className="h-[65vh] min-h-[480px] overflow-hidden rounded-2xl border border-cyan-500/20">
         <MapCanvas
           events={events}
           selectedId={selectedEvent?.id}
@@ -132,3 +132,4 @@ export default function MapPage({ earthquakes, selectedEvent, setSelectedId, ope
     </section>
   );
 }
+

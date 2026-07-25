@@ -43,12 +43,12 @@ export default function GeoAssistant({
   return (
     <div className="fixed bottom-6 right-6 z-50">
       {open && (
-        <div className="mb-4 w-[min(360px,calc(100vw-32px))] overflow-hidden rounded-3xl border border-white/10 bg-slate-950/95 shadow-2xl backdrop-blur-xl">
+        <div className="mb-4 w-[min(360px,calc(100vw-32px))] overflow-hidden rounded-2xl border border-white/10 bg-slate-950/95 shadow-2xl backdrop-blur-xl">
           {/* Panel header — small gradient badge instead of a bare icon */}
           <div className="relative overflow-hidden border-b border-white/10 bg-gradient-to-r from-cyan-600/20 via-blue-600/20 to-violet-600/20 px-4 py-3.5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <span className="grid h-8 w-8 place-items-center rounded-xl bg-gradient-to-br from-cyan-400 to-blue-500 shadow-lg shadow-cyan-900/40">
+                <span className="grid h-8 w-8 place-items-center rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 shadow-lg shadow-cyan-900/40">
                   <Bot className="h-4 w-4 text-white" />
                 </span>
                 <div>
@@ -139,3 +139,4 @@ export default function GeoAssistant({
     </div>
   );
 }
+

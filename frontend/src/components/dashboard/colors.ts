@@ -29,3 +29,4 @@ export function distanceStyle(distance: number) {
   if (distance <= 300) return 'border-orange-500 bg-orange-100 text-orange-800';
   return 'border-red-500 bg-red-100 text-red-800';
 }
+

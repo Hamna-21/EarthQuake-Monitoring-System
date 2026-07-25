@@ -25,7 +25,7 @@ export default function DetailCard({
       <div className={`pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br ${gradient} opacity-[0.12] blur-2xl transition-opacity group-hover:opacity-20`} />
 
       <div className="relative flex items-center gap-2">
-        <span className={`grid h-8 w-8 flex-shrink-0 place-items-center rounded-xl bg-gradient-to-br ${gradient} text-white shadow-md ${glow}`}>
+        <span className={`grid h-8 w-8 flex-shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${gradient} text-white shadow-md ${glow}`}>
           {icon}
         </span>
         <p className="truncate font-mono text-[10px] font-black uppercase tracking-[0.18em] text-slate-500">{label}</p>
@@ -40,3 +40,4 @@ export default function DetailCard({
     </div>
   );
 }
+

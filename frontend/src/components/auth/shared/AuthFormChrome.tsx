@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 export function AuthError({ error }: { error: string }) {
   if (!error) return null;
   return (
-    <div className="mb-5 rounded-2xl border border-red-400/25 bg-red-500/10 p-3 text-xs font-semibold text-red-100">
+    <div className="mb-5 rounded-none border border-red-400/25 bg-red-500/10 p-3 text-xs font-semibold text-red-100">
       {error}
     </div>
   );
@@ -32,3 +32,4 @@ export function AuthLead({ title, text }: { title: string; text: string }) {
 export function AuthFooter({ children }: { children: ReactNode }) {
   return <div className="mt-8 text-center text-xs text-slate-400">{children}</div>;
 }
+

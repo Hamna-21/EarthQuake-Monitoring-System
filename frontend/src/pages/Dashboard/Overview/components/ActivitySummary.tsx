@@ -14,12 +14,15 @@ export default function ActivitySummary({ earthquakes }: { earthquakes: Earthqua
   const tier = tiers.find((t) => score < t.max)!;
 
   return (
-    <article className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-white/70 bg-white/85 p-8 shadow-sm backdrop-blur">
+    <article className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-white/12 bg-white/[0.07] p-8 shadow-sm backdrop-blur">
       <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full blur-3xl" style={{ background: tier.glow }} />
       <div className="pointer-events-none absolute -left-16 -bottom-20 h-64 w-64 rounded-full blur-3xl opacity-60" style={{ background: tier.glow }} />
 
       <div className="relative flex flex-col items-center text-center">
-        <p className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-red-700">
+        <p
+          className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.3em]"
+          style={{ color: tier.ring }}
+        >
           <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: tier.ring }} />
           Risk Index
           <span className={`ml-1 rounded-full border px-2 py-0.5 font-mono text-[10px] font-bold ${tier.chip}`}>
@@ -36,7 +39,7 @@ export default function ActivitySummary({ earthquakes }: { earthquakes: Earthqua
             }}
           >
             <div className="grid h-full w-full place-items-center rounded-full bg-white shadow-inner">
-              <strong className="font-serif text-4xl font-black text-slate-950">{score}</strong>
+              <strong className="font-serif text-4xl font-black text-slate-900">{score}</strong>
               <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400">of 100</span>
             </div>
           </div>
@@ -46,8 +49,8 @@ export default function ActivitySummary({ earthquakes }: { earthquakes: Earthqua
           {tier.label}
         </h2>
         <p className="mt-2 max-w-sm text-sm leading-relaxed text-slate-500">
-          <span className="font-bold text-slate-900">{highRisk}</span> of{' '}
-          <span className="font-bold text-slate-900">{earthquakes.length}</span> events flagged
+          <span className="font-bold text-red-900">{highRisk}</span> of{' '}
+          <span className="font-bold text-red-900">{earthquakes.length}</span> events flagged
           as high-magnitude or alerted.
         </p>
 

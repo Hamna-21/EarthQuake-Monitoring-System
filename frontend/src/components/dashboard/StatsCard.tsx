@@ -38,14 +38,14 @@ export default function StatsCard({ label, value, detail, tone }: StatsCardProps
   const Icon = icons[label.length % icons.length];
 
   return (
-    <article className={`relative overflow-hidden rounded-xl border border-red-100 bg-white/86 p-5 shadow-[0_16px_44px_rgba(127,29,29,0.07)]`}>
+    <article className={`relative overflow-hidden rounded-2xl border border-red-300/15 bg-white/[0.07] p-5 shadow-[0_16px_44px_rgba(127,29,29,0.07)]`}>
       <div className={`absolute inset-x-0 top-0 h-24 bg-gradient-to-b ${style.glow} to-transparent`} />
       <div className="relative flex items-start justify-between gap-4">
         <div>
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-red-500">{label}</p>
           <strong className={`mt-3 block text-4xl font-black italic tracking-tight ${style.value}`}>{value}</strong>
         </div>
-        <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-lg ${style.icon}`}>
+        <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl ${style.icon}`}>
           <Icon className="h-5 w-5" />
         </span>
       </div>
@@ -53,3 +53,6 @@ export default function StatsCard({ label, value, detail, tone }: StatsCardProps
     </article>
   );
 }
+
+
+
