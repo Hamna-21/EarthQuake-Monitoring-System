@@ -6,12 +6,15 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
 import { ChatMessage } from '../../../../utils/chatApi';
+import ResponseSpeechControls from './ResponseSpeechControls';
+import { useSpeechPlayback } from './useSpeechPlayback';
 
 interface ChatWindowProps {
   messages: ChatMessage[];
   isLoading: boolean;
   userName: string;
   error: string | null;
+  voiceReplyEnabled: boolean;
 }
 
 function MarkdownContent({ text }: { text: string }) {
@@ -40,9 +43,16 @@ function MarkdownContent({ text }: { text: string }) {
   );
 }
 
-export default function ChatWindow({ messages, isLoading, userName, error }: ChatWindowProps) {
+export default function ChatWindow({ messages, isLoading, userName, error, voiceReplyEnabled }: ChatWindowProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
+  const speech = useSpeechPlayback();
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, isLoading, error]);
+  useEffect(() => {
+    const last = messages.at(-1);
+    if (voiceReplyEnabled && !isLoading && last?.role === 'assistant' && last.content.trim()) {
+      speech.speak(`${last.timestamp}`, last.content);
+    }
+  }, [voiceReplyEnabled, isLoading, messages]);
 
   if (!messages.length && !isLoading && !error) {
     return (
@@ -65,6 +75,9 @@ export default function ChatWindow({ messages, isLoading, userName, error }: Cha
             {m.role !== 'user' && <Avatar icon={<Bot className="h-4 w-4 text-white" />} />}
             <div className={`max-w-[88%] rounded-2xl p-5 text-[15px] leading-7 shadow-lg ${m.role === 'user' ? 'bg-gradient-to-r from-cyan-600 via-blue-600 to-violet-600 text-white whitespace-pre-wrap' : 'border border-cyan-300/15 bg-white/[0.08] text-slate-100'}`}>
               {m.role === 'user' ? m.content : m.content ? <MarkdownContent text={m.content} /> : <Typing />}
+              {m.role === 'assistant' && m.content.trim() && (
+                <ResponseSpeechControls active={speech.activeKey === `${m.timestamp}`} paused={speech.paused} onSpeak={() => speech.speak(`${m.timestamp}`, m.content)} onPause={speech.pause} onResume={speech.resume} onStop={speech.stop} />
+              )}
             </div>
             {m.role === 'user' && <Avatar icon={<User className="h-4 w-4 text-white" />} muted />}
           </div>

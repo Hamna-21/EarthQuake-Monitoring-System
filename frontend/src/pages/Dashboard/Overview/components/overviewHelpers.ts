@@ -2,9 +2,9 @@ import { Earthquake } from '../../../../types';
 import { countryOf } from '../../../../components/dashboard/data';
 
 export const toneStyles = {
-  neutral: { chip: 'bg-slate-100 text-slate-600' },
-  positive: { chip: 'bg-emerald-50 text-emerald-700' },
-  alert: { chip: 'bg-red-50 text-red-700' },
+  neutral: { chip: 'bg-cyan-400/10 text-cyan-100 ring-1 ring-cyan-300/20' },
+  positive: { chip: 'bg-emerald-400/10 text-emerald-100 ring-1 ring-emerald-300/20' },
+  alert: { chip: 'bg-red-400/10 text-red-100 ring-1 ring-red-300/20' },
 } as const;
 
 export const spark = (seed: number) => Array.from({ length: 7 }, (_, i) => 28 + ((seed * (i + 3) * 37) % 62));

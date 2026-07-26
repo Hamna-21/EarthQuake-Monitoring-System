@@ -9,9 +9,9 @@ type Rule = { id: number; name: string; minMag: number; radiusKm: number; tsunam
 const STORAGE_KEY = 'geopulse-alert-rules';
 
 function severityOf(minMag: number) {
-  if (minMag >= 6) return { gradient: 'from-rose-500 via-red-600 to-orange-600', tint: 'from-rose-50 to-orange-50', border: 'border-rose-200' };
-  if (minMag >= 5) return { gradient: 'from-amber-500 via-orange-600 to-red-600', tint: 'from-amber-50 to-orange-50', border: 'border-amber-200' };
-  return { gradient: 'from-emerald-500 via-teal-600 to-cyan-600', tint: 'from-emerald-50 to-cyan-50', border: 'border-emerald-200' };
+  if (minMag >= 6) return { gradient: 'from-rose-500 via-red-600 to-orange-600', tint: 'from-rose-500/15 to-orange-500/5', border: 'border-rose-300/20' };
+  if (minMag >= 5) return { gradient: 'from-amber-500 via-orange-600 to-red-600', tint: 'from-amber-500/15 to-orange-500/5', border: 'border-amber-300/20' };
+  return { gradient: 'from-emerald-500 via-teal-600 to-cyan-600', tint: 'from-emerald-500/15 to-cyan-500/5', border: 'border-emerald-300/20' };
 }
 
 function loadRules(): Rule[] {
@@ -68,7 +68,7 @@ export default function MatchingRecordsPage({ earthquakes, setSelectedId, openPa
               <article
                 key={event.id}
                 onClick={() => { setSelectedId(event.id); openPage('details'); }}
-                className={`group relative cursor-pointer overflow-hidden rounded-2xl border ${s.border} bg-gradient-to-br ${s.tint} p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg`}
+                className={`group relative cursor-pointer overflow-hidden rounded-2xl border ${s.border} bg-gradient-to-br ${s.tint} p-4 shadow-2xl shadow-black/20 backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:border-cyan-200/30 hover:shadow-lg`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <span className={`rounded-2xl border px-3 py-1.5 text-sm font-black ${magnitudeStyle(event.magnitude)}`}>
@@ -79,14 +79,14 @@ export default function MatchingRecordsPage({ earthquakes, setSelectedId, openPa
                   </span>
                 </div>
 
-                <h4 className="mt-3 truncate font-serif text-base font-black italic tracking-tight text-slate-900" title={event.place}>
+                <h4 className="mt-3 truncate font-serif text-base font-black italic tracking-tight text-white" title={event.place}>
                   {event.place}
                 </h4>
-                <p className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                <p className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-slate-300">
                   <MapPin className="h-3 w-3 text-violet-500" /> {countryOf(event.place)}
                 </p>
 
-                <div className="mt-3 flex items-center justify-between text-xs font-bold text-slate-600">
+                <div className="mt-3 flex items-center justify-between text-xs font-bold text-slate-300">
                   <span className="flex items-center gap-1"><Layers className="h-3.5 w-3.5 text-orange-500" /> {event.depth.toFixed(1)} km</span>
                   <span className="flex items-center gap-1"><CalendarClock className="h-3.5 w-3.5 text-cyan-500" /> {fmtDate(event.time, 'UTC')}</span> </div>
               </article>
@@ -94,7 +94,7 @@ export default function MatchingRecordsPage({ earthquakes, setSelectedId, openPa
           })}
         </div>
       ) : (
-        <p className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-8 text-center text-sm font-semibold text-slate-500">
+        <p className="rounded-2xl border border-dashed border-white/10 bg-white/[0.04] p-8 text-center text-sm font-semibold text-slate-400">
           {rules.length ? 'No records currently match your rules.' : 'Create a rule on the Alerts page to see matches here.'}
         </p>
       )}  </>  );}

@@ -3,7 +3,7 @@ import { Earthquake } from '../../../../types';
 import { countryOf } from '../../../../components/dashboard/data';
 
 const rankStyles = [
-  { badge: 'bg-gradient-to-br from-amber-300 to-amber-500 text-amber-950', bar: 'from-amber-400 to-orange-500', tint: 'bg-amber-50/60 border-amber-200/70' },
+  { badge: 'bg-gradient-to-br from-amber-300 to-amber-500 text-amber-950', bar: 'from-amber-400 to-orange-500', tint: 'bg-amber-400/10 border-amber-300/20' },
   { badge: 'bg-gradient-to-br from-slate-300 to-slate-400 text-slate-900', bar: 'from-orange-400 to-red-500', tint: 'border-transparent' },
   { badge: 'bg-gradient-to-br from-orange-300 to-orange-400 text-orange-950', bar: 'from-orange-400 to-red-600', tint: 'border-transparent' },
   { badge: 'bg-slate-200 text-slate-600', bar: 'from-red-400 to-red-600', tint: 'border-transparent' },

@@ -19,7 +19,7 @@ export default function EventList({
     );
 
   return (
-    <div className="border border-red-100 bg-white shadow-lg">
+    <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] shadow-2xl shadow-black/20 backdrop-blur-2xl">
       {events.map((e) => {
         const color =
           e.magnitude >= 7
@@ -34,7 +34,7 @@ export default function EventList({
           <button
             key={e.id}
             onClick={() => onSelect(e)}
-            className="grid w-full gap-5 border-b border-slate-200 px-6 py-5 text-left transition hover:bg-red-50 md:grid-cols-[110px_1fr_120px_160px]"
+            className="grid w-full gap-5 border-b border-white/10 px-6 py-5 text-left transition hover:bg-white/[0.08] md:grid-cols-[110px_1fr_120px_160px]"
           >
             <div
               className={`${color} flex h-12 items-center justify-center text-xl font-black text-white`}
@@ -43,11 +43,11 @@ export default function EventList({
             </div>
 
             <div>
-              <h3 className="text-lg font-bold text-slate-900">
+              <h3 className="text-lg font-bold text-white">
                 {e.place}
               </h3>
 
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm text-slate-300">
                 {countryOf(e.place)}
               </p>
 
@@ -61,7 +61,7 @@ export default function EventList({
                 Depth
               </span>
 
-              <span className="text-xl font-black text-slate-900">
+              <span className="text-xl font-black text-white">
                 {e.depth.toFixed(1)} km
               </span>
             </div>
@@ -71,7 +71,7 @@ export default function EventList({
                 Time (UTC)
               </span>
 
-              <span className="font-semibold text-slate-200">
+              <span className="font-semibold text-cyan-100">
                 {fmtDate(e.time, "UTC")}
               </span>
             </div>

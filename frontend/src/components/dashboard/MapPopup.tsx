@@ -25,10 +25,10 @@ export default function MapPopup({ event, onSelect, onDetails }: MapPopupProps) 
       ? 'from-amber-300 via-orange-400 to-rose-400'
       : 'from-emerald-300 via-teal-400 to-cyan-400';
   const tierSoftBg =
-    event.magnitude >= 6 ? 'bg-rose-50' : event.magnitude >= 5 ? 'bg-amber-50' : 'bg-emerald-50';
+    event.magnitude >= 6 ? 'bg-rose-500/10' : event.magnitude >= 5 ? 'bg-amber-500/10' : 'bg-emerald-500/10';
 
   return (
-    <div className="w-[620px] max-w-[92vw] overflow-hidden rounded-2xl bg-white text-slate-800 shadow-2xl ring-1 ring-slate-200">
+    <div className="w-[620px] max-w-[92vw] overflow-hidden rounded-2xl border border-white/10 bg-slate-950/95 text-slate-100 shadow-2xl shadow-black/30 backdrop-blur-2xl ring-1 ring-cyan-300/10">
       <div className={`h-1.5 w-full bg-gradient-to-r ${tierGradient}`} />
 
       {/* Single horizontal row: dial | place | stats | action */}
@@ -43,8 +43,8 @@ export default function MapPopup({ event, onSelect, onDetails }: MapPopupProps) 
         </div>
 
         {/* Place name + country + alert badge */}
-        <div className="w-36 min-w-0 flex-shrink-0 border-l border-slate-100 pl-3">
-          <h3 className="line-clamp-2 text-[13px] font-black leading-tight text-slate-900" title={regionOf(event.place)}>
+        <div className="w-36 min-w-0 flex-shrink-0 border-l border-white/10 pl-3">
+          <h3 className="line-clamp-2 text-[13px] font-black leading-tight text-white" title={regionOf(event.place)}>
             {regionOf(event.place)}
           </h3>
           <p className="mt-0.5 truncate text-[11px] font-semibold text-cyan-600">{countryOf(event.place)}</p>
@@ -52,7 +52,7 @@ export default function MapPopup({ event, onSelect, onDetails }: MapPopupProps) 
         </div>
 
         {/* Compact inline stat chips — no more stacked boxes */}
-        <div className="flex flex-1 flex-wrap items-center gap-2 border-l border-slate-100 pl-3">
+        <div className="flex flex-1 flex-wrap items-center gap-2 border-l border-white/10 pl-3">
           <Stat label="Depth" value={`${event.depth.toFixed(1)} km`} tone={depthStyle(event.depth)} bg={tierSoftBg} />
           <Stat label="Risk" value={risk} tone={riskTone} bg={tierSoftBg} />
           <Stat label="Time" value={fmtDate(event.time, 'UTC')} bg={tierSoftBg} />
@@ -74,8 +74,8 @@ export default function MapPopup({ event, onSelect, onDetails }: MapPopupProps) 
 function Stat({
   label,
   value,
-  tone = 'text-slate-700',
-  bg = 'bg-slate-50',
+  tone = 'text-slate-100',
+  bg = 'bg-white/10',
 }: {
   label: string;
   value: string;
@@ -83,7 +83,7 @@ function Stat({
   bg?: string;
 }) {
   return (
-    <div className={`rounded-2xl ${bg} px-2.5 py-1.5 ring-1 ring-slate-200`}>
+    <div className={`rounded-2xl ${bg} px-2.5 py-1.5 ring-1 ring-white/10`}>
       <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400">{label}</p>
       <p className={`whitespace-nowrap text-[11px] font-black ${tone}`} title={value}>
         {value}

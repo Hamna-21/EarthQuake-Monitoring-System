@@ -1,9 +1,9 @@
 export const ds = {
   page: 'relative min-h-screen overflow-x-hidden bg-[#050814] text-white',
-  surface: 'rounded-2xl border border-white/12 bg-white/[0.07] shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl',
+  surface: 'rounded-2xl border border-white/10 bg-white/[0.06] shadow-2xl shadow-black/20 backdrop-blur-2xl',
   surfaceDark: 'rounded-2xl border border-cyan-300/15 bg-slate-950/90 text-white shadow-[0_28px_90px_rgba(8,145,178,0.14)] backdrop-blur-xl',
-  card: 'rounded-2xl border border-white/12 bg-white/[0.07] p-6 shadow-[0_24px_80px_rgba(0,0,0,0.25)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-cyan-300/30 hover:bg-white/[0.1] hover:shadow-[0_28px_90px_rgba(8,145,178,0.18)]',
-  panel: 'rounded-2xl border border-white/12 bg-white/[0.07] shadow-[0_24px_80px_rgba(0,0,0,0.25)] backdrop-blur-xl',
+  card: 'rounded-2xl border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/20 backdrop-blur-2xl transition duration-300 hover:-translate-y-1 hover:border-cyan-200/30 hover:bg-white/[0.09]',
+  panel: 'rounded-2xl border border-white/10 bg-white/[0.06] shadow-2xl shadow-black/20 backdrop-blur-2xl',
   focus: 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400',
   buttonPrimary: 'rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 px-4 py-3 text-sm font-black text-white shadow-lg shadow-cyan-500/20 transition hover:-translate-y-0.5 hover:shadow-[0_20px_45px_rgba(6,182,212,0.25)]',
   buttonDanger: 'rounded-2xl bg-gradient-to-r from-red-700 to-orange-500 px-4 py-3 text-sm font-black text-white shadow-lg shadow-red-500/20 transition hover:-translate-y-0.5 hover:shadow-[0_20px_45px_rgba(239,68,68,0.25)]',

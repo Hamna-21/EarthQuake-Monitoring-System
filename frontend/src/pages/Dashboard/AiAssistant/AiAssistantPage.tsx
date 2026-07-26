@@ -4,6 +4,7 @@ import { DashboardProps } from '../../../components/dashboard/types';
 import ChatWindow from './components/ChatWindow';
 import ChatInput from './components/ChatInput';
 import AssistantAction from './components/AssistantAction';
+import VoiceReplyToggle from './components/VoiceReplyToggle';
 import { ChatMessage, streamChatResponse } from '../../../utils/chatApi';
 
 type Props = DashboardProps & { userName: string | null; userEmail: string | null };
@@ -13,6 +14,7 @@ export default function AiAssistantPage({ earthquakes, selectedEvent, userName, 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [voiceReply, setVoiceReply] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
   const lastUserMessage = [...messages].reverse().find((msg) => msg.role === 'user')?.content;
   const dashboardSummary = useMemo(() => ({
@@ -84,6 +86,7 @@ export default function AiAssistantPage({ earthquakes, selectedEvent, userName, 
             </div>
           </div>
           <div className="flex flex-wrap gap-2">
+            <VoiceReplyToggle enabled={voiceReply} onToggle={() => setVoiceReply((value) => !value)} />
             <AssistantAction onClick={clearChat} icon={<RotateCcw className="h-4 w-4" />} label="New Chat" />
             <AssistantAction onClick={copyLast} icon={<Copy className="h-4 w-4" />} label="Copy" disabled={!messages.some((m) => m.role === 'assistant')} />
             <AssistantAction onClick={regenerate} icon={<RefreshCw className="h-4 w-4" />} label="Regenerate" disabled={!lastUserMessage || isLoading} />
@@ -92,7 +95,7 @@ export default function AiAssistantPage({ earthquakes, selectedEvent, userName, 
           </div>
         </div>
       </header>
-      <ChatWindow messages={messages} isLoading={isLoading} userName={displayName} error={error} />
+      <ChatWindow messages={messages} isLoading={isLoading} userName={displayName} error={error} voiceReplyEnabled={voiceReply} />
       <footer className="shrink-0 border-t border-white/10 bg-slate-950/40 p-4">
         <ChatInput onSend={ask} isLoading={isLoading} onStop={stop} />
       </footer>

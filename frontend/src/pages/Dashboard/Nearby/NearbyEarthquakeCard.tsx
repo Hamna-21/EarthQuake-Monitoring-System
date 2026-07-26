@@ -3,6 +3,7 @@ import { Earthquake } from '../../../types';
 import { alertStyle, distanceStyle, magnitudeStyle } from '../../../components/dashboard/colors';
 import { fmtDate } from '../../../components/dashboard/data';
 import { placeParts } from './nearbyUtils';
+import NearbyInfoTile from './NearbyInfoTile';
 
 type NearbyEvent = Earthquake & { distance: number; direction: string };
 
@@ -18,21 +19,21 @@ export default function NearbyEarthquakeCard({ event, onSelect }: NearbyEarthqua
     event.magnitude >= 6
       ? {
           gradient: 'from-rose-500 via-red-600 to-orange-600',
-          tint: 'from-rose-50 via-white to-orange-50',
-          border: 'border-rose-200',
+          tint: 'from-rose-500/15 via-white/[0.06] to-orange-500/10',
+          border: 'border-rose-300/20',
           glow: 'bg-rose-400/20',
         }
       : event.magnitude >= 5
       ? {
           gradient: 'from-amber-500 via-orange-600 to-red-600',
-          tint: 'from-amber-50 via-white to-orange-50',
-          border: 'border-amber-200',
+          tint: 'from-amber-500/15 via-white/[0.06] to-orange-500/10',
+          border: 'border-amber-300/20',
           glow: 'bg-amber-400/20',
         }
       : {
           gradient: 'from-emerald-500 via-teal-600 to-cyan-600',
-          tint: 'from-emerald-50 via-white to-cyan-50',
-          border: 'border-emerald-200',
+          tint: 'from-emerald-500/15 via-white/[0.06] to-cyan-500/10',
+          border: 'border-emerald-300/20',
           glow: 'bg-emerald-400/20',
         };
 
@@ -40,7 +41,7 @@ export default function NearbyEarthquakeCard({ event, onSelect }: NearbyEarthqua
 
   return (
     <article
-      className={`group relative overflow-hidden rounded-2xl border ${severity.border} bg-gradient-to-br ${severity.tint} p-5 shadow-md transition-all hover:-translate-y-1 hover:shadow-xl`}
+      className={`group relative overflow-hidden rounded-2xl border ${severity.border} bg-gradient-to-br ${severity.tint} p-5 shadow-2xl shadow-black/20 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-cyan-200/30 hover:shadow-xl`}
     >
       <div className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full ${severity.glow} blur-3xl transition-opacity group-hover:opacity-80`} />
 
@@ -59,22 +60,21 @@ export default function NearbyEarthquakeCard({ event, onSelect }: NearbyEarthqua
       >
         {place.city}
       </h3>
-      <p className="relative mt-1 flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide text-slate-500">
+      <p className="relative mt-1 flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide text-slate-300">
         {place.country}
         <Compass className="h-3.5 w-3.5 text-violet-500" />
         {event.direction}
       </p>
 
       <div className="relative mt-5 grid grid-cols-2 gap-3 text-sm">
-        <Info icon={<Layers className="h-3.5 w-3.5" />} label="Depth" value={`${event.depth.toFixed(1)} km`} gradient="from-orange-500 to-amber-600" tint="bg-orange-50" />
-        <Info icon={<CalendarClock className="h-3.5 w-3.5" />} label="Date" value={fmtDate(event.time, 'UTC')} gradient="from-cyan-500 to-sky-600" tint="bg-cyan-50" />
-        <Info icon={<AlertTriangle className="h-3.5 w-3.5" />} label="Alert" value={event.alert ?? 'No alert'} gradient="from-violet-500 to-fuchsia-600" tint="bg-violet-50" />
-        <Info
+        <NearbyInfoTile icon={<Layers className="h-3.5 w-3.5" />} label="Depth" value={`${event.depth.toFixed(1)} km`} gradient="from-orange-400 to-amber-300" />
+        <NearbyInfoTile icon={<CalendarClock className="h-3.5 w-3.5" />} label="Date" value={fmtDate(event.time, 'UTC')} gradient="from-cyan-300 to-sky-300" />
+        <NearbyInfoTile icon={<AlertTriangle className="h-3.5 w-3.5" />} label="Alert" value={event.alert ?? 'No alert'} gradient="from-violet-300 to-fuchsia-300" />
+        <NearbyInfoTile
           icon={<Gauge className="h-3.5 w-3.5" />}
           label="Risk"
           value={risk}
           gradient={severity.gradient}
-          tint="bg-slate-50"
         />
       </div>
 
@@ -85,31 +85,6 @@ export default function NearbyEarthquakeCard({ event, onSelect }: NearbyEarthqua
         View Details <ArrowUpRight className="h-4 w-4" />
       </button>
     </article>
-  );
-}
-
-function Info({
-  icon, label, value, gradient, tint,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  gradient: string;
-  tint: string;
-}) {
-  return (
-    <div className={`rounded-2xl ${tint} p-3`}>
-      <p className="flex items-center gap-1 font-mono text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">
-        {icon}
-        {label}
-      </p>
-      <p
-        className={`mt-1 truncate bg-gradient-to-r ${gradient} bg-clip-text text-sm font-black text-transparent`}
-        title={value}
-      >
-        {value}
-      </p>
-    </div>
   );
 }
 
