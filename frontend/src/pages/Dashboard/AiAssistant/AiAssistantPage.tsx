@@ -63,9 +63,9 @@ export default function AiAssistantPage({ earthquakes, selectedEvent, openPage }
   };
 
   return (
-    <div className="flex flex-col gap-5 max-w-4xl mx-auto h-[calc(100vh-180px)]">
-      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-6 py-5 shadow-2xl">
-        {/* colorful ambient glows */}
+    <div className="flex flex-col gap-5 max-w-4xl mx-auto h-[calc(100vh-180px)] min-h-0">
+      {/* Header — fixed height, never shrinks or grows */}
+      <div className="relative shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-6 py-5 shadow-2xl">
         <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-cyan-500/25 blur-3xl" />
         <div className="pointer-events-none absolute -left-10 -bottom-16 h-48 w-48 rounded-full bg-fuchsia-500/20 blur-3xl" />
         <div className="pointer-events-none absolute right-1/3 top-0 h-32 w-32 rounded-full bg-violet-500/20 blur-2xl" />
@@ -97,9 +97,18 @@ export default function AiAssistantPage({ earthquakes, selectedEvent, openPage }
             />
             {isLoading ? 'Thinking…' : 'Online'}
           </span>
-        </div> </div>
-<ChatWindow messages={messages} isLoading={isLoading} />
-      <ChatInput onSend={handleSend} isLoading={isLoading} />
+        </div>
+      </div>
+
+      {/* Chat area — takes remaining space, scrolls internally */}
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <ChatWindow messages={messages} isLoading={isLoading} />
+      </div>
+
+      {/* Input — fixed height, pinned to bottom */}
+      <div className="shrink-0">
+        <ChatInput onSend={handleSend} isLoading={isLoading} />
+      </div>
     </div>
   );
 }

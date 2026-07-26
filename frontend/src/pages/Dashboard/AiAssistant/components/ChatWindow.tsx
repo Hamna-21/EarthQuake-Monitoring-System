@@ -83,7 +83,8 @@ export default function ChatWindow({ messages, isLoading }: ChatWindowProps) {
   }, [messages, isLoading]);
 
   return (
-    <div className="flex-1 overflow-y-auto rounded-2xl border border-white/10 bg-slate-950/40 p-4 space-y-4 max-h-[500px]">
+   // After
+<div className="flex-1 min-h-0 overflow-y-auto rounded-2xl border border-white/10 bg-slate-950/40 p-4 space-y-4">
       {messages.map((m, idx) => (
         <div key={idx} className={`flex gap-3 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
           {m.role !== 'user' && (
