@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Bot, User } from 'lucide-react';
+import { AlertCircle, Bot, User } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -10,6 +10,8 @@ import { ChatMessage } from '../../../../utils/chatApi';
 interface ChatWindowProps {
   messages: ChatMessage[];
   isLoading: boolean;
+  userName: string;
+  error: string | null;
 }
 
 function MarkdownContent({ text }: { text: string }) {
@@ -18,55 +20,18 @@ function MarkdownContent({ text }: { text: string }) {
       remarkPlugins={[remarkGfm, remarkMath]}
       rehypePlugins={[rehypeKatex]}
       components={{
-        h1: ({ children }) => (
-          <h1 className="mt-3 mb-2 text-lg font-black tracking-tight text-cyan-300 first:mt-0">{children}</h1>
-        ),
-        h2: ({ children }) => (
-          <h2 className="mt-3 mb-1.5 text-base font-extrabold tracking-tight text-cyan-300 first:mt-0">{children}</h2>
-        ),
-        h3: ({ children }) => (
-          <h3 className="mt-2.5 mb-1 text-sm font-bold text-sky-300 first:mt-0">{children}</h3>
-        ),
+        h1: ({ children }) => <h1 className="mb-2 text-lg font-black text-cyan-200">{children}</h1>,
+        h2: ({ children }) => <h2 className="mb-1.5 mt-3 text-base font-extrabold text-cyan-200">{children}</h2>,
+        h3: ({ children }) => <h3 className="mb-1 mt-2.5 text-sm font-bold text-sky-200">{children}</h3>,
         p: ({ children }) => <p className="mb-2 leading-relaxed last:mb-0">{children}</p>,
-        strong: ({ children }) => <strong className="font-bold text-fuchsia-300">{children}</strong>,
-        em: ({ children }) => <em className="italic text-sky-200">{children}</em>,
-        ul: ({ children }) => <ul className="mb-2 ml-4 list-disc space-y-1 marker:text-cyan-400">{children}</ul>,
-        ol: ({ children }) => <ol className="mb-2 ml-4 list-decimal space-y-1 marker:text-cyan-400 marker:font-bold">{children}</ol>,
+        strong: ({ children }) => <strong className="font-bold text-white">{children}</strong>,
+        ul: ({ children }) => <ul className="mb-2 ml-4 list-disc space-y-1 marker:text-cyan-300">{children}</ul>,
+        ol: ({ children }) => <ol className="mb-2 ml-4 list-decimal space-y-1 marker:text-cyan-300">{children}</ol>,
         li: ({ children }) => <li className="pl-1">{children}</li>,
-        blockquote: ({ children }) => (
-          <blockquote className="my-2 border-l-4 border-fuchsia-400/60 bg-fuchsia-500/5 py-1 pl-3 italic text-slate-300">
-            {children}
-          </blockquote>
-        ),
-        hr: () => <hr className="my-3 border-white/10" />,
-        a: ({ children, href }) => (
-          <a href={href} target="_blank" rel="noreferrer" className="text-cyan-300 underline underline-offset-2 hover:text-cyan-200">
-            {children}
-          </a>
-        ),
-        code: ({ children, className }) => {
-          const isBlock = className?.includes('language-');
-          if (isBlock) {
-            return <code className="block whitespace-pre-wrap font-mono text-xs text-emerald-300">{children}</code>;
-          }
-          return (
-            <code className="rounded bg-fuchsia-500/10 px-1.5 py-0.5 font-mono text-xs text-fuchsia-300">
-              {children}
-            </code>
-          );
-        },
-        pre: ({ children }) => (
-          <pre className="my-2 overflow-x-auto rounded-xl border border-emerald-400/20 bg-emerald-950/30 p-3">
-            {children}
-          </pre>
-        ),
-        table: ({ children }) => (
-          <div className="my-2 overflow-x-auto rounded-xl border border-white/10">
-            <table className="w-full border-collapse text-left text-xs">{children}</table>
-          </div>
-        ),
-        thead: ({ children }) => <thead className="bg-cyan-500/10">{children}</thead>,
-        th: ({ children }) => <th className="border-b border-white/10 px-3 py-2 font-bold text-cyan-300">{children}</th>,
+        code: ({ children }) => <code className="rounded bg-cyan-500/10 px-1.5 py-0.5 font-mono text-xs text-cyan-100">{children}</code>,
+        pre: ({ children }) => <pre className="my-2 overflow-x-auto rounded-2xl border border-white/10 bg-black/25 p-3">{children}</pre>,
+        table: ({ children }) => <div className="my-2 overflow-x-auto rounded-2xl border border-white/10"><table className="w-full border-collapse text-left text-xs">{children}</table></div>,
+        th: ({ children }) => <th className="border-b border-white/10 px-3 py-2 font-bold text-cyan-200">{children}</th>,
         td: ({ children }) => <td className="border-b border-white/5 px-3 py-2 text-slate-200 align-top">{children}</td>,
       }}
     >
@@ -75,52 +40,50 @@ function MarkdownContent({ text }: { text: string }) {
   );
 }
 
-export default function ChatWindow({ messages, isLoading }: ChatWindowProps) {
+export default function ChatWindow({ messages, isLoading, userName, error }: ChatWindowProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, isLoading, error]);
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isLoading]);
+  if (!messages.length && !isLoading && !error) {
+    return (
+      <main className="flex min-h-0 flex-1 items-center justify-center overflow-y-auto p-8">
+        <div className="max-w-3xl rounded-2xl border border-white/10 bg-white/[0.06] p-8 text-center shadow-2xl backdrop-blur-xl">
+          <h2 className="bg-gradient-to-r from-cyan-200 via-white to-rose-200 bg-clip-text text-5xl font-black tracking-tight text-transparent">Hi, {userName}</h2>
+          <p className="mt-5 text-lg leading-8 text-slate-200">
+            I can help with earthquake safety, seismic terms, live dashboard data, nearby risk, historical events, alerts, and GeoPulse navigation.
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   return (
-   // After
-<div className="flex-1 min-h-0 overflow-y-auto rounded-2xl border border-white/10 bg-slate-950/40 p-4 space-y-4">
-      {messages.map((m, idx) => (
-        <div key={idx} className={`flex gap-3 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-          {m.role !== 'user' && (
-            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 shadow-md shadow-cyan-900/40">
-              <Bot className="h-4 w-4 text-white" />
-            </span>
-          )}
-          <div
-            className={`max-w-[80%] rounded-2xl p-3.5 text-sm leading-relaxed ${
-              m.role === 'user'
-                ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white whitespace-pre-wrap'
-                : 'border border-white/5 bg-white/[0.06] text-slate-100'
-            }`}
-          >
-            {m.role === 'user' ? m.content : <MarkdownContent text={m.content} />}
+    <main className="min-h-0 flex-1 overflow-y-auto p-6">
+      <div className="mx-auto flex max-w-5xl flex-col gap-5">
+        {messages.map((m, idx) => (
+          <div key={`${m.timestamp}-${idx}`} className={`flex gap-3 ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+            {m.role !== 'user' && <Avatar icon={<Bot className="h-4 w-4 text-white" />} />}
+            <div className={`max-w-[88%] rounded-2xl p-5 text-[15px] leading-7 shadow-lg ${m.role === 'user' ? 'bg-gradient-to-r from-cyan-600 via-blue-600 to-violet-600 text-white whitespace-pre-wrap' : 'border border-cyan-300/15 bg-white/[0.08] text-slate-100'}`}>
+              {m.role === 'user' ? m.content : m.content ? <MarkdownContent text={m.content} /> : <Typing />}
+            </div>
+            {m.role === 'user' && <Avatar icon={<User className="h-4 w-4 text-white" />} muted />}
           </div>
-          {m.role === 'user' && (
-            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-2xl border border-white/10 bg-white/10 text-white">
-              <User className="h-4 w-4" />
-            </span>
-          )}
-        </div>
-      ))}
-      {isLoading && (
-        <div className="flex gap-3 justify-start items-center">
-          <span className="grid h-8 w-8 place-items-center rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 shadow-md shadow-cyan-900/40 animate-pulse">
-            <Bot className="h-4 w-4 text-white" />
-          </span>
-          <div className="flex gap-1.5 rounded-2xl border border-white/5 bg-white/[0.06] px-4 py-3">
-            <span className="h-2 w-2 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-            <span className="h-2 w-2 rounded-full bg-fuchsia-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-            <span className="h-2 w-2 rounded-full bg-sky-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+        ))}
+        {error && (
+          <div className="flex items-center gap-2 rounded-2xl border border-red-300/20 bg-red-500/10 p-4 text-sm font-semibold text-red-100">
+            <AlertCircle className="h-4 w-4" /> {error}
           </div>
-        </div>
-      )}
-      <div ref={bottomRef} />
-    </div>
+        )}
+        <div ref={bottomRef} />
+      </div>
+    </main>
   );
+}
+
+function Avatar({ icon, muted }: { icon: React.ReactNode; muted?: boolean }) {
+  return <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-2xl ${muted ? 'border border-white/10 bg-white/10' : 'bg-gradient-to-br from-cyan-400 to-blue-500 shadow-md shadow-cyan-900/40'}`}>{icon}</span>;
+}
+
+function Typing() {
+  return <span className="inline-flex gap-1.5"><span className="h-2 w-2 animate-bounce rounded-full bg-cyan-300" /><span className="h-2 w-2 animate-bounce rounded-full bg-sky-300 [animation-delay:150ms]" /><span className="h-2 w-2 animate-bounce rounded-full bg-violet-300 [animation-delay:300ms]" /></span>;
 }

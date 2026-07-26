@@ -30,6 +30,7 @@ type Props = {
 export default function Shell(props: Props) {
   const [collapsed, setCollapsed] = useState(false);
   const displayName = props.userName || props.userEmail?.split('@')[0] || 'GeoPulse User';
+  const assistantMode = props.page === 'ai_assistant';
 
   return (
     <div className={ds.page}>
@@ -66,12 +67,12 @@ export default function Shell(props: Props) {
         <button onClick={() => setCollapsed(!collapsed)} className="absolute right-3 top-3 rounded-full bg-white/10 p-2 text-white"><ChevronLeft className={`h-4 w-4 transition ${collapsed ? 'rotate-180' : ''}`} /></button>
       </aside>
       <div className={`transition-all ${collapsed ? 'lg:pl-32' : 'lg:pl-[336px]'}`}>
-        <header className="sticky top-4 z-20 mx-4 mt-4 flex min-h-16 items-center justify-between rounded-2xl border border-white/12 bg-white/[0.07] px-4 shadow-[0_18px_60px_rgba(0,0,0,0.28)] backdrop-blur-2xl md:px-6">
+        {!assistantMode && <header className="sticky top-4 z-20 mx-4 mt-4 flex min-h-16 items-center justify-between rounded-2xl border border-white/12 bg-white/[0.07] px-4 shadow-[0_18px_60px_rgba(0,0,0,0.28)] backdrop-blur-2xl md:px-6">
           <div className="hidden items-center gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-2 transition hover:border-cyan-300/25 md:flex"><Search className="h-4 w-4 text-cyan-200" /><span className="text-sm font-semibold text-slate-300">Search earthquakes, countries, actions</span></div>
           <div className="flex items-center gap-3"><Globe2 className="h-5 w-5 text-red-400" /><span className="text-sm font-black text-white">Online</span><Clock className="h-4 w-4 text-slate-400" /><span className="text-sm font-semibold text-slate-300">{new Date().toLocaleTimeString()}</span></div>
           <button onClick={props.onOpenWarningHub} className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-red-700 via-orange-500 to-amber-400 px-4 py-2 text-sm font-bold text-white shadow-lg shadow-red-500/25 transition hover:-translate-y-0.5 hover:brightness-110"><ShieldAlert className="h-4 w-4" /> Safety</button>
-        </header>
-        <main className="mx-auto max-w-[1500px] px-4 py-6 md:px-8">{props.children}</main>
+        </header>}
+        <main className={`${assistantMode ? 'h-screen px-3 py-3 md:px-4 md:py-4' : 'mx-auto max-w-[1500px] px-4 py-6 md:px-8'}`}>{props.children}</main>
       </div>
     </div>
   );

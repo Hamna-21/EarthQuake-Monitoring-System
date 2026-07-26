@@ -1,114 +1,101 @@
-import { useState } from 'react';
-import { Sparkles } from 'lucide-react';
+import { useMemo, useRef, useState } from 'react';
+import { Bot, Copy, RefreshCw, RotateCcw, Sparkles, Square, Trash2 } from 'lucide-react';
 import { DashboardProps } from '../../../components/dashboard/types';
 import ChatWindow from './components/ChatWindow';
 import ChatInput from './components/ChatInput';
-
+import AssistantAction from './components/AssistantAction';
 import { ChatMessage, streamChatResponse } from '../../../utils/chatApi';
 
-export default function AiAssistantPage({ earthquakes, selectedEvent, openPage }: DashboardProps) {
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      role: 'assistant',
-      content: "Hello! I'm GeoPulse AI, your intelligent earthquake monitoring assistant. I can help explain earthquakes, seismic activity, dashboard analytics, safety procedures, historical events, and GeoPulse features. Ask me anything related to earthquakes or geological hazards.",
-      timestamp: Date.now(),
-    },
-  ]);
+type Props = DashboardProps & { userName: string | null; userEmail: string | null };
+
+export default function AiAssistantPage({ earthquakes, selectedEvent, userName, userEmail }: Props) {
+  const displayName = userName || userEmail?.split('@')[0] || 'there';
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
+  const lastUserMessage = [...messages].reverse().find((msg) => msg.role === 'user')?.content;
+  const dashboardSummary = useMemo(() => ({
+    visibleEvents: earthquakes.length,
+    strongestMagnitude: earthquakes.reduce((max, event) => Math.max(max, event.magnitude), 0),
+    selectedPlace: selectedEvent?.place ?? null,
+    selectedMagnitude: selectedEvent?.magnitude ?? null,
+  }), [earthquakes, selectedEvent]);
+  const ask = (text: string, baseHistory = messages) => {
+    const trimmed = text.trim();
+    if (!trimmed || isLoading) return;
+    const controller = new AbortController();
+    abortRef.current = controller;
+    setError(null);
+    const timeoutId = window.setTimeout(() => {
+      setError('The assistant took too long to respond. Please try again.');
+      controller.abort();
+    }, 45000);
 
-  const handleSend = (text: string) => {
-    const userMsg: ChatMessage = { role: 'user', content: text, timestamp: Date.now() };
-    const updatedHistory = [...messages, userMsg];
-    setMessages(updatedHistory);
+    const userMsg: ChatMessage = { role: 'user', content: trimmed, timestamp: Date.now() };
+    const history = [...baseHistory, userMsg];
+    setMessages([...history, { role: 'assistant', content: '', timestamp: Date.now() }]);
     setIsLoading(true);
-
-    const context = {
-      selectedEvent,
-      currentView: 'ai_assistant',
-    };
-
-    let assistantContent = '';
-    const tempAssistantMsg: ChatMessage = { role: 'assistant', content: '', timestamp: Date.now() };
-    setMessages((prev) => [...prev, tempAssistantMsg]);
-
+    let answer = '';
     streamChatResponse(
-      text,
-      updatedHistory,
-      context,
+      trimmed,
+      history,
+      { selectedEvent, currentView: 'ai_assistant', userName: displayName, dashboardSummary },
       (chunk) => {
-        assistantContent += chunk;
-        setMessages((prev) => {
-          const list = [...prev];
-          if (list.length > 0) {
-            list[list.length - 1] = {
-              role: 'assistant',
-              content: assistantContent,
-              timestamp: Date.now(),
-            };
-          }
-          return list;
-        });
+        answer += chunk;
+        setMessages((current) => current.map((msg, index) => index === current.length - 1 ? { ...msg, content: answer } : msg));
       },
-      (error) => {
-        setIsLoading(false);
-        setMessages((prev) => [
-          ...prev.slice(0, -1),
-          { role: 'assistant', content: `Error: ${error}`, timestamp: Date.now() },
-        ]);
-      },
+      (err) => { setError(err); setMessages((current) => current.slice(0, -1)); setIsLoading(false); },
       () => {
+        window.clearTimeout(timeoutId);
+        if (!answer.trim() && !controller.signal.aborted) setError('The assistant did not return an answer. Please try again.');
+        setMessages((current) => current.filter((msg) => msg.role !== 'assistant' || msg.content.trim()));
         setIsLoading(false);
-      }
+        abortRef.current = null;
+      },
+      controller.signal
     );
+  };
+  const stop = () => abortRef.current?.abort();
+  const clearChat = () => { stop(); setMessages([]); setError(null); setIsLoading(false); };
+  const regenerate = () => {
+    if (!lastUserMessage || isLoading) return;
+    let base = [...messages];
+    if (base.at(-1)?.role === 'assistant') base = base.slice(0, -1);
+    if (base.at(-1)?.role === 'user') base = base.slice(0, -1);
+    ask(lastUserMessage, base);
+  };
+  const copyLast = async () => {
+    const lastAnswer = [...messages].reverse().find((msg) => msg.role === 'assistant' && msg.content.trim());
+    if (lastAnswer) await navigator.clipboard?.writeText(lastAnswer.content);
   };
 
   return (
-    <div className="flex flex-col gap-5 max-w-4xl mx-auto h-[calc(100vh-180px)] min-h-0">
-      {/* Header — fixed height, never shrinks or grows */}
-      <div className="relative shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 px-6 py-5 shadow-2xl">
-        <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-cyan-500/25 blur-3xl" />
-        <div className="pointer-events-none absolute -left-10 -bottom-16 h-48 w-48 rounded-full bg-fuchsia-500/20 blur-3xl" />
-        <div className="pointer-events-none absolute right-1/3 top-0 h-32 w-32 rounded-full bg-violet-500/20 blur-2xl" />
-
-        <div className="relative flex items-center justify-between gap-4">
-          <div>
-            <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.28em] text-cyan-300">
-              <Sparkles className="h-3.5 w-3.5 text-cyan-300" /> GeoPulse AI Intelligence
-            </p>
-            <h1 className="mt-2 bg-gradient-to-r from-cyan-300 via-sky-200 to-fuchsia-300 bg-clip-text text-3xl font-black tracking-tight text-transparent">
-              Ask the Seismology Expert
-            </h1>
-            <p className="mt-1 text-sm font-medium text-slate-400">
-              Earthquakes, seismic risk, and live dashboard insight explained clearly.
-            </p>
+    <section className="relative flex h-full min-h-0 w-full flex-col overflow-hidden rounded-2xl border border-cyan-300/20 bg-[radial-gradient(circle_at_15%_0%,rgba(34,211,238,0.20),transparent_32%),radial-gradient(circle_at_85%_10%,rgba(244,63,94,0.18),transparent_30%),linear-gradient(135deg,rgba(15,23,42,0.92),rgba(2,6,23,0.84))] shadow-[0_28px_100px_rgba(0,0,0,0.36)] backdrop-blur-xl">
+      <header className="shrink-0 border-b border-white/10 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-rose-500/10 px-5 py-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-cyan-400 via-blue-500 to-violet-500 shadow-lg shadow-cyan-950/40">
+              <Bot className="h-5 w-5 text-white" />
+            </span>
+            <div>
+              <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.24em] text-cyan-200"><Sparkles className="h-3 w-3" /> GeoPulse AI Assistant</p>
+              <h1 className="mt-1 text-2xl font-black tracking-tight text-white">Seismic Guidance Assistant</h1>
+            </div>
           </div>
-
-          <span
-            className={`hidden sm:flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-bold ${
-              isLoading
-                ? 'border-cyan-400/30 bg-cyan-500/10 text-cyan-200'
-                : 'border-emerald-400/30 bg-emerald-500/10 text-emerald-300'
-            }`}
-          >
-            <span
-              className={`h-1.5 w-1.5 rounded-full ${
-                isLoading ? 'bg-cyan-300 animate-pulse' : 'bg-emerald-400'
-              }`}
-            />
-            {isLoading ? 'Thinking…' : 'Online'}
-          </span>
+          <div className="flex flex-wrap gap-2">
+            <AssistantAction onClick={clearChat} icon={<RotateCcw className="h-4 w-4" />} label="New Chat" />
+            <AssistantAction onClick={copyLast} icon={<Copy className="h-4 w-4" />} label="Copy" disabled={!messages.some((m) => m.role === 'assistant')} />
+            <AssistantAction onClick={regenerate} icon={<RefreshCw className="h-4 w-4" />} label="Regenerate" disabled={!lastUserMessage || isLoading} />
+            <AssistantAction onClick={clearChat} icon={<Trash2 className="h-4 w-4" />} label="Clear Chat" disabled={!messages.length && !error} />
+            <AssistantAction onClick={stop} icon={<Square className="h-4 w-4" />} label="Stop" disabled={!isLoading} danger />
+          </div>
         </div>
-      </div>
-
-      {/* Chat area — takes remaining space, scrolls internally */}
-      <div className="flex-1 min-h-0 overflow-y-auto">
-        <ChatWindow messages={messages} isLoading={isLoading} />
-      </div>
-
-      {/* Input — fixed height, pinned to bottom */}
-      <div className="shrink-0">
-        <ChatInput onSend={handleSend} isLoading={isLoading} />
-      </div>
-    </div>
+      </header>
+      <ChatWindow messages={messages} isLoading={isLoading} userName={displayName} error={error} />
+      <footer className="shrink-0 border-t border-white/10 bg-slate-950/40 p-4">
+        <ChatInput onSend={ask} isLoading={isLoading} onStop={stop} />
+      </footer>
+    </section>
   );
 }

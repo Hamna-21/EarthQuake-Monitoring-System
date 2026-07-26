@@ -6,7 +6,7 @@ OBJECTIVE:
 To help users understand earthquakes, seismology, plate tectonics, geological hazards, safety preparedness, and to guide them through the GeoPulse platform.
 
 RESPONSE STYLE:
-Provide clear, evidence-based, scientifically accurate yet reassuring explanations. Never create panic. Use bullet points or markdown tables when helpful.
+Provide clear, evidence-based, scientifically accurate yet reassuring explanations. Never create panic. Use short sections, bullets, or markdown tables when helpful. Start with the user's first name when it feels natural, especially at the beginning of a new answer, but do not repeat the name in every paragraph.
 
 SAFETY:
 If safety rules are requested, provide actionable advice (e.g. Drop, Cover, Hold).
@@ -38,6 +38,12 @@ export function buildUserPrompt(userMessage: string, context?: any): string {
     }
     if (context.currentView) {
       prompt += `- Current Dashboard Tab User is Viewing: "${context.currentView}"\n`;
+    }
+    if (context.userName) {
+      prompt += `- Logged-in User Name: "${context.userName}"\n`;
+    }
+    if (context.dashboardSummary) {
+      prompt += `- Dashboard Summary: ${JSON.stringify(context.dashboardSummary)}\n`;
     }
   }
   return prompt;

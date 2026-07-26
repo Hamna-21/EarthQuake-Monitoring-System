@@ -10,7 +10,8 @@ export async function streamChatResponse(
   context: any,
   onChunk: (text: string) => void,
   onError: (err: string) => void,
-  onDone: () => void
+  onDone: () => void,
+  signal?: AbortSignal
 ) {
   const token = localStorage.getItem('geopulse_token');
   try {
@@ -21,6 +22,7 @@ export async function streamChatResponse(
         Authorization: `Bearer ${token || ''}`,
       },
       body: JSON.stringify({ message, history, context }),
+      signal,
     });
 
     if (!response.ok) {
@@ -103,6 +105,10 @@ export async function streamChatResponse(
 
     onDone();
   } catch (err: any) {
+    if (err?.name === 'AbortError') {
+      onDone();
+      return;
+    }
     onError(err.message || 'Failed to connect to assistant');
   }
 }
