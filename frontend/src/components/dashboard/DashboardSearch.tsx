@@ -1,0 +1,79 @@
+import { useEffect, useMemo, useState } from 'react';
+import { Search, X } from 'lucide-react';
+
+export type SearchSuggestion = {
+  id: string;
+  group: 'Pages' | 'Earthquakes' | 'Locations' | 'Recent searches';
+  label: string;
+  detail?: string;
+};
+
+type Props = {
+  value: string;
+  suggestions: SearchSuggestion[];
+  onChange: (value: string) => void;
+  onClear: () => void;
+  onOpen: (suggestion: SearchSuggestion) => void;
+  onSubmit: () => void;
+};
+
+export default function DashboardSearch({ value, suggestions, onChange, onClear, onOpen, onSubmit }: Props) {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(0);
+  const grouped = useMemo(() => ['Pages', 'Earthquakes', 'Locations', 'Recent searches']
+    .map((group) => [group, suggestions.filter((item) => item.group === group)] as const)
+    .filter(([, items]) => items.length), [suggestions]);
+  const hasQuery = value.trim().length > 0;
+
+  useEffect(() => setActive(0), [value]);
+
+  const choose = (item = suggestions[active]) => {
+    if (!item) return onSubmit();
+    onOpen(item);
+    setOpen(false);
+  };
+
+  return (
+    <div className="relative hidden md:block">
+      <label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-2 transition hover:border-cyan-300/25">
+        <Search className="h-4 w-4 text-cyan-200" />
+        <input
+          value={value}
+          onFocus={() => setOpen(true)}
+          onChange={(event) => { onChange(event.target.value); setOpen(true); }}
+          onKeyDown={(event) => {
+            if (event.key === 'ArrowDown') { event.preventDefault(); setActive((i) => Math.min(i + 1, Math.max(suggestions.length - 1, 0))); }
+            if (event.key === 'ArrowUp') { event.preventDefault(); setActive((i) => Math.max(i - 1, 0)); }
+            if (event.key === 'Enter') { event.preventDefault(); choose(); }
+            if (event.key === 'Escape') { event.preventDefault(); onClear(); setOpen(false); }
+          }}
+          placeholder="Search earthquakes, pages, countries"
+          className="w-72 bg-transparent text-sm font-semibold text-slate-100 outline-none placeholder:text-slate-400"
+          aria-label="Global dashboard search"
+          role="combobox"
+          aria-expanded={open}
+        />
+        {hasQuery && <button type="button" onClick={onClear} className="rounded-full p-1 text-slate-300 transition hover:bg-white/10 hover:text-white" aria-label="Clear dashboard search">
+          <X className="h-3.5 w-3.5" />
+        </button>}
+      </label>
+
+      {open && hasQuery && <div className="absolute left-0 top-[calc(100%+10px)] z-50 w-[420px] overflow-hidden rounded-2xl border border-white/12 bg-slate-950/95 p-2 shadow-2xl backdrop-blur-2xl">
+        {suggestions.length ? grouped.map(([group, items]) => (
+          <div key={group} className="py-1">
+            <p className="px-3 py-1 text-[10px] font-black uppercase tracking-[0.22em] text-slate-500">{group}</p>
+            {items.map((item) => {
+              const index = suggestions.findIndex((candidate) => candidate.id === item.id);
+              return (
+                <button key={item.id} type="button" onMouseDown={(event) => event.preventDefault()} onClick={() => choose(item)} className={`w-full rounded-xl px-3 py-2 text-left transition ${active === index ? 'bg-cyan-400/15 text-white' : 'text-slate-200 hover:bg-white/10'}`}>
+                  <span className="block text-sm font-black">{item.label}</span>
+                  {item.detail && <span className="block truncate text-xs font-semibold text-slate-400">{item.detail}</span>}
+                </button>
+              );
+            })}
+          </div>
+        )) : <p className="px-4 py-6 text-center text-sm font-semibold text-slate-400">No matching results found.</p>}
+      </div>}
+    </div>
+  );
+}

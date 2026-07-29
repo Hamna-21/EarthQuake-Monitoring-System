@@ -56,10 +56,10 @@ export default function DetailsPage({ earthquakes, selectedEvent }: DashboardPro
 
         <div className="relative flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0">
-            <p className="flex items-center gap-2 font-mono text-[10px] font-black uppercase tracking-[0.28em] text-fuchsia-300">
+            <p className="flex items-center gap-2 font-serif text-[10px] font-black uppercase tracking-[0.28em] text-fuchsia-300">
               <RadioTower className="h-3.5 w-3.5" /> Earthquake Event Analysis
             </p>
-            <h1 className="mt-3 max-w-4xl break-words bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-amber-300 bg-clip-text font-serif text-3xl font-black italic tracking-tight text-transparent lg:text-5xl">
+            <h1 className="mt-3 max-w-4xl break-words bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-amber-300 bg-clip-text font-serif text-3xl font-black tracking-tight text-transparent lg:text-5xl">
   {event.place}
 </h1>
             <p className="mt-3 flex items-center gap-2 text-sm font-medium text-slate-400">
@@ -67,14 +67,14 @@ export default function DetailsPage({ earthquakes, selectedEvent }: DashboardPro
             </p>
           </div>
            <div className={`flex-shrink-0 rounded-2xl border px-8 py-6 text-center shadow-xl ${magnitudeStyle(event.magnitude)}`}>
-            <p className="font-mono text-[10px] font-black uppercase tracking-[0.22em] opacity-80">Magnitude</p>
+            <p className="font-serif text-[10px] font-black uppercase tracking-[0.22em] opacity-80">Magnitude</p>
             <strong className="mt-1 block text-6xl font-black tabular-nums">{event.magnitude.toFixed(1)}</strong>
           </div>
         </div>
       </div>
  {/* Quick stats — at-a-glance analysis */}
       <div>
-        <p className="mb-3 flex items-center gap-2 px-1 font-mono text-[10px] font-black uppercase tracking-[0.24em] text-slate-500">
+        <p className="mb-3 flex items-center gap-2 px-1 font-serif text-[10px] font-black uppercase tracking-[0.24em] text-slate-500">
           At a Glance
         </p>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
@@ -84,7 +84,7 @@ export default function DetailsPage({ earthquakes, selectedEvent }: DashboardPro
 
       {/* Full record — raw fields */}
       <div>
-        <p className="mb-3 flex items-center gap-2 px-1 font-mono text-[10px] font-black uppercase tracking-[0.24em] text-slate-500">
+        <p className="mb-3 flex items-center gap-2 px-1 font-serif text-[10px] font-black uppercase tracking-[0.24em] text-slate-500">
           Full Record
         </p>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">

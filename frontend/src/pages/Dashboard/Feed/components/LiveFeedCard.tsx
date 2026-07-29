@@ -12,13 +12,13 @@ const severityGlow = (m: number) => {
   return { glow: 'rgba(16,185,129,0.12)', ring: 'ring-emerald-400/10' };
 };
 
-export default function LiveFeedCard({ event, onDetails }: { event: Earthquake; onDetails: (event: Earthquake) => void }) {
+export default function LiveFeedCard({ event, onDetails, highlighted = false }: { event: Earthquake; onDetails: (event: Earthquake) => void; highlighted?: boolean }) {
   const share = async () => navigator.clipboard?.writeText(`${event.place} M ${event.magnitude.toFixed(1)} ${event.url}`);
   const severity = severityGlow(event.magnitude);
 
   return (
     <article
-      className={`group relative overflow-hidden rounded-2xl border border-white/12 bg-white/[0.08] p-5 shadow-sm ring-1 ${severity.ring} backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:shadow-xl`}
+      className={`group relative overflow-hidden rounded-2xl border bg-white/[0.08] p-5 shadow-sm ring-1 ${highlighted ? 'border-cyan-300 shadow-cyan-500/20' : 'border-white/12'} ${severity.ring} backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:shadow-xl`}
     >
       <div
         className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full blur-3xl transition-opacity duration-300 group-hover:opacity-150"
@@ -26,7 +26,7 @@ export default function LiveFeedCard({ event, onDetails }: { event: Earthquake; 
       />
 
       <div className="relative flex items-start gap-4">
-        <span className={`grid h-16 w-16 shrink-0 place-items-center rounded-2xl border font-serif text-xl font-black italic shadow-sm ${magnitudeStyle(event.magnitude)}`}>
+        <span className={`grid h-16 w-16 shrink-0 place-items-center rounded-2xl border font-serif text-xl font-black shadow-sm ${magnitudeStyle(event.magnitude)}`}>
           {event.magnitude.toFixed(1)}
         </span>
         <div className="min-w-0 flex-1">
@@ -74,8 +74,8 @@ function Info({ label, value, accent }: { label: string; value: string; accent: 
   return (
     <div className="relative overflow-hidden rounded-2xl bg-black/20 p-3 ring-1 ring-white/10">
       <span className={`absolute left-0 top-0 h-full w-1 bg-gradient-to-b ${accent}`} />
-      <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-slate-400">{label}</p>
-      <p className="mt-1 truncate font-mono font-black text-white">{value}</p>
+      <p className="font-serif text-[10px] font-bold uppercase tracking-widest text-slate-400">{label}</p>
+      <p className="mt-1 truncate font-serif font-black text-white">{value}</p>
     </div>
   );
 }

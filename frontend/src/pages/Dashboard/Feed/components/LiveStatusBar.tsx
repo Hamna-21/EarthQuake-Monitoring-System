@@ -28,8 +28,8 @@ function Status({ icon: Icon, label, value, gradient, tone, pulse }: {
         {pulse && <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 animate-pulse rounded-full border-2 border-white bg-white/90" />}
       </span>
       <div className="min-w-0">
-        <p className="font-mono text-[10px] font-bold uppercase tracking-widest text-slate-400">{label}</p>
-        <strong className={`block truncate font-mono text-sm font-black ${tone}`}>{value}</strong>
+        <p className="font-serif text-[10px] font-bold uppercase tracking-widest text-slate-400">{label}</p>
+        <strong className={`block truncate font-serif text-sm font-black ${tone}`}>{value}</strong>
       </div>
     </div>
   );

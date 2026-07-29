@@ -7,8 +7,8 @@ export default function LiveTimeline({ events }: { events: Earthquake[] }) {
     <aside className="relative overflow-hidden rounded-2xl border border-white/12 bg-white/[0.07] p-5 shadow-sm backdrop-blur">
       <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-gradient-to-br from-cyan-400/10 via-fuchsia-400/10 to-amber-400/10 blur-3xl" />
 
-      <p className="relative font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-200">As It Happens</p>
-      <h2 className="relative mt-1.5 font-serif text-xl font-black italic tracking-tight text-white">Live Timeline</h2>
+      <p className="relative font-serif text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-200">As It Happens</p>
+      <h2 className="relative mt-1.5 font-serif text-xl font-black tracking-tight text-white">Live Timeline</h2>
 
       {events.length > 0 ? (
         <div className="relative mt-5 space-y-4 border-l-2 border-dashed border-cyan-200/20 pl-4">
@@ -27,7 +27,7 @@ export default function LiveTimeline({ events }: { events: Earthquake[] }) {
                 </span>
                 <p className="font-serif text-sm font-black" style={{ color }}>M {event.magnitude.toFixed(1)}</p>
                 <p className="line-clamp-1 text-sm text-slate-300 transition-colors group-hover:text-white">{event.place}</p>
-                <p className="font-mono text-xs font-semibold text-slate-400">{fmtDate(event.time, 'UTC')}</p>
+                <p className="font-serif text-xs font-semibold text-slate-400">{fmtDate(event.time, 'UTC')}</p>
               </div>
             );
           })}

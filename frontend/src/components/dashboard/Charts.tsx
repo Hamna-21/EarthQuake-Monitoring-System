@@ -1,152 +1,89 @@
-import React from 'react';
 import { Earthquake } from '../../types';
-import { countryOf } from './data';
+import AnalyticsChartFrame from './charts/AnalyticsChartFrame';
+import { AreaChart, DonutChart, HorizontalBars, ScatterChart, VerticalBars } from './charts/SvgCharts';
+import { depthRows, magnitudeRows, regionRows, scatterPoints, timelineRows } from './charts/analyticsChartData';
 
-type Tone = 'cyan' | 'violet' | 'emerald' | 'amber';
+const top = <T extends { label: string; value: number }>(rows: T[]) =>
+  rows.reduce((best, row) => (row.value > best.value ? row : best), rows[0] ?? { label: 'No data', value: 0 });
 
-const TONE_STYLES: Record<Tone, { bar: string; track: string; text: string; chip: string; dot: string }> = {
-  cyan: {
-    bar: 'from-cyan-400 via-sky-500 to-blue-500',
-    track: 'bg-white/10',
-    text: 'text-cyan-200',
-    chip: 'bg-cyan-400/10 text-cyan-100 ring-1 ring-cyan-300/20',
-    dot: 'bg-gradient-to-br from-cyan-400 to-blue-500',
-  },
-  violet: {
-    bar: 'from-fuchsia-400 via-purple-500 to-violet-500',
-    track: 'bg-white/10',
-    text: 'text-fuchsia-200',
-    chip: 'bg-fuchsia-400/10 text-fuchsia-100 ring-1 ring-fuchsia-300/20',
-    dot: 'bg-gradient-to-br from-fuchsia-400 to-violet-500',
-  },
-  emerald: {
-    bar: 'from-emerald-400 via-teal-500 to-cyan-500',
-    track: 'bg-white/10',
-    text: 'text-emerald-200',
-    chip: 'bg-emerald-400/10 text-emerald-100 ring-1 ring-emerald-300/20',
-    dot: 'bg-gradient-to-br from-emerald-400 to-teal-500',
-  },
-  amber: {
-    bar: 'from-amber-400 via-orange-500 to-rose-500',
-    track: 'bg-white/10',
-    text: 'text-amber-200',
-    chip: 'bg-amber-400/10 text-amber-100 ring-1 ring-amber-300/20',
-    dot: 'bg-gradient-to-br from-amber-400 to-orange-500',
-  },
-};
-
-function Bar({ label, value, max, tone }: { label: string; value: number; max: number; tone: Tone }) {
-  const style = TONE_STYLES[tone];
-  const pct = max ? (value / max) * 100 : 0;
+export function TimelineChart({ events }: { events: Earthquake[] }) {
+  const rows = timelineRows(events);
+  const latest = rows.at(-1);
+  const peak = top(rows);
   return (
-    <div>
-      <div className="mb-1.5 flex items-center justify-between text-xs font-bold text-slate-300">
-        <span className="truncate pr-2">{label}</span>
-        <span className={`flex-shrink-0 rounded-full px-2 py-0.5 text-[11px] font-black ${style.chip}`}>{value}</span>
-      </div>
-      <div className={`h-3 overflow-hidden rounded-full ${style.track}`}>
-        <div
-          className={`h-full rounded-full bg-gradient-to-r ${style.bar} transition-all duration-500`}
-          style={{ width: `${pct}%` }}
-        />
-      </div>
-    </div>
+    <AnalyticsChartFrame
+      title="Earthquakes Over Recent Days"
+      subtitle="A simple line showing whether recent activity is going up, down, or staying steady."
+      takeaway={latest ? `Latest day shown: ${latest.value} earthquake${latest.value === 1 ? '' : 's'}. Highest recent day: ${peak.label} with ${peak.value}.` : 'No recent earthquake dates are available yet.'}
+      insight="This helps you quickly see if earthquake reports are clustering on certain days. A sudden high point means that day had more recorded activity than the surrounding days."
+      info="Each point is the number of earthquake records loaded for that date."
+      wide
+    >
+      <AreaChart rows={rows} />
+    </AnalyticsChartFrame>
   );
 }
 
 export function MagnitudeChart({ events }: { events: Earthquake[] }) {
-  const buckets = [0, 2, 4, 5, 6, 7].map((start, i, arr) => {
-    const end = arr[i + 1] ?? 10;
-    return { label: `M ${start}–${end}`, value: events.filter((e) => e.magnitude >= start && e.magnitude < end).length };
-  });
-  const max = Math.max(1, ...buckets.map((b) => b.value));
+  const rows = magnitudeRows(events);
+  const peak = top(rows);
   return (
-    <ChartCard title="Magnitude Distribution" subtitle="How many events fall in each magnitude band" tone="cyan">
-      {buckets.map((b) => (
-        <Bar key={b.label} label={b.label} value={b.value} max={max} tone="cyan" />
-      ))}
-    </ChartCard>
+    <AnalyticsChartFrame
+      title="How Strong Were the Earthquakes?"
+      subtitle="Earthquakes are grouped into everyday strength levels instead of technical ranges."
+      takeaway={`Most loaded earthquakes are “${peak.label}” events (${peak.value} records).`}
+      insight="Small and light earthquakes are common. Strong or major earthquakes matter more for safety, so they use warmer colors and are easier to spot."
+      info="Magnitude tells how much energy an earthquake released. Bigger numbers mean stronger earthquakes."
+    >
+      <VerticalBars rows={rows} />
+    </AnalyticsChartFrame>
   );
 }
 
 export function DepthChart({ events }: { events: Earthquake[] }) {
-  const ranges = [
-    [0, 35],
-    [35, 70],
-    [70, 150],
-    [150, 300],
-    [300, 700],
-  ].map(([a, b]) => ({ label: `${a}–${b} km`, value: events.filter((e) => e.depth >= a && e.depth < b).length }));
-  const max = Math.max(1, ...ranges.map((b) => b.value));
+  const rows = depthRows(events);
+  const peak = top(rows);
   return (
-    <ChartCard title="Depth Distribution" subtitle="Where events sit beneath the surface" tone="violet">
-      {ranges.map((b) => (
-        <Bar key={b.label} label={b.label} value={b.value} max={max} tone="violet" />
-      ))}
-    </ChartCard>
+    <AnalyticsChartFrame
+      title="How Deep Were the Earthquakes?"
+      subtitle="A simple ring chart showing whether earthquakes were near the surface or deeper underground."
+      takeaway={`Most events are ${peak.label.toLowerCase()} earthquakes (${peak.value} records).`}
+      insight="Near-surface earthquakes can feel stronger at ground level than deeper earthquakes of the same magnitude, so this view is useful for safety awareness."
+      info="Depth means how far below the Earth's surface the earthquake started."
+    >
+      <DonutChart rows={rows} />
+    </AnalyticsChartFrame>
   );
 }
 
 export function CountryChart({ events }: { events: Earthquake[] }) {
-  const counts = new Map<string, number>();
-  events.forEach((e) => counts.set(countryOf(e.place), (counts.get(countryOf(e.place)) || 0) + 1));
-  const rows = [...counts.entries()]
-    .filter(([c]) => c !== 'Not listed')
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 8);
-  const max = Math.max(1, ...rows.map((r) => r[1]));
+  const rows = regionRows(events);
+  const peak = top(rows);
   return (
-    <ChartCard title="Countries With Highest Activity" subtitle="Top 8 by recorded event count" tone="emerald">
-      {rows.map(([label, value]) => (
-        <Bar key={label} label={label} value={value} max={max} tone="emerald" />
-      ))}
-    </ChartCard>
+    <AnalyticsChartFrame
+      title="Where Are Earthquakes Happening Most?"
+      subtitle="Regions are ranked from most activity to least activity in the loaded data."
+      takeaway={peak.value ? `${peak.label} has the most earthquake records right now (${peak.value}).` : 'No region information is available in the loaded data.'}
+      insight="This makes it easy to identify the places that need the most attention without reading every earthquake record one by one."
+      info="Regions are estimated from the location text provided by the earthquake feed."
+    >
+      <HorizontalBars rows={rows} />
+    </AnalyticsChartFrame>
   );
 }
 
-export function TimelineChart({ events }: { events: Earthquake[] }) {
-  const counts = new Map<string, number>();
-  events.forEach((e) => {
-    const key = new Date(e.time).toISOString().slice(0, 10);
-    counts.set(key, (counts.get(key) || 0) + 1);
-  });
-  const rows = [...counts.entries()].sort().slice(-10);
-  const max = Math.max(1, ...rows.map((r) => r[1]));
+export function MagnitudeDepthChart({ events }: { events: Earthquake[] }) {
+  const points = scatterPoints(events);
+  const strongNearSurface = points.filter((p) => p.y >= 5 && p.x <= 70).length;
   return (
-    <ChartCard title="Activity Over Time" subtitle="Events per day, most recent 10 days" tone="amber">
-      {rows.map(([label, value]) => (
-        <Bar key={label} label={label} value={value} max={max} tone="amber" />
-      ))}
-    </ChartCard>
+    <AnalyticsChartFrame
+      title="Which Earthquakes Need More Attention?"
+      subtitle="Each dot is one earthquake. Higher dots are stronger; left-side dots are closer to the surface."
+      takeaway={`${strongNearSurface} loaded earthquake${strongNearSurface === 1 ? '' : 's'} are both stronger and near the surface.`}
+      insight="The most important dots are usually high and left: those earthquakes combine stronger shaking with shallower depth, which can increase impact near the epicenter."
+      info="Hover a dot to see its location, strength, and depth."
+    >
+      <ScatterChart points={points} />
+    </AnalyticsChartFrame>
   );
 }
-
-function ChartCard({
-  title,
-  subtitle,
-  tone,
-  children,
-}: {
-  title: string;
-  subtitle?: string;
-  tone: Tone;
-  children: React.ReactNode;
-}) {
-  const style = TONE_STYLES[tone];
-  return (
-    <section className="group relative overflow-hidden rounded-2xl border border-white/12 bg-white/[0.07] p-5 shadow-[0_24px_70px_rgba(0,0,0,0.24)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-cyan-300/25 sm:p-6">
-      <div className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br ${style.bar} opacity-[0.16] blur-2xl transition group-hover:opacity-25`} />
-
-      <div className="relative mb-5 flex items-start gap-2.5">
-        <span className={`mt-1.5 h-2.5 w-2.5 flex-shrink-0 rounded-full ${style.dot}`} />
-        <div>
-          <h3 className="text-base font-black text-white">{title}</h3>
-          {subtitle && <p className="mt-0.5 text-xs font-medium text-slate-400">{subtitle}</p>}
-        </div>
-      </div>
-
-      <div className="relative space-y-4">{children}</div>
-    </section>
-  );
-}
-

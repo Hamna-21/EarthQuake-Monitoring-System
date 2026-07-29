@@ -19,10 +19,10 @@ export default function LocationCard({ location, error, locating, onLocate }: Lo
 
       <div className="relative flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <div className="min-w-0">
-          <p className="flex items-center gap-2 font-mono text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">
+          <p className="flex items-center gap-2 font-serif text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">
             <MapPin className="h-3.5 w-3.5" /> Your Current Location
           </p>
-          <h2 className="mt-3 truncate bg-gradient-to-r from-cyan-300 via-sky-300 to-blue-300 bg-clip-text font-serif text-3xl font-black italic tracking-tight text-transparent">
+          <h2 className="mt-3 truncate bg-gradient-to-r from-cyan-300 via-sky-300 to-blue-300 bg-clip-text font-serif text-3xl font-black tracking-tight text-transparent">
             {title || 'Location pending'}
           </h2>
           {location && (

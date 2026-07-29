@@ -38,6 +38,8 @@ export type DashboardProps = {
   setSelectedId: (id: string | null) => void;
   setSelectedEvent?: (event: Earthquake | null) => void;
   openPage: (page: DashboardPage) => void;
+  globalSearch?: string;
+  highlightedEventId?: string | null;
 };
 
 export const defaultFilters: EventFilters = {

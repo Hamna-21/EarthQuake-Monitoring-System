@@ -23,8 +23,8 @@ export default function ActiveRegions({ earthquakes }: { earthquakes: Earthquake
     <section className="rounded-2xl border border-white/12 bg-white/[0.07] p-6 shadow-sm backdrop-blur">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-red-700">Seismic Analysis</p>
-          <h2 className="mt-1.5 font-serif text-2xl font-black italic tracking-tight text-white">
+          <p className="font-serif text-[10px] font-bold uppercase tracking-[0.3em] text-red-700">Seismic Analysis</p>
+          <h2 className="mt-1.5 font-serif text-2xl font-black tracking-tight text-white">
             Most Active Regions
           </h2>
         </div>
@@ -51,7 +51,7 @@ export default function ActiveRegions({ earthquakes }: { earthquakes: Earthquake
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full font-mono text-xs font-black ${style.badge}`}>
+                  <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full font-serif text-xs font-black ${style.badge}`}>
                     {i + 1}
                   </span>
 
@@ -60,12 +60,12 @@ export default function ActiveRegions({ earthquakes }: { earthquakes: Earthquake
                       <MapPin className="h-3.5 w-3.5 shrink-0 text-slate-400" />
                       <strong className="font-serif text-base font-black text-white">{country}</strong>
                       {isLeader && (
-                        <span className="ml-1 rounded-full bg-slate-950 px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wide text-white">
+                        <span className="ml-1 rounded-full bg-slate-950 px-1.5 py-0.5 font-serif text-[9px] font-bold uppercase tracking-wide text-white">
                           Leading
                         </span>
                       )}
                     </div>
-                    <span className="flex items-baseline gap-1 font-mono">
+                    <span className="flex items-baseline gap-1 font-serif">
                       <span className="text-sm font-black text-red-700">{count}</span>
                       {total > 0 && <span className="text-[10px] font-semibold text-slate-400">{pct}%</span>}
                     </span>

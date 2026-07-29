@@ -46,10 +46,10 @@ export default function MatchingRecordsPage({ earthquakes, setSelectedId, openPa
         <div className="pointer-events-none absolute right-1/3 top-0 h-32 w-32 rounded-full bg-amber-400/10 blur-3xl" />
 
         <div className="relative">
-          <p className="flex items-center gap-2 font-mono text-[10px] font-black uppercase tracking-[0.28em] text-fuchsia-300">
+          <p className="flex items-center gap-2 font-serif text-[10px] font-black uppercase tracking-[0.28em] text-fuchsia-300">
             <BellRing className="h-3.5 w-3.5" /> Alerts & Notifications
           </p>
-          <h1 className="mt-2 bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-amber-300 bg-clip-text font-serif text-2xl font-black italic tracking-tight text-transparent sm:text-3xl">
+          <h1 className="mt-2 bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-amber-300 bg-clip-text font-serif text-2xl font-black tracking-tight text-transparent sm:text-3xl">
             Records matching your rules
           </h1>
           <p className="mt-2 max-w-2xl text-sm font-medium text-slate-400">
@@ -74,12 +74,12 @@ export default function MatchingRecordsPage({ earthquakes, setSelectedId, openPa
                   <span className={`rounded-2xl border px-3 py-1.5 text-sm font-black ${magnitudeStyle(event.magnitude)}`}>
                     M {event.magnitude.toFixed(1)}
                   </span>
-                  <span className={`rounded-full border px-2.5 py-0.5 font-mono text-[10px] font-black uppercase tracking-wide ${alertStyle(event.alert)}`}>
+                  <span className={`rounded-full border px-2.5 py-0.5 font-serif text-[10px] font-black uppercase tracking-wide ${alertStyle(event.alert)}`}>
                     {event.alert ?? 'No alert'}
                   </span>
                 </div>
 
-                <h4 className="mt-3 truncate font-serif text-base font-black italic tracking-tight text-white" title={event.place}>
+                <h4 className="mt-3 truncate font-serif text-base font-black tracking-tight text-white" title={event.place}>
                   {event.place}
                 </h4>
                 <p className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-slate-300">

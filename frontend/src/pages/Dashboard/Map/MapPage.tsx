@@ -1,13 +1,14 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Compass, Radio } from 'lucide-react';
 import { Earthquake } from '../../../types';
 import MapCanvas, { FlyTarget, SearchPin, UserPosition } from '../../../components/dashboard/MapCanvas';
 import { MapTileKey } from '../../../components/dashboard/mapStyles';
 import { DashboardProps } from '../../../components/dashboard/types';
 import { RefreshNote } from '../../../components/dashboard/Shell';
+import { countryOf, fmtDate } from '../../../components/dashboard/data';
 import MapControlPanel from './components/MapControlPanel';
 
-export default function MapPage({ earthquakes, selectedEvent, setSelectedId, openPage, isLoading, dataError }: DashboardProps) {
+export default function MapPage({ earthquakes, selectedEvent, setSelectedId, openPage, isLoading, dataError, globalSearch = '' }: DashboardProps) {
   const [minMag, setMinMag] = useState(0);
   const [query, setQuery] = useState('');
   const [tile, setTile] = useState<MapTileKey>('dark');
@@ -22,9 +23,10 @@ export default function MapPage({ earthquakes, selectedEvent, setSelectedId, ope
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
 
+  useEffect(() => setQuery(globalSearch), [globalSearch]);
   const q = query.toLowerCase().trim();
   const events = useMemo(() => earthquakes.filter((event) => {
-    const text = `${event.place} ${event.magnitude} ${event.depth}`.toLowerCase();
+    const text = `${event.place} ${countryOf(event.place)} ${event.id} ${event.magnitude} ${event.depth} ${event.alert ?? ''} ${event.status} ${fmtDate(event.time, 'UTC')}`.toLowerCase();
     return event.magnitude >= minMag && (!q || text.includes(q));
   }), [earthquakes, minMag, q]);
   const select = (event: Earthquake) => setSelectedId(event.id);
@@ -91,10 +93,10 @@ export default function MapPage({ earthquakes, selectedEvent, setSelectedId, ope
         <div className="pointer-events-none absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-fuchsia-500/10 blur-3xl" />
 
         <div className="relative min-w-0">
-          <p className="flex items-center gap-2 font-mono text-[10px] font-black uppercase tracking-[0.28em] text-cyan-300">
+          <p className="flex items-center gap-2 font-serif text-[10px] font-black uppercase tracking-[0.28em] text-cyan-300">
             <Compass className="h-3.5 w-3.5" /> Global Earthquake Intelligence
           </p>
-          <h1 className="mt-1.5 truncate bg-gradient-to-r from-cyan-200 via-white to-fuchsia-200 bg-clip-text font-serif text-2xl font-black italic tracking-tight text-transparent sm:text-3xl">
+          <h1 className="mt-1.5 truncate bg-gradient-to-r from-cyan-200 via-white to-fuchsia-200 bg-clip-text font-serif text-2xl font-black tracking-tight text-transparent sm:text-3xl">
             The world, mapped in real time.
           </h1>
         </div>

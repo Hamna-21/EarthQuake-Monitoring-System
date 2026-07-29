@@ -2,18 +2,25 @@ import { useEffect, useMemo, useState } from 'react';
 import { Gauge } from 'lucide-react';
 import { Earthquake } from '../../../types';
 import { DashboardProps } from '../../../components/dashboard/types';
+import { countryOf, fmtDate } from '../../../components/dashboard/data';
 import AlertMatches from './components/AlertMatches';
 import AlertRuleForm from './components/AlertRuleForm';
 import AlertRulesList from './components/AlertRulesList';
 import { ALERT_RULES_KEY, Rule, loadRules, matchingRecords } from './alertRules';
 
-export default function AlertsPage({ earthquakes, setSelectedId, openPage }: DashboardProps) {
+export default function AlertsPage({ earthquakes, setSelectedId, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
   const [rules, setRules] = useState<Rule[]>(() => loadRules());
   const [name, setName] = useState('Magnitude watch');
   const [minMag, setMinMag] = useState(5.5);
   const [radiusKm, setRadiusKm] = useState(300);
   const [tsunamiOnly, setTsunamiOnly] = useState(false);
-  const matches = useMemo(() => matchingRecords(earthquakes, rules), [earthquakes, rules]);
+  const matches = useMemo(() => {
+    const q = globalSearch.trim().toLowerCase();
+    return matchingRecords(earthquakes, rules).filter((event) => {
+      const text = `${event.place} ${countryOf(event.place)} ${event.id} ${event.magnitude} ${event.alert ?? ''} ${event.status} ${fmtDate(event.time, 'UTC')}`.toLowerCase();
+      return !q || text.includes(q);
+    });
+  }, [earthquakes, rules, globalSearch]);
 
   useEffect(() => {
     try {
@@ -55,9 +62,9 @@ export default function AlertsPage({ earthquakes, setSelectedId, openPage }: Das
         <AlertRulesList rules={rules} removeRule={(id) => setRules((items) => items.filter((rule) => rule.id !== id))} />
       </section>
       <h3 className="mb-3 flex items-center gap-2 text-xl font-black text-white">
-        <Gauge className="h-5 w-5 text-cyan-200" /> Current Records Matching Rules
+        <Gauge className="h-5 w-5 text-cyan-200" /> Reports matching your rules
       </h3>
-      <AlertMatches matches={matches} onOpen={openEvent} />
+      <AlertMatches matches={matches} onOpen={openEvent} highlightedEventId={highlightedEventId} />
     </>
   );
 }

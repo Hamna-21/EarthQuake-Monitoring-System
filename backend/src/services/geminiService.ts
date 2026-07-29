@@ -30,6 +30,17 @@ function isQuotaError(err: any) {
   );
 }
 
+function isTransientModelError(err: any) {
+  return (
+    err?.status === 503 ||
+    err?.status === 500 ||
+    err?.message?.includes('503') ||
+    err?.message?.includes('500') ||
+    err?.message?.includes('UNAVAILABLE') ||
+    err?.message?.includes('high demand')
+  );
+}
+
 function isNotFoundError(err: any) {
   return (
     err?.status === 404 ||
@@ -49,9 +60,8 @@ async function callModel(ai: any, options: any, isStream: boolean) {
 }
 
 /**
- * Tries the requested model with short backoff retries on 429s,
- * then walks down MODEL_FALLBACK_CHAIN on either persistent 429s or a 404
- * (404 usually means the model name itself is retired/invalid).
+ * Tries the requested model with short backoff retries on temporary provider
+ * errors, then walks down MODEL_FALLBACK_CHAIN when a model stays unavailable.
  * Returns both the result and which model actually served it, so callers
  * can log/display the real model instead of assuming the first one worked.
  */
@@ -67,9 +77,7 @@ async function generateWithFallback(ai: any, options: any, isStream: boolean): P
     const model = chain[i];
     const attemptOptions = { ...options, model };
 
-    // A couple of quick backoff retries per model before moving on,
-    // since a 429 is often just a transient rate limit, not a dead model.
-    const maxRetries = 2;
+    const maxRetries = 3;
     for (let retry = 0; retry <= maxRetries; retry++) {
       try {
         const result = await callModel(ai, attemptOptions, isStream);
@@ -82,15 +90,15 @@ async function generateWithFallback(ai: any, options: any, isStream: boolean): P
           break; // move to next model, no point retrying a dead model name
         }
 
-        if (isQuotaError(err)) {
+        if (isQuotaError(err) || isTransientModelError(err)) {
           if (retry < maxRetries) {
-            const backoffMs = 500 * Math.pow(2, retry); // 500ms, 1s
-            console.warn(`Model "${model}" quota/429 hit. Retrying in ${backoffMs}ms...`);
+            const backoffMs = 700 * Math.pow(2, retry);
+            console.warn(`Model "${model}" temporarily unavailable. Retrying in ${backoffMs}ms...`);
             await sleep(backoffMs);
             continue;
           }
-          console.warn(`Model "${model}" still quota-limited after retries. Trying next model in chain...`);
-          break; // move to next model
+          console.warn(`Model "${model}" still unavailable after retries. Trying next model in chain...`);
+          break;
         }
 
         // Not a quota or 404 issue — don't keep retrying/falling back blindly.

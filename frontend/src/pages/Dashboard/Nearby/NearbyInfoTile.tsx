@@ -8,7 +8,7 @@ export default function NearbyInfoTile({
 }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-      <p className="flex items-center gap-1 font-mono text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">
+      <p className="flex items-center gap-1 font-serif text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">
         {icon}
         {label}
       </p>

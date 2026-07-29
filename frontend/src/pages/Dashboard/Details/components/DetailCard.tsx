@@ -28,11 +28,11 @@ export default function DetailCard({
         <span className={`grid h-8 w-8 flex-shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${gradient} text-white shadow-md ${glow}`}>
           {icon}
         </span>
-        <p className="truncate font-mono text-[10px] font-black uppercase tracking-[0.18em] text-slate-300">{label}</p>
+        <p className="truncate font-serif text-[10px] font-black uppercase tracking-[0.18em] text-slate-300">{label}</p>
       </div>
 
       <p
-        className={`relative mt-3 truncate bg-gradient-to-r ${gradient} bg-clip-text font-serif text-xl font-black italic tracking-tight text-transparent sm:text-2xl`}
+        className={`relative mt-3 truncate bg-gradient-to-r ${gradient} bg-clip-text font-serif text-xl font-black tracking-tight text-transparent sm:text-2xl`}
         title={value}
       >
         {value}

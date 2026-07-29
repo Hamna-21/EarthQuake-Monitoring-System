@@ -1,5 +1,5 @@
 export const ds = {
-  page: 'relative min-h-screen overflow-x-hidden bg-[#050814] text-white',
+  page: 'relative min-h-screen overflow-x-hidden bg-[#050814] font-serif text-white',
   surface: 'rounded-2xl border border-white/10 bg-white/[0.06] shadow-2xl shadow-black/20 backdrop-blur-2xl',
   surfaceDark: 'rounded-2xl border border-cyan-300/15 bg-slate-950/90 text-white shadow-[0_28px_90px_rgba(8,145,178,0.14)] backdrop-blur-xl',
   card: 'rounded-2xl border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/20 backdrop-blur-2xl transition duration-300 hover:-translate-y-1 hover:border-cyan-200/30 hover:bg-white/[0.09]',

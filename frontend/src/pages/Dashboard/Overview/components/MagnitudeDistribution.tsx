@@ -18,8 +18,8 @@ export default function MagnitudeDistribution({ earthquakes }: { earthquakes: Ea
     <section className="rounded-2xl border border-white/12 bg-white/[0.07] p-6 shadow-sm backdrop-blur">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-red-400">Seismic Analysis</p>
-          <h2 className="mt-1.5 font-serif text-2xl font-black italic tracking-tight text-white">
+          <p className="font-serif text-[10px] font-bold uppercase tracking-[0.3em] text-red-400">Seismic Analysis</p>
+          <h2 className="mt-1.5 font-serif text-2xl font-black tracking-tight text-white">
             Magnitude Distribution
           </h2>
         </div>
@@ -79,8 +79,8 @@ export default function MagnitudeDistribution({ earthquakes }: { earthquakes: Ea
               </div>
 
               <div className="text-right">
-                <span className={`font-mono text-sm font-bold ${countColor}`}>{count}</span>
-                {total > 0 && <span className={`ml-1 font-mono text-[10px] ${pctColor}`}>{pct}%</span>}
+                <span className={`font-serif text-sm font-bold ${countColor}`}>{count}</span>
+                {total > 0 && <span className={`ml-1 font-serif text-[10px] ${pctColor}`}>{pct}%</span>}
               </div>
             </div>
           );

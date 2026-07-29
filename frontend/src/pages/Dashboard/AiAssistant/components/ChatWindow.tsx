@@ -31,7 +31,7 @@ function MarkdownContent({ text }: { text: string }) {
         ul: ({ children }) => <ul className="mb-2 ml-4 list-disc space-y-1 marker:text-cyan-300">{children}</ul>,
         ol: ({ children }) => <ol className="mb-2 ml-4 list-decimal space-y-1 marker:text-cyan-300">{children}</ol>,
         li: ({ children }) => <li className="pl-1">{children}</li>,
-        code: ({ children }) => <code className="rounded bg-cyan-500/10 px-1.5 py-0.5 font-mono text-xs text-cyan-100">{children}</code>,
+        code: ({ children }) => <code className="rounded bg-cyan-500/10 px-1.5 py-0.5 font-serif text-xs text-cyan-100">{children}</code>,
         pre: ({ children }) => <pre className="my-2 overflow-x-auto rounded-2xl border border-white/10 bg-black/25 p-3">{children}</pre>,
         table: ({ children }) => <div className="my-2 overflow-x-auto rounded-2xl border border-white/10"><table className="w-full border-collapse text-left text-xs">{children}</table></div>,
         th: ({ children }) => <th className="border-b border-white/10 px-3 py-2 font-bold text-cyan-200">{children}</th>,

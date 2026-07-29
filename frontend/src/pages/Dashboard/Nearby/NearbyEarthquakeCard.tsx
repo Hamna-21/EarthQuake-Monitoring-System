@@ -10,9 +10,10 @@ type NearbyEvent = Earthquake & { distance: number; direction: string };
 interface NearbyEarthquakeCardProps {
   event: NearbyEvent;
   onSelect: (event: Earthquake) => void;
+  highlighted?: boolean;
 }
 
-export default function NearbyEarthquakeCard({ event, onSelect }: NearbyEarthquakeCardProps) {
+export default function NearbyEarthquakeCard({ event, onSelect, highlighted = false }: NearbyEarthquakeCardProps) {
   const place = placeParts(event.place);
 
   const severity =
@@ -41,7 +42,7 @@ export default function NearbyEarthquakeCard({ event, onSelect }: NearbyEarthqua
 
   return (
     <article
-      className={`group relative overflow-hidden rounded-2xl border ${severity.border} bg-gradient-to-br ${severity.tint} p-5 shadow-2xl shadow-black/20 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-cyan-200/30 hover:shadow-xl`}
+      className={`group relative overflow-hidden rounded-2xl border ${highlighted ? 'border-cyan-300 shadow-cyan-500/20' : severity.border} bg-gradient-to-br ${severity.tint} p-5 shadow-2xl shadow-black/20 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-cyan-200/30 hover:shadow-xl`}
     >
       <div className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full ${severity.glow} blur-3xl transition-opacity group-hover:opacity-80`} />
 
@@ -49,18 +50,18 @@ export default function NearbyEarthquakeCard({ event, onSelect }: NearbyEarthqua
         <span className={`rounded-2xl border px-4 py-3 text-xl font-black ${magnitudeStyle(event.magnitude)}`}>
           M {event.magnitude.toFixed(1)}
         </span>
-        <span className={`rounded-full border px-3 py-1 font-mono text-[11px] font-black tracking-wide ${distanceStyle(event.distance)}`}>
+        <span className={`rounded-full border px-3 py-1 font-serif text-[11px] font-black tracking-wide ${distanceStyle(event.distance)}`}>
           {event.distance.toFixed(0)} KM AWAY
         </span>
       </div>
 
       <h3
-        className={`relative mt-5 truncate bg-gradient-to-r ${severity.gradient} bg-clip-text font-serif text-2xl font-black italic tracking-tight text-transparent`}
+        className={`relative mt-5 truncate bg-gradient-to-r ${severity.gradient} bg-clip-text font-serif text-2xl font-black tracking-tight text-transparent`}
         title={place.city}
       >
         {place.city}
       </h3>
-      <p className="relative mt-1 flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wide text-slate-300">
+      <p className="relative mt-1 flex items-center gap-1.5 font-serif text-xs font-bold uppercase tracking-wide text-slate-300">
         {place.country}
         <Compass className="h-3.5 w-3.5 text-violet-500" />
         {event.direction}
@@ -80,7 +81,7 @@ export default function NearbyEarthquakeCard({ event, onSelect }: NearbyEarthqua
 
       <button
         onClick={() => onSelect(event)}
-        className={`relative mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r ${severity.gradient} px-4 py-3 font-mono text-xs font-black uppercase tracking-[0.14em] text-white shadow-md transition hover:brightness-110 active:scale-95`}
+        className={`relative mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r ${severity.gradient} px-4 py-3 font-serif text-xs font-black uppercase tracking-[0.14em] text-white shadow-md transition hover:brightness-110 active:scale-95`}
       >
         View Details <ArrowUpRight className="h-4 w-4" />
       </button>

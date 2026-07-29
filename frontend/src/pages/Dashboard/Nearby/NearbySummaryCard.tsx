@@ -15,9 +15,9 @@ export default function NearbySummaryCard({
         <span className={`grid h-8 w-8 flex-shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${gradient} text-white shadow-md`}>
           {icon}
         </span>
-        <p className="font-mono text-[10px] font-black uppercase tracking-[0.18em] text-slate-300">{label}</p>
+        <p className="font-serif text-[10px] font-black uppercase tracking-[0.18em] text-slate-300">{label}</p>
       </div>
-      <strong className="relative mt-3 block font-serif text-3xl font-black italic tracking-tight text-white">
+      <strong className="relative mt-3 block font-serif text-3xl font-black tracking-tight text-white">
         {value}
       </strong>
     </article>

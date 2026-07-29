@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Earthquake } from '../../../types';
 import { fetchHistoricalEarthquakes } from '../../../utils/usgsApi';
 import { DataTable } from '../../../components/dashboard/ui';
@@ -9,7 +9,7 @@ import HistoryHeader from './components/HistoryHeader';
 import { HistoryFilters } from './components/HistoryFilters';
 import HistoryMetrics from './components/HistoryMetrics';
 
-export default function HistoryPage({ selectedEvent, setSelectedId, setSelectedEvent, openPage }: DashboardProps) {
+export default function HistoryPage({ selectedEvent, setSelectedId, setSelectedEvent, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
   const now = new Date().toISOString().slice(0, 10);
   const [startDate, setStartDate] = useState('2026-01-01');
   const [endDate, setEndDate] = useState(now);
@@ -19,6 +19,7 @@ export default function HistoryPage({ selectedEvent, setSelectedId, setSelectedE
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const stats = statsFor(events);
+  useEffect(() => setQuery(globalSearch), [globalSearch]);
 
   const search = async () => {
     setLoading(true);
@@ -63,7 +64,7 @@ export default function HistoryPage({ selectedEvent, setSelectedId, setSelectedE
       <section className="mb-6 overflow-hidden rounded-2xl border border-rose-500/20 shadow-2xl">
         <MapCanvas events={events} selectedId={selectedEvent?.id ?? null} onSelect={select} />
       </section>
-      <DataTable events={events} onSelect={select} />
+      <DataTable events={events} onSelect={select} highlightedEventId={highlightedEventId} />
     </>
   );
 }

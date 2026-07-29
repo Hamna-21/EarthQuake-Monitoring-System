@@ -54,6 +54,8 @@ export async function chatController(req: any, res: Response) {
     res.end();
   } catch (err: any) {
     console.error('Chat controller error:', err);
+    const fallback =
+      "GeoPulse AI is temporarily busy because the model provider is under high demand. Please try again in a moment. Your dashboard, maps, earthquake data, and safety tools are still available while the AI connection recovers.";
     logChatRequest({
       question: message,
       responseTimeMs: Date.now() - startTime,
@@ -61,7 +63,8 @@ export async function chatController(req: any, res: Response) {
       model: modelUsed,
       timestamp: Date.now()
     });
-    res.write(`data: ${JSON.stringify({ error: 'An error occurred while generating response.' })}\n\n`);
+    res.write(`data: ${JSON.stringify({ text: fallback })}\n\n`);
+    res.write(`data: [DONE]\n\n`);
     res.end();
   }
 }

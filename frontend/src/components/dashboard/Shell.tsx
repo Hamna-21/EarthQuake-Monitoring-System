@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Activity, AlertCircle, BarChart3, Bell, ChevronLeft, Clock, Globe2, History, Home, List, LocateFixed, LogOut, Map, Search, ShieldAlert, User, Bot } from 'lucide-react';
+import { Activity, AlertCircle, BarChart3, Bell, Bot, ChevronLeft, Clock, Globe2, History, Home, List, LocateFixed, LogOut, Map, ShieldAlert, User } from 'lucide-react';
 import { DashboardPage } from './types';
 import PageTitle from './PageTitle';
 import RefreshNote from './RefreshNote';
+import DashboardSearch, { SearchSuggestion } from './DashboardSearch';
 import { ds } from './designSystem';
 
 const nav = [
@@ -24,6 +25,12 @@ type Props = {
   userName: string | null;
   onLogout: () => void;
   onOpenWarningHub: () => void;
+  searchValue: string;
+  suggestions: SearchSuggestion[];
+  onSearchChange: (value: string) => void;
+  onSearchClear: () => void;
+  onSearchOpen: (suggestion: SearchSuggestion) => void;
+  onSearchSubmit: () => void;
   children: React.ReactNode;
 };
 
@@ -68,7 +75,7 @@ export default function Shell(props: Props) {
       </aside>
       <div className={`transition-all ${collapsed ? 'lg:pl-32' : 'lg:pl-[336px]'}`}>
         {!assistantMode && <header className="sticky top-4 z-20 mx-4 mt-4 flex min-h-16 items-center justify-between rounded-2xl border border-white/12 bg-white/[0.07] px-4 shadow-[0_18px_60px_rgba(0,0,0,0.28)] backdrop-blur-2xl md:px-6">
-          <div className="hidden items-center gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-2 transition hover:border-cyan-300/25 md:flex"><Search className="h-4 w-4 text-cyan-200" /><span className="text-sm font-semibold text-slate-300">Search earthquakes, countries, actions</span></div>
+          <DashboardSearch value={props.searchValue} suggestions={props.suggestions} onChange={props.onSearchChange} onClear={props.onSearchClear} onOpen={props.onSearchOpen} onSubmit={props.onSearchSubmit} />
           <div className="flex items-center gap-3"><Globe2 className="h-5 w-5 text-red-400" /><span className="text-sm font-black text-white">Online</span><Clock className="h-4 w-4 text-slate-400" /><span className="text-sm font-semibold text-slate-300">{new Date().toLocaleTimeString()}</span></div>
           <button onClick={props.onOpenWarningHub} className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-red-700 via-orange-500 to-amber-400 px-4 py-2 text-sm font-bold text-white shadow-lg shadow-red-500/25 transition hover:-translate-y-0.5 hover:brightness-110"><ShieldAlert className="h-4 w-4" /> Safety</button>
         </header>}

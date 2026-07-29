@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Radar, Target, Gauge } from 'lucide-react';
 import { Earthquake } from '../../../types';
-import { haversineKm } from '../../../components/dashboard/data';
+import { countryOf, fmtDate, haversineKm } from '../../../components/dashboard/data';
 import { DashboardProps } from '../../../components/dashboard/types';
 import EmptyState from '../../../components/dashboard/EmptyState';
 import LocationCard from './LocationCard';
@@ -10,7 +10,7 @@ import RadiusControl from './RadiusControl';
 import { UserLocation, directionFromUser, reverseLocation } from './nearbyUtils';
 import NearbySummaryCard from './NearbySummaryCard';
 
-export default function NearbyPage({ earthquakes, setSelectedId, openPage }: DashboardProps) {
+export default function NearbyPage({ earthquakes, setSelectedId, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
   const [location, setLocation] = useState<UserLocation | null>(null);
   const [radius, setRadius] = useState(200);
   const [locating, setLocating] = useState(false);
@@ -45,6 +45,7 @@ export default function NearbyPage({ earthquakes, setSelectedId, openPage }: Das
 
   const nearby = useMemo(() => {
     if (!location) return [];
+    const q = globalSearch.trim().toLowerCase();
     return earthquakes
       .map((event) => {
         const distance = haversineKm(location, { lat: event.latitude, lon: event.longitude });
@@ -54,9 +55,12 @@ export default function NearbyPage({ earthquakes, setSelectedId, openPage }: Das
           direction: directionFromUser(event.latitude - location.lat, event.longitude - location.lon),
         };
       })
-      .filter((event) => event.distance <= radius)
+      .filter((event) => {
+        const text = `${event.place} ${countryOf(event.place)} ${event.id} ${event.magnitude} ${event.alert ?? ''} ${event.status} ${fmtDate(event.time, 'UTC')}`.toLowerCase();
+        return event.distance <= radius && (!q || text.includes(q));
+      })
       .sort((a, b) => a.distance - b.distance);
-  }, [earthquakes, location, radius]);
+  }, [earthquakes, location, radius, globalSearch]);
 
   const select = (event: Earthquake) => {
     setSelectedId(event.id);
@@ -99,7 +103,7 @@ export default function NearbyPage({ earthquakes, setSelectedId, openPage }: Das
         <EmptyState title="No Nearby Earthquakes" text="No loaded earthquake records fall inside the selected radius." />
       ) : (
         <div className="grid gap-5 lg:grid-cols-2 2xl:grid-cols-3">
-          {nearby.map((event) => <NearbyEarthquakeCard key={event.id} event={event} onSelect={select} />)}
+          {nearby.map((event) => <NearbyEarthquakeCard key={event.id} event={event} highlighted={event.id === highlightedEventId} onSelect={select} />)}
         </div>
       )}
     </section>

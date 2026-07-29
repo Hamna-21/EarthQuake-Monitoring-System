@@ -20,12 +20,12 @@ export default function ActivitySummary({ earthquakes }: { earthquakes: Earthqua
 
       <div className="relative flex flex-col items-center text-center">
         <p
-          className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.3em]"
+          className="flex items-center gap-2 font-serif text-[10px] font-bold uppercase tracking-[0.3em]"
           style={{ color: tier.ring }}
         >
           <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: tier.ring }} />
           Risk Index
-          <span className={`ml-1 rounded-full border px-2 py-0.5 font-mono text-[10px] font-bold ${tier.chip}`}>
+          <span className={`ml-1 rounded-full border px-2 py-0.5 font-serif text-[10px] font-bold ${tier.chip}`}>
             {tier.word}
           </span>
         </p>
@@ -45,7 +45,7 @@ export default function ActivitySummary({ earthquakes }: { earthquakes: Earthqua
           </div>
         </div>
 
-        <h2 className="mt-5 font-serif text-3xl font-black italic tracking-tight" style={{ color: tier.ring }}>
+        <h2 className="mt-5 font-serif text-3xl font-black tracking-tight" style={{ color: tier.ring }}>
           {tier.label}
         </h2>
         <p className="mt-2 max-w-sm text-sm leading-relaxed text-slate-500">
@@ -65,7 +65,7 @@ export default function ActivitySummary({ earthquakes }: { earthquakes: Earthqua
             className="relative -mt-[9px] h-4 w-4 rounded-full border-2 border-white shadow-sm transition-all duration-700"
             style={{ marginLeft: `calc(${score}% - 8px)`, backgroundColor: tier.ring, boxShadow: `0 0 8px 2px ${tier.glow}` }}
           />
-          <div className="mt-2 flex items-center justify-between font-mono text-[10px] font-bold uppercase tracking-wide text-slate-400">
+          <div className="mt-2 flex items-center justify-between font-serif text-[10px] font-bold uppercase tracking-wide text-slate-400">
             <span>Calm</span>
             <span>Critical</span>
           </div>

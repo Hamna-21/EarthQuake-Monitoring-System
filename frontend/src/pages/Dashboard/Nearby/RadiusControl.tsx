@@ -16,7 +16,7 @@ interface RadiusControlProps {
 export default function RadiusControl({ radius, onChange }: RadiusControlProps) {
   return (
     <div className="rounded-2xl border border-white/12 bg-white/[0.07] p-4 shadow-sm backdrop-blur">
-      <p className="flex items-center gap-2 font-mono text-[10px] font-black uppercase tracking-[0.18em] text-slate-500">
+      <p className="flex items-center gap-2 font-serif text-[10px] font-black uppercase tracking-[0.18em] text-slate-500">
         <Radar className="h-3.5 w-3.5 text-violet-500" /> Search Radius
       </p>
       <div className="mt-3 flex flex-wrap gap-2">
