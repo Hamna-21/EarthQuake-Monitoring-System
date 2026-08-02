@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Activity, AlertCircle, BarChart3, Bell, Bot, ChevronLeft, Clock, Globe2, History, Home, List, LocateFixed, LogOut, Map, ShieldAlert, User } from 'lucide-react';
+import { Activity, AlertCircle, BarChart3, Bell, Bot, ChevronLeft, Clock, Globe2, History, Home, List, LocateFixed, LogOut, Map, MapPinned, ShieldAlert, User } from 'lucide-react';
 import { DashboardPage } from './types';
-import PageTitle from './PageTitle';
 import RefreshNote from './RefreshNote';
 import DashboardSearch, { SearchSuggestion } from './DashboardSearch';
 import { ds } from './designSystem';
@@ -11,6 +10,7 @@ const nav = [
   ['feed', List, 'Live Feed', 'Operations'],
   ['map', Map, 'Global Map', 'Monitoring'],
   ['history', History, 'Historical', 'Analysis'],
+  ['pakistan_history', MapPinned, 'Pakistan Seismic History', 'Analysis'],
   ['analytics', BarChart3, 'Analytics', 'Analysis'],
   ['details', AlertCircle, 'Details', 'Analysis'],
   ['ai_assistant', Bot, 'AI Assistant', 'Analysis'],
@@ -85,6 +85,6 @@ export default function Shell(props: Props) {
   );
 }
 
-export { PageTitle, RefreshNote };
+export { RefreshNote };
 
 

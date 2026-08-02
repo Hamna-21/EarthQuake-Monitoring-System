@@ -5,7 +5,7 @@ import { CountryChart, DepthChart, MagnitudeChart, MagnitudeDepthChart, Timeline
 import { RefreshNote } from '../../../components/dashboard/Shell';
 import AnalyticsStatCard from './AnalyticsStatCard';
 
-export default function AnalyticsPage({ earthquakes, isLoading, dataError, globalSearch = '' }: DashboardProps) {
+export default function AnalyticsPage({ earthquakes, isLoading, dataError, lastUpdated, globalSearch = '' }: DashboardProps) {
   const q = globalSearch.trim().toLowerCase();
   const events = q ? earthquakes.filter((event) => `${event.place} ${countryOf(event.place)} ${event.id} ${event.magnitude} ${event.alert ?? ''} ${event.status} ${fmtDate(event.time, 'UTC')}`.toLowerCase().includes(q)) : earthquakes;
   const stats = statsFor(events);
@@ -32,7 +32,7 @@ export default function AnalyticsPage({ earthquakes, isLoading, dataError, globa
         </div>
       </div>
 
-      <RefreshNote isLoading={isLoading} error={dataError} />
+      <RefreshNote isLoading={isLoading} error={dataError} lastUpdated={lastUpdated} />
 
       {/* Metric strip */}
       <section className="mb-6 mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-5">

@@ -1,5 +1,6 @@
 import { Activity } from 'lucide-react';
 import AuthStats from './AuthStats';
+import earthTexture from '../../../../assets/earth/earth-day.jpg';
 
 export default function AuthVisualPanel() {
   return (
@@ -40,7 +41,7 @@ export default function AuthVisualPanel() {
 
       <style>{`
         .earth-texture {
-         background-image: url('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg');
+          background-image: url('${earthTexture}');
           background-size: 200% 100%;
           background-repeat: repeat-x;
           animation: earthRotate 18s linear infinite;

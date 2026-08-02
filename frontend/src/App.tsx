@@ -14,6 +14,7 @@ export default function App() {
     earthquakes,
     isSearching,
     dataError,
+    lastUpdated,
     isWarningHubOpen,
     setIsWarningHubOpen,
     loadSeismicData,
@@ -56,6 +57,7 @@ export default function App() {
         onOpenWarningHub={() => setIsWarningHubOpen(true)}
         isLoading={isSearching}
         dataError={dataError}
+        lastUpdated={lastUpdated}
         onRefresh={() => loadSeismicData(filters)}
       />
     );

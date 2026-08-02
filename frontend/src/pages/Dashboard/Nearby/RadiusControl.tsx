@@ -1,9 +1,8 @@
 import { Radar } from 'lucide-react';
 
 const radii = [
-  { km: 50, gradient: 'from-emerald-500 to-teal-600' },
   { km: 100, gradient: 'from-cyan-500 to-sky-600' },
-  { km: 200, gradient: 'from-violet-500 to-fuchsia-600' },
+  { km: 250, gradient: 'from-violet-500 to-fuchsia-600' },
   { km: 500, gradient: 'from-amber-500 to-orange-600' },
   { km: 1000, gradient: 'from-rose-500 to-red-600' },
 ];

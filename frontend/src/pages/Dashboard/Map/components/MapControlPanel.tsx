@@ -1,4 +1,4 @@
-import { Sparkles } from 'lucide-react';
+import { Maximize2, RotateCcw, Sparkles } from 'lucide-react';
 import { MapTileKey } from '../../../../components/dashboard/mapStyles';
 import { Panel } from '../../../../components/dashboard/panelstat';
 import MapControlPanelHeader from './MapControlPanelHeader';
@@ -25,6 +25,8 @@ interface MapControlPanelProps {
   onLocateMe: () => void;
   isLocating: boolean;
   locateError: string | null;
+  onResetMap: () => void;
+  onFullscreenMap: () => void;
 }
 
 export default function MapControlPanel(props: MapControlPanelProps) {
@@ -44,6 +46,17 @@ export default function MapControlPanel(props: MapControlPanelProps) {
         </Section>
         <MapStyleControl tile={props.tile} onTile={props.onTile} />
         <MapOverlayControls heat={props.heat} plates={props.plates} onHeat={props.onHeat} onPlates={props.onPlates} />
+        <Section
+          label="Map view"
+          icon={<RotateCcw className="h-3.5 w-3.5 text-cyan-300" />}
+          tint="from-cyan-500/10 to-blue-500/10"
+          border="border-cyan-400/20"
+        >
+          <div className="grid grid-cols-2 gap-2">
+            <MapButton icon={<RotateCcw className="h-4 w-4" />} label="Reset" onClick={props.onResetMap} />
+            <MapButton icon={<Maximize2 className="h-4 w-4" />} label="Full" onClick={props.onFullscreenMap} />
+          </div>
+        </Section>
       </div>
     </Panel>
   );
@@ -51,6 +64,10 @@ export default function MapControlPanel(props: MapControlPanelProps) {
 
 function Section({ label, icon, trailing, tint, border, className, children }: { label?: string; icon?: React.ReactNode; trailing?: React.ReactNode; tint?: string; border?: string; className?: string; children: React.ReactNode; }) {
   return <div className={`rounded-2xl border ${border ?? 'border-white/10'} bg-gradient-to-br ${tint ?? 'from-white/5 to-white/0'} p-3 ${className ?? ''}`}>{label && <div className="mb-2 flex items-center justify-between"><span className="flex items-center gap-1.5 font-serif text-[11px] font-bold uppercase tracking-wide text-slate-300">{icon}{label}</span>{trailing}</div>}{children}</div>;
+}
+
+function MapButton({ icon, label, onClick }: { icon: React.ReactNode; label: string; onClick: () => void }) {
+  return <button type="button" onClick={onClick} className="flex items-center justify-center gap-1.5 rounded-2xl bg-white/8 px-2 py-2.5 font-serif text-xs font-black text-cyan-100 transition hover:bg-cyan-400/15">{icon}{label}</button>;
 }
 
 

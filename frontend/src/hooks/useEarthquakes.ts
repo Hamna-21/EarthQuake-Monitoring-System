@@ -14,6 +14,7 @@ export function useEarthquakes() {
   const [earthquakes, setEarthquakes] = useState<Earthquake[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [dataError, setDataError] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<number | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isWarningHubOpen, setIsWarningHubOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -25,6 +26,7 @@ export function useEarthquakes() {
     try {
       const data = await fetchEarthquakes(activeFilters);
       setEarthquakes(data);
+      setLastUpdated(Date.now());
 
       if (data.length > 0) {
         setSelectedId(data[0].id);
@@ -81,6 +83,7 @@ export function useEarthquakes() {
     setEarthquakes,
     isSearching,
     dataError,
+    lastUpdated,
     selectedId,
     setSelectedId,
     isWarningHubOpen,

@@ -35,7 +35,7 @@ export default function MatchingRecordsPage({ earthquakes, setSelectedId, openPa
 
   const matches = useMemo(() => {
     if (!rules.length) return [];
-    return earthquakes.filter((e) => rules.some((r) => e.magnitude >= r.minMag && (!r.tsunamiOnly || e.tsunami === 1)));
+    return earthquakes.filter((e) => rules.some((r) => e.magnitude >= r.minMag && (!r.tsunamiOnly || e.tsunami)));
   }, [earthquakes, rules]);
 
   return (

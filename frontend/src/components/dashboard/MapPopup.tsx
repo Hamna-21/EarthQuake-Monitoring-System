@@ -1,95 +1,84 @@
-import { Earthquake } from '../../types';
-import { alertStyle, depthStyle } from './colors';
-import { countryOf, fmtDate } from './data';
-import Badge from './Badge';
+import { CalendarDays, Clock3, Gauge } from 'lucide-react';
+import type { Earthquake } from '../../types';
 
 interface MapPopupProps {
   event: Earthquake;
+  isStrongest?: boolean;
   onSelect: (event: Earthquake) => void;
   onDetails?: (event: Earthquake) => void;
 }
 
-function regionOf(place: string) {
-  const parts = place.split(',').map((part) => part.trim()).filter(Boolean);
-  return parts.length > 1 ? parts.slice(0, -1).join(', ') : place;
+function splitDateTime(time: string) {
+  const parsed = Date.parse(time);
+  if (!Number.isFinite(parsed)) return { date: 'Unavailable', clock: 'Unavailable' };
+  const eventDate = new Date(parsed);
+  return {
+    date: new Intl.DateTimeFormat('en', {
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }).format(eventDate),
+    clock: `${new Intl.DateTimeFormat('en', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'UTC',
+    }).format(eventDate)} UTC`,
+  };
 }
 
-export default function MapPopup({ event, onSelect, onDetails }: MapPopupProps) {
-  const risk = event.magnitude >= 6 ? 'High' : event.magnitude >= 5 ? 'Moderate' : 'Low';
-  const riskTone =
-    event.magnitude >= 6 ? 'text-rose-600' : event.magnitude >= 5 ? 'text-amber-600' : 'text-emerald-600';
-  const tierGradient =
-    event.magnitude >= 6
-      ? 'from-rose-400 via-red-400 to-orange-400'
-      : event.magnitude >= 5
-      ? 'from-amber-300 via-orange-400 to-rose-400'
-      : 'from-emerald-300 via-teal-400 to-cyan-400';
-  const tierSoftBg =
-    event.magnitude >= 6 ? 'bg-rose-500/10' : event.magnitude >= 5 ? 'bg-amber-500/10' : 'bg-emerald-500/10';
+export default function MapPopup({ event, isStrongest = false, onSelect, onDetails }: MapPopupProps) {
+  const { date, clock } = splitDateTime(event.time);
+  const openDetails = () => {
+    onSelect(event);
+    onDetails?.(event);
+  };
 
   return (
-    <div className="w-[620px] max-w-[92vw] overflow-hidden rounded-2xl border border-white/10 bg-slate-950/95 text-slate-100 shadow-2xl shadow-black/30 backdrop-blur-2xl ring-1 ring-cyan-300/10">
-      <div className={`h-1.5 w-full bg-gradient-to-r ${tierGradient}`} />
+    <article className={`w-[190px] max-w-[72vw] rounded-lg border ${isStrongest ? 'border-red-400/45' : 'border-cyan-500/20'} bg-[#071321] p-2 font-serif text-white shadow-2xl shadow-black/40`}>
+      {isStrongest && (
+        <div className="mb-1.5 rounded-md bg-red-500/15 px-2 py-0.5 text-[7px] font-black uppercase tracking-[0.1em] text-red-200">
+          Strongest in View
+        </div>
+      )}
+      <p className="text-[8px] font-black uppercase tracking-[0.2em] text-cyan-300/70">Location</p>
+      <h3 className="mt-1 line-clamp-2 min-h-[30px] text-[11px] font-black leading-snug text-slate-100">
+        {event.place || 'Unknown location'}
+      </h3>
 
-      {/* Single horizontal row: dial | place | stats | action */}
-      <div className="flex items-center gap-3 p-3">
-        {/* Magnitude dial — compact square, not a tall column */}
-        <div className={`flex h-20 w-20 flex-shrink-0 flex-col items-center justify-center gap-0.5 rounded-2xl bg-gradient-to-br ${tierGradient} shadow-md`}>
-          <span className="text-[9px] font-black uppercase tracking-widest text-white/85">Mag</span>
-          <span className="text-2xl font-black leading-none text-white">{event.magnitude.toFixed(1)}</span>
-          <span className="mt-0.5 rounded-full bg-white/90 px-1.5 py-0.5 text-[8px] font-black uppercase text-slate-700">
-            {risk}
+      <div className="mt-2 space-y-1.5">
+        <InfoRow icon={<Gauge />} label="Magnitude">
+          <span className="rounded-full bg-teal-400 px-2 py-0.5 text-[10px] font-black text-white shadow-sm shadow-teal-900/40">
+            M {event.magnitude.toFixed(1)}
           </span>
-        </div>
-
-        {/* Place name + country + alert badge */}
-        <div className="w-36 min-w-0 flex-shrink-0 border-l border-white/10 pl-3">
-          <h3 className="line-clamp-2 text-[13px] font-black leading-tight text-white" title={regionOf(event.place)}>
-            {regionOf(event.place)}
-          </h3>
-          <p className="mt-0.5 truncate text-[11px] font-semibold text-cyan-600">{countryOf(event.place)}</p>
-          <Badge className={`${alertStyle(event.alert)} mt-1 inline-block`}>{event.alert ?? 'No Alert'}</Badge>
-        </div>
-
-        {/* Compact inline stat chips — no more stacked boxes */}
-        <div className="flex flex-1 flex-wrap items-center gap-2 border-l border-white/10 pl-3">
-          <Stat label="Depth" value={`${event.depth.toFixed(1)} km`} tone={depthStyle(event.depth)} bg={tierSoftBg} />
-          <Stat label="Risk" value={risk} tone={riskTone} bg={tierSoftBg} />
-          <Stat label="Time" value={fmtDate(event.time, 'UTC')} bg={tierSoftBg} />
-          <Stat label="Lat / Lng" value={`${event.latitude.toFixed(2)}, ${event.longitude.toFixed(2)}`} bg={tierSoftBg} />
-        </div>
-
-        {/* Action button — fixed width, sits at the end of the row */}
-        <button
-          onClick={() => (onDetails ?? onSelect)(event)}
-          className={`flex-shrink-0 rounded-2xl bg-gradient-to-r ${tierGradient} px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.12em] text-white shadow-md transition hover:brightness-105`}
-        >
-          Details
-        </button>
+        </InfoRow>
+        <InfoRow icon={<CalendarDays />} label="Date">
+          <span>{date}</span>
+        </InfoRow>
+        <InfoRow icon={<Clock3 />} label="Time">
+          <span>{clock}</span>
+        </InfoRow>
       </div>
-    </div>
+
+      <button
+        type="button"
+        onClick={openDetails}
+        className="mt-2 w-full rounded-md bg-teal-400 px-3 py-1.5 text-[9px] font-black text-white shadow-lg shadow-teal-950/40 transition hover:bg-teal-300 focus:outline-none focus:ring-2 focus:ring-teal-200"
+      >
+        View Details
+      </button>
+    </article>
   );
 }
 
-function Stat({
-  label,
-  value,
-  tone = 'text-slate-100',
-  bg = 'bg-white/10',
-}: {
-  label: string;
-  value: string;
-  tone?: string;
-  bg?: string;
-}) {
+function InfoRow({ icon, label, children }: { icon?: React.ReactElement; label: string; children: React.ReactNode }) {
   return (
-    <div className={`rounded-2xl ${bg} px-2.5 py-1.5 ring-1 ring-white/10`}>
-      <p className="text-[8px] font-bold uppercase tracking-widest text-slate-400">{label}</p>
-      <p className={`whitespace-nowrap text-[11px] font-black ${tone}`} title={value}>
-        {value}
-      </p>
+    <div className="flex min-h-[32px] items-center justify-between gap-2 rounded-md bg-white/[0.06] px-2 py-1.5">
+      <span className="flex min-w-0 items-center gap-1.5 text-[8px] font-black uppercase tracking-[0.12em] text-slate-400">
+        {icon && <span className="text-slate-500 [&>svg]:h-3 [&>svg]:w-3">{icon}</span>}
+        {label}
+      </span>
+      <span className="shrink-0 text-[10px] font-black text-slate-100">{children}</span>
     </div>
   );
 }
-
-

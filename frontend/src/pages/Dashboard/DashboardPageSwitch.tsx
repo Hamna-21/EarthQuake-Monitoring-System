@@ -5,6 +5,7 @@ import AnalyticsPage from './Analytics/AnalyticsPage';
 import DetailsPage from './Details/DetailsPage';
 import FeedPage from './Feed/FeedPage';
 import HistoryPage from './History/HistoryPage';
+import PakistanHistoryPage from './History/PakistanHistoryPage';
 import MapPage from './Map/MapPage';
 import NearbyPage from './Nearby/NearbyPage';
 import OverviewPage from './Overview/OverviewPage';
@@ -18,10 +19,11 @@ type Props = {
 };
 
 export default function DashboardPageSwitch({ page, pageProps, userName, userEmail, search }: Props) {
-  if (page === 'overview') return <OverviewPage {...pageProps} searchQuery={search} />;
+  if (page === 'overview') return <OverviewPage {...pageProps} searchQuery={search} userName={userName} />;
   if (page === 'feed') return <FeedPage {...pageProps} />;
   if (page === 'map') return <MapPage {...pageProps} />;
   if (page === 'history') return <HistoryPage {...pageProps} />;
+  if (page === 'pakistan_history') return <PakistanHistoryPage {...pageProps} />;
   if (page === 'analytics') return <AnalyticsPage {...pageProps} />;
   if (page === 'details') return <DetailsPage {...pageProps} />;
   if (page === 'nearby') return <NearbyPage {...pageProps} />;

@@ -8,7 +8,7 @@ import LiveTimeline from './components/LiveTimeline';
 import FeedHeader from './components/FeedHeader';
 import FeedFilters from './components/FeedFilters';
 
-export default function FeedPage({ earthquakes, isLoading, dataError, setSelectedId, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
+export default function FeedPage({ earthquakes, isLoading, dataError, lastUpdated, setSelectedId, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
   const [filters, setFilters] = useState<EventFilters>(defaultFilters);
   const [sort, setSort] = useState<SortState>({ key: 'time', direction: 'desc' });
   const events = useMemo(() => sortEvents(filterEvents(earthquakes, filters), sort), [earthquakes, filters, sort]);
@@ -27,7 +27,7 @@ export default function FeedPage({ earthquakes, isLoading, dataError, setSelecte
   return (
     <section className="space-y-6">
       <FeedHeader />
-      <RefreshNote isLoading={isLoading} error={dataError} />
+      <RefreshNote isLoading={isLoading} error={dataError} lastUpdated={lastUpdated} />
       <LiveStatusBar count={events.length} isLoading={isLoading} error={dataError} />
       <FeedFilters filters={filters} sort={sort} onFilter={update} onSort={setSort} onExport={exportCsv} disabled={!events.length} />
       <div className="grid gap-6 xl:grid-cols-[1fr_340px]">

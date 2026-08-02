@@ -1,14 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { Send, Square } from 'lucide-react';
 import VoiceInputButton from './VoiceInputButton';
+import GeoPulseMascot from '../../../../components/dashboard/GeoPulseMascot';
 
 interface ChatInputProps {
   onSend: (message: string) => void;
   onStop: () => void;
   isLoading: boolean;
+  onVoiceState?: (state: string) => void;
 }
 
-export default function ChatInput({ onSend, onStop, isLoading }: ChatInputProps) {
+export default function ChatInput({ onSend, onStop, isLoading, onVoiceState }: ChatInputProps) {
   const [input, setInput] = useState('');
   const [voiceError, setVoiceError] = useState<string | null>(null);
   const [stopSignal, setStopSignal] = useState(0);
@@ -19,7 +21,10 @@ export default function ChatInput({ onSend, onStop, isLoading }: ChatInputProps)
     onSend(input);
     setInput('');
   };
-
+  const updateVoiceStatus = (state: string) => {
+    setVoiceStatus(state);
+    onVoiceState?.(state);
+  };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     submit();
@@ -37,7 +42,7 @@ export default function ChatInput({ onSend, onStop, isLoading }: ChatInputProps)
           rows={1}
           onChange={(e) => {
             setStopSignal((value) => value + 1);
-            setVoiceStatus('Microphone Off');
+            updateVoiceStatus('Microphone Off');
             setInput(e.target.value);
           }}
           onKeyDown={(e) => {
@@ -54,13 +59,14 @@ export default function ChatInput({ onSend, onStop, isLoading }: ChatInputProps)
           disabled={isLoading}
           stopSignal={stopSignal}
           onError={setVoiceError}
-          onState={setVoiceStatus}
+          onState={updateVoiceStatus}
           onBegin={() => { voiceBaseRef.current = input.trim(); }}
           onText={(text) => {
             const base = voiceBaseRef.current;
             setInput(`${base ? `${base} ` : ''}${text}`.trim());
           }}
         />
+        <GeoPulseMascot size="sm" className="hidden self-center md:inline-grid" />
         {isLoading ? (
           <button type="button" onClick={onStop} className="inline-flex h-12 min-w-24 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-red-600 to-orange-500 px-5 text-sm font-black text-white shadow-lg shadow-red-900/30 transition hover:-translate-y-0.5 hover:brightness-110">
             <Square className="h-4 w-4" /> Stop

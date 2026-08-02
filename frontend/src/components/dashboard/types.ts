@@ -5,6 +5,7 @@ export type DashboardPage =
   | 'feed'
   | 'map'
   | 'history'
+  | 'pakistan_history'
   | 'analytics'
   | 'details'
   | 'nearby'
@@ -34,6 +35,7 @@ export type DashboardProps = {
   earthquakes: Earthquake[];
   isLoading: boolean;
   dataError: string | null;
+  lastUpdated?: number | null;
   selectedEvent: Earthquake | null;
   setSelectedId: (id: string | null) => void;
   setSelectedEvent?: (event: Earthquake | null) => void;

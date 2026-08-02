@@ -1,6 +1,8 @@
 import { SeismicFilters } from '../types';
 
 export const EARTHQUAKE_API_URL = 'https://earthquake.usgs.gov/fdsnws/event/1/query';
+export const LIVE_EARTHQUAKE_API_URL = '/api/earthquakes';
+export const HISTORICAL_EARTHQUAKE_API_URL = '/api/earthquakes/history';
 
 export function getTimeRangeParams(timeframe: string): { starttime: string } {
   const now = new Date();
@@ -14,13 +16,11 @@ export function getTimeRangeParams(timeframe: string): { starttime: string } {
 }
 
 export function buildLiveQuery(filters: SeismicFilters) {
-  const { starttime } = getTimeRangeParams(filters.timeframe);
   return new URLSearchParams({
-    format: 'geojson',
-    starttime,
-    minmagnitude: filters.minMagnitude.toString(),
+    timeframe: filters.timeframe,
+    minMagnitude: filters.minMagnitude.toString(),
+    region: filters.region,
     limit: '150',
-    orderby: 'time',
   });
 }
 
@@ -29,17 +29,28 @@ export function buildHistoricalQuery(params: {
   endDate: string;
   minMagnitude: number;
   maxMagnitude?: number;
+  minDepth?: number;
+  maxDepth?: number;
+  region?: string;
+  mode?: 'global' | 'pakistan';
+  query?: string;
+  sort?: string;
+  page?: number;
+  limit?: number;
 }) {
   const queryParams = new URLSearchParams({
-    format: 'geojson',
-    starttime: params.startDate,
-    endtime: params.endDate,
-    minmagnitude: params.minMagnitude.toString(),
-    limit: '20000',
-    orderby: 'time',
+    startDate: params.startDate,
+    endDate: params.endDate,
+    minMagnitude: params.minMagnitude.toString(),
+    mode: params.mode ?? 'global',
+    region: params.mode ?? params.region ?? 'global',
+    query: params.query ?? '',
+    sort: params.sort ?? 'time',
+    page: String(params.page ?? 1),
+    limit: String(params.limit ?? 50),
   });
-  if (params.maxMagnitude !== undefined) {
-    queryParams.set('maxmagnitude', params.maxMagnitude.toString());
-  }
+  if (params.maxMagnitude !== undefined) queryParams.set('maxMagnitude', params.maxMagnitude.toString());
+  if (params.minDepth !== undefined) queryParams.set('minDepth', params.minDepth.toString());
+  if (params.maxDepth !== undefined) queryParams.set('maxDepth', params.maxDepth.toString());
   return queryParams;
 }

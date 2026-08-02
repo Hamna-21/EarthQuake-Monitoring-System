@@ -7,6 +7,7 @@ export const dashboardPages = [
   ['feed', 'Live Feed', 'Real-time earthquake records'],
   ['map', 'Global Map', 'Earthquake map and markers'],
   ['history', 'Historical', 'Historical earthquake explorer'],
+  ['pakistan_history', 'Pakistan Seismic History', 'Verified earthquakes inside Pakistan'],
   ['analytics', 'Analytics', 'Charts and seismic insights'],
   ['details', 'Details', 'Selected earthquake report'],
   ['nearby', 'Nearby', 'Earthquakes around your location'],

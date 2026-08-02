@@ -1,10 +1,8 @@
 import { useMemo, useRef, useState } from 'react';
-import { Bot, Copy, RefreshCw, RotateCcw, Sparkles, Square, Trash2 } from 'lucide-react';
 import { DashboardProps } from '../../../components/dashboard/types';
 import ChatWindow from './components/ChatWindow';
 import ChatInput from './components/ChatInput';
-import AssistantAction from './components/AssistantAction';
-import VoiceReplyToggle from './components/VoiceReplyToggle';
+import AssistantHeader from './components/AssistantHeader';
 import { ChatMessage, streamChatResponse } from '../../../utils/chatApi';
 
 type Props = DashboardProps & { userName: string | null; userEmail: string | null };
@@ -74,27 +72,18 @@ export default function AiAssistantPage({ earthquakes, selectedEvent, userName, 
 
   return (
     <section className="relative flex h-full min-h-0 w-full flex-col overflow-hidden rounded-2xl border border-cyan-300/20 bg-[radial-gradient(circle_at_15%_0%,rgba(34,211,238,0.20),transparent_32%),radial-gradient(circle_at_85%_10%,rgba(244,63,94,0.18),transparent_30%),linear-gradient(135deg,rgba(15,23,42,0.92),rgba(2,6,23,0.84))] shadow-[0_28px_100px_rgba(0,0,0,0.36)] backdrop-blur-xl">
-      <header className="shrink-0 border-b border-white/10 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-rose-500/10 px-5 py-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-cyan-400 via-blue-500 to-violet-500 shadow-lg shadow-cyan-950/40">
-              <Bot className="h-5 w-5 text-white" />
-            </span>
-            <div>
-              <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.24em] text-cyan-200"><Sparkles className="h-3 w-3" /> GeoPulse AI Assistant</p>
-              <h1 className="mt-1 text-2xl font-black tracking-tight text-white">Seismic Guidance Assistant</h1>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <VoiceReplyToggle enabled={voiceReply} onToggle={() => setVoiceReply((value) => !value)} />
-            <AssistantAction onClick={clearChat} icon={<RotateCcw className="h-4 w-4" />} label="New Chat" />
-            <AssistantAction onClick={copyLast} icon={<Copy className="h-4 w-4" />} label="Copy" disabled={!messages.some((m) => m.role === 'assistant')} />
-            <AssistantAction onClick={regenerate} icon={<RefreshCw className="h-4 w-4" />} label="Regenerate" disabled={!lastUserMessage || isLoading} />
-            <AssistantAction onClick={clearChat} icon={<Trash2 className="h-4 w-4" />} label="Clear Chat" disabled={!messages.length && !error} />
-            <AssistantAction onClick={stop} icon={<Square className="h-4 w-4" />} label="Stop" disabled={!isLoading} danger />
-          </div>
-        </div>
-      </header>
+      <AssistantHeader
+        voiceReply={voiceReply}
+        hasAssistantMessage={messages.some((m) => m.role === 'assistant')} hasMessages={Boolean(messages.length)} hasLastUserMessage={Boolean(lastUserMessage)}
+        isLoading={isLoading}
+        hasError={Boolean(error)}
+        onToggleVoice={() => setVoiceReply((value) => !value)}
+        onNewChat={clearChat}
+        onCopy={copyLast}
+        onRegenerate={regenerate}
+        onClear={clearChat}
+        onStop={stop}
+      />
       <ChatWindow messages={messages} isLoading={isLoading} userName={displayName} error={error} voiceReplyEnabled={voiceReply} />
       <footer className="shrink-0 border-t border-white/10 bg-slate-950/40 p-4">
         <ChatInput onSend={ask} isLoading={isLoading} onStop={stop} />

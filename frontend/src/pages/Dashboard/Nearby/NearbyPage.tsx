@@ -12,11 +12,15 @@ import NearbySummaryCard from './NearbySummaryCard';
 
 export default function NearbyPage({ earthquakes, setSelectedId, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
   const [location, setLocation] = useState<UserLocation | null>(null);
-  const [radius, setRadius] = useState(200);
+  const [radius, setRadius] = useState(250);
   const [locating, setLocating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const locate = () => {
+    if (!navigator.geolocation) {
+      setError('Your browser does not support location access.');
+      return;
+    }
     setLocating(true);
     setError(null);
     navigator.geolocation.getCurrentPosition(
@@ -32,7 +36,7 @@ export default function NearbyPage({ earthquakes, setSelectedId, openPage, globa
         }
       },
       (err) => {
-        setError(err.message);
+        setError(err.code === err.PERMISSION_DENIED ? 'Location permission was denied.' : 'Unable to find your location.');
         setLocating(false);
       },
       { enableHighAccuracy: true, timeout: 12000 }

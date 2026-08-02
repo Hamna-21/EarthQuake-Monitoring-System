@@ -13,7 +13,7 @@ const severityGlow = (m: number) => {
 };
 
 export default function LiveFeedCard({ event, onDetails, highlighted = false }: { event: Earthquake; onDetails: (event: Earthquake) => void; highlighted?: boolean }) {
-  const share = async () => navigator.clipboard?.writeText(`${event.place} M ${event.magnitude.toFixed(1)} ${event.url}`);
+  const share = async () => navigator.clipboard?.writeText(`${event.place} M ${event.magnitude.toFixed(1)} ${event.url ?? event.detailUrl ?? ''}`);
   const severity = severityGlow(event.magnitude);
 
   return (

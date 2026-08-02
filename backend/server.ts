@@ -5,6 +5,7 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import authRoutes from "./src/routes/authRoutes";
 import chatRoutes from "./src/routes/chatRoutes";
+import earthquakeRoutes from "./src/routes/earthquakeRoutes";
 import { googleCallback } from "./src/controllers/authController";
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json());
 // API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/earthquakes", earthquakeRoutes);
 
 // Real Google OAuth redirect callback (top-level route)
 app.get("/auth/callback", googleCallback);

@@ -1,3 +1,28 @@
+import type { Earthquake } from '../types/earthquake';
+
+type UsgsFeature = {
+  id: string;
+  properties: Record<string, any>;
+  geometry: { coordinates: number[] };
+};
+
+const mapFeatureToEarthquake = (f: UsgsFeature): Earthquake => ({
+  id: f.id,
+  place: f.properties.place ?? 'Unknown location',
+  magnitude: Number(f.properties.mag ?? 0),
+  time: new Date(Number(f.properties.time)).toISOString(),
+  updatedAt: new Date(Number(f.properties.updated ?? f.properties.time)).toISOString(),
+  depth: Number(f.geometry.coordinates[2]),
+  latitude: Number(f.geometry.coordinates[1]),
+  longitude: Number(f.geometry.coordinates[0]),
+  alert: ['green', 'yellow', 'orange', 'red'].includes(f.properties.alert) ? f.properties.alert : null,
+  tsunami: f.properties.tsunami === 1,
+  felt: f.properties.felt ?? null,
+  status: f.properties.status ?? 'unknown',
+  source: 'USGS',
+  detailUrl: f.properties.detail ?? f.properties.url,
+});
+
 export async function getLatestEarthquakes(args: { minMagnitude?: number; limit?: number }) {
   try {
     const minMag = args.minMagnitude ?? 2.5;
@@ -6,12 +31,7 @@ export async function getLatestEarthquakes(args: { minMagnitude?: number; limit?
     const response = await fetch(url);
     if (!response.ok) throw new Error('USGS fetch failed');
     const data: any = await response.json();
-    return data.features.map((f: any) => ({
-      place: f.properties.place,
-      magnitude: f.properties.mag,
-      time: new Date(f.properties.time).toISOString(),
-      depthKm: f.geometry.coordinates[2]
-    }));
+    return data.features.map(mapFeatureToEarthquake);
   } catch (err) {
     return { error: 'Failed to fetch latest earthquakes from USGS' };
   }

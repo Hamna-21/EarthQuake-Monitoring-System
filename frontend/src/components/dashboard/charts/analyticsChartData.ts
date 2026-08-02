@@ -1,4 +1,4 @@
-import { Earthquake } from '../../../types';
+import type { Earthquake } from '../../../types';
 import { countryOf } from '../data';
 
 export type Row = { label: string; value: number; color?: string; help?: string };
@@ -25,7 +25,10 @@ export const depthRows = (events: Earthquake[]): Row[] => [
 
 export const regionRows = (events: Earthquake[]): Row[] => {
   const counts = new Map<string, number>();
-  events.forEach((e) => counts.set(countryOf(e.place), (counts.get(countryOf(e.place)) || 0) + 1));
+  events.forEach((e) => {
+    const country = countryOf(e.place);
+    counts.set(country, (counts.get(country) || 0) + 1);
+  });
   return [...counts.entries()].filter(([x]) => x !== 'Not listed').sort((a, b) => b[1] - a[1]).slice(0, 7)
     .map(([label, value]) => ({ label, value, color: '#34d399' }));
 };
@@ -33,10 +36,19 @@ export const regionRows = (events: Earthquake[]): Row[] => {
 export const timelineRows = (events: Earthquake[]): Row[] => {
   const counts = new Map<string, number>();
   events.forEach((e) => {
-    const key = new Date(e.time).toLocaleDateString('en', { month: 'short', day: '2-digit' });
+    const parsed = Date.parse(e.time);
+    if (!Number.isFinite(parsed)) return;
+    const key = new Date(parsed).toISOString().slice(0, 10);
     counts.set(key, (counts.get(key) || 0) + 1);
   });
-  return [...counts.entries()].slice(-14).map(([label, value]) => ({ label, value, color: '#f59e0b' }));
+  return [...counts.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .slice(-14)
+    .map(([date, value]) => ({
+      label: new Date(`${date}T00:00:00Z`).toLocaleDateString('en', { month: 'short', day: '2-digit', timeZone: 'UTC' }),
+      value,
+      color: '#f59e0b',
+    }));
 };
 
 export const scatterPoints = (events: Earthquake[]): Point[] =>

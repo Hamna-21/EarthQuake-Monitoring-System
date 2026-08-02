@@ -22,7 +22,7 @@ export function loadRules(): Rule[] {
 export function matchingRecords(earthquakes: Earthquake[], rules: Rule[]) {
   if (!rules.length) return [];
   return earthquakes
-    .filter((event) => rules.some((rule) => event.magnitude >= rule.minMag && (!rule.tsunamiOnly || event.tsunami === 1)))
+    .filter((event) => rules.some((rule) => event.magnitude >= rule.minMag && (!rule.tsunamiOnly || event.tsunami)))
     .slice(0, 10);
 }
 

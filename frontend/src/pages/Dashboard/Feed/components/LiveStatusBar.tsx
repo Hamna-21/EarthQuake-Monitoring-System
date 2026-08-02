@@ -10,7 +10,7 @@ export default function LiveStatusBar({ count, isLoading, error }: LiveStatusBar
   const connected = !error;
   return (
     <section className="grid gap-3 font-serif rounded-2xl border border-white/12 bg-white/[0.07] p-4 shadow-sm backdrop-blur md:grid-cols-4">
-      <Status icon={Activity} label="Earthquakes Today" value={count} gradient="from-red-500 to-orange-500" tone="text-red-200" pulse />
+      <Status icon={Activity} label="Loaded Events" value={count} gradient="from-red-500 to-orange-500" tone="text-red-200" pulse />
       <Status icon={Wifi} label="Status" value={connected ? 'Connected' : 'Disconnected'} gradient={connected ? 'from-emerald-400 to-teal-500' : 'from-red-500 to-rose-600'} tone={connected ? 'text-emerald-200' : 'text-red-200'} />
       <Status icon={Clock} label="Last Updated" value={new Date().toLocaleTimeString()} gradient="from-violet-400 to-fuchsia-500" tone="text-violet-200" />
       <Status icon={RadioTower} label="Monitoring" value={isLoading ? 'Refreshing' : 'Live'} gradient="from-cyan-400 to-blue-500" tone="text-cyan-200" pulse={isLoading} />

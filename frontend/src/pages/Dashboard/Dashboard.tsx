@@ -14,6 +14,7 @@ interface UserDashboardProps {
   onOpenWarningHub: () => void;
   isLoading: boolean;
   dataError: string | null;
+  lastUpdated: number | null;
   onRefresh: () => void;
 }
 
@@ -63,6 +64,7 @@ export default function Dashboard(props: UserDashboardProps) {
     earthquakes: props.earthquakes,
     isLoading: props.isLoading,
     dataError: props.dataError,
+    lastUpdated: props.lastUpdated,
     selectedEvent,
     setSelectedId: selectLiveEvent,
     setSelectedEvent: setSelectedHistoryEvent,
