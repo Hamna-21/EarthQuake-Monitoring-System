@@ -1,6 +1,6 @@
 import type { EarthquakeRecord } from './earthquakeService';
 
-const pakistanBoundary: Array<[number, number]> = [
+export const pakistanBoundary: Array<[number, number]> = [
   [61.0, 25.0], [61.4, 28.4], [62.4, 29.5], [64.0, 29.6],
   [65.6, 30.6], [67.3, 31.2], [68.3, 32.4], [69.4, 33.2],
   [70.4, 34.3], [71.2, 35.4], [72.4, 36.3], [73.8, 37.0],

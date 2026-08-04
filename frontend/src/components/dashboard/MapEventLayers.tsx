@@ -10,9 +10,10 @@ interface MapEventLayersProps {
   heat: boolean;
   onSelect: (event: Earthquake) => void;
   onDetails?: (event: Earthquake) => void;
+  popupMode?: 'compact' | 'historical';
 }
 
-export default function MapEventLayers({ events, strongestIds, heat, onSelect, onDetails }: MapEventLayersProps) {
+export default function MapEventLayers({ events, strongestIds, heat, onSelect, onDetails, popupMode }: MapEventLayersProps) {
   return (
     <>
       {events.slice(0, 500).map((event) => {
@@ -30,7 +31,7 @@ export default function MapEventLayers({ events, strongestIds, heat, onSelect, o
             }}
             eventHandlers={{ click: () => onSelect(event) }}
           >
-            <EventPopup event={event} isStrongest={isStrongest} onSelect={onSelect} onDetails={onDetails} />
+            <EventPopup event={event} isStrongest={isStrongest} onSelect={onSelect} onDetails={onDetails} popupMode={popupMode} />
           </CircleMarker>
         ) : (
           <Marker
@@ -39,7 +40,7 @@ export default function MapEventLayers({ events, strongestIds, heat, onSelect, o
             icon={rippleIcon(event, isStrongest)}
             eventHandlers={{ click: () => onSelect(event) }}
           >
-            <EventPopup event={event} isStrongest={isStrongest} onSelect={onSelect} onDetails={onDetails} />
+            <EventPopup event={event} isStrongest={isStrongest} onSelect={onSelect} onDetails={onDetails} popupMode={popupMode} />
           </Marker>
         );
       })}
@@ -52,21 +53,22 @@ interface EventPopupProps {
   isStrongest: boolean;
   onSelect: (event: Earthquake) => void;
   onDetails?: (event: Earthquake) => void;
+  popupMode?: 'compact' | 'historical';
 }
 
-function EventPopup({ event, isStrongest, onSelect, onDetails }: EventPopupProps) {
+function EventPopup({ event, isStrongest, onSelect, onDetails, popupMode }: EventPopupProps) {
   return (
     <Popup
       className={`geopulse-popup quake-popup ${isStrongest ? 'tier-strongest' : tierClass(event.magnitude)}`}
       minWidth={190}
-      maxWidth={210}
+      maxWidth={popupMode === 'historical' ? 250 : 210}
       autoPan
       autoPanPaddingTopLeft={[20, 40]}
       autoPanPaddingBottomRight={[20, 20]}
       closeButton={false}
       eventHandlers={{ add: repositionPopup }}
     >
-      <MapPopup event={event} isStrongest={isStrongest} onSelect={onSelect} onDetails={onDetails} />
+      <MapPopup event={event} isStrongest={isStrongest} onSelect={onSelect} onDetails={onDetails} mode={popupMode} />
     </Popup>
   );
 }

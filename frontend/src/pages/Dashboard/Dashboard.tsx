@@ -5,6 +5,7 @@ import { DashboardPage } from '../../components/dashboard/types';
 import { SearchSuggestion } from '../../components/dashboard/DashboardSearch';
 import { buildSuggestions, readRecentSearches, syncSearchParam, writeRecentSearches } from './dashboardSearchUtils';
 import DashboardPageSwitch from './DashboardPageSwitch';
+import { normalizeDashboardPath, pageFromPath, pathForPage } from './dashboardRoutes';
 
 interface UserDashboardProps {
   userEmail: string | null;
@@ -19,7 +20,10 @@ interface UserDashboardProps {
 }
 
 export default function Dashboard(props: UserDashboardProps) {
-  const [page, setPage] = useState<DashboardPage>('overview');
+  const [page, setPage] = useState<DashboardPage>(() => {
+    normalizeDashboardPath();
+    return pageFromPath(window.location.pathname);
+  });
   const [globalSearch, setGlobalSearch] = useState(() => new URLSearchParams(window.location.search).get('search') ?? '');
   const [recentSearches, setRecentSearches] = useState<string[]>(readRecentSearches);
   const [selectedId, setSelectedId] = useState<string | null>(props.earthquakes[0]?.id ?? null);
@@ -46,12 +50,21 @@ export default function Dashboard(props: UserDashboardProps) {
     setRecentSearches(next);
     writeRecentSearches(next);
   };
+  const openPage = (next: DashboardPage) => {
+    setPage(next);
+    window.history.pushState(null, '', `${pathForPage(next)}${window.location.search}`);
+  };
+  useEffect(() => {
+    const onPop = () => setPage(pageFromPath(window.location.pathname));
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
   const openSuggestion = (item: SearchSuggestion) => {
     remember(globalSearch || item.label);
-    if (item.id.startsWith('page:')) return setPage(item.id.replace('page:', '') as DashboardPage);
-    if (item.id.startsWith('quake:')) { setSelectedHistoryEvent(null); setSelectedId(item.id.replace('quake:', '')); return setPage('details'); }
+    if (item.id.startsWith('page:')) return openPage(item.id.replace('page:', '') as DashboardPage);
+    if (item.id.startsWith('quake:')) { setSelectedHistoryEvent(null); setSelectedId(item.id.replace('quake:', '')); return openPage('details'); }
     setGlobalSearch(item.label);
-    setPage('map');
+    openPage('map');
   };
   const submitSearch = () => {
     remember(globalSearch);
@@ -68,7 +81,7 @@ export default function Dashboard(props: UserDashboardProps) {
     selectedEvent,
     setSelectedId: selectLiveEvent,
     setSelectedEvent: setSelectedHistoryEvent,
-    openPage: setPage,
+    openPage,
     globalSearch,
     highlightedEventId: selectedId
   };
@@ -76,7 +89,7 @@ export default function Dashboard(props: UserDashboardProps) {
   return (
     <Shell
       page={page}
-      setPage={setPage}
+      setPage={openPage}
       userEmail={props.userEmail}
       userName={props.userName}
       onLogout={props.onLogout}

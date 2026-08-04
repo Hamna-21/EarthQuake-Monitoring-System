@@ -42,7 +42,35 @@ export function DonutChart({ rows }: { rows: Row[] }) {
 export function HorizontalBars({ rows }: { rows: Row[] }) {
   if (!rows.length) return empty;
   const max = Math.max(1, ...rows.map((r) => r.value));
-  return <div className="space-y-4">{rows.map((r, i) => <div key={r.label} className="rounded-2xl bg-black/20 p-3"><div className="mb-2 flex items-center justify-between gap-3"><span className="truncate text-sm font-black text-white">{i + 1}. {r.label}</span><span className="rounded-full bg-cyan-400/15 px-3 py-1 font-serif text-xs font-black text-cyan-100">{r.value}</span></div><div className="h-5 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-cyan-300" style={{ width: `${(r.value / max) * 100}%` }} title={`${r.label}: ${r.value} earthquakes`} /></div></div>)}</div>;
+  const total = rows.reduce((sum, row) => sum + row.value, 0);
+  const tones = [
+    'from-rose-500 via-orange-400 to-amber-300',
+    'from-cyan-400 via-sky-400 to-blue-500',
+    'from-emerald-400 via-teal-300 to-cyan-300',
+    'from-violet-400 via-fuchsia-400 to-rose-300',
+  ];
+  return (
+    <div className="space-y-3">
+      {rows.map((r, i) => {
+        const pct = Math.round((r.value / Math.max(total, 1)) * 100);
+        return (
+          <div key={r.label} className="group rounded-2xl border border-white/10 bg-slate-950/55 p-3 shadow-lg transition hover:border-orange-300/30 hover:bg-slate-900/70">
+            <div className="mb-2 flex items-center gap-3">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white/10 font-serif text-sm font-black text-white ring-1 ring-white/10">{i + 1}</span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate font-serif text-base font-black text-white">{r.label}</p>
+                <p className="text-xs font-bold text-slate-400">{pct}% of loaded region records</p>
+              </div>
+              <span className="rounded-full bg-orange-400/15 px-3 py-1 font-serif text-sm font-black text-orange-100 ring-1 ring-orange-300/25">{r.value}</span>
+            </div>
+            <div className="h-4 overflow-hidden rounded-full bg-white/10">
+              <div className={`h-full rounded-full bg-gradient-to-r ${tones[i % tones.length]} shadow-[0_0_18px_rgba(251,146,60,0.35)]`} style={{ width: `${Math.max(8, (r.value / max) * 100)}%` }} title={`${r.label}: ${r.value} earthquakes`} />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 export function ScatterChart({ points }: { points: Point[] }) {

@@ -1,4 +1,4 @@
-import { CalendarDays, Clock3, Gauge } from 'lucide-react';
+import { CalendarDays, Clock3, Gauge, Layers, ShieldCheck, Waves } from 'lucide-react';
 import type { Earthquake } from '../../types';
 
 interface MapPopupProps {
@@ -6,6 +6,7 @@ interface MapPopupProps {
   isStrongest?: boolean;
   onSelect: (event: Earthquake) => void;
   onDetails?: (event: Earthquake) => void;
+  mode?: 'compact' | 'historical';
 }
 
 function splitDateTime(time: string) {
@@ -27,7 +28,10 @@ function splitDateTime(time: string) {
   };
 }
 
-export default function MapPopup({ event, isStrongest = false, onSelect, onDetails }: MapPopupProps) {
+const alertText = (alert: Earthquake['alert']) => alert ? alert.toUpperCase() : 'Not recorded';
+const tsunamiText = (event: Earthquake) => event.tsunamiCode === 1 || event.tsunami ? 'Yes' : event.tsunamiCode === 0 ? 'No' : 'Not recorded';
+
+export default function MapPopup({ event, isStrongest = false, onSelect, onDetails, mode = 'compact' }: MapPopupProps) {
   const { date, clock } = splitDateTime(event.time);
   const openDetails = () => {
     onSelect(event);
@@ -35,7 +39,7 @@ export default function MapPopup({ event, isStrongest = false, onSelect, onDetai
   };
 
   return (
-    <article className={`w-[190px] max-w-[72vw] rounded-lg border ${isStrongest ? 'border-red-400/45' : 'border-cyan-500/20'} bg-[#071321] p-2 font-serif text-white shadow-2xl shadow-black/40`}>
+    <article className={`${mode === 'historical' ? 'w-[230px]' : 'w-[190px]'} max-w-[72vw] rounded-lg border ${isStrongest ? 'border-red-400/45' : 'border-cyan-500/20'} bg-[#071321] p-2 font-serif text-white shadow-2xl shadow-black/40`}>
       {isStrongest && (
         <div className="mb-1.5 rounded-md bg-red-500/15 px-2 py-0.5 text-[7px] font-black uppercase tracking-[0.1em] text-red-200">
           Strongest in View
@@ -58,6 +62,11 @@ export default function MapPopup({ event, isStrongest = false, onSelect, onDetai
         <InfoRow icon={<Clock3 />} label="Time">
           <span>{clock}</span>
         </InfoRow>
+        {mode === 'historical' && <>
+          <InfoRow icon={<Layers />} label="Depth"><span>{Number.isFinite(event.depth) ? `${event.depth.toFixed(1)} km` : 'Unknown'}</span></InfoRow>
+          <InfoRow icon={<ShieldCheck />} label="Alert"><span>{alertText(event.alert)}</span></InfoRow>
+          <InfoRow icon={<Waves />} label="Tsunami"><span>{tsunamiText(event)}</span></InfoRow>
+        </>}
       </div>
 
       <button

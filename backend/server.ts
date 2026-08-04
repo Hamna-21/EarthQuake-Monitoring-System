@@ -4,6 +4,7 @@ import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import authRoutes from "./src/routes/authRoutes";
+import analyticsRoutes from "./src/routes/analyticsRoutes";
 import chatRoutes from "./src/routes/chatRoutes";
 import earthquakeRoutes from "./src/routes/earthquakeRoutes";
 import { googleCallback } from "./src/controllers/authController";
@@ -15,6 +16,7 @@ app.use(express.json());
 
 // API Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/analytics", analyticsRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/earthquakes", earthquakeRoutes);
 

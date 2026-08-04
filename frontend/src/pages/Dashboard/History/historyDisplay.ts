@@ -3,9 +3,6 @@ import type { Earthquake } from '../../../types';
 const validNumber = (value: unknown): value is number =>
   typeof value === 'number' && Number.isFinite(value);
 
-export const historicalNote =
-  'Historical earthquake values may differ between scientific catalogs because older events are re-evaluated using different methods and datasets.';
-
 export function formatMagnitude(value?: number | null) {
   return validNumber(value) ? value.toFixed(1) : 'Unknown';
 }

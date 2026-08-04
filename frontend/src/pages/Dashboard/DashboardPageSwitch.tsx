@@ -1,7 +1,8 @@
 import { DashboardPage, DashboardProps } from '../../components/dashboard/types';
 import AiAssistantPage from './AiAssistant/AiAssistantPage';
 import AlertsPage from './Alerts/AlertsPage';
-import AnalyticsPage from './Analytics/AnalyticsPage';
+import LiveAnalyticsPage from './Analytics/LiveAnalyticsPage';
+import PakistanHistoricalAnalyticsPage from './Analytics/PakistanHistoricalAnalyticsPage';
 import DetailsPage from './Details/DetailsPage';
 import FeedPage from './Feed/FeedPage';
 import HistoryPage from './History/HistoryPage';
@@ -24,7 +25,8 @@ export default function DashboardPageSwitch({ page, pageProps, userName, userEma
   if (page === 'map') return <MapPage {...pageProps} />;
   if (page === 'history') return <HistoryPage {...pageProps} />;
   if (page === 'pakistan_history') return <PakistanHistoryPage {...pageProps} />;
-  if (page === 'analytics') return <AnalyticsPage {...pageProps} />;
+  if (page === 'analytics') return <LiveAnalyticsPage {...pageProps} />;
+  if (page === 'analytics_pakistan') return <PakistanHistoricalAnalyticsPage {...pageProps} />;
   if (page === 'details') return <DetailsPage {...pageProps} />;
   if (page === 'nearby') return <NearbyPage {...pageProps} />;
   if (page === 'alerts') return <AlertsPage {...pageProps} />;

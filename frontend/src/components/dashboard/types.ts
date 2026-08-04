@@ -7,6 +7,7 @@ export type DashboardPage =
   | 'history'
   | 'pakistan_history'
   | 'analytics'
+  | 'analytics_pakistan'
   | 'details'
   | 'nearby'
   | 'alerts'

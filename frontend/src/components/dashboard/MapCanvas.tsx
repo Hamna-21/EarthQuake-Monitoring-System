@@ -36,6 +36,7 @@ interface MapCanvasProps {
   flyTarget?: FlyTarget | null;
   userPosition?: UserPosition | null;
   searchPin?: SearchPin | null;
+  popupMode?: 'compact' | 'historical';
 }
 
 export default function MapCanvas(props: MapCanvasProps) {
@@ -70,6 +71,7 @@ export default function MapCanvas(props: MapCanvasProps) {
             heat={Boolean(props.heat)}
             onSelect={props.onSelect}
             onDetails={props.onDetails}
+            popupMode={props.popupMode}
           />
         </MapContainer>
         <MapLegend />

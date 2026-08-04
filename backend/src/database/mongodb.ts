@@ -6,6 +6,8 @@ import { User } from '../types/user';
 let mongoClient: MongoClient | null = null;
 let mongoDb: Db | null = null;
 export const JSON_DB_PATH = path.join(process.cwd(), 'db.json');
+let lastMongoFailureAt = 0;
+const MONGO_RETRY_COOLDOWN_MS = 30_000;
 
 // Memory DB fallback
 export let memoryUsers: User[] = [];
@@ -29,14 +31,16 @@ export async function getDb(): Promise<Db | null> {
   }
   
   if (mongoDb) return mongoDb;
+  if (Date.now() - lastMongoFailureAt < MONGO_RETRY_COOLDOWN_MS) return null;
   
   try {
-    mongoClient = new MongoClient(uri);
+    mongoClient = new MongoClient(uri, { serverSelectionTimeoutMS: 5000 });
     await mongoClient.connect();
     console.log('Successfully connected to MongoDB!');
     mongoDb = mongoClient.db();
     return mongoDb;
   } catch (err) {
+    lastMongoFailureAt = Date.now();
     console.error('Failed to connect to MongoDB, using local fallback', err);
     return null;
   }
