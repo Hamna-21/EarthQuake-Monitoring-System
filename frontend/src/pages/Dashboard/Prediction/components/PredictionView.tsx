@@ -2,7 +2,7 @@ import type { FormEvent } from 'react';
 import { Activity, Compass, Gauge, MapPin, Radar, ShieldAlert, Sparkles } from 'lucide-react';
 import { fmtDate } from '../../../../components/dashboard/data';
 import type { Earthquake } from '../../../../types';
-import PageBackButton from '../../components/PageBackButton';
+import PageBackButton from '../../../../components/dashboard/PageBackButton';
 import PredictionControls from './PredictionControls';
 import PredictionMetricCard from './PredictionMetricCard';
 
