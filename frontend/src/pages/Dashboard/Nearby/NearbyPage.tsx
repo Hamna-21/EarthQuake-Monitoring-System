@@ -9,7 +9,7 @@ import NearbyEarthquakeCard from './NearbyEarthquakeCard';
 import RadiusControl from './RadiusControl';
 import { UserLocation, directionFromUser, reverseLocation } from './nearbyUtils';
 import NearbySummaryCard from './NearbySummaryCard';
-import PageBackButton from '../components/PageBackButton';
+import PageBackButton from '../../../components/dashboard/PageBackButton';
 
 export default function NearbyPage({ earthquakes, setSelectedId, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
   const [location, setLocation] = useState<UserLocation | null>(null);

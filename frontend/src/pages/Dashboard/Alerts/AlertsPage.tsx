@@ -8,7 +8,7 @@ import AlertMatches from './components/AlertMatches';
 import AlertRuleForm from './components/AlertRuleForm';
 import AlertRulesList from './components/AlertRulesList';
 import { ALERT_RULES_KEY, Rule, loadRules, matchingRecords } from './alertRules';
-import PageBackButton from '../components/PageBackButton';
+import PageBackButton from '../../../components/dashboard/PageBackButton';
 
 export default function AlertsPage({ earthquakes, setSelectedId, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
   const [rules, setRules] = useState<Rule[]>(() => loadRules());
