@@ -51,20 +51,19 @@ export default function MetricCard({
 }) {
   const style = TONE_STYLES[tone];
   return (
-    <article className="group relative overflow-hidden rounded-2xl border border-white/12 bg-white/[0.07] p-6 shadow-[0_24px_70px_rgba(0,0,0,0.24)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-cyan-300/25 hover:bg-white/[0.1] hover:shadow-[0_28px_90px_rgba(8,145,178,0.16)]">
-      <div className={`pointer-events-none absolute -right-12 -top-12 h-28 w-28 rounded-full bg-gradient-to-br ${style.bar} opacity-20 blur-2xl transition group-hover:opacity-30`} />
-      <div className="flex items-start justify-between gap-4">
-        <p className={`text-xs font-black uppercase tracking-[0.16em] ${style.label}`}>{label}</p>
-        <span className={`rounded-2xl p-2 transition ${style.iconBg} ${style.iconHover}`}>
-          {icon ?? <Activity className="h-4 w-4" />}
+    <article className="group relative overflow-hidden rounded-lg border border-white/12 bg-white/[0.07] p-3 shadow-sm backdrop-blur-md transition duration-300 hover:-translate-y-0.5 hover:border-cyan-300/25 hover:bg-white/[0.1]">
+      <div className={`pointer-events-none absolute -right-8 -top-8 h-16 w-16 rounded-full bg-gradient-to-br ${style.bar} opacity-20 blur-xl transition group-hover:opacity-30`} />
+      <div className="flex items-start justify-between gap-2">
+        <p className={`text-[10px] font-black uppercase tracking-[0.12em] ${style.label}`}>{label}</p>
+        <span className={`rounded-lg p-1.5 transition ${style.iconBg} ${style.iconHover}`}>
+          {icon ?? <Activity className="h-3 w-3" />}
         </span>
       </div>
-      <strong className="relative mt-4 block text-3xl font-black text-white">{value}</strong>
-      <p className="relative mt-2 text-sm font-medium text-slate-300">{help}</p>
-      <div className="relative mt-5 h-1.5 overflow-hidden rounded-full bg-white/10">
-        <div className={`h-full w-2/3 rounded-full bg-gradient-to-r ${style.bar} shadow-[0_0_18px_rgba(34,211,238,0.28)]`} />
+      <strong className="relative mt-1.5 block text-xl font-black text-white">{value}</strong>
+      <p className="relative mt-1 text-xs font-medium text-slate-300">{help}</p>
+      <div className="relative mt-2.5 h-1 overflow-hidden rounded-full bg-white/10">
+        <div className={`h-full w-2/3 rounded-full bg-gradient-to-r ${style.bar}`} />
       </div>
     </article>
   );
 }
-

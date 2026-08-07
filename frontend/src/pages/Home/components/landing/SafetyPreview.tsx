@@ -1,4 +1,10 @@
-import { ClipboardCheck, HeartPulse, LifeBuoy, ShieldCheck } from 'lucide-react';
+import {
+  ClipboardCheck,
+  HeartPulse,
+  LifeBuoy,
+  ShieldCheck,
+} from 'lucide-react';
+
 import PremiumCard from './PremiumCard';
 import SectionShell from './SectionShell';
 
@@ -15,13 +21,18 @@ export default function SafetyPreview() {
       eyebrow="Safety Hub Preview"
       title="Preparedness without panic."
       subtitle="Safety tools share the same premium visual language as the monitoring dashboard."
+      backgroundImage="/images/safer.jpg"
     >
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid max-w-5xl gap-3 md:grid-cols-2 xl:grid-cols-4">
         {items.map(({ title, value, icon: Icon }) => (
           <PremiumCard key={title}>
-            <Icon className="h-7 w-7 text-emerald-200" />
-            <p className="mt-5 text-xl font-black text-white">{value}</p>
-            <p className="mt-2 text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">
+            <Icon className="h-6 w-6 text-emerald-200" />
+
+            <p className="mt-3.5 text-lg font-black text-white">
+              {value}
+            </p>
+
+            <p className="mt-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-slate-300">
               {title}
             </p>
           </PremiumCard>

@@ -1,33 +1,24 @@
 import { Radar } from 'lucide-react';
 
-const radii = [
-  { km: 100, gradient: 'from-cyan-500 to-sky-600' },
-  { km: 250, gradient: 'from-violet-500 to-fuchsia-600' },
-  { km: 500, gradient: 'from-amber-500 to-orange-600' },
-  { km: 1000, gradient: 'from-rose-500 to-red-600' },
+const RADII = [
+  { km: 100, tone: 'bg-cyan-500/20 text-cyan-100 border-cyan-400/30' },
+  { km: 250, tone: 'bg-violet-500/20 text-violet-100 border-violet-400/30' },
+  { km: 500, tone: 'bg-amber-500/20 text-amber-100 border-amber-400/30' },
+  { km: 1000, tone: 'bg-rose-500/20 text-rose-100 border-rose-400/30' },
 ];
 
-interface RadiusControlProps {
-  radius: number;
-  onChange: (radius: number) => void;
-}
-
-export default function RadiusControl({ radius, onChange }: RadiusControlProps) {
+export default function RadiusControl({ radius, onChange }: { radius: number; onChange: (r: number) => void }) {
   return (
-    <div className="rounded-2xl border border-white/12 bg-white/[0.07] p-4 shadow-sm backdrop-blur">
-      <p className="flex items-center gap-2 font-serif text-[10px] font-black uppercase tracking-[0.18em] text-slate-500">
-        <Radar className="h-3.5 w-3.5 text-violet-500" /> Search Radius
+    <div className="rounded-xl border border-white/10 bg-white/[0.06] p-3 backdrop-blur-xl">
+      <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wide text-slate-400">
+        <Radar className="h-3.5 w-3.5" /> Search Radius
       </p>
-      <div className="mt-3 flex flex-wrap gap-2">
-        {radii.map(({ km, gradient }) => (
+      <div className="mt-2 flex flex-wrap gap-1.5">
+        {RADII.map(({ km, tone }) => (
           <button
             key={km}
             onClick={() => onChange(km)}
-            className={`rounded-2xl px-4 py-2 text-sm font-black transition active:scale-95 ${
-              radius === km
-                ? `bg-gradient-to-r ${gradient} text-white shadow-lg`
-                : 'bg-white/10 text-slate-100 hover:bg-white/15'
-            }`}
+            className={`rounded-lg border px-3 py-1.5 text-xs font-bold transition active:scale-95 ${radius === km ? tone : 'border-white/10 bg-black/20 text-slate-300 hover:bg-white/10'}`}
           >
             {km} km
           </button>
@@ -36,5 +27,3 @@ export default function RadiusControl({ radius, onChange }: RadiusControlProps) 
     </div>
   );
 }
-
-

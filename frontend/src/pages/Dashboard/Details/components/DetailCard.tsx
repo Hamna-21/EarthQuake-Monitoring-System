@@ -21,23 +21,23 @@ export default function DetailCard({
   border = 'border-white/10',
 }: DetailCardProps) {
   return (
-    <div className={`group relative overflow-hidden rounded-2xl border ${border} bg-gradient-to-br ${tint} p-4 shadow-2xl shadow-black/20 backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:border-cyan-200/30 hover:shadow-xl`}>
-      <div className={`pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br ${gradient} opacity-[0.12] blur-2xl transition-opacity group-hover:opacity-20`} />
+    <div className={`group relative flex min-h-[6.5rem] w-full flex-col justify-center overflow-hidden rounded-2xl border ${border} bg-gradient-to-br ${tint} p-3 shadow-2xl shadow-black/20 backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:border-cyan-200/30 hover:shadow-xl`}>
+      <div className={`pointer-events-none absolute -right-6 -top-6 h-16 w-16 rounded-full bg-gradient-to-br ${gradient} opacity-[0.12] blur-2xl transition-opacity group-hover:opacity-20`} />
 
-      <div className="relative flex items-center gap-2">
-        <span className={`grid h-8 w-8 flex-shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${gradient} text-white shadow-md ${glow}`}>
+      <div className="relative flex items-center gap-1.5">
+        <span className={`grid h-6 w-6 flex-shrink-0 place-items-center rounded-lg bg-gradient-to-br ${gradient} text-white shadow-md ${glow}`}>
           {icon}
         </span>
-        <p className="truncate font-serif text-[10px] font-black uppercase tracking-[0.18em] text-slate-300">{label}</p>
+        <p className="font-serif text-[9px] font-black uppercase leading-tight tracking-[0.14em] text-slate-300">
+          {label}
+        </p>
       </div>
 
       <p
-        className={`relative mt-3 truncate bg-gradient-to-r ${gradient} bg-clip-text font-serif text-xl font-black tracking-tight text-transparent sm:text-2xl`}
-        title={value}
+        className={`relative mt-1.5 break-words bg-gradient-to-r ${gradient} bg-clip-text font-serif text-lg font-black leading-snug tracking-tight text-transparent`}
       >
         {value}
       </p>
     </div>
   );
 }
-

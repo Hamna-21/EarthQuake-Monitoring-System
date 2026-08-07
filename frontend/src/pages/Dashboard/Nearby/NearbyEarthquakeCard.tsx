@@ -1,91 +1,48 @@
-import { ArrowUpRight, Compass, Layers, CalendarClock, AlertTriangle, Gauge } from 'lucide-react';
+import { ArrowUpRight, Compass } from 'lucide-react';
 import { Earthquake } from '../../../types';
-import { alertStyle, distanceStyle, magnitudeStyle } from '../../../components/dashboard/colors';
+import { magnitudeStyle, distanceStyle } from '../../../components/dashboard/colors';
 import { fmtDate } from '../../../components/dashboard/data';
 import { placeParts } from './nearbyUtils';
-import NearbyInfoTile from './NearbyInfoTile';
 
 type NearbyEvent = Earthquake & { distance: number; direction: string };
 
-interface NearbyEarthquakeCardProps {
-  event: NearbyEvent;
-  onSelect: (event: Earthquake) => void;
-  highlighted?: boolean;
-}
+const SEVERITY = [
+  { min: 6, chip: 'bg-rose-500/15 text-rose-200 border-rose-400/30' },
+  { min: 5, chip: 'bg-amber-500/15 text-amber-200 border-amber-400/30' },
+  { min: 0, chip: 'bg-emerald-500/15 text-emerald-200 border-emerald-400/30' },
+];
+const sevOf = (m: number) => SEVERITY.find((s) => m >= s.min)!;
 
-export default function NearbyEarthquakeCard({ event, onSelect, highlighted = false }: NearbyEarthquakeCardProps) {
+export default function NearbyEarthquakeCard({ event, onSelect, highlighted = false }: { event: NearbyEvent; onSelect: (e: Earthquake) => void; highlighted?: boolean }) {
   const place = placeParts(event.place);
-
-  const severity =
-    event.magnitude >= 6
-      ? {
-          gradient: 'from-rose-500 via-red-600 to-orange-600',
-          tint: 'from-rose-500/15 via-white/[0.06] to-orange-500/10',
-          border: 'border-rose-300/20',
-          glow: 'bg-rose-400/20',
-        }
-      : event.magnitude >= 5
-      ? {
-          gradient: 'from-amber-500 via-orange-600 to-red-600',
-          tint: 'from-amber-500/15 via-white/[0.06] to-orange-500/10',
-          border: 'border-amber-300/20',
-          glow: 'bg-amber-400/20',
-        }
-      : {
-          gradient: 'from-emerald-500 via-teal-600 to-cyan-600',
-          tint: 'from-emerald-500/15 via-white/[0.06] to-cyan-500/10',
-          border: 'border-emerald-300/20',
-          glow: 'bg-emerald-400/20',
-        };
-
-  const risk = event.magnitude >= 6 ? 'High' : event.magnitude >= 5 ? 'Moderate' : 'Low';
+  const sev = sevOf(event.magnitude);
 
   return (
-    <article
-      className={`group relative overflow-hidden rounded-2xl border ${highlighted ? 'border-cyan-300 shadow-cyan-500/20' : severity.border} bg-gradient-to-br ${severity.tint} p-5 shadow-2xl shadow-black/20 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-cyan-200/30 hover:shadow-xl`}
-    >
-      <div className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full ${severity.glow} blur-3xl transition-opacity group-hover:opacity-80`} />
+    <article className={`rounded-xl border bg-white/[0.06] p-3 backdrop-blur-xl transition hover:bg-white/[0.1] ${highlighted ? 'border-cyan-300/60 ring-1 ring-cyan-300/30' : 'border-white/10'}`}>
+      <div className="flex items-start gap-3">
+        <div className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl border font-serif text-sm font-black ${sev.chip}`}>
+          {event.magnitude.toFixed(1)}
+        </div>
 
-      <div className="relative flex items-start justify-between gap-4">
-        <span className={`rounded-2xl border px-4 py-3 text-xl font-black ${magnitudeStyle(event.magnitude)}`}>
-          M {event.magnitude.toFixed(1)}
-        </span>
-        <span className={`rounded-full border px-3 py-1 font-serif text-[11px] font-black tracking-wide ${distanceStyle(event.distance)}`}>
-          {event.distance.toFixed(0)} KM AWAY
-        </span>
+        <div className="min-w-0 flex-1 space-y-1">
+          <p className="flex items-start gap-1 text-[13px] font-bold leading-snug text-white">
+            <Compass className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400" />
+            <span className="break-words">{place.city}, {place.country}</span>
+          </p>
+          <div className="flex items-center justify-between text-[11px] text-slate-400">
+            <span>{fmtDate(event.time, 'UTC')}</span>
+            <span className={`rounded-full border px-2 py-0.5 font-bold ${distanceStyle(event.distance)}`}>{event.distance.toFixed(0)} km</span>
+          </div>
+
+          <button
+            onClick={() => onSelect(event)}
+            className="mt-1 flex w-full items-center justify-center gap-1.5 rounded-lg bg-slate-950/80 px-3 py-1.5 text-[11px] font-bold text-white transition hover:bg-cyan-600/80"
+          >
+            View details
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </button>
+        </div>
       </div>
-
-      <h3
-        className={`relative mt-5 truncate bg-gradient-to-r ${severity.gradient} bg-clip-text font-serif text-2xl font-black tracking-tight text-transparent`}
-        title={place.city}
-      >
-        {place.city}
-      </h3>
-      <p className="relative mt-1 flex items-center gap-1.5 font-serif text-xs font-bold uppercase tracking-wide text-slate-300">
-        {place.country}
-        <Compass className="h-3.5 w-3.5 text-violet-500" />
-        {event.direction}
-      </p>
-
-      <div className="relative mt-5 grid grid-cols-2 gap-3 text-sm">
-        <NearbyInfoTile icon={<Layers className="h-3.5 w-3.5" />} label="Depth" value={`${event.depth.toFixed(1)} km`} gradient="from-orange-400 to-amber-300" />
-        <NearbyInfoTile icon={<CalendarClock className="h-3.5 w-3.5" />} label="Date" value={fmtDate(event.time, 'UTC')} gradient="from-cyan-300 to-sky-300" />
-        <NearbyInfoTile icon={<AlertTriangle className="h-3.5 w-3.5" />} label="Alert" value={event.alert ?? 'No alert'} gradient="from-violet-300 to-fuchsia-300" />
-        <NearbyInfoTile
-          icon={<Gauge className="h-3.5 w-3.5" />}
-          label="Risk"
-          value={risk}
-          gradient={severity.gradient}
-        />
-      </div>
-
-      <button
-        onClick={() => onSelect(event)}
-        className={`relative mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r ${severity.gradient} px-4 py-3 font-serif text-xs font-black uppercase tracking-[0.14em] text-white shadow-md transition hover:brightness-110 active:scale-95`}
-      >
-        View Details <ArrowUpRight className="h-4 w-4" />
-      </button>
     </article>
   );
 }
-

@@ -1,3 +1,4 @@
+// AlertsPage.tsx
 import { useEffect, useMemo, useState } from 'react';
 import { Gauge } from 'lucide-react';
 import { Earthquake } from '../../../types';
@@ -7,6 +8,7 @@ import AlertMatches from './components/AlertMatches';
 import AlertRuleForm from './components/AlertRuleForm';
 import AlertRulesList from './components/AlertRulesList';
 import { ALERT_RULES_KEY, Rule, loadRules, matchingRecords } from './alertRules';
+import PageBackButton from '../components/PageBackButton';
 
 export default function AlertsPage({ earthquakes, setSelectedId, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
   const [rules, setRules] = useState<Rule[]>(() => loadRules());
@@ -41,13 +43,16 @@ export default function AlertsPage({ earthquakes, setSelectedId, openPage, globa
 
   return (
     <>
-      <div className="relative mb-6 overflow-hidden rounded-2xl border border-white/10 bg-slate-950 px-6 py-6 shadow-2xl sm:px-8">
-        <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-fuchsia-500/20 blur-3xl" />
-        <p className="text-[10px] font-black uppercase tracking-[0.28em] text-cyan-200">Alerts & Notifications</p>
-        <h1 className="mt-2 text-3xl font-black tracking-tight text-white">Create monitoring rules</h1>
-        <p className="mt-2 max-w-2xl text-sm font-medium text-slate-400">Define practical rules against current earthquake records.</p>
+      <div className="mb-3 flex justify-end">
+        <PageBackButton label="Close" onClick={() => openPage('overview')} />
       </div>
-      <section className="mb-6 grid gap-6 xl:grid-cols-[380px_1fr]">
+      <div className="relative mb-3 overflow-hidden rounded-2xl border border-white/10 bg-slate-950 px-4 py-4 shadow-2xl">
+        <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-fuchsia-500/20 blur-3xl" />
+        <p className="text-[9px] font-black uppercase tracking-[0.28em] text-cyan-200">Alerts & Notifications</p>
+        <h1 className="mt-1 text-xl font-black tracking-tight text-white">Create monitoring rules</h1>
+        <p className="mt-1 max-w-2xl text-xs font-medium text-slate-400">Define practical rules against current earthquake records.</p>
+      </div>
+      <section className="mb-3 grid gap-3 xl:grid-cols-[220px_1fr]">
         <AlertRuleForm
           name={name}
           setName={setName}
@@ -61,12 +66,10 @@ export default function AlertsPage({ earthquakes, setSelectedId, openPage, globa
         />
         <AlertRulesList rules={rules} removeRule={(id) => setRules((items) => items.filter((rule) => rule.id !== id))} />
       </section>
-      <h3 className="mb-3 flex items-center gap-2 text-xl font-black text-white">
-        <Gauge className="h-5 w-5 text-cyan-200" /> Reports matching your rules
+      <h3 className="mb-1.5 flex items-center gap-1.5 text-sm font-black text-white">
+        <Gauge className="h-3.5 w-3.5 text-cyan-200" /> Reports matching your rules
       </h3>
       <AlertMatches matches={matches} onOpen={openEvent} highlightedEventId={highlightedEventId} />
     </>
   );
 }
-
-

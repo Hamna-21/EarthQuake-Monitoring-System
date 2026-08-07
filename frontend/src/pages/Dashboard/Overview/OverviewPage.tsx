@@ -6,6 +6,7 @@ import ActivitySummary from './components/ActivitySummary';
 import MagnitudeDistribution from './components/MagnitudeDistribution';
 import OverviewHero from './components/OverviewHero';
 import OverviewStatGrid from './components/OverviewStatGrid';
+import OverviewQuickActions from './components/OverviewQuickActions';
 
 type Props = DashboardProps & {
   searchQuery?: string;
@@ -27,7 +28,7 @@ const matchesOverviewSearch = (event: DashboardProps['earthquakes'][number], que
   return text.includes(query);
 };
 
-export default function OverviewPage({ earthquakes, isLoading, dataError, lastUpdated, searchQuery = '', userName }: Props) {
+export default function OverviewPage({ earthquakes, isLoading, dataError, lastUpdated, openPage, searchQuery = '', userName }: Props) {
   const query = searchQuery.trim().toLowerCase();
   const visibleEarthquakes = query
     ? earthquakes.filter((event) => matchesOverviewSearch(event, query))
@@ -38,6 +39,7 @@ export default function OverviewPage({ earthquakes, isLoading, dataError, lastUp
     <section className="space-y-6">
       <OverviewHero />
       <RefreshNote isLoading={isLoading} error={dataError} lastUpdated={lastUpdated} userName={userName} />
+      <OverviewQuickActions openPage={openPage} />
       {query && <p className="text-sm font-semibold text-slate-300">
         Showing {visibleEarthquakes.length} of {earthquakes.length} overview results for “{searchQuery.trim()}”.
       </p>}

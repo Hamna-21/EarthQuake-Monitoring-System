@@ -17,8 +17,7 @@ interface LandingPageBodyProps {
 export default function LandingPageBody({ earthquakes, onLaunch }: LandingPageBodyProps) {
   return (
     <main id="dashboard-deck" className="relative z-10">
-      <LandingStats earthquakes={earthquakes} />
-      <PremiumFeatureGrid />
+      <LandingStats earthquakes={earthquakes} />  
       <WorkflowSection />
       <DashboardPreview />
       <AnalyticsPreview earthquakes={earthquakes} />

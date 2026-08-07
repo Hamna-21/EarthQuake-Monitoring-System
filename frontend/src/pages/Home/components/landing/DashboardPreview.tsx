@@ -18,16 +18,16 @@ export default function DashboardPreview() {
       title="Everything important, one command surface."
       subtitle="The dashboard modules feel connected, focused, and ready for repeated use."
     >
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid max-w-5xl gap-3 md:grid-cols-2 xl:grid-cols-3">
         {modules.map(({ title, text, icon: Icon }) => (
           <PremiumCard key={title}>
-            <div className="flex items-center gap-4">
-              <span className="grid h-12 w-12 place-items-center bg-cyan-300/10 text-cyan-200">
-                <Icon className="h-6 w-6" />
+            <div className="flex items-center gap-3">
+              <span className="grid h-10 w-10 shrink-0 place-items-center bg-cyan-300/10 text-cyan-200">
+                <Icon className="h-5 w-5" />
               </span>
               <div>
-                <h3 className="text-xl font-black text-white">{title}</h3>
-                <p className="mt-1 text-sm text-slate-400">{text}</p>
+                <h3 className="text-lg font-black text-white">{title}</h3>
+                <p className="mt-0.5 text-sm text-slate-400">{text}</p>
               </div>
             </div>
           </PremiumCard>

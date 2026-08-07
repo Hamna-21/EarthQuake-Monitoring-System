@@ -23,7 +23,7 @@ export default function SafetyAssistantPanel() {
         </div>
       </div>
       <p className="mt-5 rounded-none border border-white/10 bg-black/20 p-4 leading-7 text-slate-200">
-        I will keep the response simple: protect your head, stay low, and move only after shaking stops.
+       Protect your head, stay low, and move only after shaking stops.
       </p>
       <div className="mt-5 space-y-3">
         {tips.map((tip) => (

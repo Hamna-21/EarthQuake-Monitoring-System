@@ -8,39 +8,45 @@ interface AlertRulesListProps {
 
 export default function AlertRulesList({ rules, removeRule }: AlertRulesListProps) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-5 shadow-2xl backdrop-blur-2xl">
-      <h3 className="flex items-center gap-2 text-xl font-black text-white">
-        <BellRing className="h-5 w-5 text-cyan-200" /> Monitoring Rules
+    <div className="rounded-lg border border-white/10 bg-white/[0.05] p-2.5 shadow-sm backdrop-blur-md">
+      <h3 className="flex items-center gap-1.5 text-sm font-black text-white">
+        <BellRing className="h-3.5 w-3.5 text-cyan-200" /> Monitoring Rules
       </h3>
-      <div className="mt-4 space-y-3">
-        {rules.length ? rules.map((rule) => {
-          const severity = severityOf(rule.minMag);
-          return (
-            <div key={rule.id} className={`rounded-2xl border ${severity.border} ${severity.tint} p-4`}>
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <b className="text-white">{rule.name}</b>
-                  <p className="mt-1 text-sm text-slate-300">
-                    M {rule.minMag.toFixed(1)}+ within {rule.radiusKm} km{rule.tsunamiOnly ? ' · tsunami only' : ''}
-                  </p>
-                  <span className="mt-2 inline-block rounded-full bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-wide text-cyan-100">
+      {rules.length ? (
+        <div className="mt-2.5 grid grid-cols-2 gap-2 sm:grid-cols-3">
+          {rules.map((rule) => {
+            const severity = severityOf(rule.minMag);
+            return (
+              <div
+                key={rule.id}
+                title={rule.name}
+                className={`group relative aspect-square w-full max-w-[120px] flex flex-col justify-between rounded-lg border ${severity.border} ${severity.tint} p-2`}
+              >
+                <div className="flex items-start justify-between gap-1">
+                  <span className="rounded-full bg-white/10 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-wide text-cyan-100">
                     {severity.label}
                   </span>
+                  <button
+                    onClick={() => removeRule(rule.id)}
+                    className="shrink-0 rounded-md border border-white/10 bg-black/30 p-1 text-red-200 hover:bg-red-500/30"
+                    aria-label={`Delete rule ${rule.name}`}
+                  >
+                    <Trash2 className="h-2.5 w-2.5" />
+                  </button>
                 </div>
-                <button onClick={() => removeRule(rule.id)} className="rounded-2xl border border-white/10 bg-white/10 p-2 text-red-200 hover:bg-red-500/20" aria-label={`Delete rule ${rule.name}`}>
-                  <Trash2 className="h-4 w-4" />
-                </button>
+                <b className="line-clamp-2 text-[11px] leading-tight text-white">{rule.name}</b>
+                <p className="text-[10px] text-slate-300">
+                  M{rule.minMag.toFixed(1)}+ · {rule.radiusKm}km{rule.tsunamiOnly ? ' · 🌊' : ''}
+                </p>
               </div>
-            </div>
-          );
-        }) : (
-          <p className="rounded-2xl border border-dashed border-white/10 p-6 text-center text-sm font-semibold text-slate-400">
-            No rules created yet. Build one to start monitoring.
-          </p>
-        )}
-      </div>
+            );
+          })}
+        </div>
+      ) : (
+        <p className="mt-2.5 rounded-lg border border-dashed border-white/10 p-2.5 text-center text-[11px] font-semibold text-slate-400">
+          No rules created yet.
+        </p>
+      )}
     </div>
   );
 }
-
-

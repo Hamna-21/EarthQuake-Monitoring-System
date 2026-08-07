@@ -1,15 +1,19 @@
+import { lazy, Suspense, type ReactNode } from 'react';
 import { DashboardPage, DashboardProps } from '../../components/dashboard/types';
-import AiAssistantPage from './AiAssistant/AiAssistantPage';
-import AlertsPage from './Alerts/AlertsPage';
-import LiveAnalyticsPage from './Analytics/LiveAnalyticsPage';
-import PakistanHistoricalAnalyticsPage from './Analytics/PakistanHistoricalAnalyticsPage';
-import DetailsPage from './Details/DetailsPage';
-import FeedPage from './Feed/FeedPage';
-import HistoryPage from './History/HistoryPage';
-import PakistanHistoryPage from './History/PakistanHistoryPage';
-import MapPage from './Map/MapPage';
-import NearbyPage from './Nearby/NearbyPage';
-import OverviewPage from './Overview/OverviewPage';
+
+const AiAssistantPage = lazy(() => import('./AiAssistant/AiAssistantPage'));
+const AlertsPage = lazy(() => import('./Alerts/AlertsPage'));
+const LiveAnalyticsPage = lazy(() => import('./Analytics/LiveAnalyticsPage'));
+const PakistanHistoricalAnalyticsPage = lazy(() => import('./Analytics/PakistanHistoricalAnalyticsPage'));
+const DetailsPage = lazy(() => import('./Details/DetailsPage'));
+const FeedPage = lazy(() => import('./Feed/FeedPage'));
+const HistoricalMapsPage = lazy(() => import('./History/HistoricalMapsPage'));
+const HistoryPage = lazy(() => import('./History/HistoryPage'));
+const PakistanHistoryPage = lazy(() => import('./History/PakistanHistoryPage'));
+const MapPage = lazy(() => import('./Map/MapPage'));
+const NearbyPage = lazy(() => import('./Nearby/NearbyPage'));
+const OverviewPage = lazy(() => import('./Overview/OverviewPage'));
+const PredictionPage = lazy(() => import('./Prediction/PredictionPage'));
 
 type Props = {
   page: DashboardPage;
@@ -20,15 +24,24 @@ type Props = {
 };
 
 export default function DashboardPageSwitch({ page, pageProps, userName, userEmail, search }: Props) {
-  if (page === 'overview') return <OverviewPage {...pageProps} searchQuery={search} userName={userName} />;
-  if (page === 'feed') return <FeedPage {...pageProps} />;
-  if (page === 'map') return <MapPage {...pageProps} />;
-  if (page === 'history') return <HistoryPage {...pageProps} />;
-  if (page === 'pakistan_history') return <PakistanHistoryPage {...pageProps} />;
-  if (page === 'analytics') return <LiveAnalyticsPage {...pageProps} />;
-  if (page === 'analytics_pakistan') return <PakistanHistoricalAnalyticsPage {...pageProps} />;
-  if (page === 'details') return <DetailsPage {...pageProps} />;
-  if (page === 'nearby') return <NearbyPage {...pageProps} />;
-  if (page === 'alerts') return <AlertsPage {...pageProps} />;
-  return <AiAssistantPage {...pageProps} userName={userName} userEmail={userEmail} />;
+  let content: ReactNode;
+  if (page === 'overview') content = <OverviewPage {...pageProps} searchQuery={search} userName={userName} />;
+  else if (page === 'feed') content = <FeedPage {...pageProps} />;
+  else if (page === 'map') content = <MapPage {...pageProps} />;
+  else if (page === 'historical_maps') content = <HistoricalMapsPage {...pageProps} />;
+  else if (page === 'history') content = <HistoryPage {...pageProps} />;
+  else if (page === 'pakistan_history') content = <PakistanHistoryPage {...pageProps} />;
+  else if (page === 'analytics') content = <LiveAnalyticsPage {...pageProps} />;
+  else if (page === 'analytics_pakistan') content = <PakistanHistoricalAnalyticsPage {...pageProps} />;
+  else if (page === 'prediction') content = <PredictionPage {...pageProps} />;
+  else if (page === 'details') content = <DetailsPage {...pageProps} />;
+  else if (page === 'nearby') content = <NearbyPage {...pageProps} />;
+  else if (page === 'alerts') content = <AlertsPage {...pageProps} />;
+  else content = <AiAssistantPage {...pageProps} userName={userName} userEmail={userEmail} />;
+
+  return (
+    <Suspense fallback={<div className="rounded-2xl border border-white/10 bg-white/[0.07] p-6 text-sm font-bold text-slate-200 backdrop-blur">Loading dashboard view...</div>}>
+      {content}
+    </Suspense>
+  );
 }

@@ -79,5 +79,9 @@ export function tierClass(magnitude: number) {
 }
 
 export function repositionPopup(e: { popup: LeafletPopup }) {
-  requestAnimationFrame(() => requestAnimationFrame(() => e.popup.update()));
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      e.popup?.update?.();
+    });
+  });
 }

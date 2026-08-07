@@ -9,6 +9,7 @@ import NearbyEarthquakeCard from './NearbyEarthquakeCard';
 import RadiusControl from './RadiusControl';
 import { UserLocation, directionFromUser, reverseLocation } from './nearbyUtils';
 import NearbySummaryCard from './NearbySummaryCard';
+import PageBackButton from '../components/PageBackButton';
 
 export default function NearbyPage({ earthquakes, setSelectedId, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
   const [location, setLocation] = useState<UserLocation | null>(null);
@@ -30,7 +31,7 @@ export default function NearbyPage({ earthquakes, setSelectedId, openPage, globa
         try {
           setLocation(await reverseLocation(lat, lon));
         } catch {
-          setLocation({ lat, lon });
+          setLocation({ lat, lon, label: `${lat.toFixed(3)}, ${lon.toFixed(3)}` });
         } finally {
           setLocating(false);
         }
@@ -43,22 +44,17 @@ export default function NearbyPage({ earthquakes, setSelectedId, openPage, globa
     );
   };
 
-  useEffect(() => {
-    locate();
-  }, []);
+  useEffect(() => { locate(); }, []);
 
   const nearby = useMemo(() => {
     if (!location) return [];
     const q = globalSearch.trim().toLowerCase();
     return earthquakes
-      .map((event) => {
-        const distance = haversineKm(location, { lat: event.latitude, lon: event.longitude });
-        return {
-          ...event,
-          distance,
-          direction: directionFromUser(event.latitude - location.lat, event.longitude - location.lon),
-        };
-      })
+      .map((event) => ({
+        ...event,
+        distance: haversineKm(location, { lat: event.latitude, lon: event.longitude }),
+        direction: directionFromUser(event.latitude - location.lat, event.longitude - location.lon),
+      }))
       .filter((event) => {
         const text = `${event.place} ${countryOf(event.place)} ${event.id} ${event.magnitude} ${event.alert ?? ''} ${event.status} ${fmtDate(event.time, 'UTC')}`.toLowerCase();
         return event.distance <= radius && (!q || text.includes(q));
@@ -66,51 +62,33 @@ export default function NearbyPage({ earthquakes, setSelectedId, openPage, globa
       .sort((a, b) => a.distance - b.distance);
   }, [earthquakes, location, radius, globalSearch]);
 
-  const select = (event: Earthquake) => {
-    setSelectedId(event.id);
-    openPage('details');
-  };
+  const select = (event: Earthquake) => { setSelectedId(event.id); openPage('details'); };
+
+  const summary = [
+    { icon: <Target className="h-4 w-4" />, label: 'Within Radius', value: nearby.length, gradient: 'from-cyan-500 to-blue-600', border: 'border-cyan-400/25' },
+    { icon: <Radar className="h-4 w-4" />, label: 'Closest Event', value: nearby[0] ? `${nearby[0].distance.toFixed(0)} km` : 'N/A', gradient: 'from-fuchsia-500 to-rose-600', border: 'border-fuchsia-400/25' },
+    { icon: <Gauge className="h-4 w-4" />, label: 'Radius', value: `${radius} km`, gradient: 'from-amber-500 to-orange-600', border: 'border-amber-400/25' },
+  ];
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-4">
+      <div className="flex justify-end">
+        <PageBackButton label="Close" onClick={() => openPage('overview')} />
+      </div>
       <LocationCard location={location} error={error} locating={locating} onLocate={locate} />
       <RadiusControl radius={radius} onChange={setRadius} />
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <NearbySummaryCard
-          icon={<Target className="h-4 w-4" />}
-          label="Within Radius"
-          value={nearby.length}
-          gradient="from-cyan-500 via-sky-600 to-blue-600"
-          tint="from-cyan-500/15 to-sky-500/5"
-          border="border-cyan-300/20"
-        />
-        <NearbySummaryCard
-          icon={<Radar className="h-4 w-4" />}
-          label="Closest Event"
-          value={nearby[0] ? `${nearby[0].distance.toFixed(0)} km` : 'N/A'}
-          gradient="from-fuchsia-500 via-pink-600 to-rose-600"
-          tint="from-fuchsia-500/15 to-rose-500/5"
-          border="border-fuchsia-300/20"
-        />
-        <NearbySummaryCard
-          icon={<Gauge className="h-4 w-4" />}
-          label="Radius"
-          value={`${radius} km`}
-          gradient="from-amber-500 via-orange-600 to-red-600"
-          tint="from-amber-500/15 to-orange-500/5"
-          border="border-amber-300/20"
-        />
+      <div className="grid gap-3 md:grid-cols-3">
+        {summary.map((s) => <NearbySummaryCard key={s.label} {...s} />)}
       </div>
 
       {!nearby.length ? (
         <EmptyState title="No Nearby Earthquakes" text="No loaded earthquake records fall inside the selected radius." />
       ) : (
-        <div className="grid gap-5 lg:grid-cols-2 2xl:grid-cols-3">
+        <div className="grid gap-3 lg:grid-cols-2 2xl:grid-cols-3">
           {nearby.map((event) => <NearbyEarthquakeCard key={event.id} event={event} highlighted={event.id === highlightedEventId} onSelect={select} />)}
         </div>
       )}
     </section>
   );
 }
-

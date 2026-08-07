@@ -1,51 +1,31 @@
 import { LocateFixed, MapPin } from 'lucide-react';
 import { UserLocation } from './nearbyUtils';
 
-interface LocationCardProps {
-  location: UserLocation | null;
-  error: string | null;
-  locating: boolean;
-  onLocate: () => void;
-}
-
-export default function LocationCard({ location, error, locating, onLocate }: LocationCardProps) {
-  const title = [location?.city, location?.country].filter(Boolean).join(', ');
+export default function LocationCard({ location, error, locating, onLocate }: { location: UserLocation | null; error: string | null; locating: boolean; onLocate: () => void }) {
+  const title = location?.label || [location?.city, location?.country].filter(Boolean).join(', ');
 
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-cyan-500/20 bg-slate-950 p-6 shadow-2xl">
-      <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-cyan-500/20 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-blue-500/20 blur-3xl" />
-      <div className="pointer-events-none absolute right-1/3 top-0 h-32 w-32 rounded-full bg-fuchsia-400/10 blur-3xl" />
-
-      <div className="relative flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+    <section className="rounded-xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
-          <p className="flex items-center gap-2 font-serif text-[10px] font-black uppercase tracking-[0.24em] text-cyan-300">
-            <MapPin className="h-3.5 w-3.5" /> Your Current Location
+          <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wide text-cyan-300">
+            <MapPin className="h-3.5 w-3.5" /> Your Location
           </p>
-          <h2 className="mt-3 truncate bg-gradient-to-r from-cyan-300 via-sky-300 to-blue-300 bg-clip-text font-serif text-3xl font-black tracking-tight text-transparent">
-            {title || 'Location pending'}
-          </h2>
+          <h2 className="mt-1 truncate text-lg font-black text-white">{title || 'Location pending'}</h2>
           {location && (
-            <p className="mt-2 text-sm font-semibold text-slate-400">
-              Latitude: {location.lat.toFixed(6)} | Longitude: {location.lon.toFixed(6)}
-            </p>
+            <p className="mt-0.5 text-xs text-slate-500">{location.lat.toFixed(3)}, {location.lon.toFixed(3)}</p>
           )}
-          {location?.region && <p className="mt-1 text-sm text-slate-500">{location.region}</p>}
-          {error && (
-            <p className="mt-3 rounded-2xl border border-rose-500/30 bg-rose-500/10 p-3 text-sm font-bold text-rose-300">
-              {error}
-            </p>
-          )}
+          {error && <p className="mt-2 rounded-lg border border-rose-400/30 bg-rose-500/10 px-2 py-1 text-xs font-bold text-rose-300">{error}</p>}
         </div>
         <button
           onClick={onLocate}
           disabled={locating}
-          className="inline-flex flex-shrink-0 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-cyan-500 via-sky-600 to-blue-600 px-5 py-3 text-sm font-black text-white shadow-lg shadow-cyan-900/40 transition hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex shrink-0 items-center justify-center gap-1.5 rounded-lg bg-cyan-500/15 border border-cyan-400/30 px-3 py-1.5 text-xs font-bold text-cyan-100 transition hover:bg-cyan-500/25 disabled:opacity-60"
         >
-          <LocateFixed className={`h-4 w-4 ${locating ? 'animate-spin' : ''}`} /> {locating ? 'Detecting...' : 'Refresh Location'}
+          <LocateFixed className={`h-3.5 w-3.5 ${locating ? 'animate-spin' : ''}`} />
+          {locating ? 'Detecting…' : 'Refresh'}
         </button>
       </div>
     </section>
   );
 }
-

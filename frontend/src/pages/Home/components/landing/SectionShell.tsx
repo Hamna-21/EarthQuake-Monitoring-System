@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface SectionShellProps {
   eyebrow: string;
@@ -6,6 +6,7 @@ interface SectionShellProps {
   subtitle: string;
   children: ReactNode;
   id?: string;
+  backgroundImage?: string;
 }
 
 export default function SectionShell({
@@ -14,19 +15,44 @@ export default function SectionShell({
   subtitle,
   children,
   id,
+  backgroundImage,
 }: SectionShellProps) {
   return (
-    <section id={id} className="relative mx-auto w-full max-w-7xl px-5 py-14 md:px-8 md:py-16">
-      <div className="mb-7 max-w-3xl">
-        <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-cyan-200">
-          {eyebrow}
-        </p>
-        <h2 className="mt-3 text-3xl font-black tracking-normal text-white md:text-5xl">
-          {title}
-        </h2>
-        <p className="mt-3 text-base leading-7 text-slate-300">{subtitle}</p>
+    <section
+      id={id}
+      className="relative mx-auto w-full max-w-7xl overflow-hidden px-5 py-8 md:px-8 md:py-10"
+    >
+      {backgroundImage && (
+        <>
+          <img
+            src={backgroundImage}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+
+          <div className="absolute inset-0 bg-slate-950/70" />
+
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/55 to-slate-950/35" />
+        </>
+      )}
+
+      <div className="relative z-10">
+        <div className="mb-4 max-w-3xl">
+          <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-cyan-200">
+            {eyebrow}
+          </p>
+
+          <h2 className="mt-2 text-xl font-black tracking-normal text-white md:text-3xl">
+            {title}
+          </h2>
+
+          <p className="mt-2 max-w-2xl text-xs leading-5 text-slate-300 md:text-sm">
+            {subtitle}
+          </p>
+        </div>
+
+        {children}
       </div>
-      {children}
     </section>
   );
 }

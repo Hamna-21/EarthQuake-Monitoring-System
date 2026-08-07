@@ -1,20 +1,42 @@
-export default function NearbyInfoTile({
-  icon, label, value, gradient,
-}: {
-  icon: React.ReactNode;
+import { countryOf } from '../../../components/dashboard/data';
+
+export type UserLocation = {
+  lat: number;
+  lon: number;
+  city?: string;
+  area?: string;
+  country?: string;
   label: string;
-  value: string;
-  gradient: string;
-}) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-      <p className="flex items-center gap-1 font-serif text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">
-        {icon}
-        {label}
-      </p>
-      <p className={`mt-1 truncate bg-gradient-to-r ${gradient} bg-clip-text text-sm font-black text-transparent`} title={value}>
-        {value}
-      </p>
-    </div>
-  );
+};
+
+export function directionFromUser(latDelta: number, lonDelta: number) {
+  if (Math.abs(latDelta) > Math.abs(lonDelta)) return latDelta >= 0 ? 'North' : 'South';
+  return lonDelta >= 0 ? 'East' : 'West';
+}
+
+export function placeParts(place: string) {
+  const parts = place.split(',').map((p) => p.trim()).filter(Boolean);
+  return { city: parts[0] || 'Unknown region', country: countryOf(place) };
+}
+
+export async function reverseLocation(lat: number, lon: number): Promise<UserLocation> {
+  const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&addressdetails=1&zoom=14`;
+
+  const res = await fetch(url, {
+    headers: { Accept: 'application/json' },
+  });
+  if (!res.ok) throw new Error(`Reverse geocoding failed: ${res.status}`);
+
+  const data = await res.json();
+  const a = data.address ?? {};
+
+  const city = a.city ?? a.town ?? a.village ?? a.county ?? '';
+  const area = a.suburb ?? a.city_district ?? a.town ?? a.neighbourhood ?? '';
+  const country = a.country ?? '';
+
+  const label = [city, area].filter((v) => v && v !== city ? v : v === city ? v : v).length
+    ? [city, area !== city ? area : ''].filter(Boolean).join(', ')
+    : city || 'Current location';
+
+  return { lat, lon, city, area, country, label };
 }

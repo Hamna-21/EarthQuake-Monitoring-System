@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Activity, AlertCircle, BarChart3, Bell, Bot, ChevronLeft, Clock, Globe2, History, Home, List, LocateFixed, LogOut, Map, MapPinned, ShieldAlert, User } from 'lucide-react';
+import { Activity, BarChart3, Bot, ChevronLeft, Clock, Globe2, History, Home, List, LogOut, Map, ShieldAlert, Siren, User } from 'lucide-react';
 import { DashboardPage } from './types';
 import RefreshNote from './RefreshNote';
 import DashboardSearch, { SearchSuggestion } from './DashboardSearch';
@@ -9,13 +9,10 @@ const nav = [
   ['overview', Home, 'Overview', 'Operations'],
   ['feed', List, 'Live Feed', 'Operations'],
   ['map', Map, 'Global Map', 'Monitoring'],
-  ['history', History, 'Historical', 'Analysis'],
-  ['pakistan_history', MapPinned, 'Pakistan Seismic History', 'Analysis'],
+  ['historical_maps', History, 'Historical Maps', 'Monitoring'],
   ['analytics', BarChart3, 'Analytics', 'Analysis'],
-  ['details', AlertCircle, 'Details', 'Analysis'],
-  ['ai_assistant', Bot, 'AI Assistant', 'Analysis'],
-  ['nearby', LocateFixed, 'Nearby', 'Safety'],
-  ['alerts', Bell, 'Alerts', 'Safety'],
+  ['ai_assistant', Bot, 'AI Assistant', 'Assistant'],
+  
 ] as const;
 
 type Props = {
@@ -52,12 +49,17 @@ export default function Shell(props: Props) {
             <div key={section}>
               {!collapsed && <p className="mb-2 px-3 text-[10px] font-black uppercase tracking-[0.22em] text-slate-400">{section}</p>}
               {nav.filter((item) => item[3] === section).map(([key, Icon, label]) => (
-                <button key={key} title={label} onClick={() => props.setPage(key)} className={`group relative mb-2 flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-sm font-bold transition duration-300 ${props.page === key
-  ? 'border-cyan-300/25 bg-gradient-to-r from-cyan-400/15 via-white/10 to-red-500/10 text-white shadow-[0_20px_45px_rgba(8,145,178,0.16)] backdrop-blur-xl'
-  : 'border-transparent text-slate-300 hover:border-white/10 hover:bg-white/10 hover:text-white'}`}>
-                  <span className={`absolute left-0 h-8 w-1 rounded-full transition ${props.page === key ? 'bg-gradient-to-b from-cyan-300 to-red-500 opacity-100' : 'opacity-0'}`} />
-                  <Icon className="h-5 w-5 transition duration-300 group-hover:scale-110 group-hover:text-cyan-200" /> {!collapsed && label}
-                </button>
+               <button
+             key={key}
+             title={label}
+             onClick={() => props.setPage(key)}
+            className={`group relative mb-2 flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-sm font-bold transition duration-300 ${
+              props.page === key
+              ? 'border-cyan-300/25 bg-gradient-to-r from-cyan-400/15 via-white/10 to-red-500/10 text-white shadow-[0_20px_45px_rgba(8,145,178,0.16)] backdrop-blur-xl'
+               : 'border-transparent text-slate-300 hover:border-white/10 hover:bg-white/10 hover:text-white'
+                 }`}
+                 >  <Icon className="h-5 w-5 transition duration-300 group-hover:scale-110 group-hover:text-cyan-200" /> {!collapsed && label}
+  </button>
               ))}
             </div>
           ))}

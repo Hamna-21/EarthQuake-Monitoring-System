@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Activity, X } from 'lucide-react';
 import SafetyAssistantPanel from './components/SafetyAssistantPanel';
 import SafetyChecklist from './components/SafetyChecklist';
@@ -11,15 +10,6 @@ interface WarningHubProps {
 }
 
 export default function WarningHub({ isOpen, onClose }: WarningHubProps) {
-  const [showCrack, setShowCrack] = useState(false);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    setShowCrack(false);
-    const timer = window.setTimeout(() => setShowCrack(true), 2200);
-    return () => window.clearTimeout(timer);
-  }, [isOpen]);
-
   if (!isOpen) return null;
 
   return (
@@ -27,7 +17,7 @@ export default function WarningHub({ isOpen, onClose }: WarningHubProps) {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(14,165,233,0.16),transparent_34%),radial-gradient(circle_at_80%_30%,rgba(239,68,68,0.16),transparent_32%)]" />
       <section
         id="safety-hub"
-        className="relative z-10 max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-[28px] border border-white/10 bg-white/[0.06] text-white shadow-2xl shadow-black/40 backdrop-blur-2xl animate-earthquake"
+        className="relative z-10 max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-[28px] border border-white/10 bg-white/[0.06] text-white shadow-2xl shadow-black/40 backdrop-blur-2xl"
       >
        
         <header className="sticky top-0 z-20 flex items-start justify-between gap-4 border-b border-white/10 bg-slate-950/85 p-6 backdrop-blur-xl">
@@ -74,4 +64,3 @@ export default function WarningHub({ isOpen, onClose }: WarningHubProps) {
     </div>
   );
 }
-
