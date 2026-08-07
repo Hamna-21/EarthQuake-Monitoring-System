@@ -13,7 +13,7 @@ if (!appUrl) {
   throw new Error("APP_URL environment variable is required.");
 }
 
-  const redirectUri = `${appUrl}/auth/callback`;
+ const redirectUri = `${appUrl}/auth/callback`;
 
   if (googleClientId && googleClientSecret) {
     const params = new URLSearchParams({
