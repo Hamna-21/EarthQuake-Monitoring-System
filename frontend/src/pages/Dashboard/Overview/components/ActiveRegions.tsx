@@ -1,92 +1,51 @@
 import { MapPin } from 'lucide-react';
-import { Earthquake } from '../../../../types';
+import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer, Tooltip } from 'recharts';
+import type { Earthquake } from '../../../../types';
 import { countryOf } from '../../../../components/dashboard/data';
 
-const rankStyles = [
-  { badge: 'bg-gradient-to-br from-amber-300 to-amber-500 text-amber-950', bar: 'from-amber-400 to-orange-500', tint: 'bg-amber-400/10 border-amber-300/20' },
-  { badge: 'bg-gradient-to-br from-slate-300 to-slate-400 text-slate-900', bar: 'from-orange-400 to-red-500', tint: 'border-transparent' },
-  { badge: 'bg-gradient-to-br from-orange-300 to-orange-400 text-orange-950', bar: 'from-orange-400 to-red-600', tint: 'border-transparent' },
-  { badge: 'bg-slate-200 text-slate-600', bar: 'from-red-400 to-red-600', tint: 'border-transparent' },
-] as const;
+const colors = ['#22d3ee', '#818cf8', '#fb923c', '#f43f5e', '#4ade80'];
+
+const Dot = (props: any) => {
+  const { cx, cy, index } = props;
+  return <circle cx={cx} cy={cy} r={4} fill={colors[index % colors.length]} stroke="#0f172a" strokeWidth={1.5} />;
+};
 
 export default function ActiveRegions({ earthquakes }: { earthquakes: Earthquake[] }) {
   const regions = [...earthquakes.reduce((map, event) => {
-    const country = countryOf(event.place);
-    map.set(country, (map.get(country) || 0) + 1);
-    return map;
-  }, new Map<string, number>()).entries()].sort((a, b) => b[1] - a[1]).slice(0, 4);
-
-  const maxCount = Math.max(1, ...regions.map(([, count]) => count));
+    const country = countryOf(event.place); map.set(country, (map.get(country) || 0) + 1); return map;
+  }, new Map<string, number>()).entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
   const total = earthquakes.length;
+  const chartData = regions.map(([country, count], index) => ({ country, count, share: total ? Math.round((count / total) * 100) : 0, fill: colors[index] }));
 
-  return (
-    <section className="rounded-2xl border border-white/12 bg-white/[0.07] p-6 shadow-sm backdrop-blur">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="font-serif text-[10px] font-bold uppercase tracking-[0.3em] text-red-700">Seismic Analysis</p>
-          <h2 className="mt-1.5 font-serif text-2xl font-black tracking-tight text-white">
-            Most Active Regions
-          </h2>
-        </div>
-        {regions.length > 0 && (
-          <div className="text-right">
-            <p className="font-serif text-2xl font-black leading-none text-white">{regions.length}</p>
-            <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">tracked</p>
-          </div>
-        )}
+  return <section className="mt-8 rounded-xl border border-white/12 bg-white/[0.07] p-5 shadow-sm backdrop-blur">
+    <div className="flex items-start justify-between gap-3">
+      <div>
+        <p className="font-serif text-[9px] font-bold uppercase tracking-[0.25em] text-red-400">Seismic Analysis</p>
+        <h2 className="mt-1 font-serif text-base font-black tracking-tight text-white">Most Active Regions</h2>
       </div>
-
-      {regions.length > 0 ? (
-        <div className="mt-6 space-y-2">
-          {regions.map(([country, count], i) => {
-            const style = rankStyles[i] ?? rankStyles[3];
-            const pct = total > 0 ? Math.round((count / total) * 100) : 0;
-            const isLeader = i === 0;
-
-            return (
-              <article
-                key={country}
-                className={`group rounded-2xl border p-4 transition-colors ${
-                  isLeader ? style.tint : 'border-white/10 bg-white/[0.05] hover:bg-white/[0.08]'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full font-serif text-xs font-black ${style.badge}`}>
-                    {i + 1}
-                  </span>
-
-                  <div className="flex flex-1 items-center justify-between gap-4">
-                    <div className="flex items-center gap-1.5">
-                      <MapPin className="h-3.5 w-3.5 shrink-0 text-slate-400" />
-                      <strong className="font-serif text-base font-black text-white">{country}</strong>
-                      {isLeader && (
-                        <span className="ml-1 rounded-full bg-slate-950 px-1.5 py-0.5 font-serif text-[9px] font-bold uppercase tracking-wide text-white">
-                          Leading
-                        </span>
-                      )}
-                    </div>
-                    <span className="flex items-baseline gap-1 font-serif">
-                      <span className="text-sm font-black text-red-700">{count}</span>
-                      {total > 0 && <span className="text-[10px] font-semibold text-slate-400">{pct}%</span>}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-200/70">
-                  <div
-                    className={`h-full rounded-full bg-gradient-to-r ${style.bar} shadow-sm transition-all duration-700 ease-out`}
-                    style={{ width: `${(count / maxCount) * 100}%` }}
-                  />
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      ) : (
-        <p className="mt-6 text-center text-sm font-semibold text-slate-400">No regional activity to report.</p>
-      )}
-    </section>
-  );
+      <span className="rounded-full border border-cyan-300/20 bg-cyan-400/10 px-1.5 py-0.5 text-[9px] font-black text-cyan-100">{total} events</span>
+    </div>
+    {regions.length ? <>
+      <div className="mt-4 h-40 rounded-xl border border-cyan-300/15 bg-slate-950/55 p-2">
+        <ResponsiveContainer width="100%" height="100%">
+          <RadarChart data={chartData} outerRadius="70%">
+            <PolarGrid stroke="rgba(148,163,184,.28)" />
+            <PolarAngleAxis dataKey="country" tick={{ fill: '#e2e8f0', fontSize: 9, fontWeight: 700 }} />
+            <Radar name="Share" dataKey="share" stroke="#818cf8" fill="#818cf8" fillOpacity={0.28} strokeWidth={2} dot={<Dot />} />
+            <Tooltip contentStyle={{ background: '#0f172a', border: '1px solid rgba(103,232,249,.35)', borderRadius: 10, fontSize: 11 }} labelStyle={{ color: '#fff' }} formatter={(value: number, _name, item: any) => [`${value}% / ${item.payload.count} events`, item.payload.country]} />
+          </RadarChart>
+        </ResponsiveContainer>
+      </div>
+      <div className="mt-4 grid grid-cols-2 gap-2.5">
+        {chartData.map((item) => (
+          <div key={item.country} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.06] px-2.5 py-2">
+            <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: item.fill }} />
+            <MapPin className="h-3 w-3 shrink-0 text-slate-400" />
+            <span className="min-w-0 flex-1 truncate text-[11px] font-bold text-white">{item.country}</span>
+            <span className="rounded-full px-1.5 py-0.5 text-[10px] font-black" style={{ backgroundColor: `${item.fill}26`, color: item.fill }}>{item.share}%</span>
+          </div>
+        ))}
+      </div>
+    </> : <p className="mt-4 text-center text-xs font-semibold text-slate-400">No regional activity to report.</p>}
+  </section>;
 }
-
-

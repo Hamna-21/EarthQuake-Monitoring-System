@@ -7,10 +7,13 @@ import MagnitudeDistribution from './components/MagnitudeDistribution';
 import OverviewHero from './components/OverviewHero';
 import OverviewStatGrid from './components/OverviewStatGrid';
 import OverviewQuickActions from './components/OverviewQuickActions';
+import GeoBotCard from './components/GeoBotCard';
+import { LiveAnalyticsContent } from '../Analytics/LiveAnalyticsPage';
 
 type Props = DashboardProps & {
   searchQuery?: string;
   userName?: string | null;
+  userEmail?: string | null;
 };
 
 const matchesOverviewSearch = (event: DashboardProps['earthquakes'][number], query: string) => {
@@ -28,7 +31,7 @@ const matchesOverviewSearch = (event: DashboardProps['earthquakes'][number], que
   return text.includes(query);
 };
 
-export default function OverviewPage({ earthquakes, isLoading, dataError, lastUpdated, openPage, searchQuery = '', userName }: Props) {
+export default function OverviewPage({ earthquakes, isLoading, dataError, lastUpdated, openPage, searchQuery = '', userName, userEmail, selectedEvent }: Props) {
   const query = searchQuery.trim().toLowerCase();
   const visibleEarthquakes = query
     ? earthquakes.filter((event) => matchesOverviewSearch(event, query))
@@ -36,7 +39,7 @@ export default function OverviewPage({ earthquakes, isLoading, dataError, lastUp
   const hasNoMatches = query.length > 0 && visibleEarthquakes.length === 0;
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-4">
       <OverviewHero />
       <RefreshNote isLoading={isLoading} error={dataError} lastUpdated={lastUpdated} userName={userName} />
       <OverviewQuickActions openPage={openPage} />
@@ -52,16 +55,18 @@ export default function OverviewPage({ earthquakes, isLoading, dataError, lastUp
         </div>
       ) : (
         <>
-          <OverviewStatGrid earthquakes={visibleEarthquakes} />
-          <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+          <div className="mb-3 xl:mb-4"><OverviewStatGrid earthquakes={visibleEarthquakes} /></div>
+          <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
             <ActivitySummary earthquakes={visibleEarthquakes} />
             <MagnitudeDistribution earthquakes={visibleEarthquakes} />
           </div>
-          <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+          <div className="mt-3 grid gap-4 pb-2 xl:mt-4 xl:grid-cols-[0.9fr_1.1fr]">
             <ActiveRegions earthquakes={visibleEarthquakes} />
           </div>
         </>
       )}
+      {!hasNoMatches && <LiveAnalyticsContent earthquakes={visibleEarthquakes} globalSearch={searchQuery} />}
+      <GeoBotCard earthquakes={visibleEarthquakes} selectedEvent={selectedEvent} userName={userName} userEmail={userEmail} />
     </section>
   );
 }

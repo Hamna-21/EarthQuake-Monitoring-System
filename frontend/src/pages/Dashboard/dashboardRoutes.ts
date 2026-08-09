@@ -13,7 +13,6 @@ const routeByPage: Record<DashboardPage, string> = {
   details: '/dashboard/details',
   nearby: '/dashboard/nearby',
   alerts: '/dashboard/alerts',
-  ai_assistant: '/dashboard/ai-assistant',
 };
 
 export const pathForPage = (page: DashboardPage) => routeByPage[page];

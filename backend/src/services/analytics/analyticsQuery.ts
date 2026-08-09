@@ -12,6 +12,7 @@ export type ValidatedAnalyticsQuery = {
   maxMagnitude: number | null;
   minDepth: number | null;
   maxDepth: number | null;
+  location: string;
 };
 
 export const ANALYTICS_START_DATE = '1975-01-01';
@@ -86,5 +87,6 @@ export function validateAnalyticsQuery(input: AnalyticsQueryInput = {}, now = ne
   if (maxDepth !== null && maxDepth < 0) fail('Maximum depth cannot be negative.', 'depth_range_invalid');
   if (maxMagnitude !== null && minMagnitude > maxMagnitude) fail('Minimum magnitude cannot exceed maximum magnitude.', 'magnitude_range_invalid');
   if (minDepth !== null && maxDepth !== null && minDepth > maxDepth) fail('Minimum depth cannot exceed maximum depth.', 'depth_range_invalid');
-  return { startDate, endDate, startDateUtc: startDate.toISOString(), endDateUtc: endDate.toISOString(), region: readRegion(input), minMagnitude, maxMagnitude, minDepth, maxDepth };
+  const location = typeof input.location === 'string' ? input.location.trim().slice(0, 120) : '';
+  return { startDate, endDate, startDateUtc: startDate.toISOString(), endDateUtc: endDate.toISOString(), region: readRegion(input), minMagnitude, maxMagnitude, minDepth, maxDepth, location };
 }

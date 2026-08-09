@@ -14,7 +14,7 @@ export default function ActivitySummary({ earthquakes }: { earthquakes: Earthqua
   const tier = tiers.find((t) => score < t.max)!;
 
   return (
-    <article className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-white/12 bg-white/[0.07] p-8 shadow-sm backdrop-blur">
+    <article className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-white/12 bg-white/[0.07] p-5 shadow-sm backdrop-blur">
       <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full blur-3xl" style={{ background: tier.glow }} />
       <div className="pointer-events-none absolute -left-16 -bottom-20 h-64 w-64 rounded-full blur-3xl opacity-60" style={{ background: tier.glow }} />
 
@@ -30,22 +30,22 @@ export default function ActivitySummary({ earthquakes }: { earthquakes: Earthqua
           </span>
         </p>
 
-        <div className="relative mt-6">
+        <div className="relative mt-4">
           <div
-            className="grid h-36 w-36 place-items-center rounded-full p-2 transition-all duration-700"
+            className="grid h-28 w-28 place-items-center rounded-full p-2 transition-all duration-700"
             style={{
               background: `conic-gradient(${tier.ring} ${score}%, rgba(15,23,42,0.08) 0)`,
               boxShadow: `0 0 28px ${tier.glow}`,
             }}
           >
             <div className="grid h-full w-full place-items-center rounded-full bg-white shadow-inner">
-              <strong className="font-serif text-4xl font-black text-slate-900">{score}</strong>
+              <strong className="font-serif text-3xl font-black text-slate-900">{score}</strong>
               <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400">of 100</span>
             </div>
           </div>
         </div>
 
-        <h2 className="mt-5 font-serif text-3xl font-black tracking-tight" style={{ color: tier.ring }}>
+        <h2 className="mt-3 font-serif text-2xl font-black tracking-tight" style={{ color: tier.ring }}>
           {tier.label}
         </h2>
         <p className="mt-2 max-w-sm text-sm leading-relaxed text-slate-500">
@@ -54,7 +54,7 @@ export default function ActivitySummary({ earthquakes }: { earthquakes: Earthqua
           as high-magnitude or alerted.
         </p>
 
-        <div className="relative mt-7 w-full max-w-md">
+        <div className="relative mt-4 w-full max-w-md">
           <div className="flex h-2 overflow-hidden rounded-full bg-slate-100 ring-1 ring-inset ring-slate-200/60">
             <div className="h-full flex-1 bg-emerald-400" />
             <div className="h-full flex-1 bg-amber-400" />

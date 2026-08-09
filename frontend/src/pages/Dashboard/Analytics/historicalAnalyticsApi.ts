@@ -15,7 +15,7 @@ export type HistoricalAnalyticsResponse = {
 };
 
 const qs = (filters: AnalyticsFilters) => {
-  const params = new URLSearchParams({ region: filters.region, startDate: filters.startDate, endDate: filters.endDate, minMagnitude: String(filters.minMagnitude) });
+  const params = new URLSearchParams({ region: filters.region, startDate: filters.startDate, endDate: filters.endDate, minMagnitude: String(filters.minMagnitude), location: filters.location.trim() });
   if (filters.maxMagnitude !== null) params.set('maxMagnitude', String(filters.maxMagnitude));
   if (filters.minDepth !== null) params.set('minDepth', String(filters.minDepth));
   if (filters.maxDepth !== null) params.set('maxDepth', String(filters.maxDepth));

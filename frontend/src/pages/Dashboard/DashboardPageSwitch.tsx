@@ -1,7 +1,6 @@
 import { lazy, Suspense, type ReactNode } from 'react';
 import { DashboardPage, DashboardProps } from '../../components/dashboard/types';
 
-const AiAssistantPage = lazy(() => import('./AiAssistant/AiAssistantPage'));
 const AlertsPage = lazy(() => import('./Alerts/AlertsPage'));
 const LiveAnalyticsPage = lazy(() => import('./Analytics/LiveAnalyticsPage'));
 const PakistanHistoricalAnalyticsPage = lazy(() => import('./Analytics/PakistanHistoricalAnalyticsPage'));
@@ -25,7 +24,7 @@ type Props = {
 
 export default function DashboardPageSwitch({ page, pageProps, userName, userEmail, search }: Props) {
   let content: ReactNode;
-  if (page === 'overview') content = <OverviewPage {...pageProps} searchQuery={search} userName={userName} />;
+  if (page === 'overview') content = <OverviewPage {...pageProps} searchQuery={search} userName={userName} userEmail={userEmail} />;
   else if (page === 'feed') content = <FeedPage {...pageProps} />;
   else if (page === 'map') content = <MapPage {...pageProps} />;
   else if (page === 'historical_maps') content = <HistoricalMapsPage {...pageProps} />;
@@ -37,7 +36,7 @@ export default function DashboardPageSwitch({ page, pageProps, userName, userEma
   else if (page === 'details') content = <DetailsPage {...pageProps} />;
   else if (page === 'nearby') content = <NearbyPage {...pageProps} />;
   else if (page === 'alerts') content = <AlertsPage {...pageProps} />;
-  else content = <AiAssistantPage {...pageProps} userName={userName} userEmail={userEmail} />;
+  else content = <OverviewPage {...pageProps} searchQuery={search} userName={userName} userEmail={userEmail} />;
 
   return (
     <Suspense fallback={<div className="rounded-2xl border border-white/10 bg-white/[0.07] p-6 text-sm font-bold text-slate-200 backdrop-blur">Loading dashboard view...</div>}>

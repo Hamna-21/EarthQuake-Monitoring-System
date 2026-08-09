@@ -1,12 +1,11 @@
 import type { Earthquake } from '../../../types';
 
-export type AnalyticsRegion = 'pakistan' | 'global';
-
 export type AnalyticsFilters = {
-  region: AnalyticsRegion;
+  region: 'global';
   startDate: string;
   endDate: string;
   minMagnitude: number;
+  location: string;
   maxMagnitude: number | null;
   minDepth: number | null;
   maxDepth: number | null;
@@ -77,11 +76,13 @@ export type MagnitudeDistribution = {
 export type MagnitudeGroups = Record<MagnitudeGroupKey, Earthquake[]>;
 
 export function createDefaultAnalyticsFilters(): AnalyticsFilters {
+  const year = new Date().getUTCFullYear();
   return {
-    region: 'pakistan',
-    startDate: '1975-01-01',
-    endDate: new Date().toISOString().slice(0, 10),
+    region: 'global',
+    startDate: `${year}-01-01`,
+    endDate: `${year}-12-31`,
     minMagnitude: 4,
+    location: '',
     maxMagnitude: null,
     minDepth: null,
     maxDepth: null,

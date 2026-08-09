@@ -82,6 +82,7 @@ export default function Dashboard(props: UserDashboardProps) {
     setSelectedId: selectLiveEvent,
     setSelectedEvent: setSelectedHistoryEvent,
     openPage,
+    onBack: () => openPage('overview'),
     globalSearch,
     highlightedEventId: selectedId
   };

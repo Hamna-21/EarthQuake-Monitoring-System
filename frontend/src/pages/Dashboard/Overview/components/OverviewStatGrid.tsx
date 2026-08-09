@@ -20,13 +20,13 @@ export default function OverviewStatGrid({ earthquakes }: { earthquakes: Earthqu
 
   return (
     <section>
-      <div className="mb-4 flex items-baseline justify-between">
+      <div className="mb-3 flex items-baseline justify-between">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.2em] text-red-700">Situation Room</p>
-          <h2 className="mt-1 font-serif text-xl font-black tracking-tight text-white">Global Pulse, at a Glance</h2>
+          <h2 className="mt-0.5 font-serif text-lg font-black tracking-tight text-white">Global Pulse, at a Glance</h2>
         </div>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {cards.map(([label, caption, value, icon, gradient, glow, tone, tag, seed]) => (
           <OverviewStatCard
             key={label}

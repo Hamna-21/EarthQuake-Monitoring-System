@@ -12,8 +12,7 @@ export type DashboardPage =
   | 'prediction'
   | 'details'
   | 'nearby'
-  | 'alerts'
-  | 'ai_assistant';
+  | 'alerts';
 
 export type SortKey = 'time' | 'magnitude' | 'depth' | 'place' | 'alert' | 'status';
 export type SortDirection = 'asc' | 'desc';
@@ -45,6 +44,7 @@ export type DashboardProps = {
   openPage: (page: DashboardPage) => void;
   globalSearch?: string;
   highlightedEventId?: string | null;
+  onBack: () => void;
 };
 
 export const defaultFilters: EventFilters = {
@@ -57,3 +57,4 @@ export const defaultFilters: EventFilters = {
   tsunami: 'all',
   status: 'all'
 };
+

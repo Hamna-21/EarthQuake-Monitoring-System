@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { DashboardProps } from '../../../components/dashboard/types';
 import { createDefaultAnalyticsFilters, type AnalyticsFilters } from './analyticsTypes';
-import AnalyticsRouteNav from './AnalyticsRouteNav';
 import HistoricalAnalyticsControls from './components/HistoricalAnalyticsControls';
 import HistoricalDistributionCharts from './components/HistoricalDistributionCharts';
 import HistoricalFilterSummary from './components/HistoricalFilterSummary';
@@ -12,7 +11,7 @@ import HistoricalTimelineChart from './components/HistoricalTimelineChart';
 import HistoricalYearlyChart from './components/HistoricalYearlyChart';
 import { useHistoricalAnalytics } from './useHistoricalAnalytics';
 
-export default function PakistanHistoricalAnalyticsPage({ openPage }: DashboardProps) {
+export default function PakistanHistoricalAnalyticsPage(_props: DashboardProps) {
   const { filters, updateFilters, reset, data, error, isLoading, refresh } = useHistoricalAnalytics(true);
   const [draft, setDraft] = useState<AnalyticsFilters>(filters);
   useEffect(() => setDraft(filters), [filters]);
@@ -21,7 +20,6 @@ export default function PakistanHistoricalAnalyticsPage({ openPage }: DashboardP
   return (
     <div className="space-y-6">
       <Header />
-      <AnalyticsRouteNav active="analytics_pakistan" openPage={openPage} />
       <HistoricalAnalyticsControls draft={draft} setDraft={setDraftPatch} onApply={() => updateFilters(draft)} onReset={resetAll} onRefresh={refresh} isLoading={isLoading} />
       {isLoading && !data ? <Skeleton /> : null}
       {error ? <State title="Pakistan historical analytics could not load." text={error} action={refresh} /> : null}

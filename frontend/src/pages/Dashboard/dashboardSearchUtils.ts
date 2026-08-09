@@ -7,12 +7,11 @@ export const dashboardPages = [
   ['feed', 'Live Feed', 'Real-time earthquake records'],
   ['map', 'Global Map', 'Earthquake map and markers'],
   ['historical_maps', 'Historical Maps', 'Global and Pakistan historical earthquake maps'],
-  ['analytics', 'Historical Analytics', 'Historical charts and seismic insights'],
+  ['analytics_pakistan', 'Historical Analytics', 'Historical charts and seismic insights'],
   ['prediction', 'Prediction', 'Probabilistic seismic risk forecast'],
   ['details', 'Details', 'Selected earthquake report'],
   ['nearby', 'Nearby', 'Earthquakes around your location'],
   ['alerts', 'Alerts', 'Monitoring rules and matches'],
-  ['ai_assistant', 'AI Assistant', 'Ask GeoPulse questions'],
 ] as const;
 
 export const recentSearchKey = 'geopulse-dashboard-searches';
