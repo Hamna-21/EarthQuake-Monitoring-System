@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Compass, Radio } from 'lucide-react';
 import { Earthquake } from '../../../types';
-import MapCanvas from '../../../components/dashboard/MapCanvas';
+import MapCanvas from '../../../components/map/MapCanvas';
 import { DashboardProps } from '../../../components/dashboard/types';
 import { RefreshNote } from '../../../components/dashboard/Shell';
 import MapControlPanel from './components/MapControlPanel';

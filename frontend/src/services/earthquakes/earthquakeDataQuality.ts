@@ -1,4 +1,4 @@
-import type { Earthquake } from '../types';
+import type { Earthquake } from '../../types';
 
 const validNumber = (value: number) => Number.isFinite(value);
 const validCoordinates = (event: Earthquake) =>

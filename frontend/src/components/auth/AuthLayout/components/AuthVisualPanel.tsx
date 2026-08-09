@@ -10,7 +10,7 @@ export default function AuthVisualPanel() {
         <div>
           <p className="text-2xl font-black uppercase tracking-[0.24em] text-white">GeoPulse</p>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-            Enterprise Access node
+            
           </p>
         </div>
       </div>

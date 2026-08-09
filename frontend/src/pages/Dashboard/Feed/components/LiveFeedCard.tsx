@@ -1,6 +1,6 @@
 import { ArrowUpRight, Compass, Clock3 } from 'lucide-react';
 import { Earthquake } from '../../../../types';
-import { markerColor } from '../../../../components/dashboard/mapStyles';
+import { markerColor } from '../../../../components/map/mapStyles';
 import { countryOf, fmtDate } from '../../../../components/dashboard/data';
 
 export default function LiveFeedCard({

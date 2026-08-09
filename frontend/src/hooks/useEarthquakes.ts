@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { SeismicFilters, Earthquake } from '../types';
-import { fetchEarthquakes } from '../utils/usgsApi';
+import { fetchEarthquakes } from '../services/earthquakes/earthquakeApi';
 
 export function useEarthquakes() {
   const [filters, setFilters] = useState<SeismicFilters>({

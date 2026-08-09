@@ -1,4 +1,4 @@
-import { SeismicFilters } from '../types';
+import { SeismicFilters } from '../../types';
 
 export const EARTHQUAKE_API_URL = 'https://earthquake.usgs.gov/fdsnws/event/1/query';
 export const LIVE_EARTHQUAKE_API_URL = '/api/earthquakes';

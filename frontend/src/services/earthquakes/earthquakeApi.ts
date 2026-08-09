@@ -1,6 +1,6 @@
-import { Earthquake, SeismicFilters } from '../types';
-import { filterAndSortEarthquakes, filterHistoricalByQuery, filterPakistanEvents } from './earthquakeFilters';
-import { HISTORICAL_EARTHQUAKE_API_URL, LIVE_EARTHQUAKE_API_URL, buildHistoricalQuery, buildLiveQuery } from './usgsParams';
+import { Earthquake, SeismicFilters } from '../../types';
+import { filterAndSortEarthquakes, filterHistoricalByQuery, filterPakistanEvents } from '../../utils/earthquakeFilters';
+import { HISTORICAL_EARTHQUAKE_API_URL, LIVE_EARTHQUAKE_API_URL, buildHistoricalQuery, buildLiveQuery } from './earthquakeQuery';
 import { cleanEarthquakes } from './earthquakeDataQuality';
 
 export type HistoricalSearchParams = {

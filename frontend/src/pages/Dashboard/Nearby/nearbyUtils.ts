@@ -1,8 +1,10 @@
 import { countryOf } from '../../../components/dashboard/data';
+export { reverseLocation } from '../../../utils/locationApi';
 
 export type UserLocation = {
   lat: number;
   lon: number;
+  label?: string;
   city?: string;
   region?: string;
   country?: string;
@@ -21,17 +23,3 @@ export function placeParts(place: string) {
   };
 }
 
-export async function reverseLocation(lat: number, lon: number): Promise<UserLocation> {
-  const response = await fetch(
-    `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`
-  );
-  const data = await response.json();
-  const address = data.address ?? {};
-  return {
-    lat,
-    lon,
-    city: address.city ?? address.town ?? address.village ?? address.county,
-    region: address.state ?? address.province ?? address.region,
-    country: address.country,
-  };
-}

@@ -1,5 +1,5 @@
 import { Earthquake } from '../../../../types';
-import { markerColor } from '../../../../components/dashboard/mapStyles';
+import { markerColor } from '../../../../components/map/mapStyles';
 import { fmtDate } from '../../../../components/dashboard/data';
 
 export default function LiveTimeline({ events }: { events: Earthquake[] }) {

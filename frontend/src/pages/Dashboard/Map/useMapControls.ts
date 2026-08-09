@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Earthquake } from '../../../types';
 import { countryOf, fmtDate } from '../../../components/dashboard/data';
-import { FlyTarget, SearchPin, UserPosition } from '../../../components/dashboard/MapCanvas';
-import { MapTileKey } from '../../../components/dashboard/mapStyles';
+import { FlyTarget, SearchPin, UserPosition } from '../../../components/map/MapCanvas';
+import { MapTileKey } from '../../../components/map/mapStyles';
 
 export function useMapControls(earthquakes: Earthquake[], globalSearch: string, setSelectedId: (id: string | null) => void) {
   const [query, setQuery] = useState('');

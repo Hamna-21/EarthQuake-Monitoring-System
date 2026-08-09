@@ -1,4 +1,4 @@
-import type { Earthquake, EarthquakeAlert } from '../types';
+import type { Earthquake, EarthquakeAlert } from '../../types';
 
 type Feature = {
   id: string;

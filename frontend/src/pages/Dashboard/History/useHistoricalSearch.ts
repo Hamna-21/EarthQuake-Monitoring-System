@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Earthquake } from '../../../types';
-import { fetchHistoricalEarthquakePage } from '../../../utils/usgsApi';
+import { fetchHistoricalEarthquakePage } from '../../../services/earthquakes/earthquakeApi';
 
 export function useHistoricalSearch(mode: 'global' | 'pakistan', globalSearch = '') {
   const today = () => new Date().toISOString().slice(0, 10);

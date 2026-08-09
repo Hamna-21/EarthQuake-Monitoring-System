@@ -1,5 +1,5 @@
 import type { Earthquake } from '../../../../types';
-import MapCanvas from '../../../../components/dashboard/MapCanvas';
+import MapCanvas from '../../../../components/map/MapCanvas';
 
 export default function HistoryMapSection({
   title,

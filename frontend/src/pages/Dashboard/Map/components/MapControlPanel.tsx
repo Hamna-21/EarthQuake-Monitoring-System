@@ -1,5 +1,5 @@
 import { Maximize2, RotateCcw, Sparkles } from 'lucide-react';
-import { MapTileKey } from '../../../../components/dashboard/mapStyles';
+import { MapTileKey } from '../../../../components/map/mapStyles';
 import { Panel } from '../../../../components/dashboard/panelstat';
 import MapControlPanelHeader from './MapControlPanelHeader';
 import { MapOverlayControls } from './MapOverlayControls';
