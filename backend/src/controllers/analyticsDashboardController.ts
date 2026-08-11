@@ -1,7 +1,6 @@
 import type { Request, Response } from 'express';
-import { getDb } from '../database/mongodb';
-import { getAnalyticsDashboard } from '../services/analytics/analyticsAggregationService';
 import { getAnalyticsDashboardFallback } from '../services/analytics/analyticsDashboardFallback';
+import { resolveAnalyticsLocation } from '../services/analytics/analyticsLocationResolver';
 import { AnalyticsValidationError, validateAnalyticsQuery } from '../services/analytics/analyticsQuery';
 import { UsgsAnalyticsError } from '../services/analytics/usgsAnalyticsClient';
 
@@ -23,22 +22,21 @@ function readSingle(value: unknown, field: string) {
 
 function readDashboardQuery(req: Request) {
   return validateAnalyticsQuery({
-    region: readSingle(req.query.region, 'region') ?? 'pakistan',
+    region: readSingle(req.query.region, 'region') ?? 'global',
     startDate: readSingle(req.query.startDate, 'startDate') ?? '1975-01-01',
     endDate: readSingle(req.query.endDate, 'endDate') ?? new Date().toISOString(),
     minMagnitude: readSingle(req.query.minMagnitude, 'minMagnitude') ?? '4',
     maxMagnitude: readSingle(req.query.maxMagnitude, 'maxMagnitude'),
     minDepth: readSingle(req.query.minDepth, 'minDepth'),
     maxDepth: readSingle(req.query.maxDepth, 'maxDepth'),
+    location: readSingle(req.query.location, 'location') ?? '',
   });
 }
 
 export async function analyticsDashboardHandler(req: Request, res: Response) {
   try {
-    const query = readDashboardQuery(req);
-    const db = await getDb();
-    if (!db) return res.json({ success: true, ...(await getAnalyticsDashboardFallback(query)) });
-    return res.json({ success: true, ...(await getAnalyticsDashboard(db, query)) });
+    const query = await resolveAnalyticsLocation(readDashboardQuery(req));
+    return res.json({ success: true, ...(await getAnalyticsDashboardFallback(query)) });
   } catch (error) {
     if (error instanceof QueryError) return sendError(res, error.status, error.code, error.message);
     if (error instanceof AnalyticsValidationError) return sendError(res, 400, error.code.toUpperCase(), error.message);

@@ -13,6 +13,8 @@ export type ValidatedAnalyticsQuery = {
   minDepth: number | null;
   maxDepth: number | null;
   location: string;
+  bounds?: { minLatitude: number; maxLatitude: number; minLongitude: number; maxLongitude: number };
+  locationPolygons?: Array<Array<[number, number]>>;
 };
 
 export const ANALYTICS_START_DATE = '1975-01-01';
@@ -60,7 +62,7 @@ function readNumber(input: AnalyticsQueryInput, key: string, fallback: number | 
 }
 
 function readRegion(input: AnalyticsQueryInput): AnalyticsRegion {
-  const region = String(input.region ?? input.mode ?? 'pakistan').trim().toLowerCase();
+  const region = String(input.region ?? input.mode ?? 'global').trim().toLowerCase();
   if (region === 'pakistan' || region === 'global') return region;
   fail('Region must be either pakistan or global.', 'invalid_region');
 }

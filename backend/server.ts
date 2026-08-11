@@ -29,6 +29,7 @@ async function startServer() {
       server: { middlewareMode: true },
       appType: "spa",
       root: path.join(process.cwd(), "frontend"),
+      configLoader: "runner",
     });
     app.use(vite.middlewares);
   } else {

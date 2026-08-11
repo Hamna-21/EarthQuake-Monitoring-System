@@ -1,4 +1,4 @@
-export type { Earthquake, EarthquakeAlert } from './earthquake';
+export type { Earthquake, EarthquakeAlert } from '@/types/earthquake';
 
 export interface SeismicFilters {
   viewType: 'live' | 'historical';

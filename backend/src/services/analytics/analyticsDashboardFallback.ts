@@ -1,6 +1,8 @@
 import type { AnalyticsEarthquake } from './normalizeAnalyticsEarthquake';
 import type { ValidatedAnalyticsQuery } from './analyticsQuery';
-import { fetchAnalyticsInterval } from './usgsAnalyticsClient';
+import { pointInPolygon } from '../pakistanBoundary';
+import { fetchCompleteAnalyticsQuery } from './analyticsCompleteFetch';
+import { insideResolvedLocation } from './analyticsLocationResolver';
 
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const magBins = ['Below 4.0', '4.0-4.9', '5.0-5.9', '6.0-6.9', '7.0-7.9', '8.0+'];
@@ -9,6 +11,7 @@ const years = (start: Date, end: Date) => Array.from({ length: end.getUTCFullYea
 const magLabel = (mag: number | null) => mag === null ? null : mag < 4 ? magBins[0] : mag < 5 ? magBins[1] : mag < 6 ? magBins[2] : mag < 7 ? magBins[3] : mag < 8 ? magBins[4] : magBins[5];
 const depthLabel = (depth: number | null) => depth === null ? null : depth <= 10 ? depthBins[0] : depth <= 30 ? depthBins[1] : depth <= 70 ? depthBins[2] : depth <= 150 ? depthBins[3] : depth <= 300 ? depthBins[4] : depthBins[5];
 const avg = (items: number[]) => items.length ? items.reduce((sum, item) => sum + item, 0) / items.length : null;
+const neighboringCountry = /\b(?:afghanistan|china|india|iran|kyrgyzstan|tajikistan)\b/i;
 
 function countBy<T extends string | number>(items: T[]) {
   const map = new Map<T, number>();
@@ -42,8 +45,12 @@ function fillBins(events: AnalyticsEarthquake[], labels: string[], read: (event:
 }
 
 export async function getAnalyticsDashboardFallback(query: ValidatedAnalyticsQuery) {
-  const response = await fetchAnalyticsInterval({ ...query, limit: 20000 }, { timeoutMs: 20000 });
-  const events = response.events;
+  const response = await fetchCompleteAnalyticsQuery(query);
+  const events = response.events.filter((event) => {
+    if (query.region === 'pakistan' && (!pointInPolygon(event.longitude, event.latitude) || neighboringCountry.test(event.place))) return false;
+    if (query.region === 'global' && (!insideResolvedLocation(query, event.longitude, event.latitude) || (query.location && !event.place.toLowerCase().includes(query.location.toLowerCase())))) return false;
+    return true;
+  });
   const yearRange = years(query.startDate, query.endDate);
   const yearlyFrequency = fillYears(events, yearRange);
   const monthlyTimeline = fillMonths(events, yearRange);
@@ -63,10 +70,10 @@ export async function getAnalyticsDashboardFallback(query: ValidatedAnalyticsQue
     depthDistribution: fillBins(events, depthBins, (event) => depthLabel(event.depth)),
     yearMonthHeatmap: monthlyTimeline,
     magnitudeGroups: fillBins(events, magBins, (event) => magLabel(event.magnitude)),
-    mapEvents: events.slice(-500).map((event) => ({
+    mapEvents: events.map((event) => ({
       usgsId: event.usgsId, magnitude: event.magnitude, place: event.place,
       occurredAt: event.time, depth: event.depth, coordinates: [event.longitude, event.latitude],
     })),
-    metadata: { dataMode: 'historical' as const, source: 'USGS' as const, geographicClassification: query.region === 'pakistan' ? 'broad-bounding-box' as const : 'global' as const, pointInPolygonApplied: false, generatedAt: new Date().toISOString(), documentCount: events.length },
+    metadata: { region: query.region, dataMode: 'historical' as const, source: 'USGS' as const, geographicClassification: query.region === 'pakistan' ? 'Pakistan boundary' : 'global', pointInPolygonApplied: query.region === 'pakistan', generatedAt: new Date().toISOString(), documentCount: events.length, usgsCount: response.expectedCount, rawFeatureCount: response.rawFeatureCount, uniqueEventCount: response.events.length, validEventCount: events.length, pages: response.pages, chunks: response.chunks, duplicateCount: response.duplicateCount },
   };
 }

@@ -3,7 +3,7 @@ import { buildUsgsAnalyticsParams, USGS_ANALYTICS_QUERY_URL, UsgsAnalyticsError 
 
 export type UsgsAnalyticsCountRequest = Pick<
   ValidatedAnalyticsQuery,
-  'startDate' | 'endDate' | 'region' | 'minMagnitude' | 'maxMagnitude' | 'minDepth' | 'maxDepth'
+  'startDate' | 'endDate' | 'region' | 'minMagnitude' | 'maxMagnitude' | 'minDepth' | 'maxDepth' | 'bounds'
 >;
 
 export type UsgsAnalyticsCountResult = {

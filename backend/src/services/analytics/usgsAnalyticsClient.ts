@@ -7,7 +7,7 @@ export const MAX_USGS_ANALYTICS_EVENT_LIMIT = 20000;
 
 export type UsgsAnalyticsRequest = Pick<
   ValidatedAnalyticsQuery,
-  'startDate' | 'endDate' | 'region' | 'minMagnitude' | 'maxMagnitude' | 'minDepth' | 'maxDepth'
+  'startDate' | 'endDate' | 'region' | 'minMagnitude' | 'maxMagnitude' | 'minDepth' | 'maxDepth' | 'bounds'
 > & { limit?: number; offset?: number };
 
 export type UsgsAnalyticsResponse = {
@@ -19,7 +19,7 @@ export type UsgsAnalyticsResponse = {
   skippedFeatureCount: number;
 };
 
-export type UsgsAnalyticsFetchOptions = { timeoutMs?: number; signal?: AbortSignal };
+export type UsgsAnalyticsFetchOptions = { timeoutMs?: number; signal?: AbortSignal; allowPartial?: boolean };
 
 export class UsgsAnalyticsError extends Error {
   constructor(message: string, public status?: number) {
@@ -40,6 +40,12 @@ function addRegion(params: URLSearchParams, region: AnalyticsRegion) {
   params.set('maxlongitude', String(PAKISTAN_ANALYTICS_BOUNDS.maxLongitude));
 }
 
+function addBounds(params: URLSearchParams, bounds: UsgsAnalyticsRequest['bounds']) {
+  if (!bounds) return;
+  params.set('minlatitude', String(bounds.minLatitude)); params.set('maxlatitude', String(bounds.maxLatitude));
+  params.set('minlongitude', String(bounds.minLongitude)); params.set('maxlongitude', String(bounds.maxLongitude));
+}
+
 export function buildUsgsAnalyticsParams(request: UsgsAnalyticsRequest) {
   const limit = safeLimit(request.limit);
   const params = new URLSearchParams({
@@ -55,7 +61,7 @@ export function buildUsgsAnalyticsParams(request: UsgsAnalyticsRequest) {
   if (request.maxMagnitude !== null) params.set('maxmagnitude', String(request.maxMagnitude));
   if (request.minDepth !== null) params.set('mindepth', String(request.minDepth));
   if (request.maxDepth !== null) params.set('maxdepth', String(request.maxDepth));
-  addRegion(params, request.region);
+  if (request.region === 'pakistan') addRegion(params, request.region); else addBounds(params, request.bounds);
   return params;
 }
 
@@ -89,6 +95,6 @@ export async function fetchAnalyticsInterval(request: UsgsAnalyticsRequest, opti
     events.push(event);
   }
   const metadata = readMetadata(data);
-  if (metadata.count > data.features.length) throw new UsgsAnalyticsError('USGS analytics response was truncated; split this interval before aggregating.', response.status);
+  if (!options.allowPartial && metadata.count > data.features.length) throw new UsgsAnalyticsError('USGS analytics response was truncated; split this interval before aggregating.', response.status);
   return { metadata, events, duplicateIds, requestUrl, returnedFeatureCount: data.features.length, skippedFeatureCount };
 }
