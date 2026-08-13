@@ -1,0 +1,13 @@
+/* ==========================================
+   OVERVIEW PAGE
+   Component: GeoBotCard.tsx
+   Parent Page: Overview.tsx
+   ========================================== */
+
+.geobot-pulse {
+  animation-duration: 2.4s;
+}
+
+.geobot-sparkle {
+  animation-duration: 1.8s;
+}
