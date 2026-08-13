@@ -7,6 +7,7 @@ import HistoryPageHeader from '@/features/dashboard/historical/components/Histor
 import HistoryPagination from '@/features/dashboard/historical/components/HistoryPagination';
 import HistoricalResultsTable from '@/features/dashboard/historical/components/HistoricalResultsTable';
 import { usePlaceFocus } from '@/features/dashboard/map/hooks/usePlaceFocus';
+import { getEarthquakeCsvFilename } from '@/features/dashboard/utils/exportCsv';
 
 type Props = DashboardProps & {
   scope: 'global' | 'pakistan';
@@ -55,7 +56,7 @@ export default function HistoryPageShell(props: Props) {
       />
       <HistoryMapSection title={props.mapTitle} description={props.mapDescription} events={events} loading={loading} onSelect={select} onDetails={openDetails} focusLocation={focusPlace} />
       <HistoryPagination page={page} count={events.length} limit={50} hasMore={hasMore} loading={loading} onPage={history.search} />
-      <HistoricalResultsTable events={events} loading={loading} onSelect={openDetails} />
+      <HistoricalResultsTable events={events} loading={loading} onSelect={openDetails} csvFilename={getEarthquakeCsvFilename({ query: props.locationLocked ? props.locationValue ?? 'Pakistan' : searchedQuery || query, startDate, endDate })} />
     </>
   );
 }

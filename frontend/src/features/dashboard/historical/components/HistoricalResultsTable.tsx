@@ -1,14 +1,17 @@
 import type { Earthquake } from '@/types';
+import { Download } from 'lucide-react';
 import EmptyState from '@/features/dashboard/components/EmptyState';
+import AppButton from '@/features/dashboard/components/common/AppButton';
+import { buildEarthquakeCsv, downloadCsv } from '@/features/dashboard/utils/exportCsv';
 import { formatAlert, formatDepth, formatMagnitude, formatPlace, formatTsunami, formatUtcTime } from '@/features/dashboard/historical/utils/historyDisplay';
 
 const headers = ['Date & Time', 'Magnitude', 'Location', 'Depth', 'Alert', 'Tsunami', 'Details'];
 
-export default function HistoricalResultsTable({ events, loading, onSelect }: { events: Earthquake[]; loading: boolean; onSelect: (event: Earthquake) => void; }) {
+export default function HistoricalResultsTable({ events, loading, onSelect, csvFilename = 'geopulse-earthquakes-filtered-results.csv' }: { events: Earthquake[]; loading: boolean; onSelect: (event: Earthquake) => void; csvFilename?: string; }) {
   if (loading && !events.length) return <LoadingTable />;
   return (
     <section className="overflow-hidden rounded-2xl border border-cyan-300/15 bg-slate-950/75 shadow-2xl shadow-cyan-950/20 backdrop-blur-2xl">
-      <TableTitle />
+      <TableTitle events={events} csvFilename={csvFilename} />
       <div className="max-h-[520px] overflow-auto scrollbar-thin scrollbar-track-slate-950 scrollbar-thumb-slate-600">
         <table className="w-full min-w-[1040px] table-fixed text-left text-sm">
           <thead className="sticky top-0 z-10 bg-slate-900/95 text-[10px] uppercase tracking-[0.14em] text-slate-200 backdrop-blur-xl">
@@ -24,12 +27,11 @@ export default function HistoricalResultsTable({ events, loading, onSelect }: { 
   );
 }
 
-function TableTitle() {
+function TableTitle({ events, csvFilename }: { events: Earthquake[]; csvFilename: string }) {
   return (
-    <div className="bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500 px-6 py-4">
-      <p className="font-serif text-[10px] font-black uppercase tracking-[0.22em] text-white/80">Live Seismic Log</p>
-      <h2 className="mt-1 font-serif text-xl font-black text-white">Earthquake Records</h2>
-      <p className="mt-1 text-sm font-semibold text-white/85">Clean historical results with readable risk badges.</p>
+    <div className="flex flex-wrap items-center justify-between gap-3 bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500 px-6 py-4">
+      <div><p className="font-serif text-[10px] font-black uppercase tracking-[0.22em] text-white/80">Live Seismic Log</p><h2 className="mt-1 font-serif text-xl font-black text-white">Earthquake Records</h2><p className="mt-1 text-sm font-semibold text-white/85">Clean historical results with readable risk badges.</p></div>
+      <AppButton variant="primary" size="sm" icon={<Download className="h-3.5 w-3.5" />} disabled={!events.length} onClick={() => downloadCsv(csvFilename, buildEarthquakeCsv(events))} className="rounded-xl bg-slate-950/75 px-3 py-2 text-xs font-black text-white shadow-lg transition hover:bg-slate-950"></AppButton>
     </div>
   );
 }

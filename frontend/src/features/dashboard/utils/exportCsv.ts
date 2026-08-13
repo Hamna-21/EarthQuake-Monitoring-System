@@ -1,0 +1,35 @@
+import type { Earthquake } from '@/types';
+
+const columns = ['Date/Time UTC', 'Place', 'Country', 'Magnitude', 'Depth', 'Latitude', 'Longitude', 'USGS ID', 'URL'];
+
+export function escapeCsvValue(value: unknown) {
+  const text = value == null ? '' : String(value);
+  return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+}
+
+export function buildEarthquakeCsv(events: Earthquake[]) {
+  const rows = events.map((event) => [formatUtc(event.time), event.place, countryFromPlace(event.place), number(event.magnitude), number(event.depth), number(event.latitude), number(event.longitude), event.id, event.detailUrl ?? event.url ?? '']);
+  return [columns, ...rows].map((row) => row.map(escapeCsvValue).join(',')).join('\r\n');
+}
+
+export function downloadCsv(filename: string, csvContent: string) {
+  const blob = new Blob([`\ufeff${csvContent}`], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+export function getEarthquakeCsvFilename(filters: { query?: string; startDate?: string; endDate?: string }) {
+  const location = safePart(filters.query || 'filtered-results');
+  const start = safePart(filters.startDate?.slice(0, 10) || '');
+  const end = safePart(filters.endDate?.slice(0, 10) || '');
+  return `geopulse-earthquakes-${location}${start ? `-${start}` : ''}${end ? `-${end}` : ''}.csv`;
+}
+
+function safePart(value: string) { return value.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'filtered-results'; }
+function number(value: number | null | undefined) { return typeof value === 'number' && Number.isFinite(value) ? value : ''; }
+function formatUtc(value: string) { const date = new Date(value); return Number.isFinite(date.getTime()) ? date.toISOString() : value || ''; }
+function countryFromPlace(place: string) { const parts = place.split(',').map((part) => part.trim()).filter(Boolean); return parts.length > 1 ? parts[parts.length - 1] : ''; }

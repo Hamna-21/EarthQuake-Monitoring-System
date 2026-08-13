@@ -18,7 +18,7 @@ export default function AnalyticsChartFrame({
   wide?: boolean;
 }) {
   return (
-    <section className={`group relative overflow-hidden rounded-2xl border border-white/12 bg-white/[0.07] p-3.5 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-cyan-300/25 ${wide ? 'xl:col-span-2' : ''}`}>
+    <section className={`geo-chart-card group p-3.5 ${wide ? 'xl:col-span-2' : ''}`}>
       <div className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full bg-cyan-400/10 blur-3xl" />
       <div className="relative mb-2.5 flex items-start justify-between gap-3">
         <div>

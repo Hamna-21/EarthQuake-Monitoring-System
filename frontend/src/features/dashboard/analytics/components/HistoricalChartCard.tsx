@@ -14,11 +14,11 @@ export default function HistoricalChartCard({
   className?: string;
 }) {
   return (
-    <section className={`relative overflow-hidden rounded-2xl border border-cyan-300/10 bg-slate-950/70 p-5 shadow-2xl shadow-cyan-950/20 backdrop-blur-xl ${className}`}>
+    <section className={`geo-historical-chart-card relative overflow-hidden rounded-2xl border border-cyan-300/10 bg-slate-950/70 p-5 shadow-2xl shadow-cyan-950/20 backdrop-blur-xl ${className}`}>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(251,146,60,0.12),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(34,211,238,0.10),transparent_30%)]" />
       <div className="relative mb-4">
-        <h3 className="font-sans text-xl font-black text-white">{title}</h3>
-        <p className="mt-1 font-sans text-sm font-semibold text-slate-400">{subtitle}</p>
+        <h3 className="font-serif text-xl font-black tracking-tight text-white">{title}</h3>
+        <p className="mt-1 text-sm font-semibold text-slate-400">{subtitle}</p>
       </div>
       <div className="relative">{children}</div>
       <p className="relative mt-4 rounded-xl border border-orange-300/10 bg-slate-950/55 p-3 font-sans text-sm font-semibold text-slate-300">

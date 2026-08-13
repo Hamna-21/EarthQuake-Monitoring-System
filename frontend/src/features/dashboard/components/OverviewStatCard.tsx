@@ -2,7 +2,7 @@ import { LucideIcon } from 'lucide-react';
 
 export default function OverviewStatCard({ label, caption, value, icon: Icon, gradient, glow, toneChip, tag, bars }: { label: string; caption: string; value: string | number; icon: LucideIcon; gradient: string; glow: string; toneChip: string; tag: string; bars: number[]; }) {
   return (
-    <article className={`group relative mb-4 overflow-hidden rounded-2xl border border-white/12 bg-white/[0.07] p-3.5 pb-4 shadow-sm ring-1 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${glow}`}>
+    <article className={`geo-kpi-card geo-card-hover group relative mb-4 overflow-hidden p-3.5 pb-4 ring-1 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${glow}`}>
       <div className={`pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br ${gradient} opacity-[0.07] blur-2xl transition-opacity duration-300 group-hover:opacity-[0.14]`} />
       <div className="relative flex items-center justify-between">
         <span className={`grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br ${gradient} text-white shadow-lg`}><Icon className="h-4 w-4" /></span>

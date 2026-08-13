@@ -48,6 +48,26 @@
 .geo-card-hover:hover { transform: translateY(-2px); filter: brightness(1.04); }
 
 /* ==========================================
+   REUSABLE CHART CARD WRAPPER
+   Design source: Overview analytics cards
+   Used by: Live Analytics and dashboard chart frames
+   Purpose: Shared glass surface and hover treatment without changing chart logic
+   ========================================== */
+.geo-chart-card { position: relative; overflow: hidden; border: 1px solid rgb(255 255 255 / .12); border-radius: 1rem; background: rgb(255 255 255 / .07); box-shadow: 0 1px 2px rgb(0 0 0 / .05); backdrop-filter: blur(16px); transition: transform .2s ease, border-color .2s ease; }
+.geo-chart-card:hover { transform: translateY(-.125rem); border-color: rgb(103 232 249 / .25); }
+/* HistoricalChartCard.tsx uses this hover treatment while preserving its existing cyan glass surface. */
+.geo-historical-chart-card { transition: transform .2s ease, border-color .2s ease; }
+.geo-historical-chart-card:hover { transform: translateY(-.125rem); border-color: rgb(103 232 249 / .25); }
+
+/* ==========================================
+   REUSABLE MAP PANEL WRAPPER
+   Design source: Overview glass cards
+   Used by: Global Map, Historical Map, Historical Analytics, and 3D globe panels
+   Purpose: Shared static shell only; map behavior remains local to each page
+   ========================================== */
+.geo-map-panel-shell { overflow: visible; border: 1px solid rgb(255 255 255 / .1); border-radius: 1rem; background: rgb(3 8 23 / .9); box-shadow: 0 20px 70px rgb(0 0 0 / .35); }
+
+/* ==========================================
    REUSABLE STATUS BADGE
    Component: StatusBadge.tsx
    Used by: records, alerts, and metric summaries
