@@ -8,7 +8,7 @@ import AlertMatches from '@/features/dashboard/alerts/components/AlertMatches';
 import AlertRuleForm from '@/features/dashboard/alerts/components/AlertRuleForm';
 import AlertRulesList from '@/features/dashboard/alerts/components/AlertRulesList';
 import { ALERT_RULES_KEY, Rule, loadRules, matchingRecords } from '@/features/dashboard/alerts/constants';
-import PageBackButton from '@/features/dashboard/components/PageBackButton';
+import BackButton from '@/features/dashboard/components/common/BackButton';
 import PageTitle from '@/features/dashboard/components/common/PageTitle';
 
 export default function AlertsPage({ earthquakes, setSelectedId, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
@@ -45,7 +45,7 @@ export default function AlertsPage({ earthquakes, setSelectedId, openPage, globa
   return (
     <>
       <div className="mb-3 flex justify-end">
-        <PageBackButton label="Close" onClick={() => openPage('overview')} />
+        <BackButton label="Close" onClick={() => openPage('overview')} />
       </div>
       <PageTitle className="mb-3" eyebrow="Alerts & Notifications" title="Create monitoring rules" subtitle="Define practical rules against current earthquake records." />
       <section className="mb-3 grid gap-3 xl:grid-cols-[220px_1fr]">

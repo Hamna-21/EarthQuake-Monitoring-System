@@ -9,7 +9,7 @@ import NearbyEarthquakeCard from '@/features/dashboard/nearby/components/NearbyE
 import RadiusControl from '@/features/dashboard/nearby/components/RadiusControl';
 import { UserLocation, directionFromUser, reverseLocation } from '@/features/dashboard/nearby/utils/nearbyUtils';
 import NearbySummaryCard from '@/features/dashboard/nearby/components/NearbySummaryCard';
-import PageBackButton from '@/features/dashboard/components/PageBackButton';
+import BackButton from '@/features/dashboard/components/common/BackButton';
 import { useDashboardPageState } from '@/features/dashboard/hooks/DashboardStateContext';
 
 export default function NearbyPage({ earthquakes, setSelectedId, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
@@ -74,7 +74,7 @@ export default function NearbyPage({ earthquakes, setSelectedId, openPage, globa
   return (
     <section className="space-y-4">
       <div className="flex justify-end">
-        <PageBackButton label="Close" onClick={() => openPage('overview')} />
+        <BackButton label="Close" onClick={() => openPage('overview')} />
       </div>
       <LocationCard location={location} error={error} locating={locating} onLocate={locate} />
       <RadiusControl radius={radius} onChange={setRadius} />

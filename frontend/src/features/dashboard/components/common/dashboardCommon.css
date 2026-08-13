@@ -16,13 +16,15 @@
 
 /* ==========================================
    REUSABLE DASHBOARD BUTTONS
-   Components: AppButton.tsx, IconButton.tsx
-   Used by: filters, cards, panels, page actions
+   Components: AppButton.tsx, IconButton.tsx, BackButton.tsx, CloseButton.tsx
+   Used by: dashboard page actions, filters, cards, and panels
+   Design source: existing GeoPulse buttons
    ========================================== */
 .dashboard-button, .dashboard-icon-button { cursor: pointer; transition: filter .2s ease, transform .2s ease; }
 .dashboard-button:disabled, .dashboard-icon-button:disabled { cursor: not-allowed; opacity: .55; }
 .dashboard-button:hover:not(:disabled), .dashboard-icon-button:hover:not(:disabled) { filter: brightness(1.08); }
 .dashboard-icon-button { display: inline-flex; align-items: center; justify-content: center; }
+.dashboard-button--ghost { display: inline-flex; align-items: center; gap: .375rem; border: 1px solid rgb(255 255 255 / .1); border-radius: 9999px; background: rgb(255 255 255 / .05); padding: .375rem .75rem; color: rgb(226 232 240); font-size: 11px; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
 
 /* ==========================================
    REUSABLE GLASS CARD
