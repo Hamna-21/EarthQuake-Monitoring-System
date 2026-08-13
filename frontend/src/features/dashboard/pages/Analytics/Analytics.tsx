@@ -28,6 +28,7 @@ import {
 } from '@/features/dashboard/components/Charts';
 
 import AnalyticsStatCard from '@/features/dashboard/analytics/components/AnalyticsStatCard';
+import PageTitle from '@/features/dashboard/components/common/PageTitle';
 
 type LiveAnalyticsProps = Pick<
   DashboardProps,
@@ -98,17 +99,11 @@ export function LiveAnalyticsContent({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight text-white">Live Seismic Analytics</h1>
-          <p className="mt-1 text-xs text-white/45">Live earthquake patterns and seismic activity</p>
-        </div>
-        {openPage ? (
+      <PageTitle title="Live Seismic Analytics" subtitle="Live earthquake patterns and seismic activity" actions={openPage ? (
           <button type="button" onClick={() => openPage('overview')} aria-label="Close analytics" title="Close analytics" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.05] text-white/60 transition hover:border-red-400/30 hover:bg-red-500/10 hover:text-red-300">
             <X className="h-4 w-4" />
           </button>
-        ) : null}
-      </div>
+        ) : null} />
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {cards.map(([icon, label, value, help, gradient, glow]) => <AnalyticsStatCard key={label} icon={icon} label={label} value={value} help={help} gradient={gradient} glow={glow} />)}
       </div>

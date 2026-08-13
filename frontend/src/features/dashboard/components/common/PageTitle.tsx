@@ -1,23 +1,32 @@
 import type { ComponentType, ReactNode } from 'react';
+import './dashboardCommon.css';
 
 type PageTitleProps = {
-  eyebrow?: string;
-  title: string;
-  subtitle?: string;
+  eyebrow?: ReactNode;
+  title: ReactNode;
+  subtitle?: ReactNode;
   icon?: ComponentType<{ className?: string }>;
   actions?: ReactNode;
+  rightControls?: ReactNode;
+  backButton?: ReactNode;
+  closeButton?: ReactNode;
+  chips?: ReactNode;
+  children?: ReactNode;
   className?: string;
 };
 
-export default function PageTitle({ eyebrow, title, subtitle, icon: Icon, actions, className = '' }: PageTitleProps) {
+export default function PageTitle({ eyebrow, title, subtitle, icon: Icon, actions, rightControls, backButton, closeButton, chips, children, className = '' }: PageTitleProps) {
   return (
-    <header className={`dashboard-page-title ${className}`}>
+    <section className={`dashboard-page-title ${className}`}>
       <div className="dashboard-page-title__content">
-        {eyebrow && <p className="dashboard-page-title__eyebrow">{Icon && <Icon className="dashboard-page-title__icon" />}{eyebrow}</p>}
+        <div className="dashboard-page-title__topline">
+          {eyebrow && <p className="dashboard-page-title__eyebrow">{Icon && <Icon className="dashboard-page-title__icon" />}{eyebrow}</p>}
+          {(actions || rightControls || backButton || closeButton) && <div className="dashboard-page-title__actions">{actions}{rightControls}{backButton}{closeButton}</div>}
+        </div>
         <h1>{title}</h1>
         {subtitle && <p className="dashboard-page-title__subtitle">{subtitle}</p>}
+        {chips || children}
       </div>
-      {actions && <div className="dashboard-page-title__actions">{actions}</div>}
-    </header>
+    </section>
   );
 }

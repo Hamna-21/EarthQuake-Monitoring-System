@@ -1,39 +1,14 @@
 import { Activity, Radio } from 'lucide-react';
+import PageTitle from '@/features/dashboard/components/common/PageTitle';
 
 export default function OverviewHero() {
-  return (
-    <section className="overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4 text-white shadow-2xl">
-      <div className="min-w-0">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.25em] text-red-300">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-red-500" />
-            </span>
-            Overview
-          </p>
-          <div className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-semibold text-slate-300 backdrop-blur">
-            <Radio className="h-3 w-3 text-cyan-300" /> Live
-          </div>
-        </div>
-
-        <h1 className="mt-2 font-serif text-xl font-black tracking-tight sm:text-2xl">
-          The ground is talking
-          <span className="bg-gradient-to-r from-cyan-300 via-white to-violet-300 bg-clip-text text-transparent">
-            {' '}& we&rsquo;re listening.
-          </span>
-        </h1>
-        <p className="mt-1.5 max-w-xl text-sm font-light leading-snug text-slate-300">
-          Real-time global seismic activity, risk signals, and alerts in one view.
-        </p>
-        <div className="mt-2 flex flex-wrap gap-1.5">
-          <Chip icon={<Activity className="h-3 w-3" />} label="Real-time" tone="cyan" />
-          <Chip label="Global" tone="violet" />
-          <Chip label="Alert-ready" tone="red" />
-        </div>
-      </div>
-    </section>
-  );
+  return <PageTitle
+      eyebrow={<><span className="relative flex h-1.5 w-1.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" /><span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-red-500" /></span>Overview</>}
+      title={<>{'The ground is talking'}<span className="bg-gradient-to-r from-cyan-300 via-white to-violet-300 bg-clip-text text-transparent">{' '}& we&rsquo;re listening.</span></>}
+      subtitle="Real-time global seismic activity, risk signals, and alerts in one view."
+      actions={<div className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-semibold text-slate-300 backdrop-blur"><Radio className="h-3 w-3 text-cyan-300" /> Live</div>}
+      chips={<div className="mt-2 flex flex-wrap gap-1.5"><Chip icon={<Activity className="h-3 w-3" />} label="Real-time" tone="cyan" /><Chip label="Global" tone="violet" /><Chip label="Alert-ready" tone="red" /></div>}
+    />;
 }
 
 function Chip({ icon, label, tone }: { icon?: React.ReactNode; label: string; tone: 'cyan' | 'violet' | 'red' }) {
