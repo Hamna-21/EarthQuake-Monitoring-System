@@ -58,6 +58,11 @@
 /* HistoricalChartCard.tsx uses this hover treatment while preserving its existing cyan glass surface. */
 .geo-historical-chart-card { transition: transform .2s ease, border-color .2s ease; }
 .geo-historical-chart-card:hover { transform: translateY(-.125rem); border-color: rgb(103 232 249 / .25); }
+.geo-dashboard-card { border: 1px solid rgb(255 255 255 / .14); border-radius: 1rem; background: linear-gradient(135deg, rgb(255 255 255 / .09), rgb(255 255 255 / .035)); box-shadow: 0 10px 30px rgb(0 0 0 / .2), inset 0 1px 0 rgb(255 255 255 / .06); backdrop-filter: blur(20px); }
+.geo-chart-card-header { min-height: 2.5rem; }
+.geo-chart-title { letter-spacing: -.015em; }
+.geo-chart-subtitle { max-width: 42rem; }
+.geo-analytics-filters { transition: border-color .2s ease, box-shadow .2s ease; }
 
 /* ==========================================
    REUSABLE MAP PANEL WRAPPER

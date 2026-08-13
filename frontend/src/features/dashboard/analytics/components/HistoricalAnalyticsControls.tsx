@@ -10,7 +10,7 @@ export default function HistoricalAnalyticsControls({ draft, setDraft, onApply, 
   const startYear = draft.startDate.slice(0, 4), endYear = draft.endDate.slice(0, 4);
   const setStart = (year: string) => setDraft({ startDate: `${year}-01-01` });
   const setEnd = (year: string) => setDraft({ endDate: endDate(year) });
-  return <form onSubmit={(event: FormEvent) => { event.preventDefault(); onApply(); }} className="rounded-2xl border border-orange-300/10 bg-white/[0.07] p-3 shadow-sm backdrop-blur">
+  return <form onSubmit={(event: FormEvent) => { event.preventDefault(); onApply(); }} className="geo-analytics-filters rounded-2xl border border-orange-300/10 bg-white/[0.07] p-2.5 shadow-sm backdrop-blur">
     <div className="mb-2 flex items-center justify-between gap-3"><p className="font-serif text-[11px] font-black uppercase tracking-[0.18em] text-orange-100">Historical filters</p><span className="rounded-full border border-white/10 bg-white/[0.06] px-2.5 py-1 text-[10px] font-bold text-slate-300">M{draft.minMagnitude}+ selected</span></div>
     <div className={`grid gap-2 sm:grid-cols-2 ${showLocation ? 'lg:grid-cols-[150px_150px_180px_minmax(0,1fr)_auto]' : 'lg:grid-cols-[150px_150px_180px_auto]'}`}>
       <Field label="Start Year"><select value={startYear} onChange={(event) => setStart(event.target.value)}>{years.map((year) => <option key={year}>{year}</option>)}</select></Field>

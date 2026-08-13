@@ -15,7 +15,7 @@ export default function HistoricalSummaryCards({ data }: { data: HistoricalAnaly
     [<MapPin className="h-4 w-4" />, 'Most active month', s.mostActiveMonth ? `${s.mostActiveMonth.label} ${s.mostActiveMonth.year}` : '-', `${s.mostActiveMonth?.count ?? 0} earthquakes`],
   ];
   return (
-    <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+    <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
       {cards.map(([icon, label, value, help]) => (
         <AnalyticsStatCard key={String(label)} icon={icon} label={String(label)} value={String(value)} help={String(help)} gradient="from-rose-500 via-orange-500 to-amber-400" glow="shadow-orange-900/40" />
       ))}

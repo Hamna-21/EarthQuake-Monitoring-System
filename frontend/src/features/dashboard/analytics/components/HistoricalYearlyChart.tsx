@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Area, AreaChart, CartesianGrid, Label, ReferenceDot, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import type { HistoricalRow } from '@/features/dashboard/analytics/services/historicalAnalyticsService';
 import HistoricalChartCard from '@/features/dashboard/analytics/components/HistoricalChartCard';
@@ -8,9 +9,13 @@ export default function HistoricalYearlyChart({ rows }: { rows: HistoricalRow[] 
   const data = rows.map((row) => ({ year: row.year, count: row.count }));
   const peak = peakRow(data);
   const ticks = tickYears(rows, 10);
+  const [open, setOpen] = useState(false);
   return (
     <HistoricalChartCard title="Earthquake Frequency by Year" subtitle="Earthquake counts from the current global historical filters." insight={`The highest activity occurred in ${peak?.year ?? 'the selected range'} with ${fmt(peak?.count ?? 0)} earthquakes.`}>
-      <div className="h-[400px] max-sm:h-[320px]">
+      <button type="button" onClick={() => setOpen((value) => !value)} className="w-full rounded-xl bg-gradient-to-r from-rose-600 via-orange-500 to-amber-400 px-3 py-2.5 text-left text-xs font-black uppercase tracking-[0.12em] text-white shadow-lg shadow-orange-950/20 transition hover:brightness-110">
+        Explore Yearly Frequency {open ? '▲' : '▼'}
+      </button>
+      {open && <div className="mt-3 h-[360px] max-sm:h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={margin}>
             <defs><linearGradient id="yearFill" x1="0" x2="0" y1="0" y2="1"><stop stopColor="#fb923c" stopOpacity={0.55} /><stop offset="1" stopColor="#fb923c" stopOpacity={0.04} /></linearGradient></defs>
@@ -22,7 +27,7 @@ export default function HistoricalYearlyChart({ rows }: { rows: HistoricalRow[] 
             {peak && <ReferenceDot x={peak.year} y={peak.count} r={7} fill="#ef4444" stroke="#fff" strokeWidth={2} />}
           </AreaChart>
         </ResponsiveContainer>
-      </div>
+      </div>}
     </HistoricalChartCard>
   );
 }

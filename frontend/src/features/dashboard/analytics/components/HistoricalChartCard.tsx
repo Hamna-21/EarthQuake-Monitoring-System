@@ -14,14 +14,14 @@ export default function HistoricalChartCard({
   className?: string;
 }) {
   return (
-    <section className={`geo-historical-chart-card relative overflow-hidden rounded-2xl border border-cyan-300/10 bg-slate-950/70 p-5 shadow-2xl shadow-cyan-950/20 backdrop-blur-xl ${className}`}>
+    <section className={`geo-historical-chart-card geo-dashboard-card relative overflow-hidden p-4 ${className}`}>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(251,146,60,0.12),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(34,211,238,0.10),transparent_30%)]" />
-      <div className="relative mb-4">
-        <h3 className="font-serif text-xl font-black tracking-tight text-white">{title}</h3>
-        <p className="mt-1 text-sm font-semibold text-slate-400">{subtitle}</p>
+      <div className="geo-chart-card-header relative mb-3">
+        <h3 className="geo-chart-title font-serif text-lg font-black tracking-tight text-white">{title}</h3>
+        <p className="geo-chart-subtitle mt-0.5 text-xs font-semibold text-slate-400">{subtitle}</p>
       </div>
       <div className="relative">{children}</div>
-      <p className="relative mt-4 rounded-xl border border-orange-300/10 bg-slate-950/55 p-3 font-sans text-sm font-semibold text-slate-300">
+      <p className="relative mt-3 rounded-xl border border-orange-300/10 bg-slate-950/55 p-2.5 text-xs font-semibold leading-relaxed text-slate-300">
         <span className="text-orange-200">What this shows: </span>{insight}
       </p>
     </section>

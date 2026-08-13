@@ -14,7 +14,7 @@ export default function HistoricalDistributionCharts({ magnitudeRows, depthRows 
   const mags = orderedRows(magnitudeRows, magLabels);
   const depths = orderedRows(depthRows, depthLabels);
   return (
-    <section className="grid gap-6 xl:grid-cols-2">
+    <section className="grid gap-4 xl:grid-cols-2">
       <Distribution title="Magnitude Distribution" subtitle="Earthquakes grouped by strength range." insight={`${fmt(mags.reduce((sum, row) => sum + row.count, 0))} records include valid magnitude values.`} data={mags} colors={magColors} yTitle="Magnitude range" />
       <Distribution title="Depth Distribution" subtitle="Earthquakes grouped from shallow to deep." insight={`${fmt(depths.reduce((sum, row) => sum + row.count, 0))} records include valid depth values.`} data={depths} colors={depthColors} yTitle="Depth range" />
     </section>
@@ -25,14 +25,14 @@ function Distribution({ title, subtitle, insight, data, colors, yTitle }: { titl
   const peak = peakRow(data);
   return (
     <HistoricalChartCard title={title} subtitle={subtitle} insight={insight}>
-      <div className="h-[360px] max-sm:h-[320px]">
+      <div className="h-[330px] max-sm:h-[290px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} layout="vertical" margin={chartMargin}>
             <CartesianGrid {...grid} />
             <XAxis type="number" allowDecimals={false} tickFormatter={fmt} {...axis}><Label value="Number of earthquakes" position="insideBottom" offset={-28} style={labelStyle} /></XAxis>
             <YAxis type="category" dataKey="label" width={86} interval={0} {...axis}><Label value={yTitle} angle={-90} position="insideLeft" style={labelStyle} /></YAxis>
             <Tooltip content={<ChartTooltip />} />
-            <Bar dataKey="count" name="Earthquakes" radius={[0, 8, 8, 0]} minPointSize={3}>
+            <Bar dataKey="count" name="Earthquakes" barSize={14} radius={[0, 6, 6, 0]} minPointSize={3}>
               {data.map((row, index) => <Cell key={row.label} fill={row === peak ? '#ef4444' : colors[index]} />)}
             </Bar>
           </BarChart>
