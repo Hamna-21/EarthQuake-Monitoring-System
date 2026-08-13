@@ -38,4 +38,4 @@ export function HistoricalAnalyticsPanel(props: Props) {
   </div>;
 }
 
-function State({ title, text, action }: { title: string; text: string; action?: () => void }) { return <div className="rounded-2xl border border-white/10 bg-white/[0.07] p-6 text-center"><h2 className="font-serif text-xl font-black text-white">{title}</h2><p className="mt-2 text-sm font-semibold text-slate-400">{text}</p>{action && <button onClick={action} className="mt-4 rounded-xl bg-gradient-to-r from-rose-600 via-orange-500 to-amber-400 px-4 py-2 text-xs font-black text-white">Reset filters</button>}</div>; }
+function State({ title, text, action }: { title: string; text: string; action?: () => void }) { return <div className="historical-analytics-state"><h2 className="font-serif text-xl font-black text-white">{title}</h2><p className="mt-2 text-sm font-semibold text-slate-400">{text}</p>{action && <button onClick={action} className="mt-4 rounded-xl bg-gradient-to-r from-rose-600 via-orange-500 to-amber-400 px-4 py-2 text-xs font-black text-white">Reset filters</button>}</div>; }

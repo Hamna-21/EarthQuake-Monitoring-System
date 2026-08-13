@@ -1,5 +1,5 @@
 import Navbar from '@/components/shared/Navbar';
-import WarningHub from '@/features/dashboard/pages/Safety/Safety';
+import WarningHub from '@/features/dashboard/safety/Safety';
 import Footer from '@/components/shared/Footer/Footer';
 import { Earthquake } from '@/types';
 import HomeHero from '@/features/home/components/HomeHero';
