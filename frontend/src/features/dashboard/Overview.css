@@ -1,7 +1,44 @@
 /* ==========================================
-   OVERVIEW PAGE
+   OVERVIEW HERO
+   Component: OverviewHero.tsx
+   Purpose: Top summary hero section; visual rules remain in existing utility classes.
+   ========================================== */
+
+/* ==========================================
+   OVERVIEW QUICK ACTIONS
+   Component: OverviewQuickActions.tsx
+   Purpose: Compact action buttons; visual rules remain in existing utility classes.
+   ========================================== */
+
+/* ==========================================
+   OVERVIEW SUMMARY GRID
+   Components: OverviewStatGrid.tsx, OverviewStatCard.tsx
+   Purpose: KPI cards and data-driven spark bars; runtime heights remain inline.
+   ========================================== */
+
+/* ==========================================
+   ACTIVITY SUMMARY
+   Component: ActivitySummary.tsx
+   Purpose: Risk index presentation; data-driven colors and gradients remain inline.
+   ========================================== */
+
+/* ==========================================
+   MAGNITUDE DISTRIBUTION
+   Component: MagnitudeDistribution.tsx
+   Purpose: Magnitude bands and proportions; runtime colors and widths remain inline.
+   ========================================== */
+
+/* ==========================================
+   ACTIVE REGIONS
+   Component: ActiveRegions.tsx
+   Purpose: Regional activity chart and legend; chart styling remains component-scoped.
+   ========================================== */
+
+/* ==========================================
+   GEOBOT ASSISTANT
    Component: GeoBotCard.tsx
    Parent Page: Overview.tsx
+   Purpose: Static animation timings extracted without changing the assistant UI.
    ========================================== */
 
 .geobot-pulse {
@@ -11,3 +48,15 @@
 .geobot-sparkle {
   animation-duration: 1.8s;
 }
+
+/* ==========================================
+   OVERVIEW EMPTY STATE
+   Component: OverviewEmptyState.tsx
+   Purpose: Filtered search empty state; existing utility classes remain unchanged.
+   ========================================== */
+
+/* ==========================================
+   OVERVIEW PAGE COMPOSITION
+   Component: Overview.tsx
+   Purpose: Page-level composition continues using the existing spacing utilities.
+   ========================================== */
