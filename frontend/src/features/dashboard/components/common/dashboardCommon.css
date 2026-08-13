@@ -1,0 +1,51 @@
+/* ==========================================
+   REUSABLE PAGE TITLE
+   Component: PageTitle.tsx
+   Used by: Dashboard pages
+   Purpose: Consistent dashboard page heading
+   ========================================== */
+.dashboard-page-title { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.dashboard-page-title__content { min-width: 0; }
+.dashboard-page-title__eyebrow { display: flex; align-items: center; gap: .5rem; }
+.dashboard-page-title__icon { width: 1rem; height: 1rem; }
+.dashboard-page-title__actions { flex-shrink: 0; }
+
+/* ==========================================
+   REUSABLE DASHBOARD BUTTONS
+   Components: AppButton.tsx, IconButton.tsx
+   Used by: filters, cards, panels, page actions
+   ========================================== */
+.dashboard-button, .dashboard-icon-button { cursor: pointer; transition: filter .2s ease, transform .2s ease; }
+.dashboard-button:disabled, .dashboard-icon-button:disabled { cursor: not-allowed; opacity: .55; }
+.dashboard-button:hover:not(:disabled), .dashboard-icon-button:hover:not(:disabled) { filter: brightness(1.08); }
+.dashboard-icon-button { display: inline-flex; align-items: center; justify-content: center; }
+
+/* ==========================================
+   REUSABLE GLASS CARD
+   Component: AppCard.tsx
+   Used by: dashboard cards and panels
+   ========================================== */
+.dashboard-card { border-radius: 1rem; }
+
+/* ==========================================
+   REUSABLE STATUS BADGE
+   Component: StatusBadge.tsx
+   Used by: records, alerts, and metric summaries
+   ========================================== */
+.dashboard-status { display: inline-flex; align-items: center; border-radius: 9999px; }
+
+/* ==========================================
+   REUSABLE LOADING AND EMPTY STATES
+   Components: LoadingState.tsx, EmptyState.tsx
+   Used by: dashboard data panels
+   ========================================== */
+.dashboard-state { display: grid; justify-items: center; gap: .5rem; text-align: center; }
+
+/* ==========================================
+   REUSABLE MAP PANEL
+   Component: MapPanel.tsx
+   Used by: Global Map, Historical Map, Historical Analytics
+   Purpose: Static wrapper/header only
+   ========================================== */
+.dashboard-map-panel { min-width: 0; }
+.dashboard-map-panel__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
