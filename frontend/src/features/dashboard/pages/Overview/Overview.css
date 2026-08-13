@@ -1,36 +1,42 @@
 /* ==========================================
    OVERVIEW HERO
    Component: OverviewHero.tsx
+   Page: Overview.tsx
    Purpose: Top summary hero section; visual rules remain in existing utility classes.
    ========================================== */
 
 /* ==========================================
    OVERVIEW QUICK ACTIONS
    Component: OverviewQuickActions.tsx
+   Page: Overview.tsx
    Purpose: Compact action buttons; visual rules remain in existing utility classes.
    ========================================== */
 
 /* ==========================================
    OVERVIEW SUMMARY GRID
    Components: OverviewStatGrid.tsx, OverviewStatCard.tsx
+   Page: Overview.tsx
    Purpose: KPI cards and data-driven spark bars; runtime heights remain inline.
    ========================================== */
 
 /* ==========================================
    ACTIVITY SUMMARY
    Component: ActivitySummary.tsx
+   Page: Overview.tsx
    Purpose: Risk index presentation; data-driven colors and gradients remain inline.
    ========================================== */
 
 /* ==========================================
    MAGNITUDE DISTRIBUTION
    Component: MagnitudeDistribution.tsx
+   Page: Overview.tsx
    Purpose: Magnitude bands and proportions; runtime colors and widths remain inline.
    ========================================== */
 
 /* ==========================================
    ACTIVE REGIONS
    Component: ActiveRegions.tsx
+   Page: Overview.tsx
    Purpose: Regional activity chart and legend; chart styling remains component-scoped.
    ========================================== */
 
@@ -52,6 +58,7 @@
 /* ==========================================
    OVERVIEW EMPTY STATE
    Component: OverviewEmptyState.tsx
+   Page: Overview.tsx
    Purpose: Filtered search empty state; existing utility classes remain unchanged.
    ========================================== */
 
