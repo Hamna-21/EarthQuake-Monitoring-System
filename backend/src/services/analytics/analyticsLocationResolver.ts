@@ -22,7 +22,9 @@ export async function resolveAnalyticsLocation(query: ValidatedAnalyticsQuery) {
 }
 
 export function insideResolvedLocation(query: ValidatedAnalyticsQuery, longitude: number, latitude: number) {
-  return !query.locationPolygons?.length || query.locationPolygons.some((polygon) => pointInRing(longitude, latitude, polygon));
+  if (query.locationPolygons?.length) return query.locationPolygons.some((polygon) => pointInRing(longitude, latitude, polygon));
+  if (query.bounds) return longitude >= query.bounds.minLongitude && longitude <= query.bounds.maxLongitude && latitude >= query.bounds.minLatitude && latitude <= query.bounds.maxLatitude;
+  return true;
 }
 
 function polygonsOf(geojson: { type?: string; coordinates?: unknown } | undefined): Array<Array<[number, number]>> {

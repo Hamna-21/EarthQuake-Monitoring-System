@@ -37,7 +37,7 @@ export default function EarthquakePulse({ lat, lng, magnitude }: EarthquakePulse
   }, [position]);
 
   useFrame(({ clock }) => {
-    if (!ring.current) return;
+    if (!ring.current || document.hidden) return;
     const progress = (clock.getElapsedTime() % 2.4) / 2.4;
     ring.current.scale.setScalar(0.45 + progress * 2.25);
     (ring.current.material as THREE.MeshBasicMaterial).opacity = 0.72 * (1 - progress);

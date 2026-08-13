@@ -5,7 +5,7 @@ export default function Stars() {
     <DreiStars
       radius={120}
       depth={70}
-      count={4200}
+      count={1800}
       factor={4}
       saturation={0}
       fade

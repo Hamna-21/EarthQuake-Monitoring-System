@@ -1,4 +1,4 @@
-import { CalendarDays, Clock3, Gauge } from 'lucide-react';
+import { CalendarDays, Clock3, Gauge, MapPin } from 'lucide-react';
 import type { Earthquake } from '@/types';
 import { countryOf } from '@/features/dashboard/utils/data';
 
@@ -60,6 +60,9 @@ export default function MapPopup({ event, isStrongest = false, onSelect, onDetai
         </InfoRow>
         <InfoRow icon={<Clock3 />} label="Time">
           <span>{clock}</span>
+        </InfoRow>
+        <InfoRow icon={<MapPin />} label="Coordinates">
+          <span>{event.latitude.toFixed(3)}, {event.longitude.toFixed(3)}</span>
         </InfoRow>
       </div>
 

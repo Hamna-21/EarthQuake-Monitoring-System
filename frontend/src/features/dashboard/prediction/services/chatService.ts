@@ -99,7 +99,7 @@ export async function streamChatResponse(
     }
 
     if (!finished && !receivedAnyChunk) {
-      onError('The assistant closed the connection without sending a response.');
+      onError('GeoBot closed the connection without sending a response.');
       return;
     }
 
@@ -109,6 +109,6 @@ export async function streamChatResponse(
       onDone();
       return;
     }
-    onError(err.message || 'Failed to connect to assistant');
+      onError(err.message || 'Failed to connect to GeoBot');
   }
 }

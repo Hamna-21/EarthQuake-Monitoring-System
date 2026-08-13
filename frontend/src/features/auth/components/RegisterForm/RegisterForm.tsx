@@ -3,13 +3,12 @@ import GoogleLoginButton from '@/features/auth/components/GoogleLogin/GoogleLogi
 import { AuthDivider, AuthError, AuthFooter, AuthLead } from '@/features/auth/components/shared/AuthFormChrome';
 import RegisterAccountFields from '@/features/auth/components/RegisterForm/components/RegisterAccountFields';
 import RegisterPasswordFields from '@/features/auth/components/RegisterForm/components/RegisterPasswordFields';
-import RegisterPreferences from '@/features/auth/components/RegisterForm/components/RegisterPreferences';
 import { RegisterFormProps } from '@/features/auth/types';
 
 export default function RegisterForm(props: RegisterFormProps) {
   return (
     <div>
-      <AuthLead title="Create Account" text="Register for professional seismic alerts and dashboard access." />
+      <AuthLead title="Create Account" text="Register for earthquake alerts and dashboard access." />
       <AuthError error={props.error} />
       <form onSubmit={props.onSubmit} className="space-y-4">
         <RegisterAccountFields
@@ -36,12 +35,6 @@ export default function RegisterForm(props: RegisterFormProps) {
           passwordStrength={props.passwordStrength}
           isLoading={props.isLoading}
         />
-        <RegisterPreferences
-          acceptTerms={props.acceptTerms}
-          setAcceptTerms={props.setAcceptTerms}
-          receiveAlerts={props.receiveAlerts}
-          setReceiveAlerts={props.setReceiveAlerts}
-        />
         <button
           type="submit"
           className="flex w-full items-center justify-center gap-2 rounded-none bg-gradient-to-r from-red-600 to-orange-500 py-4 text-xs font-black uppercase tracking-[0.22em] text-white shadow-xl shadow-red-700/25 transition hover:-translate-y-0.5 disabled:opacity-50"
@@ -58,7 +51,7 @@ export default function RegisterForm(props: RegisterFormProps) {
         />
       </form>
       <AuthFooter>
-        Already have GeoPulse keys?{' '}
+        Already have an account?{' '}
         <button onClick={props.onNavigateToLogin} className="font-black text-cyan-200 hover:text-white">
           Verify active key
         </button>

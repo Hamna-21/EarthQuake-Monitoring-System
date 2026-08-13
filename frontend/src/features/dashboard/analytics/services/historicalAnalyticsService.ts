@@ -1,5 +1,6 @@
 import type { Earthquake } from '@/types';
 import { createDefaultAnalyticsFilters, type AnalyticsFilters } from '@/features/dashboard/analytics/types';
+import { parseUsgsCoordinates } from '@/features/earthquakes/services/coordinateParser';
 
 export type HistoricalRow = { label?: string; value?: number; count: number; year?: number; month?: number };
 export type HistoricalSummary = {
@@ -22,19 +23,32 @@ const qs = (filters: AnalyticsFilters) => {
   return params.toString();
 };
 
+const responseCache = new Map<string, HistoricalAnalyticsResponse>();
+const responseRequests = new Map<string, Promise<HistoricalAnalyticsResponse>>();
+
 export async function fetchHistoricalAnalytics(filters = createDefaultAnalyticsFilters(), signal?: AbortSignal) {
-  const response = await fetch(`/api/analytics/dashboard?${qs(filters)}`, { signal, headers: { Accept: 'application/json' } });
-  const data = await response.json().catch(() => null);
-  if (!response.ok || !data?.success) throw new Error(data?.error?.message || 'Historical analytics could not be loaded.');
-  return data as HistoricalAnalyticsResponse;
+  if (signal?.aborted) throw new DOMException('The historical request was cancelled.', 'AbortError');
+  const key = qs(filters);
+  const cached = responseCache.get(key);
+  if (cached) return cached;
+  const request = responseRequests.get(key) ?? fetch(`/api/analytics/dashboard?${key}`, { signal, headers: { Accept: 'application/json' } })
+    .then(async (response) => { const data = await response.json().catch(() => null); if (!response.ok || !data?.success) throw new Error(data?.error?.message || 'Historical analytics could not be loaded.'); return data as HistoricalAnalyticsResponse; });
+  responseRequests.set(key, request);
+  try {
+    const data = await request;
+    if (signal?.aborted) throw new DOMException('The historical request was cancelled.', 'AbortError');
+    if (responseCache.size > 8) responseCache.delete(responseCache.keys().next().value as string);
+    responseCache.set(key, data);
+    return data;
+  } finally { if (responseRequests.get(key) === request) responseRequests.delete(key); }
 }
 
 export function mapHistoricalEvents(events: HistoricalMapEvent[]): Earthquake[] {
   return events.flatMap((event) => {
-    const [longitude, latitude] = event.coordinates ?? [];
-    if (!Number.isFinite(longitude) || !Number.isFinite(latitude) || !Number.isFinite(event.magnitude)) return [];
+    const point = parseUsgsCoordinates(event.coordinates);
+    if (!point || !Number.isFinite(event.magnitude)) return [];
     return [{
-      id: event.usgsId, magnitude: event.magnitude!, place: event.place, latitude, longitude, depth: Number.isFinite(event.depth) ? event.depth! : Number.NaN,
+      id: event.usgsId, magnitude: event.magnitude!, place: event.place, latitude: point.latitude, longitude: point.longitude, depth: event.depth ?? Number.NaN,
       time: event.occurredAt, updatedAt: event.occurredAt, alert: null, tsunami: false, tsunamiCode: null, felt: null, status: 'historical', source: 'USGS' as const,
     }];
   });

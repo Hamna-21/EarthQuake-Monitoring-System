@@ -17,7 +17,7 @@ export default function SafetyAssistantPanel() {
         </span>
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-cyan-200">
-            AI Safety Assistant
+            GeoBot safety guidance
           </p>
           <h3 className="text-2xl font-black text-white">GeoBot guidance</h3>
         </div>

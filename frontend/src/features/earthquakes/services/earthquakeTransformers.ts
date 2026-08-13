@@ -1,4 +1,5 @@
 import type { Earthquake, EarthquakeAlert } from '@/types';
+import { parseUsgsCoordinates } from './coordinateParser';
 
 type Feature = {
   id: string;
@@ -14,7 +15,7 @@ export function assertFeatureCollection(data: any, label: string): asserts data 
 
 export function mapFeatureToEarthquake(feature: Feature): Earthquake {
   const properties = feature.properties ?? {};
-  const coordinates = feature.geometry?.coordinates ?? [];
+  const point = parseUsgsCoordinates(feature.geometry?.coordinates);
   const alert = ['green', 'yellow', 'orange', 'red'].includes(properties.alert) ? properties.alert : null;
   const time = Number(properties.time);
   const updatedAt = Number(properties.updated);
@@ -35,9 +36,9 @@ export function mapFeatureToEarthquake(feature: Feature): Earthquake {
     status: properties.status || 'unknown',
     tsunami: properties.tsunami === 1,
     sig: Number(properties.sig) || 0,
-    longitude: Number(coordinates[0]),
-    latitude: Number(coordinates[1]),
-    depth: Number(coordinates[2]),
+    longitude: point?.longitude ?? Number.NaN,
+    latitude: point?.latitude ?? Number.NaN,
+    depth: point?.depth ?? Number.NaN,
     magType: properties.magType || 'unknown',
     source: 'USGS',
   };

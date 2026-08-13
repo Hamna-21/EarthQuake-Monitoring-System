@@ -54,7 +54,7 @@ export default function ForgotPasswordForm({
                 type="email"
                 value={resetEmail}
                 onChange={(e) => setResetEmail(e.target.value)}
-                placeholder="example@geopulse.com"
+                placeholder="name@example.com"
                 className="w-full bg-black/40 border border-red-900/30 rounded-none py-3 pl-12 pr-4 text-sm font-light text-white placeholder-red-100/20 focus:outline-none focus:border-red-500 focus:shadow-[0_0_12px_rgba(239,68,68,0.25)] transition-all duration-300"
                 disabled={isLoading}
               />

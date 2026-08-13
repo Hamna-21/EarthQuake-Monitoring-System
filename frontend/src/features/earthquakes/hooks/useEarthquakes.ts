@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { SeismicFilters, Earthquake } from '@/types';
 import { fetchEarthquakes } from '@/features/earthquakes/services/earthquakeApi';
 
@@ -18,13 +18,20 @@ export function useEarthquakes() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isWarningHubOpen, setIsWarningHubOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const requestRef = useRef<AbortController | null>(null);
+  const requestId = useRef(0);
 
   const loadSeismicData = useCallback(async (activeFilters: SeismicFilters) => {
+    requestRef.current?.abort();
+    const controller = new AbortController();
+    requestRef.current = controller;
+    const id = ++requestId.current;
     setIsSearching(true);
     setDataError(null);
 
     try {
-      const data = await fetchEarthquakes(activeFilters);
+      const data = await fetchEarthquakes(activeFilters, controller.signal);
+      if (id !== requestId.current) return;
       setEarthquakes(data);
       setLastUpdated(Date.now());
 
@@ -34,12 +41,15 @@ export function useEarthquakes() {
         setSelectedId(null);
       }
     } catch (err) {
+      if (controller.signal.aborted) return;
       console.error(err);
       setDataError(err instanceof Error ? err.message : "Unable to fetch earthquake data.");
     } finally {
-      setIsSearching(false);
+      if (id === requestId.current) setIsSearching(false);
     }
   }, []);
+
+  useEffect(() => () => requestRef.current?.abort(), []);
 
   useEffect(() => {
     loadSeismicData(filters);

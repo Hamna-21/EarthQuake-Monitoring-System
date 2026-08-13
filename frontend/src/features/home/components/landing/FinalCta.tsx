@@ -15,7 +15,7 @@ export default function FinalCta({ onLaunch }: FinalCtaProps) {
         </h2>
         <div className="mt-5 flex flex-wrap justify-center gap-3">
           <button onClick={onLaunch} className="bg-red-600 px-5 py-3 text-sm font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-red-700/30">
-            Launch GeoPulse
+            Open Earthquake Monitoring
           </button>
           <button onClick={onLaunch} className="border border-cyan-200/30 bg-white/5 px-5 py-3 text-sm font-black uppercase tracking-[0.2em] text-cyan-50 backdrop-blur-xl">
             Explore Dashboard

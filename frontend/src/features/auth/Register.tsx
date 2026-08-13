@@ -32,10 +32,6 @@ export default function Register({ onSuccess, onNavigateToLogin, onBackToHome }:
         setCountry={registerState.setCountry}
         organization={registerState.organization}
         setOrganization={registerState.setOrganization}
-        acceptTerms={registerState.acceptTerms}
-        setAcceptTerms={registerState.setAcceptTerms}
-        receiveAlerts={registerState.receiveAlerts}
-        setReceiveAlerts={registerState.setReceiveAlerts}
         showPassword={registerState.showPassword}
         setShowPassword={registerState.setShowPassword}
         showConfirmPassword={registerState.showConfirmPassword}

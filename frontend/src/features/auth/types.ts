@@ -17,10 +17,6 @@ export interface RegisterFormProps {
   setCountry: (country: string) => void;
   organization: string;
   setOrganization: (org: string) => void;
-  acceptTerms: boolean;
-  setAcceptTerms: (val: boolean) => void;
-  receiveAlerts: boolean;
-  setReceiveAlerts: (val: boolean) => void;
   showPassword: boolean;
   setShowPassword: (show: boolean) => void;
   showConfirmPassword: boolean;

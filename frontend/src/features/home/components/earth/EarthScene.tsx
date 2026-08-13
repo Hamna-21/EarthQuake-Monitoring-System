@@ -1,5 +1,4 @@
 import { Canvas } from '@react-three/fiber';
-import { Preload } from '@react-three/drei';
 import { Suspense } from 'react';
 import CameraController from '@/features/home/components/earth/CameraController';
 import Earth from '@/features/home/components/earth/Earth';
@@ -11,7 +10,7 @@ export default function EarthScene() {
     <Canvas
       aria-label="Animated 3D Earth with live seismic pulses"
       camera={{ position: [0, 0, 12], fov: 38 }}
-      dpr={[1, 1.6]}
+      dpr={[1, 1.25]}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
     >
       <Suspense fallback={null}>
@@ -20,7 +19,6 @@ export default function EarthScene() {
         <Lighting />
         <Earth />
         <CameraController />
-        <Preload all />
       </Suspense>
     </Canvas>
   );

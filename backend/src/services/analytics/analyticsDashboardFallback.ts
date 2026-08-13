@@ -48,7 +48,7 @@ export async function getAnalyticsDashboardFallback(query: ValidatedAnalyticsQue
   const response = await fetchCompleteAnalyticsQuery(query);
   const events = response.events.filter((event) => {
     if (query.region === 'pakistan' && (!pointInPolygon(event.longitude, event.latitude) || neighboringCountry.test(event.place))) return false;
-    if (query.region === 'global' && (!insideResolvedLocation(query, event.longitude, event.latitude) || (query.location && !event.place.toLowerCase().includes(query.location.toLowerCase())))) return false;
+    if (query.region === 'global' && !insideResolvedLocation(query, event.longitude, event.latitude)) return false;
     return true;
   });
   const yearRange = years(query.startDate, query.endDate);

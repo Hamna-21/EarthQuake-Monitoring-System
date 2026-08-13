@@ -19,13 +19,13 @@ const answers: Record<string, string> = {
   Safety:
     'Move away from glass, drop, cover, and hold until shaking stops.',
   Nearby:
-    'GeoPulse can guide users toward nearby earthquake awareness from the dashboard.',
+    'GeoBot can help users understand nearby earthquake activity from the dashboard.',
 };
 
 export default function GeoBotSection() {
   const [factIndex, setFactIndex] = useState(0);
   const [message, setMessage] = useState(
-    "Hello, I'm GeoBot. I monitor seismic activity 24 hours a day."
+    "Hello, I'm GeoBot. I help explain earthquake information and safety steps."
   );
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function GeoBotSection() {
     <SectionShell
       eyebrow="Meet GeoBot"
       title="A calm AI companion for seismic questions."
-      subtitle="GeoBot adds guidance, explanations, and quick actions without making the interface feel crowded."
+      subtitle="GeoBot provides guidance, explanations, and quick actions in plain language."
     >
       <div className="grid items-center gap-4 lg:grid-cols-[0.75fr_1.25fr]">
         {/* GeoBot visual */}
@@ -64,7 +64,7 @@ export default function GeoBotSection() {
           <div className="flex items-center gap-2 text-cyan-100">
             <Sparkles className="h-4 w-4" />
             <span className="text-xs font-bold uppercase tracking-[0.22em]">
-              GeoBot Chat
+              GeoBot
             </span>
           </div>
 

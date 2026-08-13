@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { DashboardProps } from '@/features/dashboard/types';
 import { countryOf } from '@/features/dashboard/utils/data';
 import { RefreshNote } from '@/layouts/DashboardLayout';
@@ -8,7 +9,6 @@ import OverviewHero from '@/features/dashboard/components/OverviewHero';
 import OverviewStatGrid from '@/features/dashboard/components/OverviewStatGrid';
 import OverviewQuickActions from '@/features/dashboard/components/OverviewQuickActions';
 import GeoBotCard from '@/features/dashboard/components/GeoBotCard';
-import { LiveAnalyticsContent } from '@/features/dashboard/analytics/Analytics';
 
 type Props = DashboardProps & {
   searchQuery?: string;
@@ -33,9 +33,7 @@ const matchesOverviewSearch = (event: DashboardProps['earthquakes'][number], que
 
 export default function OverviewPage({ earthquakes, isLoading, dataError, lastUpdated, openPage, searchQuery = '', userName, userEmail, selectedEvent }: Props) {
   const query = searchQuery.trim().toLowerCase();
-  const visibleEarthquakes = query
-    ? earthquakes.filter((event) => matchesOverviewSearch(event, query))
-    : earthquakes;
+  const visibleEarthquakes = useMemo(() => query ? earthquakes.filter((event) => matchesOverviewSearch(event, query)) : earthquakes, [earthquakes, query]);
   const hasNoMatches = query.length > 0 && visibleEarthquakes.length === 0;
 
   return (
@@ -64,13 +62,6 @@ export default function OverviewPage({ earthquakes, isLoading, dataError, lastUp
             <ActiveRegions earthquakes={visibleEarthquakes} />
           </div>
         </>
-      )}
-      {!hasNoMatches && (
-        <LiveAnalyticsContent
-          earthquakes={visibleEarthquakes}
-          variant="overview"
-          openPage={openPage}
-        />
       )}
       <GeoBotCard earthquakes={visibleEarthquakes} selectedEvent={selectedEvent} userName={userName} userEmail={userEmail} />
     </section>

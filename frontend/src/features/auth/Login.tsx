@@ -39,8 +39,6 @@ export default function Login({ onSuccess, onNavigateToRegister, onBackToHome }:
           setPassword={loginState.setPassword}
           showPassword={loginState.showPassword}
           setShowPassword={loginState.setShowPassword}
-          rememberMe={loginState.rememberMe}
-          setRememberMe={loginState.setRememberMe}
           error={loginState.error}
           isLoading={loginState.isLoading}
           onForgotPasswordClick={() => loginState.setForgotPasswordStep(true)}

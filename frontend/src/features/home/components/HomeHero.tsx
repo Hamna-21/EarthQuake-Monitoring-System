@@ -1,7 +1,9 @@
-import EarthScene from '@/features/home/components/earth/EarthScene';
+import { lazy, Suspense } from 'react';
 import HeroContent from '@/features/home/components/hero/HeroContent';
 import HeroOverlay from '@/features/home/components/hero/HeroOverlay';
 import HeroStats from '@/features/home/components/hero/HeroStats';
+
+const EarthScene = lazy(() => import('@/features/home/components/earth/EarthScene'));
 
 interface HomeHeroProps {
   earthquakesCount: number;
@@ -15,7 +17,7 @@ export default function HomeHero({
   return (
     <header className="relative z-10 min-h-[78vh] overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <EarthScene />
+        <Suspense fallback={null}><EarthScene /></Suspense>
       </div>
 
       <HeroOverlay />

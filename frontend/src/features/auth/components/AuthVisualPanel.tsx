@@ -8,7 +8,7 @@ export default function AuthVisualPanel() {
       <div className="flex items-center gap-3">
         <Activity className="h-9 w-9 animate-pulse text-cyan-200" />
         <div>
-          <p className="text-2xl font-black uppercase tracking-[0.24em] text-white">GeoPulse</p>
+          <p className="max-w-[18rem] text-lg font-black uppercase leading-tight tracking-[0.14em] text-white xl:text-xl">Earthquake Monitoring System</p>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
             
           </p>

@@ -30,14 +30,14 @@ export default function Earth() {
     dayMap.colorSpace = THREE.SRGBColorSpace;
     nightMap.colorSpace = THREE.SRGBColorSpace;
     [dayMap, nightMap, topologyMap, waterMap].forEach((map) => {
-      map.anisotropy = 8;
+      map.anisotropy = 4;
       map.needsUpdate = true;
     });
   }, [dayMap, nightMap, topologyMap, waterMap]);
 
   useFrame(({ pointer }, delta) => {
-    if (!group.current) return;
-    group.current.rotation.y += delta * 0.045;
+    if (!group.current || document.hidden) return;
+    group.current.rotation.y += delta * 0.075;
     group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, -0.15 + pointer.y * 0.08, 0.04);
     group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, pointer.x * -0.08, 0.04);
   });
@@ -45,7 +45,7 @@ export default function Earth() {
   return (
     <group ref={group} position={[1.25, -0.05, 0]} rotation={[-0.15, -0.65, 0]} scale={1.28}>
       <mesh>
-        <sphereGeometry args={[2, 128, 128]} />
+        <sphereGeometry args={[2, 64, 64]} />
         <meshPhongMaterial
           map={dayMap}
           bumpMap={topologyMap}

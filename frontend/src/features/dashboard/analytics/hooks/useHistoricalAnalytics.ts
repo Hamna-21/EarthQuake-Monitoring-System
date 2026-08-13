@@ -10,20 +10,23 @@ export function useHistoricalAnalytics(region: AnalyticsFilters['region'] = 'glo
   const [isLoading, setIsLoading] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
   const loadingRef = useRef(false);
+  const activeKey = useRef<string | null>(null);
   const requestId = useRef(0);
 
   const load = useCallback(async (next: AnalyticsFilters) => {
+    const key = JSON.stringify(next);
+    if (loadingRef.current && activeKey.current === key) return;
     if (loadingRef.current) abortRef.current?.abort();
     const controller = new AbortController();
     const id = ++requestId.current;
-    abortRef.current = controller; loadingRef.current = true; setIsLoading(true); setError(null);
+    abortRef.current = controller; activeKey.current = key; loadingRef.current = true; setIsLoading(true); setError(null);
     try {
       const result = await fetchHistoricalAnalytics(next, controller.signal);
       if (id === requestId.current && result.metadata.region === next.region) setData(result);
     } catch (err) {
       if (id === requestId.current && !controller.signal.aborted) setError(err instanceof Error ? err.message : 'Historical analytics failed.');
     } finally {
-      if (id === requestId.current && abortRef.current === controller) { loadingRef.current = false; setIsLoading(false); }
+      if (id === requestId.current && abortRef.current === controller) { loadingRef.current = false; activeKey.current = null; setIsLoading(false); }
     }
   }, []);
 

@@ -12,7 +12,7 @@ import SectionShell from '@/features/home/components/landing/SectionShell';
 
 const steps = [
   { label: 'Earthquake Detected', icon: RadioTower },
-  { label: 'GeoPulse Receives Data', icon: Waves },
+  { label: 'Earthquake Monitoring System Receives Data', icon: Waves },
   { label: 'AI Analysis', icon: Bot },
   { label: 'Risk Assessment', icon: ShieldAlert },
   { label: 'Visualization', icon: MapPinned },
@@ -22,7 +22,7 @@ const steps = [
 export default function WorkflowSection() {
   return (
     <SectionShell
-      eyebrow="How GeoPulse Works"
+      eyebrow="How Earthquake Monitoring System Works"
       title="From seismic signal to safety action."
       subtitle="The workflow keeps scientific data readable for operators, families, and response teams."
     >

@@ -12,13 +12,14 @@ export function useHistoricalSearch(mode: 'global' | 'pakistan', globalSearch = 
   const [minMag, setMinMag] = useDashboardPageState(`${key}:magnitude`, 4, true);
   const [query, setQuery] = useDashboardPageState(`${key}:query`, '', true);
   const [events, setEvents] = useDashboardPageState<Earthquake[]>(`${key}:events`, []);
-  const [page, setPage] = useDashboardPageState(`${key}:page`, 1, true);
+  const [page, setPage] = useDashboardPageState(`${key}:page`, 1);
   const [hasMore, setHasMore] = useDashboardPageState(`${key}:has-more`, false);
   const [searched, setSearched] = useDashboardPageState(`${key}:searched`, false);
+  const [searchedQuery, setSearchedQuery] = useDashboardPageState(`${key}:searched-query`, '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const didLoad = useRef(false);
   const active = useRef<AbortController | null>(null);
+  const activeKey = useRef<string | null>(null);
   const requestId = useRef(0);
 
   const validate = (values: { startDate: string; endDate: string; minMag: number }) => {
@@ -32,33 +33,37 @@ export function useHistoricalSearch(mode: 'global' | 'pakistan', globalSearch = 
 
   const search = useCallback(async (nextPage = 1, overrides: Partial<{ startDate: string; endDate: string; minMag: number; query: string; }> = {}) => {
     const current = { startDate, endDate, minMag, query, ...overrides };
+    const requestKey = JSON.stringify({ mode, ...current, page: nextPage });
+    if (loading && activeKey.current === requestKey) return;
     const validationError = validate(current);
     if (validationError) { setError(validationError); return; }
     active.current?.abort();
     const controller = new AbortController();
     active.current = controller;
+    activeKey.current = requestKey;
     const id = ++requestId.current;
     setLoading(true);
     if (nextPage === 1) setEvents([]);
     setError(null);
     try {
       const cleanQuery = mode === 'pakistan' && current.query.trim().toLowerCase() === 'pakistan' ? '' : current.query.trim();
+      if (nextPage === 1) setSearchedQuery(cleanQuery);
       const result = await fetchHistoricalEarthquakePage({ startDate: current.startDate, endDate: current.endDate, minMagnitude: current.minMag, query: cleanQuery, mode, page: nextPage, limit: 50, signal: controller.signal });
       if (id !== requestId.current) return;
       setEvents(result.earthquakes);
       setPage(result.page);
       setHasMore(result.hasMore);
       setSearched(true);
+      setSearchedQuery(cleanQuery);
     } catch (err) {
       if (err instanceof DOMException && err.name === 'AbortError') return;
       setError(err instanceof Error ? err.message : 'Historical search failed');
     } finally {
-      if (id === requestId.current) setLoading(false);
+      if (id === requestId.current) { activeKey.current = null; setLoading(false); }
     }
-  }, [endDate, minMag, mode, query, startDate]);
+  }, [endDate, loading, minMag, mode, query, startDate]);
 
   useEffect(() => { if (globalSearch) setQuery(globalSearch); }, [globalSearch, setQuery]);
-  useEffect(() => { if (!didLoad.current && !searched) { didLoad.current = true; search(1); } }, [search, searched]);
   useEffect(() => () => active.current?.abort(), []);
 
   const reset = () => {
@@ -73,7 +78,7 @@ export function useHistoricalSearch(mode: 'global' | 'pakistan', globalSearch = 
   };
 
   return {
-    startDate, endDate, minMag, query, events, page, hasMore, searched, loading, error,
+    startDate, endDate, minMag, query, events, page, hasMore, searched, searchedQuery, loading, error,
     setStartDate, setEndDate, setMinMag, setQuery, search, reset,
   };
 }

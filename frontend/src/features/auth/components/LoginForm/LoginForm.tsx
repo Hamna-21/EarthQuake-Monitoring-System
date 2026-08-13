@@ -12,8 +12,6 @@ interface LoginFormProps {
   setPassword: (password: string) => void;
   showPassword: boolean;
   setShowPassword: (show: boolean) => void;
-  rememberMe: boolean;
-  setRememberMe: (rem: boolean) => void;
   error: string;
   isLoading: boolean;
   onForgotPasswordClick: () => void;
@@ -27,15 +25,15 @@ interface LoginFormProps {
 export default function LoginForm(props: LoginFormProps) {
   return (
     <div>
-      <AuthLead title="Welcome back" text="Access the GeoPulse seismic command room." />
+      <AuthLead title="Welcome back" text="View earthquake activity and safety information." />
       <AuthError error={props.error} />
       <form onSubmit={props.onSubmit} className="space-y-5">
         <AuthField
-          label="Security Email"
+          label="Email address"
           value={props.email}
           onChange={props.setEmail}
           icon={Mail}
-          placeholder="admin@geopulse.com"
+          placeholder="name@example.com"
           type="email"
           disabled={props.isLoading}
         />
@@ -56,15 +54,6 @@ export default function LoginForm(props: LoginFormProps) {
             </button>
           }
         />
-        <label className="flex items-center gap-2 text-xs font-semibold text-slate-400">
-          <input
-            type="checkbox"
-            checked={props.rememberMe}
-            onChange={(event) => props.setRememberMe(event.target.checked)}
-            className="h-4 w-4 accent-cyan-400"
-          />
-          Keep this secure session active
-        </label>
         <button
           type="submit"
           className="flex w-full items-center justify-center gap-2 rounded-none bg-gradient-to-r from-red-600 to-orange-500 py-4 text-xs font-black uppercase tracking-[0.22em] text-white shadow-xl shadow-red-700/25 transition hover:-translate-y-0.5 disabled:opacity-50"
@@ -81,7 +70,7 @@ export default function LoginForm(props: LoginFormProps) {
         />
       </form>
       <AuthFooter>
-        New to GeoPulse?{' '}
+        New to Earthquake Monitoring System?{' '}
         <button onClick={props.onNavigateToRegister} className="font-black text-cyan-200 hover:text-white">
           Create secure credentials
         </button>

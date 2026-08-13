@@ -65,8 +65,8 @@ export default function LandingStats({
   return (
     <SectionShell
       eyebrow="Live Global Activity"
-      title="A real-time command view of Earth."
-      subtitle="GeoPulse turns incoming seismic records into readable operational signals."
+      title="A real-time view of earthquake activity."
+      subtitle="Earthquake Monitoring System turns incoming seismic records into clear earthquake information."
     >
       {/* COMPACT GLASS STATS */}
       <div className="grid max-w-5xl grid-cols-2 gap-2 lg:grid-cols-4">

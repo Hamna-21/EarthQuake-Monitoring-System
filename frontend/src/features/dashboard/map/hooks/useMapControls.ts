@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Earthquake } from '@/types';
 import { countryOf, fmtDate } from '@/features/dashboard/utils/data';
 import { FlyTarget, SearchPin, UserPosition } from '@/features/dashboard/map/components/MapCanvas';
@@ -18,6 +18,7 @@ export function useMapControls(earthquakes: Earthquake[], globalSearch: string, 
   const [locateError, setLocateError] = useState<string | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
+  const searchRequest = useRef<AbortController | null>(null);
 
   useEffect(() => { if (globalSearch) setQuery(globalSearch); }, [globalSearch, setQuery]);
   const q = query.toLowerCase().trim();
@@ -50,9 +51,12 @@ export function useMapControls(earthquakes: Earthquake[], globalSearch: string, 
     if (!term) return;
     setIsSearching(true);
     setSearchError(null);
+    searchRequest.current?.abort();
+    const controller = new AbortController();
+    searchRequest.current = controller;
     try {
       const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(term)}`;
-      const res = await fetch(url, { headers: { Accept: 'application/json' } });
+      const res = await fetch(url, { signal: controller.signal, headers: { Accept: 'application/json' } });
       if (!res.ok) throw new Error('Geocoding request failed');
       const results = await res.json();
       if (!results.length) return setSearchError(`No location found for "${term}".`);
@@ -61,12 +65,15 @@ export function useMapControls(earthquakes: Earthquake[], globalSearch: string, 
       if (!Number.isFinite(latNum) || !Number.isFinite(lonNum)) throw new Error('Invalid geocoding coordinates');
       setSearchPin({ lat: latNum, lng: lonNum, label: results[0].display_name });
       setFlyTarget({ lat: latNum, lng: lonNum, zoom: 6, nonce: Date.now() });
-    } catch {
+    } catch (error) {
+      if (controller.signal.aborted) return;
       setSearchError('Search failed. Try again.');
     } finally {
       setIsSearching(false);
     }
   };
+
+  useEffect(() => () => searchRequest.current?.abort(), []);
 
   const resetMap = () => {
     setSearchPin(null);

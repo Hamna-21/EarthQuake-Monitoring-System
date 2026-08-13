@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
+import { createServer as createHttpServer } from "http";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 import authRoutes from "./src/routes/authRoutes";
@@ -11,6 +12,7 @@ import { googleCallback } from "./src/controllers/authController";
 
 const app = express();
 const PORT = 3000;
+const httpServer = createHttpServer(app);
 
 app.use(express.json());
 
@@ -26,7 +28,7 @@ app.get("/auth/callback", googleCallback);
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: { middlewareMode: true, hmr: { server: httpServer } },
       appType: "spa",
       root: path.join(process.cwd(), "frontend"),
       configLoader: "runner",
@@ -40,7 +42,7 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
+  httpServer.listen(PORT, "0.0.0.0", () => {
     console.log(`Server successfully started. Running on http://localhost:${PORT}`);
   });
 }

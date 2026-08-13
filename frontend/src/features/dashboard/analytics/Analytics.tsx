@@ -7,6 +7,7 @@ import {
   ShieldCheck,
   X,
 } from 'lucide-react';
+import { useMemo } from 'react';
 
 import type { Earthquake } from '@/types';
 import type {
@@ -62,13 +63,13 @@ export function LiveAnalyticsContent({
   openPage,
 }: LiveAnalyticsProps) {
   const q = globalSearch.trim().toLowerCase();
-  const events = q
+  const events = useMemo(() => q
     ? earthquakes.filter((event) =>
         `${event.place} ${countryOf(event.place)} ${event.id} ${event.magnitude} ${event.alert ?? ''} ${event.status} ${fmtDate(event.time, 'UTC')}`.toLowerCase().includes(q)
       )
-    : earthquakes;
-  const stats = statsFor(events);
-  const stronger = significant(events).filter((event) => event.magnitude >= 5).length;
+    : earthquakes, [earthquakes, q]);
+  const stats = useMemo(() => statsFor(events), [events]);
+  const stronger = useMemo(() => significant(events).filter((event) => event.magnitude >= 5).length, [events]);
   const cards = [
     [<Gauge className="h-5 w-5" />, 'Average Strength', stats.avgMag.toFixed(2), 'Typical magnitude', 'from-cyan-400 via-sky-500 to-blue-600', 'shadow-cyan-900/30'],
     [<AlertTriangle className="h-5 w-5" />, 'Stronger Earthquakes', String(stronger), 'Magnitude 5.0+', 'from-amber-400 via-orange-500 to-rose-500', 'shadow-orange-900/30'],

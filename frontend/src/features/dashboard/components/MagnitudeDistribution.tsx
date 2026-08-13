@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Earthquake } from '@/types';
 
 const buckets = [
@@ -10,7 +11,7 @@ const buckets = [
 ] as const;
 
 export default function MagnitudeDistribution({ earthquakes }: { earthquakes: Earthquake[] }) {
-  const counts = buckets.map(([, min, max]) => earthquakes.filter((e) => e.magnitude >= min && e.magnitude < max).length);
+  const counts = useMemo(() => buckets.map(([, min, max]) => earthquakes.filter((e) => e.magnitude >= min && e.magnitude < max).length), [earthquakes]);
   const total = earthquakes.length;
   const dominant = counts.indexOf(Math.max(...counts));
   const dominantColor = buckets[dominant]?.[4] ?? '#38bdf8';

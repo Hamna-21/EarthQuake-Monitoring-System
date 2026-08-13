@@ -13,7 +13,7 @@ export default function GeoPulseMascot({ size = 'md', className = '' }: GeoPulse
       <span className="absolute inset-2 rounded-full bg-orange-400/20 blur-xl" />
       <img
         src={owlMascot}
-        alt="GeoPulse owl assistant"
+        alt="GeoBot owl"
         loading="lazy"
         decoding="async"
         className="relative h-full w-full object-contain drop-shadow-[0_10px_22px_rgba(249,115,22,0.30)]"

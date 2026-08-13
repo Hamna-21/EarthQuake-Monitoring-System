@@ -5,7 +5,7 @@ export default function DetailsActions({ event }: { event: Earthquake }) {
   const share = async () => {
     const text = `${event.place} - M ${event.magnitude.toFixed(1)}`;
     const sourceUrl = event.url ?? event.detailUrl ?? '';
-    if (navigator.share) await navigator.share({ title: 'GeoPulse earthquake', text, url: sourceUrl });
+    if (navigator.share) await navigator.share({ title: 'Earthquake Monitoring System earthquake', text, url: sourceUrl });
     else await navigator.clipboard.writeText(`${text} ${sourceUrl}`);
   };
 

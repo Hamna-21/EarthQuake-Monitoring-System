@@ -1,8 +1,9 @@
-import { CircleMarker, Marker, Popup } from 'react-leaflet';
+import React from 'react';
+import { Marker, Popup, Tooltip } from 'react-leaflet';
 import { Earthquake } from '@/types';
 import MapPopup from '@/features/dashboard/map/components/MapPopup';
-import { markerColor } from '@/features/dashboard/map/components/mapStyles';
-import { repositionPopup, rippleIcon, tierClass } from '@/features/dashboard/map/components/mapRuntime';
+import { fmtDate } from '@/features/dashboard/utils/data';
+import { quakePinIcon, repositionPopup, tierClass } from '@/features/dashboard/map/components/mapRuntime';
 
 interface MapEventLayersProps {
   events: Earthquake[];
@@ -13,34 +14,21 @@ interface MapEventLayersProps {
   popupMode?: 'compact' | 'historical';
 }
 
-export default function MapEventLayers({ events, strongestIds, heat, onSelect, onDetails, popupMode }: MapEventLayersProps) {
+function MapEventLayers({ events, strongestIds, heat, onSelect, onDetails, popupMode }: MapEventLayersProps) {
   return (
     <>
       {events.map((event) => {
         const isStrongest = strongestIds.has(event.id);
-        const radius = popupMode === 'historical' ? (isStrongest ? 10 : 4) : (isStrongest ? Math.max(16, event.magnitude * 6) : Math.max(8, event.magnitude * 5));
-        return heat ? (
-          <CircleMarker
-            key={event.id}
-            center={[event.latitude, event.longitude]}
-            radius={radius}
-            pathOptions={{
-              color: isStrongest ? '#ffffff' : markerColor(event.magnitude),
-              fillColor: isStrongest ? '#ef4444' : markerColor(event.magnitude),
-              fillOpacity: isStrongest ? 0.42 : 0.22,
-              weight: isStrongest ? 3 : 1,
-            }}
-            eventHandlers={{ click: () => onSelect(event) }}
-          >
-            <EventPopup event={event} isStrongest={isStrongest} onSelect={onSelect} onDetails={onDetails} popupMode={popupMode} />
-          </CircleMarker>
-        ) : (
+        return (
           <Marker
             key={event.id}
             position={[event.latitude, event.longitude]}
-            icon={rippleIcon(event, isStrongest)}
+            icon={quakePinIcon(event, isStrongest, popupMode === 'historical' || heat)}
             eventHandlers={{ click: () => onSelect(event) }}
           >
+            <Tooltip className="geopulse-marker-tooltip" direction="top" offset={[0, -26]} opacity={1}>
+              <MarkerTooltip event={event} />
+            </Tooltip>
             <EventPopup event={event} isStrongest={isStrongest} onSelect={onSelect} onDetails={onDetails} popupMode={popupMode} />
           </Marker>
         );
@@ -48,6 +36,8 @@ export default function MapEventLayers({ events, strongestIds, heat, onSelect, o
     </>
   );
 }
+
+export default React.memo(MapEventLayers);
 
 interface EventPopupProps {
   event: Earthquake;
@@ -72,4 +62,15 @@ function EventPopup({ event, isStrongest, onSelect, onDetails, popupMode }: Even
       <MapPopup event={event} isStrongest={isStrongest} onSelect={onSelect} onDetails={onDetails} mode={popupMode} />
     </Popup>
   );
+}
+
+function MarkerTooltip({ event }: { event: Earthquake }) {
+  const depth = Number.isFinite(event.depth) ? `${event.depth.toFixed(1)} km` : 'Unknown';
+  return <div className="min-w-[190px] font-serif text-xs text-slate-200">
+    <p className="text-base font-black text-orange-100">M{event.magnitude.toFixed(1)}</p>
+    <p className="mt-0.5 max-w-[220px] font-bold text-white">{event.place}</p>
+    <p className="mt-1 text-[11px] font-semibold text-slate-300">{fmtDate(event.time, 'UTC')}</p>
+    <p className="text-[11px] font-semibold text-slate-300">Depth {depth} · Tsunami {event.tsunami ? 'Yes' : 'No'}</p>
+    <p className="text-[11px] font-semibold text-cyan-100">{event.latitude.toFixed(2)}, {event.longitude.toFixed(2)}</p>
+  </div>;
 }

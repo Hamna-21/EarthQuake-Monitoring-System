@@ -30,7 +30,7 @@ export function cleanEarthquakes(events: Earthquake[], source: string) {
     const issues = validationIssues(event);
     if (seen.has(event.id)) issues.push('duplicate API id');
     if (issues.length) {
-      if (import.meta.env.DEV) console.warn(`[GeoPulse data warning] ${source}`, { id: event.id, issues, event });
+      if (import.meta.env.DEV) console.warn(`[Earthquake Monitoring System data warning] ${source}`, { id: event.id, issues, event });
       return;
     }
     seen.add(event.id);

@@ -17,7 +17,6 @@ export function useLogin({ onSuccess }: UseLoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
@@ -70,7 +69,7 @@ export function useLogin({ onSuccess }: UseLoginProps) {
 
   return {
     email, setEmail, password, setPassword, showPassword, setShowPassword,
-    rememberMe, setRememberMe, error, setError, isLoading, setIsLoading,
+    error, setError, isLoading, setIsLoading,
     loginSuccess, forgotPasswordStep, setForgotPasswordStep,
     resetEmail, setResetEmail, resetSuccess,
     handleLoginSubmit, handleForgotPasswordSubmit,

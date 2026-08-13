@@ -1,6 +1,7 @@
 import { lazy, Suspense, type ReactNode } from 'react';
 import { DashboardPage, DashboardProps } from '@/features/dashboard/types';
 
+const OverviewPage = lazy(() => import('@/features/dashboard/Overview'));
 const AlertsPage = lazy(() => import('@/features/dashboard/alerts/Alerts'));
 const LiveAnalyticsPage = lazy(() => import('@/features/dashboard/analytics/Analytics'));
 const HistoricalAnalyticsPage = lazy(() => import('@/features/dashboard/analytics/HistoricalAnalytics'));
@@ -11,7 +12,6 @@ const HistoryPage = lazy(() => import('@/features/dashboard/historical/Historica
 const PakistanHistoryPage = lazy(() => import('@/features/dashboard/historical/PakistanHistory'));
 const MapPage = lazy(() => import('@/features/dashboard/map/Map'));
 const NearbyPage = lazy(() => import('@/features/dashboard/nearby/Nearby'));
-const OverviewPage = lazy(() => import('@/features/dashboard/Overview'));
 const PredictionPage = lazy(() => import('@/features/dashboard/prediction/Prediction'));
 
 type Props = {
@@ -38,9 +38,5 @@ export default function DashboardPageSwitch({ page, pageProps, userName, userEma
   else if (page === 'alerts') content = <AlertsPage {...pageProps} />;
   else content = <OverviewPage {...pageProps} searchQuery={search} userName={userName} userEmail={userEmail} />;
 
-  return (
-    <Suspense fallback={<div className="rounded-2xl border border-white/10 bg-white/[0.07] p-6 text-sm font-bold text-slate-200 backdrop-blur">Loading dashboard view...</div>}>
-      {content}
-    </Suspense>
-  );
+  return <Suspense fallback={null}>{content}</Suspense>;
 }

@@ -13,14 +13,12 @@ function validateRegister(values: {
   email: string;
   password: string;
   confirmPassword: string;
-  acceptTerms: boolean;
 }) {
   if (!values.fullName) return 'Please provide your Full Name.';
-  if (!values.email) return 'Please provide your Security Email coordinates.';
+  if (!values.email) return 'Please provide your Email address coordinates.';
   if (!values.password) return 'Please establish a secure Passphrase.';
   if (values.password.length < 8) return 'Passphrase must be at least 8 characters long.';
   if (values.password !== values.confirmPassword) return 'Passphrases do not match.';
-  if (!values.acceptTerms) return 'You must accept the early warning telemetry guidelines.';
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) return 'Invalid email address configuration.';
   return '';
 }
@@ -32,8 +30,6 @@ export function useRegister({ onSuccess }: UseRegisterProps) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [country, setCountry] = useState('Pakistan');
   const [organization, setOrganization] = useState('');
-  const [acceptTerms, setAcceptTerms] = useState(false);
-  const [receiveAlerts, setReceiveAlerts] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
@@ -55,7 +51,7 @@ export function useRegister({ onSuccess }: UseRegisterProps) {
 
   const handleRegisterSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    const validationError = validateRegister({ fullName, email, password, confirmPassword, acceptTerms });
+    const validationError = validateRegister({ fullName, email, password, confirmPassword });
     if (validationError) return setError(validationError);
     setError('');
     setIsLoading(true);
@@ -76,8 +72,7 @@ export function useRegister({ onSuccess }: UseRegisterProps) {
   return {
     fullName, setFullName, email, setEmail, password, setPassword,
     confirmPassword, setConfirmPassword, country, setCountry,
-    organization, setOrganization, acceptTerms, setAcceptTerms,
-    receiveAlerts, setReceiveAlerts, showPassword, setShowPassword,
+    organization, setOrganization, showPassword, setShowPassword,
     showConfirmPassword, setShowConfirmPassword, error, setError,
     isLoading, setIsLoading, registerSuccess, passwordStrength,
     countries: COUNTRIES, handleRegisterSubmit,

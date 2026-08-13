@@ -37,6 +37,7 @@ export function buildHistoricalQuery(params: {
   sort?: string;
   page?: number;
   limit?: number;
+  locationBounds?: { south: number; north: number; west: number; east: number };
 }) {
   const queryParams = new URLSearchParams({
     startDate: params.startDate,
@@ -52,5 +53,11 @@ export function buildHistoricalQuery(params: {
   if (params.maxMagnitude !== undefined) queryParams.set('maxMagnitude', params.maxMagnitude.toString());
   if (params.minDepth !== undefined) queryParams.set('minDepth', params.minDepth.toString());
   if (params.maxDepth !== undefined) queryParams.set('maxDepth', params.maxDepth.toString());
+  if (params.locationBounds) {
+    queryParams.set('minlatitude', String(params.locationBounds.south));
+    queryParams.set('maxlatitude', String(params.locationBounds.north));
+    queryParams.set('minlongitude', String(params.locationBounds.west));
+    queryParams.set('maxlongitude', String(params.locationBounds.east));
+  }
   return queryParams;
 }

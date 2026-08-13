@@ -8,6 +8,7 @@ interface AuthFieldProps {
   placeholder: string;
   type?: string;
   disabled?: boolean;
+  labelClassName?: string;
 }
 
 export default function AuthField({
@@ -18,10 +19,11 @@ export default function AuthField({
   placeholder,
   type = 'text',
   disabled = false,
+  labelClassName = '',
 }: AuthFieldProps) {
   return (
     <label className="block">
-      <span className="mb-2 block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+      <span className={`mb-2 block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ${labelClassName}`}>
         {label}
       </span>
       <span className="relative block">

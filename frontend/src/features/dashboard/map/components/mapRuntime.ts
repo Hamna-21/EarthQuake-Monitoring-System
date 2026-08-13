@@ -2,7 +2,7 @@ import { DivIcon, LatLngBounds, Popup as LeafletPopup } from 'leaflet';
 import { useEffect } from 'react';
 import { useMap } from 'react-leaflet';
 import { Earthquake } from '@/types';
-import { markerColor } from '@/features/dashboard/map/components/mapStyles';
+import { markerColor, markerSize } from '@/features/dashboard/map/components/markerDesign';
 import { FlyTarget } from '@/features/dashboard/map/components/MapCanvas';
 
 export function FitBounds({ events }: { events: Earthquake[] }) {
@@ -62,15 +62,18 @@ export function searchPinIcon() {
   });
 }
 
-export function rippleIcon(event: Earthquake, isStrongest = false) {
+export function quakePinIcon(event: Earthquake, isStrongest = false, compact = false) {
   const color = isStrongest ? '#ef4444' : markerColor(event.magnitude);
   const reducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce), (max-width: 640px)').matches;
-  const size = isStrongest ? Math.min(72, Math.max(34, event.magnitude * 10)) : Math.min(58, Math.max(24, event.magnitude * 8));
+  const size = markerSize(event.magnitude, isStrongest, compact);
+  const stem = Math.round(size * 0.82);
+  const pulse = event.magnitude >= 7 || isStrongest;
+  const id = event.id.replace(/[^a-zA-Z0-9]/g, '');
   return new DivIcon({
     className: '',
-    html: `<span class="relative block" style="width:${size}px;height:${size}px">${reducedMotion ? '' : `<span class="absolute inset-0 rounded-full animate-ping" style="background:${color};opacity:${isStrongest ? '.38' : '.24'}"></span>`}<span class="absolute rounded-full border-2" style="inset:${isStrongest ? '20%' : '24%'};border-color:${isStrongest ? '#fff' : color};box-shadow:0 0 ${isStrongest ? '24px' : '14px'} ${color};background:${color}"></span></span>`,
-    iconSize: [size, size],
-    iconAnchor: [size / 2, size / 2],
+    html: `<span class="quake-pin-wrap quake-tack-wrap" style="width:${size}px;height:${size + stem}px">${!reducedMotion && pulse ? `<span class="quake-pin-pulse" style="background:${color}"></span>` : ''}<svg class="quake-tack-svg" viewBox="0 0 44 68" aria-hidden="true"><defs><radialGradient id="tackGrad${id}" cx="32%" cy="24%" r="72%"><stop stop-color="#fff" stop-opacity=".8"/><stop offset=".22" stop-color="${color}"/><stop offset="1" stop-color="${color}" stop-opacity=".82"/><stop offset="1" stop-color="#020617" stop-opacity=".25"/></radialGradient><linearGradient id="stemGrad${id}" x1="18" x2="26" y1="34" y2="68"><stop stop-color="#f8fafc"/><stop offset=".55" stop-color="#64748b"/><stop offset="1" stop-color="#111827"/></linearGradient></defs><path d="M20.7 35h2.6l1.1 30.5-2.4 1.8-2.4-1.8L20.7 35Z" fill="url(#stemGrad${id})"/><circle cx="22" cy="22" r="18" fill="url(#tackGrad${id})" stroke="rgba(15,23,42,.72)" stroke-width="3"/><circle cx="22" cy="22" r="19.6" fill="none" stroke="#fff" stroke-opacity=".9" stroke-width="${isStrongest ? '3' : '2'}"/><ellipse cx="15.5" cy="12" rx="5.2" ry="3.6" fill="#fff" opacity=".58"/></svg></span>`,
+    iconSize: [size, size + stem],
+    iconAnchor: [size / 2, size + stem - 2],
   });
 }
 

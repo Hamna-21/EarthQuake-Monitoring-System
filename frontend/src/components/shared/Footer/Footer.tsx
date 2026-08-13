@@ -28,13 +28,13 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-3">
               <Activity className="h-8 w-8 text-red-500 animate-pulse" />
-              <h2 className="text-2xl font-black tracking-widest bg-gradient-to-r from-white via-red-200 to-orange-400 bg-clip-text text-transparent">
-                GeoPulse
+              <h2 className="max-w-[15rem] text-lg font-black leading-tight tracking-[0.12em] bg-gradient-to-r from-white via-red-200 to-orange-400 bg-clip-text text-transparent sm:text-xl">
+                Earthquake Monitoring System
               </h2>
             </div>
             <p className="font-light italic mt-5 text-sm leading-7 text-red-100/65">
-              Professional earthquake monitoring platform providing
-              real-time seismic intelligence, historical earthquake
+              Earthquake monitoring information with
+              real-time earthquake information, historical earthquake
               records and advanced analytics.
             </p>
           </div>
@@ -62,11 +62,11 @@ export default function Footer() {
           </div>
 
           <div className="text-center">
-            <p className="font-black leading-none text-sm text-red-100/60">
-              GeoPulse The Earthquake Monitoring System
+            <p className="max-w-[14rem] font-black leading-tight text-xs text-red-100/60 sm:text-sm">
+              Earthquake Monitoring System
             </p>
             <p className="font-light italic mt-1 text-xs tracking-widest uppercase text-red-200/40">
-              Global seismic intelligence platform
+              Earthquake monitoring and information platform
             </p>
           </div>
         </div>

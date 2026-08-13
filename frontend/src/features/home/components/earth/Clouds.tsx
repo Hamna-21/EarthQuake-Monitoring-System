@@ -9,12 +9,12 @@ export default function Clouds() {
   const cloudsMap = useTexture(cloudsMapSrc);
 
   useFrame((_, delta) => {
-    if (clouds.current) clouds.current.rotation.y += delta * 0.065;
+    if (clouds.current && !document.hidden) clouds.current.rotation.y += delta * 0.065;
   });
 
   return (
     <mesh ref={clouds} scale={1.012}>
-      <sphereGeometry args={[2, 96, 96]} />
+      <sphereGeometry args={[2, 48, 48]} />
       <meshPhongMaterial
         map={cloudsMap}
         transparent
