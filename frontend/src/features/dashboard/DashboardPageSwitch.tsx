@@ -1,18 +1,18 @@
 import { lazy, Suspense, type ReactNode } from 'react';
 import { DashboardPage, DashboardProps } from '@/features/dashboard/types';
 
-const OverviewPage = lazy(() => import('@/features/dashboard/Overview'));
-const AlertsPage = lazy(() => import('@/features/dashboard/alerts/Alerts'));
-const LiveAnalyticsPage = lazy(() => import('@/features/dashboard/analytics/Analytics'));
-const HistoricalAnalyticsPage = lazy(() => import('@/features/dashboard/analytics/HistoricalAnalytics'));
-const DetailsPage = lazy(() => import('@/features/dashboard/Details'));
-const FeedPage = lazy(() => import('@/features/dashboard/Feed'));
-const HistoricalMapsPage = lazy(() => import('@/features/dashboard/historical/HistoricalMaps'));
-const HistoryPage = lazy(() => import('@/features/dashboard/historical/Historical'));
-const PakistanHistoryPage = lazy(() => import('@/features/dashboard/historical/PakistanHistory'));
-const MapPage = lazy(() => import('@/features/dashboard/map/Map'));
-const NearbyPage = lazy(() => import('@/features/dashboard/nearby/Nearby'));
-const PredictionPage = lazy(() => import('@/features/dashboard/prediction/Prediction'));
+const OverviewPage = lazy(() => import('@/features/dashboard/pages/Overview/Overview'));
+const AlertsPage = lazy(() => import('@/features/dashboard/pages/Alerts/Alerts'));
+const LiveAnalyticsPage = lazy(() => import('@/features/dashboard/pages/Analytics/Analytics'));
+const HistoricalAnalyticsPage = lazy(() => import('@/features/dashboard/pages/HistoricalAnalytics/HistoricalAnalytics'));
+const DetailsPage = lazy(() => import('@/features/dashboard/pages/Details/Details'));
+const FeedPage = lazy(() => import('@/features/dashboard/pages/Feed/Feed'));
+const HistoricalMapsPage = lazy(() => import('@/features/dashboard/pages/HistoricalMap/HistoricalMap'));
+const HistoryPage = lazy(() => import('@/features/dashboard/pages/Historical/Historical'));
+const PakistanHistoryPage = lazy(() => import('@/features/dashboard/pages/PakistanHistory/PakistanHistory'));
+const MapPage = lazy(() => import('@/features/dashboard/pages/GlobalMap/GlobalMap'));
+const NearbyPage = lazy(() => import('@/features/dashboard/pages/Nearby/Nearby'));
+const PredictionPage = lazy(() => import('@/features/dashboard/pages/Prediction/Prediction'));
 
 type Props = {
   page: DashboardPage;

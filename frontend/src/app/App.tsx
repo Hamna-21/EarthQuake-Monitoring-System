@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Login from "@/features/auth/Login";
-import Register from "@/features/auth/Register";
-import Home from "@/features/home/Home";
+import Login from "@/features/auth/pages/Login/Login";
+import Register from "@/features/auth/pages/Register/Register";
+import Home from "@/features/home/pages/Home/Home";
 import Dashboard from "@/features/dashboard/Dashboard";
 import { useAuthSession } from "@/features/auth/hooks/useAuthSession";
 import { useEarthquakes } from "@/features/earthquakes/hooks/useEarthquakes";

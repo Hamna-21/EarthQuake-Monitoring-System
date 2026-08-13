@@ -40,11 +40,11 @@ export default function GeoBotCard({ earthquakes, selectedEvent, userName, userE
 function ToggleBotIcon() {
   return (
     <span className="relative grid h-14 w-14 place-items-center">
-      <span className="geobot-pulse absolute inset-0 animate-ping rounded-full bg-cyan-400/25" />
+      <span className="absolute inset-0 animate-ping rounded-full bg-cyan-400/25" style={{ animationDuration: '2.4s' }} />
       <span className="absolute -inset-1 rounded-full bg-gradient-to-br from-cyan-400/40 via-blue-500/30 to-violet-600/40 blur-md" />
       <span className="relative grid h-14 w-14 place-items-center rounded-full border border-cyan-100/30 bg-gradient-to-br from-cyan-400 via-blue-500 to-violet-600 text-white shadow-[0_12px_35px_rgba(8,145,178,0.45)] transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:brightness-110">
         <BotMessageSquare className="h-6 w-6" />
-        <Sparkles className="geobot-sparkle absolute -right-1 -top-1 h-4 w-4 animate-pulse text-yellow-200" />
+        <Sparkles className="absolute -right-1 -top-1 h-4 w-4 animate-pulse text-yellow-200" style={{ animationDuration: '1.8s' }} />
         <span className="absolute right-0 top-0 h-3 w-3 rounded-full border-2 border-slate-950 bg-emerald-400 shadow-[0_0_6px_#34d399]" />
       </span>
     </span>
@@ -58,7 +58,7 @@ function BotIcon({ size }: { size: 'header' | 'welcome' }) {
       <span className={`absolute ${dims.ring} rounded-2xl bg-gradient-to-br from-cyan-400/50 via-blue-500/30 to-violet-500/50 blur-sm`} />
       <span className={`relative grid ${dims.outer} place-items-center rounded-xl border border-cyan-200/25 bg-gradient-to-br from-cyan-400/20 to-violet-500/20 shadow-lg shadow-cyan-950/40`}>
         <BotMessageSquare className={`${dims.icon} text-cyan-100`} />
-        <Sparkles className={`geobot-sparkle absolute -right-1 -top-1 ${dims.sparkle} animate-pulse text-amber-200`} />
+        <Sparkles className={`absolute -right-1 -top-1 ${dims.sparkle} animate-pulse text-amber-200`} style={{ animationDuration: '1.8s' }} />
       </span>
     </span>
   );
