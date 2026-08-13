@@ -33,6 +33,19 @@
    Design source: existing GeoPulse glass cards
    ========================================== */
 .dashboard-card { border-radius: 1rem; }
+.dashboard-card--glass { background: rgb(255 255 255 / .07); border: 1px solid rgb(255 255 255 / .12); box-shadow: 0 10px 30px rgb(0 0 0 / .18); backdrop-filter: blur(16px); }
+.dashboard-card--solid { background: #071321; border: 1px solid rgb(255 255 255 / .1); }
+.dashboard-card--soft { background: rgb(255 255 255 / .04); border: 1px solid rgb(255 255 255 / .1); }
+
+/* ==========================================
+   REUSABLE KPI CARD COLORS
+   Components: AppCard.tsx, AnalyticsStatCard.tsx, dashboard metric cards
+   Design source: Overview stat cards
+   Purpose: Shared glass surfaces without overriding data-driven accents
+   ========================================== */
+.geo-kpi-card { border-radius: 1rem; border: 1px solid rgb(255 255 255 / .12); background: rgb(255 255 255 / .07); box-shadow: 0 10px 30px rgb(0 0 0 / .18); backdrop-filter: blur(16px); }
+.geo-card-hover { transition: transform .2s ease, filter .2s ease; }
+.geo-card-hover:hover { transform: translateY(-2px); filter: brightness(1.04); }
 
 /* ==========================================
    REUSABLE STATUS BADGE
