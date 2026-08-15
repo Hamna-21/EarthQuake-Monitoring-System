@@ -63,8 +63,8 @@ export function useRegister({ onSuccess }: UseRegisterProps) {
         setIsLoading(false);
         onSuccess(data.user.email, data.token, data.user.name);
       }, 1500);
-    } catch (err: any) {
-      setError(err.message || 'Error occurred registering system keys.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Error occurred registering system keys.');
       setIsLoading(false);
     }
   };

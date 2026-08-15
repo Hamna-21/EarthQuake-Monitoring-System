@@ -9,10 +9,9 @@ router.get('/history', async (req, res) => {
     res.json(await fetchHistoricalEarthquakes(req.query));
   } catch (error) {
     const raw = error instanceof Error ? error.message : 'Unable to fetch historical earthquake data.';
-    const message = raw.toLowerCase().includes('abort') || raw.toLowerCase().includes('timeout')
-      ? 'The selected date range is taking too long to load. Please narrow the range or try again.'
-      : raw;
-    const status = message.includes('date') || message.includes('future') || message.includes('earlier') ? 400 : 502;
+    const timedOut = /abort|timeout|timed out/i.test(raw);
+    const message = timedOut ? 'Historical data is taking longer than expected. Please try again.' : raw;
+    const status = message.includes('date') || message.includes('future') || message.includes('earlier') ? 400 : timedOut ? 504 : 503;
     res.status(status).json({ success: false, source: 'USGS', message, earthquakes: [] });
   }
 });

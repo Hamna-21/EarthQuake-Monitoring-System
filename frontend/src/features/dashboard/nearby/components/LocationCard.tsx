@@ -1,11 +1,12 @@
 import { LocateFixed, MapPin } from 'lucide-react';
 import { UserLocation } from '@/features/dashboard/nearby/utils/nearbyUtils';
+import GlassCard from '@/components/ui/GlassCard';
 
 export default function LocationCard({ location, error, locating, onLocate }: { location: UserLocation | null; error: string | null; locating: boolean; onLocate: () => void }) {
   const title = location?.label || [location?.city, location?.country].filter(Boolean).join(', ');
 
   return (
-    <section className="rounded-xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-xl">
+    <GlassCard as="section" className="p-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
           <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wide text-cyan-300">
@@ -26,6 +27,6 @@ export default function LocationCard({ location, error, locating, onLocate }: { 
           {locating ? 'Detecting…' : 'Refresh'}
         </button>
       </div>
-    </section>
+    </GlassCard>
   );
 }

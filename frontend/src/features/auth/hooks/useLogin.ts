@@ -46,8 +46,8 @@ export function useLogin({ onSuccess }: UseLoginProps) {
         setIsLoading(false);
         onSuccess(data.user.email, data.token, data.user.name);
       }, 1500);
-    } catch (err: any) {
-      setError(err.message || 'Connection error. Please try again.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Connection error. Please try again.');
       setIsLoading(false);
     }
   };

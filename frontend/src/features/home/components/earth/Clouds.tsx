@@ -2,7 +2,7 @@ import { useFrame } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 import { useRef } from 'react';
 import * as THREE from 'three';
-import cloudsMapSrc from '@/assets/images/earth/clouds.png';
+import cloudsMapSrc from '@/assets/images/earth/clouds-2048.png';
 
 export default function Clouds() {
   const clouds = useRef<THREE.Mesh>(null);

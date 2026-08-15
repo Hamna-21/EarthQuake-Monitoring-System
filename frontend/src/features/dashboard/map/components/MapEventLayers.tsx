@@ -3,7 +3,7 @@ import { Marker, Popup, Tooltip } from 'react-leaflet';
 import { Earthquake } from '@/types';
 import MapPopup from '@/features/dashboard/map/components/MapPopup';
 import { fmtDate } from '@/features/dashboard/utils/data';
-import { quakePinIcon, repositionPopup, tierClass } from '@/features/dashboard/map/components/mapRuntime';
+import { quakeFlatIcon, quakePinIcon, repositionPopup, tierClass } from '@/features/dashboard/map/components/mapRuntime';
 
 interface MapEventLayersProps {
   events: Earthquake[];
@@ -12,9 +12,10 @@ interface MapEventLayersProps {
   onSelect: (event: Earthquake) => void;
   onDetails?: (event: Earthquake) => void;
   popupMode?: 'compact' | 'historical';
+  markerMode?: 'pin' | 'flat';
 }
 
-function MapEventLayers({ events, strongestIds, heat, onSelect, onDetails, popupMode }: MapEventLayersProps) {
+function MapEventLayers({ events, strongestIds, heat, onSelect, onDetails, popupMode, markerMode = 'pin' }: MapEventLayersProps) {
   return (
     <>
       {events.map((event) => {
@@ -23,7 +24,7 @@ function MapEventLayers({ events, strongestIds, heat, onSelect, onDetails, popup
           <Marker
             key={event.id}
             position={[event.latitude, event.longitude]}
-            icon={quakePinIcon(event, isStrongest, popupMode === 'historical' || heat)}
+            icon={markerMode === 'flat' ? quakeFlatIcon(event, isStrongest) : quakePinIcon(event, isStrongest, popupMode === 'historical' || heat)}
             eventHandlers={{ click: () => onSelect(event) }}
           >
             <Tooltip className="geopulse-marker-tooltip" direction="top" offset={[0, -26]} opacity={1}>

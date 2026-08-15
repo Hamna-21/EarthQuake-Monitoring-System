@@ -10,19 +10,19 @@ const tips = [
 
 export default function SafetyAssistantPanel() {
   return (
-    <SafetyCard className="h-full">
+    <SafetyCard className="h-full bg-gradient-to-br from-orange-500/10 via-white/[0.04] to-transparent">
       <div className="flex items-center gap-3">
-        <span className="grid h-12 w-12 place-items-center rounded-none bg-cyan-300/10">
-          <Bot className="h-6 w-6 text-cyan-200" />
+        <span className="grid h-12 w-12 place-items-center rounded-2xl border border-orange-300/20 bg-orange-400/10">
+          <Bot className="h-6 w-6 text-orange-200" />
         </span>
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-cyan-200">
+          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-orange-200">
             GeoBot safety guidance
           </p>
-          <h3 className="text-2xl font-black text-white">GeoBot guidance</h3>
+          <h3 className="font-serif text-xl font-black text-white">GeoBot guidance</h3>
         </div>
       </div>
-      <p className="mt-5 rounded-none border border-white/10 bg-black/20 p-4 leading-7 text-slate-200">
+      <p className="mt-4 rounded-xl border border-white/10 bg-black/20 p-3 text-sm leading-6 text-slate-200">
        Protect your head, stay low, and move only after shaking stops.
       </p>
       <div className="mt-5 space-y-3">

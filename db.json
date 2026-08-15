@@ -5,6 +5,14 @@
     "country": "Pakistan",
     "authProvider": "google",
     "createdAt": "2026-07-21T06:17:20.551Z"
+  },
+  {
+    "email": "xocole@mailinator.com",
+    "password": "Pa$$w0rd!",
+    "name": "Corrupti sunt magna",
+    "country": "Cyprus",
+    "organization": "Cupiditate dolor aut",
+    "authProvider": "local",
+    "createdAt": "2026-08-14T23:36:45.861Z"
   }
-  
 ]

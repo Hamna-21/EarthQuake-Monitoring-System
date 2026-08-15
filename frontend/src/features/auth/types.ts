@@ -28,6 +28,6 @@ export interface RegisterFormProps {
   onSubmit: (e: React.FormEvent) => void;
   onGoogleStart: () => void;
   onGoogleSuccess: (url: string) => void;
-  onGoogleFailure: (err: any) => void;
+  onGoogleFailure: (err: unknown) => void;
   onNavigateToLogin: () => void;
 }

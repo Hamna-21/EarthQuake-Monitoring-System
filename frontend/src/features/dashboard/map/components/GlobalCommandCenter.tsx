@@ -1,19 +1,28 @@
+import { useState } from 'react';
 import type { Earthquake } from '@/types';
 import InteractiveGlobePanel from '@/features/dashboard/map/components/InteractiveGlobePanel';
+import { GlobeLegend } from '@/features/dashboard/map/components/InteractiveGlobePanel';
+import GlobeViewControls from '@/features/dashboard/map/components/GlobeViewControls';
+import type { View } from '@/features/dashboard/map/components/globeData';
 import GlobalMapAnalytics from '@/features/dashboard/map/components/GlobalMapAnalytics';
 
 export default function GlobalCommandCenter({ events, onSelect, onDetails }: { events: Earthquake[]; onSelect: (event: Earthquake) => void; onDetails: (event: Earthquake) => void; lastUpdated?: number | null }) {
+  const [view, setView] = useState<View>('night');
   return (
-    <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900/90 via-[#071321]/95 to-[#030817] p-1 shadow-[0_24px_80px_rgba(0,0,0,0.42)] backdrop-blur-2xl sm:p-2">
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-32 bg-gradient-to-b from-cyan-300/[0.08] via-orange-300/[0.03] to-transparent" />
-      <div className="relative z-20 flex flex-wrap items-center justify-between gap-3 px-3 pb-2 pt-2 sm:px-4">
+    <section className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#030817] shadow-2xl backdrop-blur-2xl">
+      <div className="relative z-20 flex flex-wrap items-start justify-between gap-3 px-3 pb-2 pt-2 sm:px-4">
         <div>
-          <p className="font-serif text-[11px] font-black uppercase tracking-[0.22em] text-cyan-200">Global Earth activity</p>
-          <h2 className="mt-1 font-serif text-lg font-black tracking-tight text-white sm:text-xl">Live geographic overview</h2>
+          <h2 className="font-serif text-lg font-black tracking-tight text-white sm:text-xl">Global Earthquake Map</h2>
+          <p className="mt-1 text-sm font-medium text-slate-300">Interactive global earthquake activity with the same live USGS dataset.</p>
         </div>
-        <span className="rounded-full border border-orange-300/20 bg-orange-300/10 px-3 py-1 font-serif text-[11px] font-bold text-orange-100">Earthquake Monitoring System</span>
+        <GlobeViewControls view={view} onChange={setView} />
       </div>
-      <InteractiveGlobePanel events={events} onSelect={onSelect} onDetails={onDetails} autoRotate popupMode="compact" />
+      <div className="flex w-full flex-col items-center justify-center">
+        <div className="flex w-full flex-col items-center gap-2">
+          <InteractiveGlobePanel events={events} onSelect={onSelect} onDetails={onDetails} autoRotate popupMode="compact" view={view} onViewChange={setView} legendOutside bare globeHeight={520} />
+          <GlobeLegend outside />
+        </div>
+      </div>
       <div className="p-2 sm:p-3"><GlobalMapAnalytics events={events} /></div>
     </section>
   );

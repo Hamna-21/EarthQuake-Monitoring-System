@@ -4,10 +4,10 @@ export default function SafetyHubVideo() {
   return (
     <SafetyCard className="overflow-hidden p-0">
       <div className="border-b border-white/10 p-5">
-        <p className="text-xs font-black uppercase tracking-[0.24em] text-cyan-200">
+        <p className="text-[10px] font-black uppercase tracking-[0.24em] text-orange-200">
           Learning Center
         </p>
-        <h3 className="mt-2 text-2xl font-black text-white">Drop, cover, hold</h3>
+        <h3 className="mt-1.5 font-serif text-xl font-black text-white">Drop, cover, hold</h3>
       </div>
       <div className="aspect-video bg-black">
         <iframe

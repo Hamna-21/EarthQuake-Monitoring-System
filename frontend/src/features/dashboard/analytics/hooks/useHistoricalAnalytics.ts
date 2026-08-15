@@ -3,9 +3,10 @@ import { useDashboardPageState } from '@/features/dashboard/hooks/DashboardState
 import { createDefaultAnalyticsFilters, type AnalyticsFilters } from '@/features/dashboard/analytics/types';
 import { fetchHistoricalAnalytics, type HistoricalAnalyticsResponse } from '@/features/dashboard/analytics/services/historicalAnalyticsService';
 
-export function useHistoricalAnalytics(region: AnalyticsFilters['region'] = 'global') {
-  const [filters, setFilters] = useDashboardPageState(`analytics-filters:${region}`, createDefaultAnalyticsFilters(region), true);
-  const [data, setData] = useDashboardPageState<HistoricalAnalyticsResponse | null>(`analytics-data:${region}`, null);
+export function useHistoricalAnalytics() {
+  const region: AnalyticsFilters['region'] = 'global';
+  const [filters, setFilters] = useDashboardPageState('analytics-filters:global', createDefaultAnalyticsFilters(region), true);
+  const [data, setData] = useDashboardPageState<HistoricalAnalyticsResponse | null>('analytics-data:global', null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const abortRef = useRef<AbortController | null>(null);

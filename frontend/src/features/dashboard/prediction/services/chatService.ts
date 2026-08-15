@@ -1,13 +1,27 @@
+import type { Earthquake } from '@/types';
+
 export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
   timestamp: number;
 }
 
+interface GeoBotContext {
+  selectedEvent: Earthquake | null;
+  currentView: string;
+  userName: string;
+  dashboardSummary: {
+    visibleEvents: number;
+    strongestMagnitude: number;
+    selectedPlace: string | null;
+    selectedMagnitude: number | null;
+  };
+}
+
 export async function streamChatResponse(
   message: string,
   history: ChatMessage[],
-  context: any,
+  context: GeoBotContext,
   onChunk: (text: string) => void,
   onError: (err: string) => void,
   onDone: () => void,
@@ -104,11 +118,11 @@ export async function streamChatResponse(
     }
 
     onDone();
-  } catch (err: any) {
-    if (err?.name === 'AbortError') {
+  } catch (err: unknown) {
+    if (err instanceof DOMException && err.name === 'AbortError') {
       onDone();
       return;
     }
-      onError(err.message || 'Failed to connect to GeoBot');
+    onError(err instanceof Error ? err.message : 'Failed to connect to GeoBot');
   }
 }

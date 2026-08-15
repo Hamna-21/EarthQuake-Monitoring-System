@@ -36,7 +36,11 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), "frontend/dist");
-    app.use(express.static(distPath));
+    app.use('/assets', express.static(path.join(distPath, 'assets'), {
+      maxAge: '1y',
+      immutable: true,
+    }));
+    app.use(express.static(distPath, { maxAge: 0 }));
     app.get("*", (req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
     });

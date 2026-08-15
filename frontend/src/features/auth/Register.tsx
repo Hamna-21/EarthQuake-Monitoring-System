@@ -47,7 +47,7 @@ export default function Register({ onSuccess, onNavigateToLogin, onBackToHome }:
         }}
         onGoogleSuccess={() => {}}
         onGoogleFailure={(err) => {
-          registerState.setError(err.message || 'Google Auth Initialization Error');
+          registerState.setError(err instanceof Error ? err.message : 'Google Auth Initialization Error');
           registerState.setIsLoading(false);
         }}
         onNavigateToLogin={onNavigateToLogin}

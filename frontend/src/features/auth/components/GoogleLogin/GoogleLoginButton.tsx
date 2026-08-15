@@ -3,7 +3,7 @@ import React from 'react';
 interface GoogleLoginButtonProps {
   onStart: () => void;
   onSuccess: (url: string) => void;
-  onFailure: (err: any) => void;
+  onFailure: (err: unknown) => void;
 }
 
 export default function GoogleLoginButton({ onStart, onSuccess, onFailure }: GoogleLoginButtonProps) {
@@ -31,7 +31,7 @@ export default function GoogleLoginButton({ onStart, onSuccess, onFailure }: Goo
         throw new Error('SSO login popup blocked. Please allow popups.');
       }
       onSuccess(url);
-    } catch (err: any) {
+    } catch (err: unknown) {
       onFailure(err);
     }
   };

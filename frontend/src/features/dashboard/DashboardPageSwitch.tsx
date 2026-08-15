@@ -1,12 +1,12 @@
 import { lazy, Suspense, type ReactNode } from 'react';
 import { DashboardPage, DashboardProps } from '@/features/dashboard/types';
 
-const OverviewPage = lazy(() => import('@/features/dashboard/Overview'));
+const OverviewPage = lazy(() => import('@/features/dashboard/overview/Overview'));
 const AlertsPage = lazy(() => import('@/features/dashboard/alerts/Alerts'));
 const LiveAnalyticsPage = lazy(() => import('@/features/dashboard/analytics/Analytics'));
 const HistoricalAnalyticsPage = lazy(() => import('@/features/dashboard/analytics/HistoricalAnalytics'));
-const DetailsPage = lazy(() => import('@/features/dashboard/Details'));
-const FeedPage = lazy(() => import('@/features/dashboard/Feed'));
+const DetailsPage = lazy(() => import('@/features/dashboard/details/Details'));
+const FeedPage = lazy(() => import('@/features/dashboard/feed/Feed'));
 const HistoricalMapsPage = lazy(() => import('@/features/dashboard/historical/HistoricalMaps'));
 const HistoryPage = lazy(() => import('@/features/dashboard/historical/Historical'));
 const PakistanHistoryPage = lazy(() => import('@/features/dashboard/historical/PakistanHistory'));

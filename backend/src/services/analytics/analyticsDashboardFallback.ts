@@ -72,7 +72,7 @@ export async function getAnalyticsDashboardFallback(query: ValidatedAnalyticsQue
     magnitudeGroups: fillBins(events, magBins, (event) => magLabel(event.magnitude)),
     mapEvents: events.map((event) => ({
       usgsId: event.usgsId, magnitude: event.magnitude, place: event.place,
-      occurredAt: event.time, depth: event.depth, coordinates: [event.longitude, event.latitude],
+      occurredAt: event.time, updatedAt: event.updatedAt, depth: event.depth, coordinates: [event.longitude, event.latitude],
     })),
     metadata: { region: query.region, dataMode: 'historical' as const, source: 'USGS' as const, geographicClassification: query.region === 'pakistan' ? 'Pakistan boundary' : 'global', pointInPolygonApplied: query.region === 'pakistan', generatedAt: new Date().toISOString(), documentCount: events.length, usgsCount: response.expectedCount, rawFeatureCount: response.rawFeatureCount, uniqueEventCount: response.events.length, validEventCount: events.length, pages: response.pages, chunks: response.chunks, duplicateCount: response.duplicateCount },
   };

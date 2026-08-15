@@ -1,6 +1,7 @@
 export type AnalyticsRegion = 'pakistan' | 'global';
 
 export type AnalyticsQueryInput = Record<string, unknown>;
+export type AnalyticsLocationPolygon = { outer: Array<[number, number]>; holes: Array<Array<[number, number]>> };
 
 export type ValidatedAnalyticsQuery = {
   startDate: Date;
@@ -14,7 +15,7 @@ export type ValidatedAnalyticsQuery = {
   maxDepth: number | null;
   location: string;
   bounds?: { minLatitude: number; maxLatitude: number; minLongitude: number; maxLongitude: number };
-  locationPolygons?: Array<Array<[number, number]>>;
+  locationPolygons?: AnalyticsLocationPolygon[];
 };
 
 export const ANALYTICS_START_DATE = '1975-01-01';

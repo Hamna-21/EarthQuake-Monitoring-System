@@ -1,14 +1,31 @@
 import type { Earthquake, EarthquakeAlert } from '@/types';
 import { parseUsgsCoordinates } from './coordinateParser';
 
+type UsgsProperties = {
+  mag?: number | null;
+  place?: string | null;
+  time?: number | null;
+  updated?: number | null;
+  url?: string | null;
+  detail?: string | null;
+  felt?: number | null;
+  cdi?: number | null;
+  mmi?: number | null;
+  alert?: string | null;
+  status?: string | null;
+  tsunami?: number | null;
+  sig?: number | null;
+  magType?: string | null;
+};
+
 type Feature = {
   id: string;
-  properties?: Record<string, any>;
+  properties?: UsgsProperties;
   geometry?: { coordinates?: number[] };
 };
 
-export function assertFeatureCollection(data: any, label: string): asserts data is { features: Feature[] } {
-  if (!data.features || !Array.isArray(data.features)) {
+export function assertFeatureCollection(data: unknown, label: string): asserts data is { features: Feature[] } {
+  if (!data || typeof data !== 'object' || !('features' in data) || !Array.isArray(data.features)) {
     throw new Error(`${label} returned an invalid response`);
   }
 }

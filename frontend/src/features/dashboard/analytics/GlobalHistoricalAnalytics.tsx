@@ -2,6 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import type { Earthquake } from '@/types';
 import type { DashboardProps } from '@/features/dashboard/types';
 import InteractiveGlobePanel from '@/features/dashboard/map/components/InteractiveGlobePanel';
+import { GlobeLegend } from '@/features/dashboard/map/components/InteractiveGlobePanel';
+import GlobeViewControls from '@/features/dashboard/map/components/GlobeViewControls';
+import type { View } from '@/features/dashboard/map/components/globeData';
 import { createDefaultAnalyticsFilters, type AnalyticsFilters } from '@/features/dashboard/analytics/types';
 import HistoricalAnalyticsControls from '@/features/dashboard/analytics/components/HistoricalAnalyticsControls';
 import HistoricalDistributionCharts from '@/features/dashboard/analytics/components/HistoricalDistributionCharts';
@@ -16,24 +19,24 @@ import { useHistoricalAnalytics } from '@/features/dashboard/analytics/hooks/use
 import { usePlaceFocus } from '@/features/dashboard/map/hooks/usePlaceFocus';
 import PageTitle from '@/features/dashboard/components/common/PageTitle';
 
-type Props = DashboardProps & { region?: AnalyticsFilters['region'] };
-export default function GlobalHistoricalAnalyticsPage(props: DashboardProps) { return <HistoricalAnalyticsPanel {...props} region="global" />; }
+type Props = DashboardProps;
+export default function GlobalHistoricalAnalyticsPage(props: DashboardProps) { return <HistoricalAnalyticsPanel {...props} />; }
 
 export function HistoricalAnalyticsPanel(props: Props) {
-  const region = props.region ?? 'global';
-  const { filters, applyFilters, reset, data, error, isLoading } = useHistoricalAnalytics(region);
+  const { filters, applyFilters, reset, data, error, isLoading } = useHistoricalAnalytics();
   const [draft, setDraft] = useState<AnalyticsFilters>(filters);
+  const [view, setView] = useState<View>('night');
   useEffect(() => setDraft(filters), [filters]);
   const events = useMemo(() => data ? mapHistoricalEvents(data.mapEvents) : [], [data]);
-  const { place: focusPlace } = usePlaceFocus(region === 'pakistan' ? 'Pakistan' : filters.location);
+  const { place: focusPlace } = usePlaceFocus(filters.location);
   const select = (event: Earthquake) => props.setSelectedEvent ? props.setSelectedEvent(event) : props.setSelectedId(event.id);
   const details = (event: Earthquake) => { select(event); props.openPage('details'); };
-  const resetAll = () => { const defaults = createDefaultAnalyticsFilters(region); setDraft(defaults); reset(); };
-  const name = region === 'pakistan' ? 'Pakistan Historical Analytics' : 'Global Historical Analytics';
-  const mapTitle = region === 'pakistan' ? 'Pakistan Historical Earthquake Map' : 'Global Historical Earthquake Map';
-  return <div className="space-y-4"><PageTitle eyebrow="Historical earthquake data" title={name} subtitle="Choose filters, then search the historical earthquake data." /><HistoricalAnalyticsControls draft={draft} setDraft={(patch) => setDraft((current) => ({ ...current, ...patch }))} onApply={() => applyFilters(draft)} onReset={resetAll} isLoading={isLoading} showLocation={region === 'global'} />
+  const resetAll = () => { const defaults = createDefaultAnalyticsFilters('global'); setDraft(defaults); reset(); };
+  const name = 'Global Historical Analytics';
+  const mapTitle = 'Global Historical Earthquake Map';
+  return <div className="space-y-4"><PageTitle eyebrow="Historical earthquake data" title={name} subtitle="Choose filters, then search the historical earthquake data." /><HistoricalAnalyticsControls draft={draft} setDraft={(patch) => setDraft((current) => ({ ...current, ...patch }))} onApply={() => applyFilters(draft)} onReset={resetAll} isLoading={isLoading} showLocation />
     {isLoading && !data ? <State title="Loading historical earthquakes..." text="Fetching historical earthquake data." /> : null}{error ? <State title="Historical analytics could not load." text={error} action={() => applyFilters(filters)} /> : null}{!data && !isLoading && !error ? <State title="Ready to search" text="Set a year range and minimum magnitude, then select Search." /> : null}
-    {data && <><HistoricalFilterSummary filters={filters} data={data} /><HistoricalSummaryCards data={data} /><section className="space-y-2"><div><h2 className="font-serif text-lg font-black text-white">{mapTitle}</h2><p className="text-sm font-medium text-slate-300">Interactive historical earthquake activity with the same filtered dataset as the analytics.</p></div><InteractiveGlobePanel events={events} onSelect={select} onDetails={details} autoRotate={false} focusLocation={focusPlace} focusLabel={focusPlace?.label} popupMode="historical" /></section>
+    {data && <><HistoricalFilterSummary filters={filters} data={data} /><HistoricalSummaryCards data={data} /><section className="space-y-2"><div className="flex flex-wrap items-start justify-between gap-2"><div><h2 className="font-serif text-lg font-black text-white">{mapTitle}</h2><p className="text-sm font-medium text-slate-300">Interactive historical earthquake activity with the same filtered dataset as the analytics.</p></div><GlobeViewControls view={view} onChange={setView} /></div><InteractiveGlobePanel events={events} onSelect={select} onDetails={details} autoRotate={false} focusLocation={focusPlace} focusLabel={focusPlace?.label} popupMode="historical" compact bare view={view} onViewChange={setView} legendOutside /><GlobeLegend outside /></section>
       {data.summary.totalEvents ? <><HistoricalMonthChart rows={data.calendarMonthFrequency} /><HistoricalDistributionCharts magnitudeRows={data.magnitudeDistribution} depthRows={data.depthDistribution} /><HistoricalHeatmap rows={data.yearMonthHeatmap} /><HistoricalTimelineChart data={data} /><HistoricalYearlyChart rows={data.yearlyFrequency} /></> : <State title="No matching earthquakes found." text="Try a longer period or lower minimum magnitude." action={resetAll} />}</>}
   </div>;
 }

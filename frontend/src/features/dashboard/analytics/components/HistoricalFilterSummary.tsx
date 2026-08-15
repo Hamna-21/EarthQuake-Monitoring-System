@@ -2,7 +2,7 @@ import type { AnalyticsFilters } from '@/features/dashboard/analytics/types';
 import type { HistoricalAnalyticsResponse } from '@/features/dashboard/analytics/services/historicalAnalyticsService';
 
 export default function HistoricalFilterSummary({ filters, data }: { filters: AnalyticsFilters; data: HistoricalAnalyticsResponse }) {
-  const items = [`Years: ${filters.startDate.slice(0, 4)} to ${filters.endDate.slice(0, 4)}`, `Magnitude: M${filters.minMagnitude}+`, `Region: ${filters.region === 'pakistan' ? 'Pakistan' : filters.location || 'Worldwide'}`];
+  const items = [`Years: ${filters.startDate.slice(0, 4)} to ${filters.endDate.slice(0, 4)}`, `Magnitude: M${filters.minMagnitude}+`, `Location: ${filters.location || 'Worldwide'}`];
   return (
     <section className="rounded-2xl border border-orange-300/15 bg-slate-950/55 p-4 shadow-xl">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">

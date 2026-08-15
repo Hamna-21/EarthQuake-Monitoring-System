@@ -1,4 +1,5 @@
 import { Radar } from 'lucide-react';
+import GlassCard from '@/components/ui/GlassCard';
 
 const RADII = [
   { km: 100, tone: 'bg-cyan-500/20 text-cyan-100 border-cyan-400/30' },
@@ -9,7 +10,7 @@ const RADII = [
 
 export default function RadiusControl({ radius, onChange }: { radius: number; onChange: (r: number) => void }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-white/[0.06] p-3 backdrop-blur-xl">
+    <GlassCard className="p-3">
       <p className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wide text-slate-400">
         <Radar className="h-3.5 w-3.5" /> Search Radius
       </p>
@@ -24,6 +25,6 @@ export default function RadiusControl({ radius, onChange }: { radius: number; on
           </button>
         ))}
       </div>
-    </div>
+    </GlassCard>
   );
 }

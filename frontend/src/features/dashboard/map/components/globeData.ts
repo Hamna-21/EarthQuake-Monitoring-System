@@ -1,13 +1,10 @@
 import type { Earthquake } from '@/types';
-import countryDataset from '@/assets/data/ne_110m_admin_0_countries.json';
-import earthSatellite from '@/assets/images/earth/earth-satellite.jpg';
+import earthSatellite from '@/assets/images/earth/earth-satellite-2048.jpg';
 import earthDay from '@/assets/images/earth/earth-day.jpg';
-import earthNight from '@/assets/images/earth/earth-night.jpg';
+import earthNight from '@/assets/images/earth/earth-night-2048.jpg';
 import earthTopology from '@/assets/images/earth/earth-topology.png';
 
 export type View = 'satellite' | 'terrain' | 'night';
-export type CountryFeature = { properties: { ADMIN?: string; NAME?: string }; geometry: object };
-export const countries = (countryDataset.features as CountryFeature[]).filter((feature) => feature.geometry);
 export const countryLabels = [
   { text: 'Pakistan', lat: 33.701942, lng: 73.164689 },
   { text: 'Kyrgyzstan', lat: 42.875025, lng: 74.583258 },

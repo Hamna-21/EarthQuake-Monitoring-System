@@ -31,8 +31,17 @@ export async function fetchHistoricalAnalytics(filters = createDefaultAnalyticsF
   const key = qs(filters);
   const cached = responseCache.get(key);
   if (cached) return cached;
-  const request = responseRequests.get(key) ?? fetch(`/api/analytics/dashboard?${key}`, { signal, headers: { Accept: 'application/json' } })
-    .then(async (response) => { const data = await response.json().catch(() => null); if (!response.ok || !data?.success) throw new Error(data?.error?.message || 'Historical analytics could not be loaded.'); return data as HistoricalAnalyticsResponse; });
+  const sharedRequest = responseRequests.get(key);
+  const request = (sharedRequest && !signal ? sharedRequest : fetch(`/api/analytics/dashboard?${key}`, { signal, headers: { Accept: 'application/json' } })
+    .then(async (response) => {
+      const data = await response.json().catch(() => null);
+      if (!response.ok || !data?.success) {
+        if (response.status === 504) throw new Error('Historical data is taking longer than expected. Please try again.');
+        if (response.status === 503) throw new Error('Historical earthquake data is temporarily unavailable. Please try again.');
+        throw new Error(data?.error?.message || 'Historical analytics could not be loaded.');
+      }
+      return data as HistoricalAnalyticsResponse;
+    }));
   responseRequests.set(key, request);
   try {
     const data = await request;

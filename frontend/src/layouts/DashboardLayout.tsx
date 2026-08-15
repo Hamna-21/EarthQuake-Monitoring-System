@@ -4,6 +4,7 @@ import { DashboardPage } from '@/features/dashboard/types';
 import RefreshNote from '@/features/dashboard/components/RefreshNote';
 import DashboardSearch, { SearchSuggestion } from '@/features/dashboard/components/DashboardSearch';
 import { ds } from '@/features/dashboard/utils/designSystem';
+import IconButton from '@/components/ui/IconButton';
 
 const nav = [
   ['overview', Home, 'Overview', 'Operations'],
@@ -71,7 +72,7 @@ export default function Shell(props: Props) {
             {!collapsed && <button onClick={props.onLogout} className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 px-3 py-2 text-sm font-bold text-white transition hover:border-red-300/30 hover:bg-red-500/10"><LogOut className="h-4 w-4" /> Logout</button>}
           </div>
         </div>
-        <button onClick={() => setCollapsed(!collapsed)} className="absolute right-3 top-3 rounded-full bg-white/10 p-2 text-white"><ChevronLeft className={`h-4 w-4 transition ${collapsed ? 'rotate-180' : ''}`} /></button>
+        <IconButton onClick={() => setCollapsed(!collapsed)} className="absolute right-3 top-3"><ChevronLeft className={`h-4 w-4 transition ${collapsed ? 'rotate-180' : ''}`} /></IconButton>
       </aside>
       {mobileOpen && <button type="button" aria-label="Close dashboard navigation" onClick={() => setMobileOpen(false)} className="fixed inset-0 z-40 bg-slate-950/70 backdrop-blur-sm lg:hidden" />}
       <aside className={`fixed inset-y-3 left-3 z-50 flex w-[min(17rem,calc(100vw-1.5rem))] flex-col overflow-hidden rounded-2xl border border-white/12 bg-slate-950/95 shadow-[0_24px_90px_rgba(0,0,0,0.55)] backdrop-blur-2xl transition-transform duration-300 lg:hidden ${mobileOpen ? 'translate-x-0' : '-translate-x-[110%]'}`}>
@@ -80,7 +81,7 @@ export default function Shell(props: Props) {
             <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-red-600 via-orange-500 to-amber-400 shadow-lg shadow-red-500/25"><Activity className="h-5 w-5 text-white" /></span>
             <div className="min-w-0"><h1 className="max-w-[11rem] text-sm font-black leading-tight tracking-tight text-white">Earthquake Monitoring System</h1><p className="mt-1 text-[10px] font-semibold leading-tight text-slate-400">Monitoring and safety information</p></div>
           </div>
-          <button type="button" onClick={() => setMobileOpen(false)} className="shrink-0 rounded-full bg-white/10 p-2 text-white" aria-label="Close dashboard navigation"><X className="h-4 w-4" /></button>
+          <IconButton type="button" onClick={() => setMobileOpen(false)} className="shrink-0" aria-label="Close dashboard navigation"><X className="h-4 w-4" /></IconButton>
         </div>
         <nav className="flex-1 space-y-4 overflow-y-auto px-3 py-4">
           {[...new Set(nav.map((item) => item[3]))].map((section) => (

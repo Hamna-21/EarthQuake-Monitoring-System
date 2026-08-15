@@ -42,22 +42,23 @@ type MapEvent = {
   magnitude: number | null;
   place: string;
   occurredAt: string;
+  updatedAt?: string | null;
   depth: number | null;
   coordinates: number[];
 };
 
 function toEarthquake(event: MapEvent): EarthquakeRecord | null {
-  const [longitude, latitude] = event.coordinates;
-  if (!event.usgsId || !Number.isFinite(longitude) || !Number.isFinite(latitude) || event.magnitude === null) return null;
+  const [longitude, latitude, depth] = event.coordinates;
+  if (!event.usgsId || !Number.isFinite(longitude) || longitude < -180 || longitude > 180 || !Number.isFinite(latitude) || latitude < -90 || latitude > 90 || !Number.isFinite(event.magnitude)) return null;
   return {
     id: event.usgsId,
     magnitude: event.magnitude,
     place: event.place || 'Location unavailable',
     longitude,
     latitude,
-    depth: event.depth ?? Number.NaN,
+    depth: Number.isFinite(depth) ? depth : Number.isFinite(event.depth) ? event.depth : Number.NaN,
     time: event.occurredAt,
-    updatedAt: event.occurredAt,
+    updatedAt: event.updatedAt ?? event.occurredAt,
     alert: null,
     tsunami: false,
     tsunamiCode: null,

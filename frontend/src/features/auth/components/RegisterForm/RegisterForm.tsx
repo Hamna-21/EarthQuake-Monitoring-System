@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react';
+import PrimaryButton from '@/components/ui/PrimaryButton';
 import GoogleLoginButton from '@/features/auth/components/GoogleLogin/GoogleLoginButton';
 import { AuthDivider, AuthError, AuthFooter, AuthLead } from '@/features/auth/components/shared/AuthFormChrome';
 import RegisterAccountFields from '@/features/auth/components/RegisterForm/components/RegisterAccountFields';
@@ -35,14 +36,13 @@ export default function RegisterForm(props: RegisterFormProps) {
           passwordStrength={props.passwordStrength}
           isLoading={props.isLoading}
         />
-        <button
+        <PrimaryButton
           type="submit"
-          className="flex w-full items-center justify-center gap-2 rounded-none bg-gradient-to-r from-red-600 to-orange-500 py-4 text-xs font-black uppercase tracking-[0.22em] text-white shadow-xl shadow-red-700/25 transition hover:-translate-y-0.5 disabled:opacity-50"
           disabled={props.isLoading}
         >
           {props.isLoading ? 'Authenticating...' : 'Establish Coordinates'}
           <ArrowRight className="h-4 w-4" />
-        </button>
+        </PrimaryButton>
         <AuthDivider />
         <GoogleLoginButton
           onStart={props.onGoogleStart}

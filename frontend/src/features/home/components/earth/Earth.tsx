@@ -3,7 +3,7 @@ import { useTexture } from '@react-three/drei';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import dayMapSrc from '@/assets/images/earth/earth-day.jpg';
-import nightMapSrc from '@/assets/images/earth/earth-night.jpg';
+import nightMapSrc from '@/assets/images/earth/earth-night-2048.jpg';
 import topologyMapSrc from '@/assets/images/earth/earth-topology.png';
 import waterMapSrc from '@/assets/images/earth/earth-water.png';
 import Atmosphere from '@/features/home/components/earth/Atmosphere';
@@ -43,7 +43,7 @@ export default function Earth() {
   });
 
   return (
-    <group ref={group} position={[1.25, -0.05, 0]} rotation={[-0.15, -0.65, 0]} scale={1.28}>
+    <group ref={group} position={[1.25, -0.05, 0]} rotation={[-0.15, -0.65, 0]} scale={1.1}>
       <mesh>
         <sphereGeometry args={[2, 64, 64]} />
         <meshPhongMaterial
