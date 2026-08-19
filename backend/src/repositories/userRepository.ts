@@ -1,6 +1,7 @@
 import { User } from '../types/user';
 import { getDb, memoryUsers, saveLocalDb } from '../database/mongodb';
 
+// Read from MongoDB when available and fall back to the local store without changing repository callers.
 export async function findUserByEmail(email: string): Promise<User | null> {
   const normalizedEmail = email.toLowerCase().trim();
   const db = await getDb();
@@ -13,6 +14,7 @@ export async function findUserByEmail(email: string): Promise<User | null> {
   }
 }
 
+// Persist a normalized email so local and MongoDB lookups behave consistently.
 export async function createUser(user: User): Promise<User> {
   user.email = user.email.toLowerCase().trim();
   const db = await getDb();
@@ -26,6 +28,7 @@ export async function createUser(user: User): Promise<User> {
   }
 }
 
+// Apply profile changes to whichever user store is currently active.
 export async function updateUser(email: string, updates: Partial<User>): Promise<void> {
   const normalizedEmail = email.toLowerCase().trim();
   const db = await getDb();

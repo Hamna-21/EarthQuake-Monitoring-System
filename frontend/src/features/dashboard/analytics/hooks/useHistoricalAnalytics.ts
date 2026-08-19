@@ -15,6 +15,7 @@ export function useHistoricalAnalytics() {
   const requestId = useRef(0);
 
   const load = useCallback(async (next: AnalyticsFilters) => {
+    // Cancel an older filter request and ignore late responses so charts never show mixed filter states.
     const key = JSON.stringify(next);
     if (loadingRef.current && activeKey.current === key) return;
     if (loadingRef.current) abortRef.current?.abort();

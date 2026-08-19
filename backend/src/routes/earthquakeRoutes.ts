@@ -4,6 +4,7 @@ import { fetchHistoricalEarthquakes } from '../services/historicalEarthquakeServ
 
 const router = Router();
 
+// Translate service failures into stable status codes for both historical and live earthquake clients.
 router.get('/history', async (req, res) => {
   try {
     res.json(await fetchHistoricalEarthquakes(req.query));

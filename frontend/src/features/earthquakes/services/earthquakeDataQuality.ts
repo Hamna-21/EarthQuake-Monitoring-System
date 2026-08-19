@@ -23,6 +23,7 @@ export function validationIssues(event: Earthquake) {
 }
 
 export function cleanEarthquakes(events: Earthquake[], source: string) {
+  // Drop malformed or duplicate events before they reach maps, records, or analytics.
   const seen = new Set<string>();
   const clean: Earthquake[] = [];
 

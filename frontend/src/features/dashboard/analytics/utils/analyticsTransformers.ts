@@ -22,6 +22,7 @@ const magBins: HistogramBin[] = [
   { key: '8-plus', label: '8.0+', count: 0 },
 ];
 export function buildYearlyFrequency(events: readonly Earthquake[], startDate: string, endDate: string): YearlyFrequencyPoint[] {
+  // Transform event timestamps into complete chart series, including zero-count periods in the selected range.
   const range = readDateRange(startDate, endDate);
   const counts = new Map<number, number>();
   eventsInRange(events, startDate, endDate).forEach(({ date }) => counts.set(date.getUTCFullYear(), (counts.get(date.getUTCFullYear()) ?? 0) + 1));
@@ -41,6 +42,7 @@ export function buildCalendarMonthFrequency(events: readonly Earthquake[], start
   return counts.map((count, index) => ({ month: index + 1, shortLabel: monthShortLabels[index], fullLabel: monthFullLabels[index], count }));
 }
 export function buildDepthDistribution(events: readonly Earthquake[], startDate: string, endDate: string): DepthDistribution {
+  // Bin valid depths while tracking missing values so chart totals remain explainable.
   const bins = depthBins.map((bin) => ({ ...bin }));
   let validDepthCount = 0, missingDepthCount = 0, shallowEventCount = 0;
   eventsInRange(events, startDate, endDate).forEach(({ event }) => {

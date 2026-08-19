@@ -20,6 +20,7 @@ interface UserDashboardProps {
   onRefresh: () => void;
 }
 
+// Keep route state, global search suggestions, and the selected live/history event in one dashboard boundary.
 export default function Dashboard(props: UserDashboardProps) {
   const [page, setPage] = useState<DashboardPage>(() => {
     normalizeDashboardPath();
@@ -60,6 +61,7 @@ export default function Dashboard(props: UserDashboardProps) {
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   }, []);
+  // Search suggestions either navigate to a page or select an earthquake before opening its details view.
   const openSuggestion = (item: SearchSuggestion) => {
     remember(globalSearch || item.label);
     if (item.id.startsWith('page:')) return openPage(item.id.replace('page:', '') as DashboardPage);

@@ -10,6 +10,7 @@ export type Rule = {
 
 export const ALERT_RULES_KEY = 'geopulse-alert-rules';
 
+// Restore user-defined alert rules from local storage without making storage failures fatal.
 export function loadRules(): Rule[] {
   try {
     const raw = localStorage.getItem(ALERT_RULES_KEY);

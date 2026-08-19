@@ -38,6 +38,7 @@ export async function fetchCompleteAnalyticsQuery(query: ValidatedAnalyticsQuery
   return { events: [...result.events.values()], expectedCount: result.expected, rawFeatureCount: result.fetched, pages: result.pages, chunks: result.chunks, duplicateCount: result.fetched - result.events.size };
 }
 
+// Count first, then recursively split busy ranges so broad searches remain complete without oversized responses.
 async function collect(query: ValidatedAnalyticsQuery, result: Result, budget: RequestBudget): Promise<void> {
   budget.consume();
   const count = await fetchUsgsAnalyticsCount(query, { timeoutMs: 20000 });

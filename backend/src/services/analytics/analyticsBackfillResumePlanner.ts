@@ -17,6 +17,7 @@ function requireSameConfig(plan: AnalyticsBackfillPlan, progress: AnalyticsBackf
   if (plan.totalIntervals !== progress.totalIntervals) fail('Progress interval count does not match the plan.');
 }
 
+// Reuse the original job configuration and return only intervals that have not completed yet.
 export function createAnalyticsBackfillResumePlan(
   plan: AnalyticsBackfillPlan,
   progress: AnalyticsBackfillProgressDocument,

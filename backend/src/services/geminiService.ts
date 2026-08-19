@@ -6,6 +6,7 @@ import { getLatestEarthquakes, getSafetyGuide, getDashboardStatistics } from './
 
 let aiInstance: GoogleGenAI | null = null;
 
+// Lazily create the AI client so the server can boot when chat is not configured or used.
 function getAiClient() {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey || apiKey.trim() === '') {
@@ -116,6 +117,7 @@ export async function handleChatFlow(
   context: any,
   onChunk: (text: string) => void
 ): Promise<{ modelUsed: string }> {
+  // Preserve recent conversation context, then let the model call seismic tools before streaming its answer.
   const ai = getAiClient();
   const systemInstruction = buildSystemInstruction();
   const userPrompt = buildUserPrompt(message, context);

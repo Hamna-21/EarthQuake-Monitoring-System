@@ -73,6 +73,7 @@ function utcDay(date: Date) {
 }
 
 export function validateAnalyticsQuery(input: AnalyticsQueryInput = {}, now = new Date()): ValidatedAnalyticsQuery {
+  // Normalize dates and numeric bounds once so every analytics controller applies identical validation.
   const safeNow = Number.isFinite(now.getTime()) ? new Date(now) : new Date();
   const startDate = parseDate(input.startDate ?? input.start ?? ANALYTICS_START_DATE, 'start');
   let endDate = parseDate(input.endDate ?? input.end ?? safeNow, 'end');

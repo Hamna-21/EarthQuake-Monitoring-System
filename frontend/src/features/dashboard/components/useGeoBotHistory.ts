@@ -10,6 +10,7 @@ const readChats = (key: string): GeoBotChat[] => {
 export function useGeoBotHistory(key: string) {
   const [chats, setChats] = useState<GeoBotChat[]>(() => readChats(key));
   const [activeId, setActiveId] = useState<string | null>(null);
+  // Persist a small recent-chat history while allowing private browsing/storage limits to fail safely.
   useEffect(() => { try { localStorage.setItem(key, JSON.stringify(chats)); } catch {} }, [chats, key]);
   useEffect(() => { setChats(readChats(key)); setActiveId(null); }, [key]);
   const save = (messages: ChatMessage[]) => {

@@ -6,6 +6,7 @@ type GeoJson = { type?: string; coordinates?: unknown };
 
 const cache = new Map<string, LocationResolution>();
 
+// Resolve a searched place once, retaining its polygon and bounds for later historical requests.
 export async function resolveLocationBoundary(name: string): Promise<LocationResolution> {
   const key = name.trim().toLowerCase();
   if (!key) return { boundary: [] };
@@ -24,6 +25,7 @@ export async function resolveLocationBoundary(name: string): Promise<LocationRes
   return resolved;
 }
 
+// Keep only events whose exact coordinates fall inside the selected place, including holes in polygons.
 export function containsPoint(boundary: LocationBoundary, longitude: number, latitude: number) {
   return boundary.some(({ outer, holes }) => pointInRing(longitude, latitude, outer) && !holes.some((hole) => pointInRing(longitude, latitude, hole)));
 }

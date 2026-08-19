@@ -9,6 +9,8 @@ import { countryLabels, globeAssets, groundTruthCoordinates, type View, validEve
 import { createGlobeMarker, markerColor } from './globeMarkers';
 
 const RawGlobe = Globe as any;
+
+// Keep the Three.js material and object callbacks stable so marker updates do not recreate the globe surface.
 const StableGlobe = forwardRef<any, any>((props, ref) => {
   const material = useMemo(() => new THREE.MeshPhongMaterial({ color: '#ffffff', shininess: 0, specular: new THREE.Color('#05070d'), bumpScale: 0.8 }), []);
   return <RawGlobe ref={ref} {...props} objectThreeObject={stableMarkerObject} objectLabel={stableObjectLabel} ringColor={stableRingColor} ringMaxRadius={stableRingRadius} ringPropagationSpeed={stableRingSpeed} ringRepeatPeriod={stableRingPeriod} polygonCapColor={stablePolygonCapColor} polygonSideColor={stablePolygonSideColor} polygonStrokeColor={stablePolygonStrokeColor} globeMaterial={material} polygonAltitude={0.006} polygonsTransitionDuration={0} rendererConfig={{ antialias: true, alpha: true, powerPreference: 'high-performance' }} />;
@@ -54,6 +56,7 @@ export default function InteractiveGlobePanel({ events, onSelect, onDetails, aut
   const focusLabels = useMemo(() => focusLocation ? [{ text: focusLabel ?? 'Searched place', lat: focusLocation.lat, lng: focusLocation.lng }] : [], [focusLabel, focusLocation]);
   const assets = useMemo(() => globeAssets(view), [view]);
 
+  // Resize once per container change and keep rotation/focus effects independent from marker rendering.
   useEffect(() => { if (!host.current) return undefined; const resize = () => setWidth(Math.max(280, host.current?.clientWidth ?? 720)); resize(); const observer = new ResizeObserver(resize); observer.observe(host.current); return () => observer.disconnect(); }, []);
   useEffect(() => setupControls(globe.current?.controls?.(), shouldRotate && !selected && !hovered), [width, shouldRotate, selected, hovered]);
   useEffect(() => { if (!globeReady || !activeFocus) return undefined; pauseRotation(); globe.current?.pointOfView?.({ lat: activeFocus.lat, lng: activeFocus.lng, altitude: activeFocus.altitude ?? 1.05 }, 1100); const timer = window.setTimeout(resumeRotation, 1150); return () => window.clearTimeout(timer); }, [globeReady, activeFocus?.lat, activeFocus?.lng, activeFocus?.altitude]);
@@ -64,6 +67,7 @@ export default function InteractiveGlobePanel({ events, onSelect, onDetails, aut
   const syncPopup = (event: Earthquake) => { const screen = screenPosition(event); if (!screen) return; setPopupPosition({ x: screen.x, y: Math.min(screen.y, (host.current?.clientHeight ?? 520) - 8) }); };
   const pauseRotation = () => { if (rotationResumeTimer.current) window.clearTimeout(rotationResumeTimer.current); const controls = globe.current?.controls?.(); if (controls) controls.autoRotate = false; };
   const resumeRotation = () => { if (!shouldRotate || selected || hovered) return; if (rotationResumeTimer.current) window.clearTimeout(rotationResumeTimer.current); rotationResumeTimer.current = window.setTimeout(() => { const controls = globe.current?.controls?.(); if (!selected && !hovered && controls) controls.autoRotate = true; rotationResumeTimer.current = null; }, 1400); };
+  // Focus the camera and popup on the exact event coordinates supplied by the dataset.
   const focusOnEvent = (event: Earthquake) => { if (closeTimer.current) window.clearTimeout(closeTimer.current); pauseRotation(); const screen = screenPosition(event); if (screen) setPopupPosition(screen); setClosing(false); setSelected(event); onSelect(event); globe.current?.pointOfView?.({ lat: event.latitude, lng: event.longitude, altitude: 0.86 }, 700); requestAnimationFrame(() => syncPopup(event)); };
   const syncHover = (event: Earthquake) => { const screen = screenPosition(event); if (screen) setHoverPosition(screen); };
   const handleHover = (event: Earthquake | null) => { if (hoverTimer.current) window.clearTimeout(hoverTimer.current); if (event) { pauseRotation(); const id = event.id; hoverTimer.current = window.setTimeout(() => { setHoveredId((current) => current === id ? current : id); syncHover(event); }, 90); return; } hoverTimer.current = window.setTimeout(() => { setHoveredId(null); resumeRotation(); }, 150); };
@@ -84,6 +88,7 @@ export default function InteractiveGlobePanel({ events, onSelect, onDetails, aut
 }
 
 function setupControls(controls: any, autoRotate: boolean) { if (!controls) return; controls.autoRotate = autoRotate; controls.autoRotateSpeed = 0.18; controls.enableDamping = true; controls.dampingFactor = 0.08; controls.minDistance = 90; controls.maxDistance = 500; }
+// In development, round-trip known coordinates through the globe library to catch axis/sign mistakes early.
 function verifyCoordinates(instance: any) { if (!import.meta.env.DEV || !instance?.getCoords || !instance?.toGeoCoords) return; const failed = groundTruthCoordinates.filter((item) => { const point = instance.toGeoCoords(instance.getCoords(item.lat, item.lng, 0)); return Math.abs(point.lat - item.lat) > 0.0001 || Math.abs(point.lng - item.lng) > 0.0001; }); if (failed.length) console.warn('Globe coordinate verification failed:', failed.map((item) => item.name)); }
 
 function limitGlobeEvents(events: Earthquake[], limit: number) {

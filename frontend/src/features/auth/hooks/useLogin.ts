@@ -33,6 +33,7 @@ export function useLogin({ onSuccess }: UseLoginProps) {
   });
 
   const handleLoginSubmit = async (event: FormEvent) => {
+    // Validate before sending credentials, then delay navigation briefly to preserve the success state in the UI.
     event.preventDefault();
     const validationError = validateLogin(email, password);
     if (validationError) return setError(validationError);

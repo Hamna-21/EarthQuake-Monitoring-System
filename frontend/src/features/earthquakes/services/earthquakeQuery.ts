@@ -4,6 +4,7 @@ export const EARTHQUAKE_API_URL = 'https://earthquake.usgs.gov/fdsnws/event/1/qu
 export const LIVE_EARTHQUAKE_API_URL = '/api/earthquakes';
 export const HISTORICAL_EARTHQUAKE_API_URL = '/api/earthquakes/history';
 
+// Convert the selected live time window into the upstream ISO start time.
 export function getTimeRangeParams(timeframe: string): { starttime: string } {
   const now = new Date();
   const ranges: Record<string, number> = {
@@ -39,6 +40,7 @@ export function buildHistoricalQuery(params: {
   limit?: number;
   locationBounds?: { south: number; north: number; west: number; east: number };
 }) {
+  // Keep optional magnitude, depth, and geographic bounds out of the request unless the user supplied them.
   const queryParams = new URLSearchParams({
     startDate: params.startDate,
     endDate: params.endDate,

@@ -33,6 +33,7 @@ export type HistoricalEarthquakeResponse = {
 const historicalCache = new Map<string, HistoricalEarthquakeResponse>();
 const historicalRequests = new Map<string, Promise<HistoricalEarthquakeResponse>>();
 
+// Fetch live events, clean malformed coordinates, and apply the same filters used by the dashboard.
 export const fetchEarthquakes = async (filters: SeismicFilters, signal?: AbortSignal): Promise<Earthquake[]> => {
   const queryParams = buildLiveQuery(filters);
   const response = await fetch(`${LIVE_EARTHQUAKE_API_URL}?${queryParams.toString()}`, { signal });
@@ -46,6 +47,7 @@ export const fetchEarthquakes = async (filters: SeismicFilters, signal?: AbortSi
   return filterAndSortEarthquakes(cleanEarthquakes(records, 'live Earthquake Monitoring System earthquake endpoint'), filters);
 };
 
+// Deduplicate identical historical requests and cache completed pages without hiding cancellation from callers.
 export const fetchHistoricalEarthquakePage = async (params: HistoricalSearchParams): Promise<HistoricalEarthquakeResponse> => {
   if (params.signal?.aborted) throw new DOMException('The historical request was cancelled.', 'AbortError');
   const queryParams = buildHistoricalQuery(params);

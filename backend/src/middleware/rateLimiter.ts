@@ -2,6 +2,7 @@ import { Response, NextFunction } from 'express';
 
 const requestStore = new Map<string, number[]>();
 
+// Enforce a small per-user/IP sliding-window limit without affecting other API routes.
 export function rateLimiter(req: any, res: Response, next: NextFunction) {
   const userId = req.user?.id || req.ip || 'anonymous';
   const now = Date.now();

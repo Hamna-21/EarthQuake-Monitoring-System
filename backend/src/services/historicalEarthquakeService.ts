@@ -48,6 +48,7 @@ type MapEvent = {
 };
 
 function toEarthquake(event: MapEvent): EarthquakeRecord | null {
+  // The analytics service stores GeoJSON coordinates as [longitude, latitude, depth].
   const [longitude, latitude, depth] = event.coordinates;
   if (!event.usgsId || !Number.isFinite(longitude) || longitude < -180 || longitude > 180 || !Number.isFinite(latitude) || latitude < -90 || latitude > 90 || !Number.isFinite(event.magnitude)) return null;
   return {
@@ -72,6 +73,10 @@ function toEarthquake(event: MapEvent): EarthquakeRecord | null {
   };
 }
 
+/**
+ * Resolve historical filters through the analytics data path and return the same records used by the map.
+ * Results are cached briefly to avoid repeating identical historical requests during pagination.
+ */
 export async function fetchHistoricalEarthquakes(query: Record<string, any>): Promise<HistoricalResponse> {
   const page = Math.max(1, Math.floor(asNumber(query.page, 1)));
   const limit = Math.min(Math.max(1, Math.floor(asNumber(query.limit, 50))), 200);

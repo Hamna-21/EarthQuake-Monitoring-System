@@ -46,10 +46,12 @@ export function useRegister({ onSuccess }: UseRegisterProps) {
   });
 
   useEffect(() => {
+    // Recalculate password feedback only when the password changes.
     setPasswordStrength(calculatePasswordStrength(password));
   }, [password]);
 
   const handleRegisterSubmit = async (event: FormEvent) => {
+    // Validate the profile locally before creating the account through the shared auth service.
     event.preventDefault();
     const validationError = validateRegister({ fullName, email, password, confirmPassword });
     if (validationError) return setError(validationError);

@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { findUserByEmail, createUser, updateUser } from '../repositories/userRepository';
 import { getJwtSecret } from '../config/jwt';
 
+// Build the OAuth hand-off from environment configuration, or return the local sandbox when credentials are absent.
 export const getGoogleUrl = (req: Request, res: Response) => {
   const googleClientId = process.env.GOOGLE_CLIENT_ID;
   const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
@@ -131,6 +132,7 @@ export const getGoogleSandbox = (req: Request, res: Response) => {
   `);
 };
 
+// Turn the sandbox account selection into the same JWT-backed session as real Google sign-in.
 export const googleSandboxCallback = async (req: Request, res: Response) => {
   const { email, name, country } = req.body;
   if (!email || !name) {
@@ -175,6 +177,7 @@ export const googleSandboxCallback = async (req: Request, res: Response) => {
   }
 };
 
+// Exchange Google's authorization code for profile data, then persist or update the local user record.
 export const googleCallback = async (req: Request, res: Response) => {
   const { code } = req.query;
 

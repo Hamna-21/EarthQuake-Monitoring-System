@@ -4,6 +4,7 @@ import { handleChatFlow } from '../services/geminiService';
 import { getCachedResponse, setCachedResponse, isCacheable } from '../services/chatCache';
 import { logChatRequest } from '../middleware/chatLogger';
 
+// Stream assistant tokens as server-sent events while caching only safe, repeatable general questions.
 export async function chatController(req: any, res: Response) {
   const { message, history = [], context } = req.body;
 

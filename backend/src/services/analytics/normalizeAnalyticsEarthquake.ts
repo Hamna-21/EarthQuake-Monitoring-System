@@ -55,6 +55,7 @@ const alertOf = (value: unknown): EarthquakeAlert => {
 
 const tsunamiOf = (value: unknown) => (value === 1 || value === 0 ? value : null);
 
+// Validate provider geometry and normalize nullable properties before analytics aggregation or persistence.
 export function normalizeAnalyticsFeature(feature: UsgsFeature): AnalyticsEarthquake | null {
   const id = text(feature.id);
   const properties = feature.properties ?? {};

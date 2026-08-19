@@ -4,6 +4,7 @@ import { findUserByEmail, createUser } from '../repositories/userRepository';
 import { getJwtSecret } from '../config/jwt';
 import { User } from '../types/user';
 
+// Create a local account and return the same signed session shape used by subsequent requests.
 export const register = async (req: Request, res: Response) => {
   const { email, password, name, country, organization } = req.body;
 
@@ -52,6 +53,7 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
+// Verify local credentials and issue a short, self-contained JWT session token.
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
@@ -88,6 +90,7 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
+// Rehydrate the authenticated user's current profile from the token email claim.
 export const getMe = async (req: any, res: Response) => {
   try {
     const user = await findUserByEmail(req.user.email);

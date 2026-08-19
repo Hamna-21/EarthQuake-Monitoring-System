@@ -5,6 +5,7 @@ export function useAuthSession() {
   const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
+    // Revalidate the stored token on startup instead of trusting stale client-side session state.
     const restoreSession = async () => {
       const token = localStorage.getItem('geopulse_token');
       if (!token) return;
@@ -31,6 +32,7 @@ export function useAuthSession() {
   }, []);
 
   const handleAuthSuccess = async (email: string, token: string, name?: string) => {
+    // Save the token immediately, then refresh the profile so OAuth and local login share one session path.
     localStorage.setItem('geopulse_token', token);
     setUserEmail(email);
     if (name) setUserName(name);

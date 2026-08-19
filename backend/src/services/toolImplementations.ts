@@ -23,6 +23,7 @@ const mapFeatureToEarthquake = (f: UsgsFeature): Earthquake => ({
   detailUrl: f.properties.detail ?? f.properties.url,
 });
 
+// Supply GeoBot with a small, normalized live-earthquake result set from the provider API.
 export async function getLatestEarthquakes(args: { minMagnitude?: number; limit?: number }) {
   try {
     const minMag = args.minMagnitude ?? 2.5;

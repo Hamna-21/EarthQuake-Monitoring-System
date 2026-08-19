@@ -30,6 +30,7 @@ export function assertFeatureCollection(data: unknown, label: string): asserts d
   }
 }
 
+// Convert provider properties and [longitude, latitude, depth] into the app's Earthquake model.
 export function mapFeatureToEarthquake(feature: Feature): Earthquake {
   const properties = feature.properties ?? {};
   const point = parseUsgsCoordinates(feature.geometry?.coordinates);

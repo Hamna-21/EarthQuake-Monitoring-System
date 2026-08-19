@@ -78,6 +78,7 @@ function leaves(root: AnalyticsAdaptiveIntervalNode) {
   return all;
 }
 export async function createAdaptiveIntervalPlan(input: AnalyticsAdaptiveIntervalPlanInput, dependencies: AnalyticsAdaptiveIntervalDependencies = {}): Promise<AnalyticsAdaptiveIntervalPlan> {
+  // Probe interval risk and recursively split busy periods until each planned request is safe to fetch.
   validate(input);
   const countEvents = dependencies.countEvents ?? fetchUsgsAnalyticsCount;
   const root = node(input.interval, 0);

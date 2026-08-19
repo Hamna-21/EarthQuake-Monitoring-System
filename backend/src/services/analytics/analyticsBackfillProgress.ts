@@ -43,6 +43,7 @@ function plannedIntervals(input: InitialAnalyticsBackfillInput) {
     : createMonthIntervals(input.startDate, input.endDate);
 }
 
+// Initialize the checkpoint document that lets a long-running backfill resume safely after interruption.
 export function createInitialBackfillProgress(
   input: InitialAnalyticsBackfillInput,
   now: Date = new Date(),

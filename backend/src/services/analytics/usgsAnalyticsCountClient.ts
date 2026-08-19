@@ -23,6 +23,7 @@ const copy = (date: Date) => new Date(date.getTime());
 const validDate = (date: Date) => date instanceof Date && Number.isFinite(date.getTime());
 
 export function buildUsgsAnalyticsCountParams(request: UsgsAnalyticsCountRequest) {
+  // Reuse the event query builder but strip response-only parameters for the lightweight count endpoint.
   const params = buildUsgsAnalyticsParams({ ...request, limit: 1 });
   params.delete('format');
   params.delete('orderby');
@@ -43,6 +44,7 @@ export async function fetchUsgsAnalyticsCount(
   request: UsgsAnalyticsCountRequest,
   options: UsgsAnalyticsCountOptions = {},
 ): Promise<UsgsAnalyticsCountResult> {
+  // Count the constrained upstream query before deciding whether the date range must be split.
   if (!validDate(request.startDate) || !validDate(request.endDate)) throw new UsgsAnalyticsError('USGS count dates must be valid.');
   const requestStartDate = copy(request.startDate);
   const requestEndDate = copy(request.endDate);

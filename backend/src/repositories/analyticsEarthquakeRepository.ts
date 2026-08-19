@@ -31,6 +31,7 @@ function assertUniqueBatch(documents: readonly AnalyticsEarthquakeDocument[]) {
   }
 }
 
+// Provide validated, indexed MongoDB access for analytics documents and idempotent upserts.
 export function createAnalyticsEarthquakeRepository(
   db: Db,
   collectionName = ANALYTICS_EARTHQUAKE_COLLECTION,

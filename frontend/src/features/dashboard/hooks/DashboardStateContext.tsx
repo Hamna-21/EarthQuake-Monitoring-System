@@ -5,6 +5,7 @@ type Store = { cache: Cache; save: (key: string, value: unknown) => void };
 const DashboardStateContext = createContext<Store | null>(null);
 
 export function DashboardStateProvider({ children }: { children: ReactNode }) {
+  // Share page state across lazy dashboard pages and optionally persist filter state for the current session.
   const [cache, setCache] = useState<Cache>({});
   const save = useCallback((key: string, value: unknown) => setCache((current) => ({ ...current, [key]: value })), []);
   return <DashboardStateContext.Provider value={{ cache, save }}>{children}</DashboardStateContext.Provider>;

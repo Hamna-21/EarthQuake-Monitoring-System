@@ -9,6 +9,7 @@ export const pakistanBoundary: Array<[number, number]> = [
   [67.5, 23.6], [65.0, 24.6], [62.5, 25.0], [61.0, 25.0],
 ];
 
+// Use the shared [longitude, latitude] order for the local Pakistan boundary test.
 export function pointInPolygon(lon: number, lat: number, polygon = pakistanBoundary) {
   let inside = false;
   for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {

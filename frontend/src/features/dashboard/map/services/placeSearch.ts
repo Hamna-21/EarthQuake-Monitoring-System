@@ -3,6 +3,7 @@ export type PlaceFocus = { lat: number; lng: number; label: string; altitude: nu
 const cache = new Map<string, PlaceFocus>();
 const requests = new Map<string, Promise<PlaceFocus | null>>();
 
+// Resolve a place once, cache its exact coordinates/bounds, and share in-flight searches for identical terms.
 export async function resolvePlace(query: string, signal?: AbortSignal): Promise<PlaceFocus | null> {
   const term = query.trim();
   if (!term) return null;

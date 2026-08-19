@@ -15,6 +15,7 @@ const routeByPage: Record<DashboardPage, string> = {
   alerts: '/dashboard/alerts',
 };
 
+// Keep page identifiers and browser paths in one source of truth for sidebar navigation and deep links.
 export const pathForPage = (page: DashboardPage) => routeByPage[page];
 
 export function pageFromPath(path: string): DashboardPage {

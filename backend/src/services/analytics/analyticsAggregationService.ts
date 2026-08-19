@@ -41,6 +41,7 @@ function heatmap(rows: Document[], years: number[]) {
   return years.flatMap((year) => months.map((month, index) => ({ year, month: index + 1, label: month, count: map.get(`${year}-${index + 1}`) ?? 0 })));
 }
 
+// Use one MongoDB facet to calculate summary cards, chart series, and map events from the same filter.
 export async function getAnalyticsDashboard(db: Db, options: AnalyticsDashboardOptions) {
   const collection = db.collection<AnalyticsEarthquakeDocument>(ANALYTICS_EARTHQUAKE_COLLECTION);
   const filter = match(options), years = yearRange(options.startDate, options.endDate);

@@ -23,6 +23,7 @@ type Props = {
 };
 
 export default function DashboardPageSwitch({ page, pageProps, userName, userEmail, search }: Props) {
+  // Lazy-load page domains so the dashboard shell stays responsive while rarely used pages load on demand.
   let content: ReactNode;
   if (page === 'overview') content = <OverviewPage {...pageProps} searchQuery={search} userName={userName} userEmail={userEmail} />;
   else if (page === 'feed') content = <FeedPage {...pageProps} />;

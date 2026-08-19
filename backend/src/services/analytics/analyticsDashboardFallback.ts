@@ -44,6 +44,7 @@ function fillBins(events: AnalyticsEarthquake[], labels: string[], read: (event:
   return labels.map((label) => ({ label, count: counts.get(label) ?? 0 }));
 }
 
+// Build all dashboard summaries from the same geographically filtered event collection.
 export async function getAnalyticsDashboardFallback(query: ValidatedAnalyticsQuery) {
   const response = await fetchCompleteAnalyticsQuery(query);
   const events = response.events.filter((event) => {

@@ -22,6 +22,7 @@ export function useEarthquakes() {
   const requestId = useRef(0);
 
   const loadSeismicData = useCallback(async (activeFilters: SeismicFilters) => {
+    // Abort prior work and guard by request id so a slower response cannot replace newer filters.
     requestRef.current?.abort();
     const controller = new AbortController();
     requestRef.current = controller;

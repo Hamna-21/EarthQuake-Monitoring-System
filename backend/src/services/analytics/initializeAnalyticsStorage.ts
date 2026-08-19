@@ -24,6 +24,7 @@ async function collectionResult(db: Db, name: string): Promise<AnalyticsStorageC
 }
 
 export async function initializeAnalyticsStorage(db: Db): Promise<AnalyticsStorageInitializationResult> {
+  // Create analytics collections and indexes before dashboard queries or backfills use MongoDB.
   await createAnalyticsEarthquakeRepository(db).ensureIndexes();
   await createAnalyticsBackfillProgressRepository(db).ensureIndexes();
   return {

@@ -7,6 +7,7 @@ import { useAuthSession } from "@/features/auth/hooks/useAuthSession";
 import { useEarthquakes } from "@/features/earthquakes/hooks/useEarthquakes";
 import { DEFAULT_APP_VIEW, type AppView } from '@/app/router';
 
+// Coordinate authentication, live data loading, and the lightweight public/private view switch.
 export default function App() {
   const [currentView, setCurrentView] = useState<AppView>(DEFAULT_APP_VIEW);
   const { userEmail, userName, handleAuthSuccess, handleLogout } = useAuthSession();

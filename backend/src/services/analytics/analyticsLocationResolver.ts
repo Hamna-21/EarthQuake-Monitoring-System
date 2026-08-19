@@ -11,6 +11,7 @@ export class AnalyticsLocationError extends Error {
   }
 }
 
+// Resolve a named place to cached bounds and polygons before fetching data, keeping geography consistent downstream.
 export async function resolveAnalyticsLocation(query: ValidatedAnalyticsQuery) {
   if (query.region === 'pakistan' || !query.location) return query;
   const key = query.location.toLowerCase();
@@ -31,6 +32,7 @@ export async function resolveAnalyticsLocation(query: ValidatedAnalyticsQuery) {
   return { ...query, ...resolved };
 }
 
+// Prefer exact polygon membership and fall back to resolved bounds only when no polygon is available.
 export function insideResolvedLocation(query: ValidatedAnalyticsQuery, longitude: number, latitude: number) {
   if (query.locationPolygons?.length) return containsPoint(query.locationPolygons as LocationBoundary, longitude, latitude);
   if (query.bounds) return longitude >= query.bounds.minLongitude && longitude <= query.bounds.maxLongitude && latitude >= query.bounds.minLatitude && latitude <= query.bounds.maxLatitude;

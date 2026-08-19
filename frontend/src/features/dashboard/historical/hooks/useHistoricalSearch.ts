@@ -32,6 +32,7 @@ export function useHistoricalSearch(mode: 'global' | 'pakistan', globalSearch = 
   };
 
   const search = useCallback(async (nextPage = 1, overrides: Partial<{ startDate: string; endDate: string; minMag: number; query: string; }> = {}) => {
+    // Abort superseded searches and use a request id so records and markers always come from one final dataset.
     const current = { startDate, endDate, minMag, query, ...overrides };
     const requestKey = JSON.stringify({ mode, ...current, page: nextPage });
     if (loading && activeKey.current === requestKey) return;

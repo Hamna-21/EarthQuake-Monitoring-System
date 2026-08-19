@@ -8,6 +8,7 @@ export function escapeCsvValue(value: unknown) {
 }
 
 export function buildEarthquakeCsv(events: Earthquake[]) {
+  // Flatten the normalized earthquake model into an escaped CSV that preserves commas and line breaks in place names.
   const rows = events.map((event) => [formatUtc(event.time), event.place, countryFromPlace(event.place), number(event.magnitude), number(event.depth), number(event.latitude), number(event.longitude), event.id, event.detailUrl ?? event.url ?? '']);
   return [columns, ...rows].map((row) => row.map(escapeCsvValue).join(',')).join('\r\n');
 }

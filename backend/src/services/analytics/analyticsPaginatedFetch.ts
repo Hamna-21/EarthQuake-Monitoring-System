@@ -16,6 +16,7 @@ function newest(current: AnalyticsEarthquake | undefined, incoming: AnalyticsEar
 type RequestBudget = { consume: () => void };
 
 export async function fetchAnalyticsPages(query: ValidatedAnalyticsQuery, budget?: RequestBudget, expectedCount?: number) {
+  // Page through an upstream interval, deduplicating event ids before returning a complete normalized set.
   const events = new Map<string, AnalyticsEarthquake>();
   let page = 0, rawFeatures = 0;
   const totalPages = Number.isFinite(expectedCount) ? Math.ceil((expectedCount as number) / PAGE_SIZE) : null;

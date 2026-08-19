@@ -16,6 +16,7 @@ interface MapEventLayersProps {
 }
 
 function MapEventLayers({ events, strongestIds, heat, onSelect, onDetails, popupMode, markerMode = 'pin' }: MapEventLayersProps) {
+  // Render every map event from the normalized dataset so marker clicks and popup records cannot diverge.
   return (
     <>
       {events.map((event) => {

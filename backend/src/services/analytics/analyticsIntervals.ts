@@ -46,6 +46,7 @@ export function createMonthIntervals(startDate: Date, endDate: Date) {
 }
 
 export function planAnalyticsIntervals(query: ValidatedAnalyticsQuery, granularity: AnalyticsGranularity = 'year') {
+  // Turn a date range into contiguous provider-safe intervals for backfills and historical fetches.
   return granularity === 'year'
     ? createYearIntervals(query.startDate, query.endDate)
     : createMonthIntervals(query.startDate, query.endDate);

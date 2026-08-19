@@ -5,6 +5,7 @@ import { Earthquake } from '@/types';
 import { markerColor, markerSize } from '@/features/dashboard/map/components/markerDesign';
 import { FlyTarget } from '@/features/dashboard/map/components/MapCanvas';
 
+// Shared Leaflet runtime helpers keep bounds, fly-to behavior, marker sizing, and popup repositioning consistent.
 export function FitBounds({ events, locationBounds }: { events: Earthquake[]; locationBounds?: { south: number; north: number; west: number; east: number } | null }) {
   const map = useMap();
   useEffect(() => {
@@ -65,6 +66,7 @@ export function searchPinIcon() {
 }
 
 export function quakePinIcon(event: Earthquake, isStrongest = false, compact = false) {
+  // Build a compact SVG marker whose size and pulse are controlled by magnitude and selection state.
   const color = isStrongest ? '#ef4444' : markerColor(event.magnitude);
   const reducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce), (max-width: 640px)').matches;
   const size = markerSize(event.magnitude, isStrongest, compact);

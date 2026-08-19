@@ -46,6 +46,7 @@ function addBounds(params: URLSearchParams, bounds: UsgsAnalyticsRequest['bounds
   params.set('minlongitude', String(bounds.minLongitude)); params.set('maxlongitude', String(bounds.maxLongitude));
 }
 
+// Build the provider request with date, magnitude, depth, and geographic constraints applied upstream.
 export function buildUsgsAnalyticsParams(request: UsgsAnalyticsRequest) {
   const limit = safeLimit(request.limit);
   const params = new URLSearchParams({
@@ -76,6 +77,7 @@ function readMetadata(data: Record<string, unknown>) {
 }
 
 export async function fetchAnalyticsInterval(request: UsgsAnalyticsRequest, options: UsgsAnalyticsFetchOptions = {}): Promise<UsgsAnalyticsResponse> {
+  // Reject malformed or truncated responses before they can produce incomplete analytics.
   const params = buildUsgsAnalyticsParams(request);
   const requestUrl = `${USGS_ANALYTICS_QUERY_URL}?${params.toString()}`;
   const signal = options.signal ?? AbortSignal.timeout(options.timeoutMs ?? 15000);

@@ -11,7 +11,7 @@ let lastMongoFailureAt = 0;
 const MONGO_RETRY_COOLDOWN_MS = 30_000;
 let missingUriLogged = false;
 
-// Memory DB fallback
+// Keep a lightweight local store available when MongoDB is not configured or temporarily unreachable.
 export let memoryUsers: User[] = [];
 if (fs.existsSync(JSON_DB_PATH)) {
   try {
@@ -44,6 +44,7 @@ export async function getDb(): Promise<Db | null> {
   return mongoConnectPromise;
 }
 
+// Establish one shared MongoDB connection and throttle retries after a failed connection attempt.
 async function connectMongo(uri: string): Promise<Db | null> {
   if (!uri.startsWith('mongodb://') && !uri.startsWith('mongodb+srv://')) {
     console.warn('MongoDB unavailable: MONGODB_URI must use mongodb:// or mongodb+srv://.');

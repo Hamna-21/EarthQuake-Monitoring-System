@@ -5,6 +5,7 @@ export function usePlaceFocus(query: string | undefined) {
   const [place, setPlace] = useState<PlaceFocus | null>(null);
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
+    // Cancel the previous geocoder request so stale results cannot move the globe after a newer search.
     const term = query?.trim() ?? '';
     if (!term) { setPlace(null); setError(null); return undefined; }
     const controller = new AbortController();

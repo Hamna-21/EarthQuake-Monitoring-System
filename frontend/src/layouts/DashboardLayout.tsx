@@ -31,6 +31,7 @@ type Props = {
 };
 
 export default function Shell(props: Props) {
+  // Render the shared glass dashboard shell, including responsive desktop and mobile navigation.
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const displayName = props.userName || props.userEmail?.split('@')[0] || 'Earthquake Monitoring System User';

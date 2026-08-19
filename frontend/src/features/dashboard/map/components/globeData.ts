@@ -25,6 +25,7 @@ export const groundTruthCoordinates = [
   { name: 'Santiago', lat: -33.4489, lng: -70.6693 },
 ];
 
+// Select stable local assets for each globe mode; terrain adds a bump map while night uses a separate night texture.
 export function globeAssets(view: View) {
   return {
     image: view === 'night' ? earthNight : view === 'terrain' ? earthDay : earthSatellite,
@@ -32,6 +33,7 @@ export function globeAssets(view: View) {
   };
 }
 
+// Reject invalid coordinates before they reach the 3D renderer or its popup positioning logic.
 export function validEvents(events: Earthquake[]) {
   return events.filter((event) => Number.isFinite(event.latitude) && Number.isFinite(event.longitude)
     && event.latitude >= -90 && event.latitude <= 90 && event.longitude >= -180 && event.longitude <= 180);

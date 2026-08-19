@@ -27,6 +27,7 @@ export async function streamChatResponse(
   onDone: () => void,
   signal?: AbortSignal
 ) {
+  // Consume the assistant's SSE stream incrementally so the UI can render GeoBot replies as they arrive.
   const token = localStorage.getItem('geopulse_token');
   try {
     const response = await fetch('/api/chat', {

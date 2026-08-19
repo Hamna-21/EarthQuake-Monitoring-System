@@ -40,6 +40,7 @@ function configOf(document: AnalyticsBackfillProgressDocument) {
   });
 }
 
+// Persist resumable backfill checkpoints with revision checks and explicit status transitions.
 export function createAnalyticsBackfillProgressRepository(
   db: Db,
   collectionName = ANALYTICS_BACKFILL_PROGRESS_COLLECTION,

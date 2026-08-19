@@ -4,6 +4,7 @@ import { analyticsPreviewHandler } from '../controllers/analyticsPreviewControll
 
 const router = Router();
 
+// Keep preview and full dashboard analytics under one API namespace.
 router.get('/preview', analyticsPreviewHandler);
 router.get('/dashboard', analyticsDashboardHandler);
 

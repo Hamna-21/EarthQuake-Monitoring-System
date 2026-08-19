@@ -66,6 +66,7 @@ function createInterval(input: AnalyticsBackfillPlanInput, jobKey: string, start
 }
 
 export function createAnalyticsBackfillPlan(input: AnalyticsBackfillPlanInput, generatedAt: Date = new Date()): AnalyticsBackfillPlan {
+  // Produce deterministic intervals and risk metadata for a resumable analytics backfill job.
   validateInput(input, generatedAt);
   const safeInput = { ...input, startDate: copy(input.startDate), endDate: copy(input.endDate) };
   const jobKey = createAnalyticsBackfillJobKey(safeInput);

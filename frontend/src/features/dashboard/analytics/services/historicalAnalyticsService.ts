@@ -26,6 +26,7 @@ const qs = (filters: AnalyticsFilters) => {
 const responseCache = new Map<string, HistoricalAnalyticsResponse>();
 const responseRequests = new Map<string, Promise<HistoricalAnalyticsResponse>>();
 
+// Share identical analytics requests, cache completed responses, and preserve abort semantics for the caller.
 export async function fetchHistoricalAnalytics(filters = createDefaultAnalyticsFilters(), signal?: AbortSignal) {
   if (signal?.aborted) throw new DOMException('The historical request was cancelled.', 'AbortError');
   const key = qs(filters);
@@ -53,6 +54,7 @@ export async function fetchHistoricalAnalytics(filters = createDefaultAnalyticsF
 }
 
 export function mapHistoricalEvents(events: HistoricalMapEvent[]): Earthquake[] {
+  // Convert analytics map coordinates through the same parser used by live and historical earthquake data.
   return events.flatMap((event) => {
     const point = parseUsgsCoordinates(event.coordinates);
     if (!point || !Number.isFinite(event.magnitude)) return [];

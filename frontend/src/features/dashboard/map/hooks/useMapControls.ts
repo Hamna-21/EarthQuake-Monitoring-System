@@ -20,6 +20,7 @@ export function useMapControls(earthquakes: Earthquake[], globalSearch: string, 
   const [searchError, setSearchError] = useState<string | null>(null);
   const searchRequest = useRef<AbortController | null>(null);
 
+  // Mirror global search into the map controls without replacing the user's local map filters.
   useEffect(() => { if (globalSearch) setQuery(globalSearch); }, [globalSearch, setQuery]);
   const q = query.toLowerCase().trim();
   const events = useMemo(() => earthquakes.filter((event) => {
@@ -47,6 +48,7 @@ export function useMapControls(earthquakes: Earthquake[], globalSearch: string, 
   };
 
   const searchPlace = async () => {
+    // Cancel the previous geocoder request and fly to the exact longitude/latitude returned for this query.
     const term = query.trim();
     if (!term) return;
     setIsSearching(true);

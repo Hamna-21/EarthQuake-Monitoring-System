@@ -9,6 +9,7 @@ export function markerColor(magnitude: number) {
   return colorForMagnitude(magnitude);
 }
 
+// Reuse cached canvas materials while scaling the same marker family by magnitude and selection state.
 export function createGlobeMarker(event: Earthquake, selected: boolean, strongest: boolean, large = true) {
   const color = strongest ? '#ff2f2f' : markerColor(event.magnitude);
   const scale = globeMarkerScale(event.magnitude, large) * (selected || strongest ? 1.14 : 1);

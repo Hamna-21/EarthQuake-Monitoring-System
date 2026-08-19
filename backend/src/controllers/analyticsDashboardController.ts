@@ -54,6 +54,7 @@ function readDashboardQuery(req: Request) {
   return query;
 }
 
+// Normalize dashboard query parameters, resolve locations, and map known failures to stable API errors.
 export async function analyticsDashboardHandler(req: Request, res: Response) {
   try {
     const query = await resolveAnalyticsLocation(readDashboardQuery(req));

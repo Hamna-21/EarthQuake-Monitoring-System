@@ -4,6 +4,7 @@ import { authenticateToken } from '../middleware/authMiddleware';
 
 const router = Router();
 
+// Local authentication endpoints and the Google OAuth hand-off share this router.
 router.post('/register', register);
 router.post('/login', login);
 router.get('/me', authenticateToken, getMe);

@@ -29,6 +29,7 @@ export function isValidDate(date: Date) {
 }
 
 export function readDateRange(startDate: string, endDate: string) {
+  // Parse filter dates as UTC boundaries so browser timezone differences cannot move events between chart periods.
   const start = parseUtcStartDate(startDate);
   const end = parseUtcEndDate(endDate);
   if (!isValidDate(start) || !isValidDate(end)) throw new RangeError('Analytics date range contains an invalid date.');

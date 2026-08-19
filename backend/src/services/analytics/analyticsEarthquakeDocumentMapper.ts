@@ -55,6 +55,7 @@ export function validateAnalyticsEarthquakeDocument(document: AnalyticsEarthquak
   }
 }
 
+// Convert a normalized provider event into the validated MongoDB document shape used by backfills.
 export function toAnalyticsEarthquakeDocument(
   earthquake: AnalyticsEarthquake,
   now: Date = new Date(),

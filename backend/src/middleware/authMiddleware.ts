@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { getJwtSecret } from "../config/jwt";
 
+// Validate the bearer token before protected handlers access the decoded user claims.
 export const authenticateToken = (req: any, res: any, next: any) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];

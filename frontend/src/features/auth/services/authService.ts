@@ -1,3 +1,4 @@
+// Send JSON credentials to the backend and surface its normalized error message to the forms.
 export async function postAuth(path: string, body: Record<string, unknown>) {
   const response = await fetch(path, {
     method: 'POST',

@@ -42,6 +42,7 @@ function applyQueryFilters(records: EarthquakeRecord[], query: Record<string, an
     .sort((a, b) => (sort === 'magnitude' ? b.magnitude - a.magnitude : timeMs(b.time) - timeMs(a.time)));
 }
 
+// Normalize the provider's GeoJSON feature so maps, tables, and charts share one coordinate model.
 export function mapUsgsFeature(feature: UsgsFeature): EarthquakeRecord {
   const properties = feature.properties ?? {};
   const coordinates = feature.geometry?.coordinates ?? [];
@@ -72,6 +73,7 @@ export function mapUsgsFeature(feature: UsgsFeature): EarthquakeRecord {
   };
 }
 
+// Fetch recent events from the upstream feed, then apply the dashboard's display filters locally.
 export async function fetchRealtimeEarthquakes(query: Record<string, any>) {
   const timeframe = String(query.timeframe ?? '24h');
   const minMagnitude = String(query.minMagnitude ?? query.minmagnitude ?? 4);

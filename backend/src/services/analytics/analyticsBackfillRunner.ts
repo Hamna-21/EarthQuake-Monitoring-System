@@ -54,6 +54,7 @@ async function markRunning(progressRepo: ReturnType<typeof createAnalyticsBackfi
 }
 
 export async function runPakistanAnalyticsBackfill(db: Db, options: AnalyticsBackfillRunOptions = {}) {
+  // Execute planned intervals with revision-checked progress updates and idempotent document writes.
   const now = options.now ?? new Date();
   const dryRun = options.dryRun || (!options.runAll && options.maxIntervals === undefined);
   if (dryRun) {
