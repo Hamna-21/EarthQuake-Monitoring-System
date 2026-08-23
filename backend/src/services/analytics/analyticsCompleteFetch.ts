@@ -18,6 +18,7 @@ type RequestBudget = { used: number; consume: () => void };
 
 type Result = { events: Map<string, AnalyticsEarthquake>; expected: number; fetched: number; pages: number; chunks: number };
 
+/** Coordinates newest for this module. */
 function newest(current: AnalyticsEarthquake | undefined, incoming: AnalyticsEarthquake) {
   if (!current) return incoming;
   const currentTime = current.updatedAt ? Date.parse(current.updatedAt) : -Infinity;
@@ -25,6 +26,7 @@ function newest(current: AnalyticsEarthquake | undefined, incoming: AnalyticsEar
   return incomingTime > currentTime ? incoming : current;
 }
 
+/** Handles the fetch complete analytics query operation and returns its normalized result. */
 export async function fetchCompleteAnalyticsQuery(query: ValidatedAnalyticsQuery) {
   const result: Result = { events: new Map(), expected: 0, fetched: 0, pages: 0, chunks: 0 };
   const budget: RequestBudget = { used: 0, consume() { if (++this.used > MAX_UPSTREAM_REQUESTS) throw new AnalyticsRequestBudgetError(); } };
@@ -48,6 +50,7 @@ async function collect(query: ValidatedAnalyticsQuery, result: Result, budget: R
   page.events.forEach((event) => result.events.set(event.id, newest(result.events.get(event.id), event)));
 }
 
+/** Builds the split result used by the surrounding workflow. */
 async function split(query: ValidatedAnalyticsQuery, result: Result, budget: RequestBudget) {
   const start = query.startDate.getTime(), end = query.endDate.getTime();
   if (end - start < MIN_SPLIT_MS) throw new Error('Too many events in one day. Increase the minimum magnitude.');

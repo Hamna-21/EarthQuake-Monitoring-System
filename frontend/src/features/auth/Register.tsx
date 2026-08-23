@@ -10,6 +10,9 @@ interface RegisterProps {
   onBackToHome: () => void;
 }
 
+/**
+ * Coordinates account fields, password-strength feedback, Google OAuth, and registration completion.
+ */
 export default function Register({ onSuccess, onNavigateToLogin, onBackToHome }: RegisterProps) {
   const registerState = useRegister({ onSuccess });
 

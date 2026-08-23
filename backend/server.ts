@@ -14,6 +14,7 @@ const app = express();
 const PORT = 3000;
 const httpServer = createHttpServer(app);
 
+// Register JSON parsing and API routes before attaching either Vite middleware or production static assets.
 app.use(express.json());
 
 // API Routes
@@ -25,7 +26,9 @@ app.use("/api/earthquakes", earthquakeRoutes);
 // Real Google OAuth redirect callback (top-level route)
 app.get("/auth/callback", googleCallback);
 
+/** Coordinates start server for this module. */
 async function startServer() {
+  // Development uses Vite middleware/HMR; production serves the built SPA while keeping API routes active.
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true, hmr: { server: httpServer } },

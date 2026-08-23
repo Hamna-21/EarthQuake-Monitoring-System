@@ -3,6 +3,7 @@ import { Point, Row } from '@/features/dashboard/components/charts/analyticsChar
 const empty = <p className="rounded-2xl bg-black/20 p-8 text-center text-sm font-bold text-slate-300">No matching data to show yet.</p>;
 const grid = <g>{[0, 1, 2].map((i) => <line key={i} x1="48" x2="474" y1={70 + i * 55} y2={70 + i * 55} stroke="#ffffff18" />)}</g>;
 
+// Render lightweight chart primitives from already transformed rows/points; no API calls occur here.
 export function AreaChart({ rows, compact = false }: { rows: Row[]; compact?: boolean }) {
   if (!rows.length) return empty;
   const max = Math.max(1, ...rows.map((r) => r.value));
@@ -21,6 +22,7 @@ export function AreaChart({ rows, compact = false }: { rows: Row[]; compact?: bo
   );
 }
 
+/** Renders or coordinates vertical bars for this frontend module. */
 export function VerticalBars({ rows, compact = false }: { rows: Row[]; compact?: boolean }) {
   const max = Math.max(1, ...rows.map((r) => r.value));
   return (
@@ -33,12 +35,14 @@ export function VerticalBars({ rows, compact = false }: { rows: Row[]; compact?:
   );
 }
 
+/** Renders or coordinates donut chart for this frontend module. */
 export function DonutChart({ rows }: { rows: Row[] }) {
   const total = Math.max(1, rows.reduce((sum, r) => sum + r.value, 0));
   let offset = 0;
   return <div className="grid gap-6 md:grid-cols-[220px_1fr] md:items-center"><svg viewBox="0 0 220 220" className="mx-auto h-56 w-56 -rotate-90" role="img" aria-label="Earthquake depth chart">{rows.map((r) => { const dash = (r.value / total) * 565; const node = <circle key={r.label} cx="110" cy="110" r="90" fill="none" stroke={r.color} strokeWidth="30" strokeDasharray={`${dash} 565`} strokeDashoffset={-offset}><title>{`${r.label}: ${r.value} earthquakes`}</title></circle>; offset += dash; return node; })}<circle cx="110" cy="110" r="58" fill="#020617" /></svg><Legend rows={rows} total={total} /></div>;
 }
 
+/** Renders or coordinates horizontal bars for this frontend module. */
 export function HorizontalBars({ rows }: { rows: Row[] }) {
   if (!rows.length) return empty;
   const max = Math.max(1, ...rows.map((r) => r.value));
@@ -73,16 +77,19 @@ export function HorizontalBars({ rows }: { rows: Row[] }) {
   );
 }
 
+/** Renders or coordinates scatter chart for this frontend module. */
 export function ScatterChart({ points }: { points: Point[] }) {
   if (!points.length) return empty;
   const maxX = Math.max(100, ...points.map((p) => p.x)), maxY = Math.max(8, ...points.map((p) => p.y));
   return <svg viewBox="0 0 520 250" className="h-72 w-full" role="img" aria-label="Earthquakes needing attention">{grid}<rect x="48" y="42" width="148" height="70" rx="16" fill="#f59e0b18" stroke="#f59e0b55" /><text x="61" y="66" fill="#fbbf24" fontSize="12" fontWeight="900">Closer to surface</text>{points.map((p, i) => <circle key={`${p.label}-${i}`} cx={48 + (p.x / maxX) * 420} cy={205 - (p.y / maxY) * 165} r={Math.max(4, p.y / 1.25)} fill={p.color} opacity=".78"><title>{`${p.label}: strength ${p.y.toFixed(1)}, depth ${p.x.toFixed(1)} km`}</title></circle>)}<text x="220" y="236" fill="#cbd5e1" fontSize="13" fontWeight="800">Deeper underground →</text><text x="10" y="135" fill="#cbd5e1" fontSize="13" fontWeight="800" transform="rotate(-90 10 135)">Stronger ↑</text></svg>;
 }
 
+/** Renders or coordinates callout for this frontend module. */
 function Callout({ x, y, text }: { x: number; y: number; text: string }) {
   return <text x={x} y={Math.max(18, y)} textAnchor="middle" fontSize="12" fontWeight="900" fill="#fff">{text}</text>;
 }
 
+/** Renders or coordinates legend for this frontend module. */
 function Legend({ rows, total }: { rows: Row[]; total: number }) {
   return <div className="space-y-3">{rows.map((r) => <div key={r.label} className="rounded-2xl bg-black/20 p-3"><div className="flex items-center justify-between"><span className="flex items-center gap-2 text-sm font-black text-white"><span className="h-3 w-3 rounded-full" style={{ background: r.color }} />{r.label}</span><span className="font-serif text-xs font-black text-cyan-100">{r.value} • {Math.round((r.value / total) * 100)}%</span></div>{r.help && <p className="mt-1 text-xs font-semibold text-slate-400">{r.help}</p>}</div>)}</div>;
 }

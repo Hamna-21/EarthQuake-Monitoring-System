@@ -1,8 +1,11 @@
 import type { Earthquake } from '@/types';
 
+/** Renders or coordinates empty for this frontend module. */
 function Empty() { return <div className="flex h-[220px] items-center justify-center rounded-2xl border border-white/10 bg-black/10 text-sm text-white/45">No matching earthquake data</div>; }
 
+/** Renders or coordinates timeline chart for this frontend module. */
 export function TimelineChart({ events }: { events: Earthquake[] }) {
+  // Aggregate normalized event timestamps by UTC day before drawing the recent seven-day trend.
   if (!events.length) return <Empty />;
   const counts = new Map<string, number>(); events.forEach((event) => { const key = new Date(event.time).toISOString().slice(0, 10); counts.set(key, (counts.get(key) ?? 0) + 1); });
   const rows = [...counts.entries()].sort(([a], [b]) => a.localeCompare(b)).slice(-7).map(([date, value]) => ({ date, label: new Date(date).toLocaleDateString(undefined, { month: 'short', day: '2-digit' }), value }));

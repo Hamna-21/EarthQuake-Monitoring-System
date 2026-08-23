@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { resolvePlace, type PlaceFocus } from '@/features/dashboard/map/services/placeSearch';
 
+/** Handles use place focus and keeps the related frontend state or data flow consistent. */
 export function usePlaceFocus(query: string | undefined) {
   const [place, setPlace] = useState<PlaceFocus | null>(null);
   const [error, setError] = useState<string | null>(null);

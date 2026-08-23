@@ -1,5 +1,6 @@
 import React from 'react';
 
+/** Renders or coordinates analytics chart frame for this frontend module. */
 export default function AnalyticsChartFrame({
   title,
   subtitle,
@@ -43,3 +44,4 @@ export default function AnalyticsChartFrame({
     </section>
   );
 }
+/** Wraps dashboard charts with consistent glass styling and sizing. */

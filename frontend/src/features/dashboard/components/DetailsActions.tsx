@@ -1,6 +1,7 @@
 import { Download, ExternalLink, Share2 } from 'lucide-react';
 import { Earthquake } from '@/types';
 
+/** Renders or coordinates details actions for this frontend module. */
 export default function DetailsActions({ event }: { event: Earthquake }) {
   const share = async () => {
     const text = `${event.place} - M ${event.magnitude.toFixed(1)}`;
@@ -37,3 +38,4 @@ export default function DetailsActions({ event }: { event: Earthquake }) {
 
 
 
+/** Provides actions available from an earthquake detail view. */

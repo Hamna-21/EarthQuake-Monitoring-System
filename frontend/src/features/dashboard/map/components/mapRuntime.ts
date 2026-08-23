@@ -18,6 +18,7 @@ export function FitBounds({ events, locationBounds }: { events: Earthquake[]; lo
   return null;
 }
 
+/** Renders or coordinates resize map on container change for this frontend module. */
 export function ResizeMapOnContainerChange() {
   const map = useMap();
   useEffect(() => {
@@ -31,6 +32,7 @@ export function ResizeMapOnContainerChange() {
   return null;
 }
 
+/** Renders or coordinates fly to selected for this frontend module. */
 export function FlyToSelected({ event }: { event?: Earthquake | null }) {
   const map = useMap();
   useEffect(() => {
@@ -39,6 +41,7 @@ export function FlyToSelected({ event }: { event?: Earthquake | null }) {
   return null;
 }
 
+/** Renders or coordinates fly to target for this frontend module. */
 export function FlyToTarget({ target }: { target?: FlyTarget | null }) {
   const map = useMap();
   useEffect(() => {
@@ -47,6 +50,7 @@ export function FlyToTarget({ target }: { target?: FlyTarget | null }) {
   return null;
 }
 
+/** Handles user location icon and keeps the related frontend state or data flow consistent. */
 export function userLocationIcon() {
   return new DivIcon({
     className: '',
@@ -56,6 +60,7 @@ export function userLocationIcon() {
   });
 }
 
+/** Handles search pin icon for the surrounding user interaction. */
 export function searchPinIcon() {
   return new DivIcon({
     className: '',
@@ -65,6 +70,7 @@ export function searchPinIcon() {
   });
 }
 
+/** Renders or coordinates quake pin icon for this frontend module. */
 export function quakePinIcon(event: Earthquake, isStrongest = false, compact = false) {
   // Build a compact SVG marker whose size and pulse are controlled by magnitude and selection state.
   const color = isStrongest ? '#ef4444' : markerColor(event.magnitude);
@@ -81,6 +87,7 @@ export function quakePinIcon(event: Earthquake, isStrongest = false, compact = f
   });
 }
 
+/** Renders or coordinates quake flat icon for this frontend module. */
 export function quakeFlatIcon(event: Earthquake, isStrongest = false) {
   const color = isStrongest ? '#ef4444' : markerColor(event.magnitude);
   const size = Math.max(16, Math.min(26, 14 + event.magnitude * 1.4));
@@ -92,10 +99,12 @@ export function quakeFlatIcon(event: Earthquake, isStrongest = false) {
   });
 }
 
+/** Renders or coordinates tier class for this frontend module. */
 export function tierClass(magnitude: number) {
   return magnitude >= 6 ? 'tier-high' : magnitude >= 5 ? 'tier-moderate' : 'tier-low';
 }
 
+/** Renders or coordinates reposition popup for this frontend module. */
 export function repositionPopup(e: { popup: LeafletPopup }) {
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {

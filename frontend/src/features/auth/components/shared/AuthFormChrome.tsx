@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 
+/** Renders or coordinates auth error for this frontend module. */
 export function AuthError({ error }: { error: string }) {
   if (!error) return null;
   return (
@@ -9,6 +10,7 @@ export function AuthError({ error }: { error: string }) {
   );
 }
 
+/** Renders or coordinates auth divider for this frontend module. */
 export function AuthDivider() {
   return (
     <div className="relative my-6 flex items-center justify-center">
@@ -20,6 +22,7 @@ export function AuthDivider() {
   );
 }
 
+/** Renders or coordinates auth lead for this frontend module. */
 export function AuthLead({ title, text }: { title: string; text: string }) {
   return (
     <div className="mb-6">
@@ -29,7 +32,9 @@ export function AuthLead({ title, text }: { title: string; text: string }) {
   );
 }
 
+/** Renders or coordinates auth footer for this frontend module. */
 export function AuthFooter({ children }: { children: ReactNode }) {
   return <div className="mt-8 text-center text-xs text-slate-400">{children}</div>;
 }
 
+/** Supplies common visual framing and status content for auth forms. */

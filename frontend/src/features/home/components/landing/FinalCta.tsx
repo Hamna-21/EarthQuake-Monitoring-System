@@ -2,6 +2,7 @@ interface FinalCtaProps {
   onLaunch: () => void;
 }
 
+/** Renders or coordinates final cta for this frontend module. */
 export default function FinalCta({ onLaunch }: FinalCtaProps) {
   return (
     <section className="relative overflow-hidden px-5 py-12 text-center md:px-8 md:py-14">
@@ -28,3 +29,4 @@ export default function FinalCta({ onLaunch }: FinalCtaProps) {
     </section>
   );
 }
+/** Renders the final landing-page call to action before the footer. */

@@ -5,6 +5,7 @@ interface FooterLinksGroupProps {
   links: { label: string; href: string; external?: boolean }[];
 }
 
+/** Renders or coordinates footer links group for this frontend module. */
 export default function FooterLinksGroup({ title, links }: FooterLinksGroupProps) {
   return (
     <div>
@@ -28,3 +29,4 @@ export default function FooterLinksGroup({ title, links }: FooterLinksGroupProps
     </div>
   );
 }
+/** Renders one grouped set of navigation links in the shared footer. */

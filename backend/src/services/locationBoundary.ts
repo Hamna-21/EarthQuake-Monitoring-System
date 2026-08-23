@@ -30,6 +30,7 @@ export function containsPoint(boundary: LocationBoundary, longitude: number, lat
   return boundary.some(({ outer, holes }) => pointInRing(longitude, latitude, outer) && !holes.some((hole) => pointInRing(longitude, latitude, hole)));
 }
 
+/** Parses and normalizes geometry for the module's data flow. */
 function parseGeometry(geometry?: GeoJson): LocationBoundary {
   if (!geometry) return [];
   if (geometry.type === 'Polygon') return polygon(geometry.coordinates);
@@ -37,18 +38,21 @@ function parseGeometry(geometry?: GeoJson): LocationBoundary {
   return [];
 }
 
+/** Coordinates polygon for this module. */
 function polygon(value: unknown): LocationBoundary {
   if (!Array.isArray(value) || !value.length) return [];
   const rings = value.map((ring) => toRing(ring)).filter((ring): ring is Ring => Boolean(ring));
   return rings.length ? [{ outer: rings[0], holes: rings.slice(1) }] : [];
 }
 
+/** Parses and normalizes ring for the module's data flow. */
 function toRing(value: unknown): Ring | null {
   if (!Array.isArray(value) || value.length < 3) return null;
   const ring = value.map((point) => Array.isArray(point) && Number.isFinite(Number(point[0])) && Number.isFinite(Number(point[1])) ? [Number(point[0]), Number(point[1])] as [number, number] : null);
   return ring.every(Boolean) ? ring as Ring : null;
 }
 
+/** Coordinates point in ring for this module. */
 function pointInRing(longitude: number, latitude: number, ring: Ring) {
   let inside = false;
   for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {

@@ -5,6 +5,7 @@ interface PremiumCardProps {
   className?: string;
 }
 
+/** Renders or coordinates premium card for this frontend module. */
 export default function PremiumCard({
   children,
   className = '',
@@ -28,3 +29,4 @@ export default function PremiumCard({
     </div>
   );
 }
+/** Displays one reusable feature card in the landing-page feature grid. */

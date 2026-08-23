@@ -30,6 +30,7 @@ type Props = {
   children: React.ReactNode;
 };
 
+/** Renders or coordinates shell for this frontend module. */
 export default function Shell(props: Props) {
   // Render the shared glass dashboard shell, including responsive desktop and mobile navigation.
   const [collapsed, setCollapsed] = useState(false);

@@ -15,9 +15,11 @@ const copy = (date: Date) => new Date(date.getTime());
 const valid = (date: Date) => date instanceof Date && Number.isFinite(date.getTime());
 const fail = (message: string): never => { throw new AnalyticsBackfillPlanError(message); };
 
+/** Builds the create usgs request for planned interval result used by the surrounding workflow. */
 export function createUsgsRequestForPlannedInterval(
   interval: AnalyticsBackfillPlanInterval,
 ): AnalyticsUsgsIntervalRequest {
+  // Convert the planner's end-exclusive interval into the provider's inclusive end-time convention.
   const plannedStartDate = copy(interval.startDate);
   const plannedEndDate = copy(interval.endDate);
   if (!interval.intervalKey.trim()) fail('Interval key is required.');

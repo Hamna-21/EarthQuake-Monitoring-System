@@ -1,5 +1,6 @@
 import { tableColumns } from '@/features/dashboard/constants';
 
+/** Renders or coordinates data table header for this frontend module. */
 export default function DataTableHeader() {
   return (
     <thead className="sticky top-0 z-10 bg-gradient-to-r from-cyan-500/15 via-sky-500/10 to-red-500/10 shadow-sm backdrop-blur">
@@ -16,3 +17,4 @@ export default function DataTableHeader() {
     </thead>
   );
 }
+/** Renders the column headings for the reusable earthquake data table. */

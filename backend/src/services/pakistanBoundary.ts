@@ -22,6 +22,7 @@ export function pointInPolygon(lon: number, lat: number, polygon = pakistanBound
   return inside;
 }
 
+/** Coordinates inside pakistan for this module. */
 export function insidePakistan(event: EarthquakeRecord) {
   return pointInPolygon(event.longitude, event.latitude);
 }

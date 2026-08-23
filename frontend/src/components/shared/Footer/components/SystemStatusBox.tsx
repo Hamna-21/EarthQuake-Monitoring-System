@@ -1,5 +1,6 @@
 import React from 'react';
 
+/** Renders or coordinates system status box for this frontend module. */
 export default function SystemStatusBox() {
   return (
     <div>
@@ -19,3 +20,4 @@ export default function SystemStatusBox() {
     </div>
   );
 }
+/** Displays the compact service-status summary used by the shared footer. */

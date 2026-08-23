@@ -29,6 +29,7 @@ const timeMs = (time: string) => {
   return Number.isFinite(value) ? value : 0;
 };
 
+/** Coordinates apply query filters for this module. */
 function applyQueryFilters(records: EarthquakeRecord[], query: Record<string, any>) {
   const region = String(query.region ?? query.search ?? '').trim().toLowerCase();
   const alert = String(query.alert ?? query.alertClass ?? 'all');

@@ -1,6 +1,7 @@
 import type { AnalyticsFilters } from '@/features/dashboard/analytics/types';
 import type { HistoricalAnalyticsResponse } from '@/features/dashboard/analytics/services/historicalAnalyticsService';
 
+/** Renders or coordinates historical filter summary for this frontend module. */
 export default function HistoricalFilterSummary({ filters, data }: { filters: AnalyticsFilters; data: HistoricalAnalyticsResponse }) {
   const items = [`Years: ${filters.startDate.slice(0, 4)} to ${filters.endDate.slice(0, 4)}`, `Magnitude: M${filters.minMagnitude}+`, `Location: ${filters.location || 'Worldwide'}`];
   return (
@@ -17,3 +18,4 @@ export default function HistoricalFilterSummary({ filters, data }: { filters: An
     </section>
   );
 }
+/** Summarizes the active filters applied to historical analytics results. */

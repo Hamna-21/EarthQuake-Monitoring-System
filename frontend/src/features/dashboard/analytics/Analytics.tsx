@@ -53,10 +53,12 @@ const liveAnalyticsSummary = (events: Earthquake[]) => {
   return parts.join(' - ');
 };
 
+/** Renders or coordinates live analytics page for this frontend module. */
 export default function LiveAnalyticsPage(props: DashboardProps) {
   return <LiveAnalyticsContent {...props} variant="full" />;
 }
 
+/** Renders or coordinates live analytics content for this frontend module. */
 export function LiveAnalyticsContent({
   earthquakes,
   globalSearch = '',
@@ -124,3 +126,4 @@ export function LiveAnalyticsContent({
     </div>
   );
 }
+/** Hosts the dashboard analytics page and coordinates its data sections. */

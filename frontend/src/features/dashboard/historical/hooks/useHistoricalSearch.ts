@@ -3,6 +3,7 @@ import type { Earthquake } from '@/types';
 import { fetchHistoricalEarthquakePage } from '@/features/earthquakes/services/earthquakeApi';
 import { useDashboardPageState } from '@/features/dashboard/hooks/DashboardStateContext';
 
+/** Handles use historical search and keeps the related frontend state or data flow consistent. */
 export function useHistoricalSearch(mode: 'global' | 'pakistan', globalSearch = '') {
   const today = () => new Date().toISOString().slice(0, 10);
   const defaultStart = () => `${new Date().toISOString().slice(0, 4)}-01-01`;

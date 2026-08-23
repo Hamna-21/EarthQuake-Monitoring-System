@@ -14,6 +14,7 @@ interface NavbarProps {
   onLogout?: () => void;
 }
 
+/** Shared public navigation that routes auth actions and closes the mobile menu after navigation. */
 export default function Navbar({
   onOpenWarningHub,
   onNavigate,

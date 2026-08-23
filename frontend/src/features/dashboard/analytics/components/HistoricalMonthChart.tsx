@@ -4,6 +4,7 @@ import HistoricalChartCard from '@/features/dashboard/analytics/components/Histo
 import { ChartTooltip, axis, grid, labelStyle, margin } from '@/features/dashboard/analytics/components/HistoricalRechartBase';
 import { calendarRows, fmt, peakRow } from '@/features/dashboard/analytics/components/historicalChartData';
 
+/** Aggregates all selected years by calendar month and summarizes the highest/lowest activity months. */
 export default function HistoricalMonthChart({ rows }: { rows: HistoricalRow[] }) {
   const data = calendarRows(rows);
   const high = peakRow(data);
@@ -31,6 +32,7 @@ export default function HistoricalMonthChart({ rows }: { rows: HistoricalRow[] }
   );
 }
 
+/** Renders or coordinates seasonal summary for this frontend module. */
 function SeasonalSummary({ high, low }: { high: ReturnType<typeof calendarRows>[number] | null; low: ReturnType<typeof calendarRows>[number] }) {
   const diff = (high?.count ?? 0) - low.count;
   return (
@@ -42,6 +44,7 @@ function SeasonalSummary({ high, low }: { high: ReturnType<typeof calendarRows>[
   );
 }
 
+/** Renders or coordinates insight for this frontend module. */
 function Insight({ label, value }: { label: string; value: string }) {
   return <div className="rounded-xl border border-white/10 bg-slate-950/60 p-4"><p className="font-sans text-xs font-black text-slate-400">{label}</p><p className="mt-1 font-sans text-base font-black text-white">{value}</p></div>;
 }

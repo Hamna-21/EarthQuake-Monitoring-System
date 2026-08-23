@@ -22,6 +22,7 @@ const COUNT_URL = USGS_ANALYTICS_QUERY_URL.replace(/\/query$/, '/count');
 const copy = (date: Date) => new Date(date.getTime());
 const validDate = (date: Date) => date instanceof Date && Number.isFinite(date.getTime());
 
+/** Builds the build usgs analytics count params result used by the surrounding workflow. */
 export function buildUsgsAnalyticsCountParams(request: UsgsAnalyticsCountRequest) {
   // Reuse the event query builder but strip response-only parameters for the lightweight count endpoint.
   const params = buildUsgsAnalyticsParams({ ...request, limit: 1 });
@@ -32,6 +33,7 @@ export function buildUsgsAnalyticsCountParams(request: UsgsAnalyticsCountRequest
   return params;
 }
 
+/** Parses and normalizes count for the module's data flow. */
 function readCount(text: string, status?: number) {
   const trimmed = text.trim();
   if (!/^\d+$/.test(trimmed)) throw new UsgsAnalyticsError('USGS count response was not a non-negative integer.', status);
@@ -40,6 +42,7 @@ function readCount(text: string, status?: number) {
   return count;
 }
 
+/** Handles the fetch usgs analytics count operation and returns its normalized result. */
 export async function fetchUsgsAnalyticsCount(
   request: UsgsAnalyticsCountRequest,
   options: UsgsAnalyticsCountOptions = {},

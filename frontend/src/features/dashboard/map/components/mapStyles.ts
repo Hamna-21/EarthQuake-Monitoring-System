@@ -1,3 +1,4 @@
+// Keep provider tile URLs and attribution in one place for the 2D map style selector.
 export { markerColor } from './markerDesign';
 
 export const mapTiles = {

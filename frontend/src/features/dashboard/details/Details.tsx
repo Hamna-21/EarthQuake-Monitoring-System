@@ -13,6 +13,7 @@ const regionOf = (place: string) => {
   return parts.length > 1 ? parts.slice(0, -1).join(', ') : place;
 };
 
+/** Presents the selected event's normalized metadata, formatted coordinates, alerts, and actions. */
 export default function DetailsPage({ earthquakes, selectedEvent }: DashboardProps) {
   const event = selectedEvent || earthquakes[0] || null;
   if (!event) return <NoSelection />;
@@ -61,10 +62,12 @@ export default function DetailsPage({ earthquakes, selectedEvent }: DashboardPro
   );
 }
 
+/** Renders or coordinates no selection for this frontend module. */
 function NoSelection() {
   return <section className="relative overflow-hidden rounded-2xl border border-white/10 bg-slate-950 p-12 text-center shadow-2xl"><HeroGlow /><h1 className="relative text-3xl font-black text-white">No Earthquake Selected</h1><p className="relative mt-3 text-slate-400">Select an earthquake from Feed, Map, or History.</p></section>;
 }
 
+/** Renders or coordinates card grid for this frontend module. */
 function CardGrid({ title, cards, columns }: { title: string; cards: Card[]; columns: string }) {
   return (
     <div>
@@ -76,6 +79,7 @@ function CardGrid({ title, cards, columns }: { title: string; cards: Card[]; col
   );
 }
 
+/** Renders or coordinates hero glow for this frontend module. */
 function HeroGlow() {
   return <><div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-fuchsia-500/20 blur-3xl" /><div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-cyan-500/20 blur-3xl" /><div className="pointer-events-none absolute right-1/3 top-0 h-32 w-32 rounded-full bg-amber-400/10 blur-3xl" /></>;
 }

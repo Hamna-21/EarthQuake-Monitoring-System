@@ -38,3 +38,4 @@ export type AnalyticsBackfillProgressDocument = {
   completedAt: Date | null;
 };
 
+/** Types representing progress and status reported by analytics backfills. */

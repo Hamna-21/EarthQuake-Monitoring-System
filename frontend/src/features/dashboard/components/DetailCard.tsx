@@ -11,6 +11,7 @@ interface DetailCardProps {
   border?: string;
 }
 
+/** Renders or coordinates detail card for this frontend module. */
 export default function DetailCard({
   icon,
   label,

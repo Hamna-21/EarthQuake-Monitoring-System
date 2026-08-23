@@ -14,6 +14,7 @@ interface MobileNavProps {
   setIsMobileMenuOpen: (open: boolean) => void;
 }
 
+/** Renders or coordinates mobile nav for this frontend module. */
 export default function MobileNav({
   isMobileMenuOpen,
   navLinks,
@@ -49,3 +50,4 @@ export default function MobileNav({
     </div>
   );
 }
+/** Renders the responsive mobile navigation menu and its route actions. */

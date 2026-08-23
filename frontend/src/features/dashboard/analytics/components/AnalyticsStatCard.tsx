@@ -1,6 +1,7 @@
 import React from 'react';
 import AppCard from '@/features/dashboard/components/common/AppCard';
 
+/** Renders or coordinates analytics stat card for this frontend module. */
 export default function AnalyticsStatCard({
   icon,
   label,
@@ -32,3 +33,4 @@ export default function AnalyticsStatCard({
     </AppCard>
   );
 }
+/** Displays one compact metric card for the analytics summary. */

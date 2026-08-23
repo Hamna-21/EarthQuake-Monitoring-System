@@ -6,6 +6,7 @@ interface UseLoginProps {
   onSuccess: (email: string, token: string, name?: string) => void;
 }
 
+/** Validates login before the UI action continues. */
 function validateLogin(email: string, password: string) {
   if (!email) return 'Please enter your email address.';
   if (!password) return 'Please enter your password.';
@@ -13,6 +14,7 @@ function validateLogin(email: string, password: string) {
   return '';
 }
 
+/** Handles use login and keeps the related frontend state or data flow consistent. */
 export function useLogin({ onSuccess }: UseLoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

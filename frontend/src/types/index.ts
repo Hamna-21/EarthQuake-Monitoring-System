@@ -16,3 +16,4 @@ export interface SeismicStats {
   significantCount: number;
   avgDepth: number;
 }
+/** Public type exports shared by frontend features and reusable components. */

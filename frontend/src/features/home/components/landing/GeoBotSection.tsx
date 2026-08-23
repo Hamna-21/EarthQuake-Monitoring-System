@@ -22,12 +22,14 @@ const answers: Record<string, string> = {
     'GeoBot can help users understand nearby earthquake activity from the dashboard.',
 };
 
+/** Demonstrates GeoBot with rotating earthquake facts and clickable example answers. */
 export default function GeoBotSection() {
   const [factIndex, setFactIndex] = useState(0);
   const [message, setMessage] = useState(
     "Hello, I'm GeoBot. I help explain earthquake information and safety steps."
   );
 
+  // Rotate the educational fact independently of the selected example answer, and clean up the timer on unmount.
   useEffect(() => {
     const timer = window.setInterval(() => {
       setFactIndex((current) => (current + 1) % facts.length);

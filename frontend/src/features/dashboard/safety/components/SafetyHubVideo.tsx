@@ -1,5 +1,6 @@
 import SafetyCard from '@/features/dashboard/safety/components/SafetyCard';
 
+/** Renders or coordinates safety hub video for this frontend module. */
 export default function SafetyHubVideo() {
   return (
     <SafetyCard className="overflow-hidden p-0">

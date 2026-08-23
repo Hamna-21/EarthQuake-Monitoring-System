@@ -1,5 +1,6 @@
 import type { EarthquakeAlert } from './earthquake';
 
+// MongoDB's normalized analytics shape keeps provider metadata, GeoJSON coordinates, and classification state together.
 export type AnalyticsEarthquakeClassification =
   | 'unclassified'
   | 'broad-bounding-box'

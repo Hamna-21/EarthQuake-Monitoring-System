@@ -22,6 +22,7 @@ function getAiClient() {
 // check https://ai.google.dev/gemini-api/docs/changelog if you start seeing 404s again.
 const MODEL_FALLBACK_CHAIN = ['gemini-3.5-flash', 'gemini-3.5-flash-lite'];
 
+/** Checks whether quota error for the surrounding workflow. */
 function isQuotaError(err: any) {
   return (
     err?.status === 429 ||
@@ -31,6 +32,7 @@ function isQuotaError(err: any) {
   );
 }
 
+/** Checks whether transient model error for the surrounding workflow. */
 function isTransientModelError(err: any) {
   return (
     err?.status === 503 ||
@@ -42,6 +44,7 @@ function isTransientModelError(err: any) {
   );
 }
 
+/** Checks whether not found error for the surrounding workflow. */
 function isNotFoundError(err: any) {
   return (
     err?.status === 404 ||
@@ -50,10 +53,12 @@ function isNotFoundError(err: any) {
   );
 }
 
+/** Delays retry processing without blocking the event loop. */
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/** Coordinates call model for this module. */
 async function callModel(ai: any, options: any, isStream: boolean) {
   return isStream
     ? await ai.models.generateContentStream(options)
@@ -111,6 +116,7 @@ async function generateWithFallback(ai: any, options: any, isStream: boolean): P
   throw lastErr ?? new Error('All models in fallback chain failed.');
 }
 
+/** Handles handle chat flow for the surrounding request flow. */
 export async function handleChatFlow(
   message: string,
   history: any[],

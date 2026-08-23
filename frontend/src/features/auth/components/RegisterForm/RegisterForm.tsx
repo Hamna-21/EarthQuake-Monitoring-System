@@ -6,6 +6,7 @@ import RegisterAccountFields from '@/features/auth/components/RegisterForm/compo
 import RegisterPasswordFields from '@/features/auth/components/RegisterForm/components/RegisterPasswordFields';
 import { RegisterFormProps } from '@/features/auth/types';
 
+/** Presents the controlled registration fields while keeping validation and API calls in the hook. */
 export default function RegisterForm(props: RegisterFormProps) {
   return (
     <div>

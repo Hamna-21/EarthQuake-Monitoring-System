@@ -9,6 +9,7 @@ interface SectionShellProps {
   backgroundImage?: string;
 }
 
+/** Renders or coordinates section shell for this frontend module. */
 export default function SectionShell({
   eyebrow,
   title,
@@ -56,3 +57,4 @@ export default function SectionShell({
     </section>
   );
 }
+/** Provides consistent spacing and alignment for landing-page sections. */

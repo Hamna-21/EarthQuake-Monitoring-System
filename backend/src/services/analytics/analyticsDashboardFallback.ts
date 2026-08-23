@@ -13,17 +13,20 @@ const depthLabel = (depth: number | null) => depth === null ? null : depth <= 10
 const avg = (items: number[]) => items.length ? items.reduce((sum, item) => sum + item, 0) / items.length : null;
 const neighboringCountry = /\b(?:afghanistan|china|india|iran|kyrgyzstan|tajikistan)\b/i;
 
+/** Coordinates count by for this module. */
 function countBy<T extends string | number>(items: T[]) {
   const map = new Map<T, number>();
   items.forEach((item) => map.set(item, (map.get(item) ?? 0) + 1));
   return map;
 }
 
+/** Builds the fill years result used by the surrounding workflow. */
 function fillYears(events: AnalyticsEarthquake[], range: number[]) {
   const counts = countBy(events.map((event) => new Date(event.time).getUTCFullYear()));
   return range.map((year) => ({ year, count: counts.get(year) ?? 0 }));
 }
 
+/** Builds the fill months result used by the surrounding workflow. */
 function fillMonths(events: AnalyticsEarthquake[], range: number[]) {
   const counts = countBy(events.map((event) => {
     const date = new Date(event.time);
@@ -34,11 +37,13 @@ function fillMonths(events: AnalyticsEarthquake[], range: number[]) {
   })));
 }
 
+/** Builds the fill calendar result used by the surrounding workflow. */
 function fillCalendar(events: AnalyticsEarthquake[]) {
   const counts = countBy(events.map((event) => new Date(event.time).getUTCMonth() + 1));
   return months.map((month, index) => ({ month, count: counts.get(index + 1) ?? 0 }));
 }
 
+/** Builds the fill bins result used by the surrounding workflow. */
 function fillBins(events: AnalyticsEarthquake[], labels: string[], read: (event: AnalyticsEarthquake) => string | null) {
   const counts = countBy(events.map(read).filter(Boolean) as string[]);
   return labels.map((label) => ({ label, count: counts.get(label) ?? 0 }));

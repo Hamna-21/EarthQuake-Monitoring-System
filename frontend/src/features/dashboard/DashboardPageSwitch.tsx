@@ -22,6 +22,7 @@ type Props = {
   search: string;
 };
 
+/** Renders or coordinates dashboard page switch for this frontend module. */
 export default function DashboardPageSwitch({ page, pageProps, userName, userEmail, search }: Props) {
   // Lazy-load page domains so the dashboard shell stays responsive while rarely used pages load on demand.
   let content: ReactNode;

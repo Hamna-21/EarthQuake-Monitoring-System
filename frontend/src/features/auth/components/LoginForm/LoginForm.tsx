@@ -23,6 +23,7 @@ interface LoginFormProps {
   onNavigateToRegister: () => void;
 }
 
+/** Presents controlled login fields and forwards submit/OAuth actions to the auth hook. */
 export default function LoginForm(props: LoginFormProps) {
   return (
     <div>

@@ -13,6 +13,7 @@ const SEVERITY = [
 ];
 const sevOf = (m: number) => SEVERITY.find((s) => m >= s.min)!;
 
+/** Renders or coordinates nearby earthquake card for this frontend module. */
 export default function NearbyEarthquakeCard({ event, onSelect, highlighted = false }: { event: NearbyEvent; onSelect: (e: Earthquake) => void; highlighted?: boolean }) {
   const place = placeParts(event.place);
   const sev = sevOf(event.magnitude);
@@ -46,3 +47,4 @@ export default function NearbyEarthquakeCard({ event, onSelect, highlighted = fa
     </article>
   );
 }
+/** Displays one nearby earthquake with distance and event context. */

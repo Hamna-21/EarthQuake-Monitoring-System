@@ -6,6 +6,7 @@ interface AlertRulesListProps {
   removeRule: (id: number) => void;
 }
 
+/** Renders or coordinates alert rules list for this frontend module. */
 export default function AlertRulesList({ rules, removeRule }: AlertRulesListProps) {
   return (
     <div className="rounded-lg border border-white/10 bg-white/[0.05] p-2.5 shadow-sm backdrop-blur-md">
@@ -50,3 +51,4 @@ export default function AlertRulesList({ rules, removeRule }: AlertRulesListProp
     </div>
   );
 }
+/** Renders saved alert rules and the controls used to manage them. */

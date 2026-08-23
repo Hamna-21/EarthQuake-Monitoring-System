@@ -78,3 +78,4 @@ export type AnalyticsBackfillDryRunReport = {
   warnings: string[];
 };
 
+/** Types for validated analytics backfill intervals and their processing risk. */

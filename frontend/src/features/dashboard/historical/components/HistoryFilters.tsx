@@ -18,6 +18,7 @@ type Props = {
   onReset: () => void;
 };
 
+/** Keeps historical date, magnitude, and location controls controlled by the parent search hook. */
 export function HistoryFilters(props: Props) {
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -55,6 +56,7 @@ export function HistoryFilters(props: Props) {
 
 type FieldProps = { label: string; value: string; type?: 'text' | 'date' | 'number'; placeholder?: string; min?: string; max?: string; step?: string; icon?: ReactNode; locked?: boolean; onChange: (value: string) => void; };
 
+/** Renders or coordinates field for this frontend module. */
 function Field({ label, value, type = 'text', placeholder, min, max, step, icon, locked, onChange }: FieldProps) {
   return (
     <label className="block min-w-0">
@@ -64,6 +66,7 @@ function Field({ label, value, type = 'text', placeholder, min, max, step, icon,
   );
 }
 
+/** Renders or coordinates spinner for this frontend module. */
 function Spinner() {
   return <span className="relative flex h-4 w-4 items-center justify-center"><span className="absolute h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" /><span className="h-1.5 w-1.5 rounded-full bg-white/80" /></span>;
 }

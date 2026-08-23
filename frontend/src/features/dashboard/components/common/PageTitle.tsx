@@ -15,6 +15,7 @@ type PageTitleProps = {
   className?: string;
 };
 
+/** Renders or coordinates page title for this frontend module. */
 export default function PageTitle({ eyebrow, title, subtitle, icon: Icon, actions, rightControls, backButton, closeButton, chips, children, className = '' }: PageTitleProps) {
   return (
     <section className={`dashboard-page-title ${className}`}>
@@ -30,3 +31,4 @@ export default function PageTitle({ eyebrow, title, subtitle, icon: Icon, action
     </section>
   );
 }
+/** Renders the consistent title and description header for dashboard pages. */

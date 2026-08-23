@@ -22,6 +22,7 @@ const CACHE_MS = 30 * 60 * 1000;
 const asNumber = (value: unknown, fallback: number) => Number.isFinite(Number(value)) ? Number(value) : fallback;
 const text = (value: unknown) => (typeof value === 'string' ? value.trim() : '');
 
+/** Coordinates query for analytics for this module. */
 function queryForAnalytics(query: Record<string, any>) {
   const mode = text(query.mode ?? query.region).toLowerCase() === 'pakistan' ? 'pakistan' : 'global';
   const location = mode === 'pakistan' ? '' : text(query.location ?? query.query ?? query.regionText);
@@ -47,6 +48,7 @@ type MapEvent = {
   coordinates: number[];
 };
 
+/** Parses and normalizes earthquake for the module's data flow. */
 function toEarthquake(event: MapEvent): EarthquakeRecord | null {
   // The analytics service stores GeoJSON coordinates as [longitude, latitude, depth].
   const [longitude, latitude, depth] = event.coordinates;

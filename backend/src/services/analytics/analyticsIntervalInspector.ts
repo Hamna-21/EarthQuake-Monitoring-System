@@ -33,10 +33,12 @@ const warnings = (region: AnalyticsRegion) => [
   'No automatic retries or interval splitting were performed.',
 ];
 
+/** Coordinates inspect analytics interval for this module. */
 export async function inspectAnalyticsInterval(
   input: AnalyticsIntervalInspectionInput,
   options: { signal?: AbortSignal } = {},
 ): Promise<AnalyticsIntervalInspection> {
+  // Inspect one interval read-only and report malformed events, date leakage, duplicates, and upstream limits.
   const request = createUsgsRequestForPlannedInterval(input.interval);
   try {
     const response = await fetchAnalyticsInterval({

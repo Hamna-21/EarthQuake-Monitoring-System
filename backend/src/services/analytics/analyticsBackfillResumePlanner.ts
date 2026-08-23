@@ -6,6 +6,7 @@ import { AnalyticsBackfillPlanError, validateAnalyticsBackfillPlan } from './ana
 const fail = (message: string): never => { throw new AnalyticsBackfillPlanError(message); };
 const sameTime = (left: Date | null, right: Date | null) => left?.getTime() === right?.getTime();
 
+/** Validates same config before the operation continues. */
 function requireSameConfig(plan: AnalyticsBackfillPlan, progress: AnalyticsBackfillProgressDocument) {
   if (plan.jobKey !== progress.jobKey) fail('Progress belongs to a different backfill job.');
   if (plan.region !== progress.region || plan.granularity !== progress.granularity) fail('Progress region or granularity does not match the plan.');

@@ -24,3 +24,4 @@ export interface Earthquake {
   sig?: number;
   magType?: string;
 }
+/** Shared frontend earthquake record types used by maps, tables, and charts. */

@@ -20,6 +20,7 @@ export function loadRules(): Rule[] {
   }
 }
 
+/** Renders or coordinates matching records for this frontend module. */
 export function matchingRecords(earthquakes: Earthquake[], rules: Rule[]) {
   if (!rules.length) return [];
   return earthquakes
@@ -27,6 +28,7 @@ export function matchingRecords(earthquakes: Earthquake[], rules: Rule[]) {
     .slice(0, 10);
 }
 
+/** Renders or coordinates severity of for this frontend module. */
 export function severityOf(minMag: number) {
   if (minMag >= 6) return { border: 'border-rose-400/30', tint: 'bg-rose-500/10', label: 'High Threshold' };
   if (minMag >= 5) return { border: 'border-amber-400/30', tint: 'bg-amber-500/10', label: 'Moderate Threshold' };

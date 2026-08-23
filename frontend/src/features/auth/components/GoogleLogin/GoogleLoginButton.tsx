@@ -6,6 +6,7 @@ interface GoogleLoginButtonProps {
   onFailure: (err: unknown) => void;
 }
 
+/** Fetches the backend OAuth URL and opens the provider flow in a centered popup. */
 export default function GoogleLoginButton({ onStart, onSuccess, onFailure }: GoogleLoginButtonProps) {
   const handleGoogleLogin = async () => {
     onStart();

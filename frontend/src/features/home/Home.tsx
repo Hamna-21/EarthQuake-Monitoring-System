@@ -17,6 +17,7 @@ interface HomeProps {
   handleExecuteSearch: () => void;
 }
 
+/** Composes the public landing page, navigation, live summary, safety hub, and footer. */
 export default function Home({
   earthquakes,
   currentView,

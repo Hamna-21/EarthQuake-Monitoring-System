@@ -1,3 +1,4 @@
+// Normalized earthquake contract shared by API responses, maps, tables, and analytics.
 export type EarthquakeAlert = 'green' | 'yellow' | 'orange' | 'red' | null;
 
 export interface Earthquake {

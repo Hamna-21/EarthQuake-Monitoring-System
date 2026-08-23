@@ -58,3 +58,4 @@ export const defaultFilters: EventFilters = {
   status: 'all'
 };
 
+/** Dashboard-level data and view-model types shared across feature pages. */

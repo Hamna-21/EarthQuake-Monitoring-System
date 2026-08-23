@@ -1,5 +1,6 @@
 import { Stars as DreiStars } from '@react-three/drei';
 
+/** Renders a restrained star field behind the landing-page Earth. */
 export default function Stars() {
   return (
     <DreiStars

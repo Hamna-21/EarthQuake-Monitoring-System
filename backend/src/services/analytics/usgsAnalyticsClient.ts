@@ -32,6 +32,7 @@ const safeLimit = (value: unknown) => Math.min(Math.max(Number(value) || MAX_USG
 const num = (value: unknown) => (Number.isFinite(Number(value)) ? Number(value) : null);
 const text = (value: unknown) => (typeof value === 'string' && value.trim() ? value.trim() : null);
 
+/** Coordinates add region for this module. */
 function addRegion(params: URLSearchParams, region: AnalyticsRegion) {
   if (region !== 'pakistan') return;
   params.set('minlatitude', String(PAKISTAN_ANALYTICS_BOUNDS.minLatitude));
@@ -40,6 +41,7 @@ function addRegion(params: URLSearchParams, region: AnalyticsRegion) {
   params.set('maxlongitude', String(PAKISTAN_ANALYTICS_BOUNDS.maxLongitude));
 }
 
+/** Coordinates add bounds for this module. */
 function addBounds(params: URLSearchParams, bounds: UsgsAnalyticsRequest['bounds']) {
   if (!bounds) return;
   params.set('minlatitude', String(bounds.minLatitude)); params.set('maxlatitude', String(bounds.maxLatitude));
@@ -66,6 +68,7 @@ export function buildUsgsAnalyticsParams(request: UsgsAnalyticsRequest) {
   return params;
 }
 
+/** Parses and normalizes metadata for the module's data flow. */
 function readMetadata(data: Record<string, unknown>) {
   const metadata = data.metadata && typeof data.metadata === 'object' ? data.metadata as Record<string, unknown> : {};
   return {
@@ -76,6 +79,7 @@ function readMetadata(data: Record<string, unknown>) {
   };
 }
 
+/** Handles the fetch analytics interval operation and returns its normalized result. */
 export async function fetchAnalyticsInterval(request: UsgsAnalyticsRequest, options: UsgsAnalyticsFetchOptions = {}): Promise<UsgsAnalyticsResponse> {
   // Reject malformed or truncated responses before they can produce incomplete analytics.
   const params = buildUsgsAnalyticsParams(request);

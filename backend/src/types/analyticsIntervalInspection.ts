@@ -42,3 +42,4 @@ export type AnalyticsIntervalInspection = {
   warnings: string[];
 };
 
+/** Types returned when analytics intervals are inspected before processing. */

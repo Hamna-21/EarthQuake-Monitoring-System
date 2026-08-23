@@ -1,6 +1,7 @@
 import { DashboardProps } from '@/features/dashboard/types';
 import HistoryPageShell from '@/features/dashboard/historical/components/HistoryPageShell';
 
+/** Specializes the shared historical shell with Pakistan's locked geographic scope and labels. */
 export default function PakistanHistoryPage(props: DashboardProps) {
   return (
     <HistoryPageShell

@@ -18,6 +18,7 @@ interface LandingStatsProps {
   earthquakes: Earthquake[];
 }
 
+/** Renders or coordinates landing stats for this frontend module. */
 export default function LandingStats({
   earthquakes,
 }: LandingStatsProps) {

@@ -7,6 +7,7 @@ export const monthShortLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'
 export const monthFullLabels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/;
 
+/** Parses and formats parse utc date only for the surrounding UI or data flow. */
 function parseUtcDateOnly(value: string, endOfDay: boolean) {
   const match = dateOnly.exec(value);
   if (!match) return new Date(value);
@@ -16,18 +17,22 @@ function parseUtcDateOnly(value: string, endOfDay: boolean) {
   return date;
 }
 
+/** Parses and formats parse utc start date for the surrounding UI or data flow. */
 export function parseUtcStartDate(value: string) {
   return parseUtcDateOnly(value, false);
 }
 
+/** Parses and formats parse utc end date for the surrounding UI or data flow. */
 export function parseUtcEndDate(value: string) {
   return parseUtcDateOnly(value, true);
 }
 
+/** Checks whether valid date for this frontend flow. */
 export function isValidDate(date: Date) {
   return Number.isFinite(date.getTime());
 }
 
+/** Parses and formats read date range for the surrounding UI or data flow. */
 export function readDateRange(startDate: string, endDate: string) {
   // Parse filter dates as UTC boundaries so browser timezone differences cannot move events between chart periods.
   const start = parseUtcStartDate(startDate);
@@ -45,11 +50,13 @@ export function readDateRange(startDate: string, endDate: string) {
   };
 }
 
+/** Parses and formats parse event date for the surrounding UI or data flow. */
 export function parseEventDate(event: Earthquake) {
   const date = new Date(event.time);
   return isValidDate(date) ? date : null;
 }
 
+/** Renders or coordinates events in range for this frontend module. */
 export function eventsInRange(events: readonly Earthquake[], startDate: string, endDate: string): TimedEarthquake[] {
   const range = readDateRange(startDate, endDate);
   return events.reduce<TimedEarthquake[]>((items, event) => {
@@ -63,6 +70,7 @@ export const padMonth = (month: number) => String(month).padStart(2, '0');
 export const monthKey = (year: number, month: number) => `${year}-${padMonth(month)}`;
 export const monthLabel = (year: number, month: number) => `${monthShortLabels[month - 1]} ${year}`;
 
+/** Renders or coordinates for each month for this frontend module. */
 export function forEachMonth(startYear: number, startMonth: number, endYear: number, endMonth: number, visit: (year: number, month: number) => void) {
   let year = startYear;
   let month = startMonth;

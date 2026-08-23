@@ -8,6 +8,7 @@ const metrics = [
   { label: 'Contacts', value: 'Priority', icon: PhoneCall, tone: 'text-red-200' },
 ];
 
+/** Renders or coordinates safety metric grid for this frontend module. */
 export default function SafetyMetricGrid() {
   return (
     <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
@@ -23,3 +24,4 @@ export default function SafetyMetricGrid() {
     </div>
   );
 }
+/** Arranges safety metrics into the responsive preparedness summary grid. */

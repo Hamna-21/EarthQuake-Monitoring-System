@@ -32,6 +32,7 @@ const validRevision = (revision: number) => Number.isInteger(revision) && revisi
 const requireKey = (jobKey: string) => jobKey.trim() || fail('jobKey is required.');
 const fail = (message: string): never => { throw new AnalyticsBackfillProgressRepositoryError(message); };
 
+/** Coordinates config of for this module. */
 function configOf(document: AnalyticsBackfillProgressDocument) {
   return JSON.stringify({
     region: document.region, startDate: document.startDate.toISOString(), endDate: document.endDate.toISOString(),

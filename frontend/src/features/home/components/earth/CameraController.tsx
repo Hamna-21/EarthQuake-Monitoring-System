@@ -4,6 +4,7 @@ import * as THREE from 'three';
 
 const restingPosition = new THREE.Vector3(0, 0, 7.2);
 
+/** Smoothly moves the landing camera to its resting composition once, then leaves user rendering untouched. */
 export default function CameraController() {
   const arrived = useRef(false);
 

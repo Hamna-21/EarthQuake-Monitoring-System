@@ -5,6 +5,7 @@ import { RefreshNote } from '@/layouts/DashboardLayout';
 import GlobalCommandCenter from '@/features/dashboard/map/components/GlobalCommandCenter';
 import PageTitle from '@/features/dashboard/components/common/PageTitle';
 
+/** Presents the live global map and connects marker selection to the dashboard details route. */
 export default function MapPage({ earthquakes, setSelectedId, openPage, isLoading, dataError, lastUpdated, globalSearch = '' }: DashboardProps) {
   const select = (event: Earthquake) => setSelectedId(event.id);
   const openDetails = (event: Earthquake) => {

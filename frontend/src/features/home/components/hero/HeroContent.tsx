@@ -5,6 +5,7 @@ interface HeroContentProps {
   onExecuteSearch: () => void;
 }
 
+/** Renders or coordinates hero content for this frontend module. */
 export default function HeroContent({ onExecuteSearch }: HeroContentProps) {
   return (
     <>
@@ -23,3 +24,4 @@ export default function HeroContent({ onExecuteSearch }: HeroContentProps) {
     </>
   );
 }
+/** Provides the headline and supporting copy for the landing-page hero. */

@@ -5,6 +5,7 @@ export const grid = { stroke: 'rgba(255,255,255,.14)', vertical: false };
 export const margin = { top: 20, right: 24, left: 20, bottom: 42 };
 export const labelStyle = { fill: '#fed7aa', fontSize: 13, fontWeight: 900 };
 
+/** Formats the shared tooltip used by historical charts and safely handles empty series. */
 export function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ name?: string; value?: number }>; label?: string }) {
   if (!active || !payload?.length) return null;
   return (

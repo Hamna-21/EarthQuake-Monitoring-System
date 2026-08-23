@@ -21,6 +21,7 @@ const tabs: Record<TabKey, { icon: typeof PackageCheck; grad: string; text: stri
   },
 };
 
+/** Renders or coordinates safety tabs for this frontend module. */
 export default function SafetyTabs() {
   const [active, setActive] = useState<TabKey>('Before');
   const { icon: ActiveIcon, text, dot, items } = tabs[active];
@@ -68,3 +69,4 @@ export default function SafetyTabs() {
     </section>
   );
 }
+/** Switches between safety guidance sections within the prediction view. */

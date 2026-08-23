@@ -19,6 +19,7 @@ const steps = [
   { label: 'Safety Guidance', icon: Eye },
 ];
 
+/** Renders or coordinates workflow section for this frontend module. */
 export default function WorkflowSection() {
   return (
     <SectionShell

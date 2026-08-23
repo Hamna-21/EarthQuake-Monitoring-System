@@ -5,10 +5,12 @@ import Earth from '@/features/home/components/earth/Earth';
 import Lighting from '@/features/home/components/earth/Lighting';
 import Stars from '@/features/home/components/earth/Stars';
 
+/** Owns the landing-page Three.js canvas and pauses its render loop when it leaves the viewport. */
 export default function EarthScene() {
   const host = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(true);
 
+  // IntersectionObserver avoids rendering the animated Earth while the landing section is off screen.
   useEffect(() => {
     if (!host.current || typeof IntersectionObserver === 'undefined') return undefined;
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.05 });

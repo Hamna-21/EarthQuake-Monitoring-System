@@ -15,6 +15,7 @@ const items = [
   { title: 'Checklist', value: 'Drop, cover, hold', icon: ClipboardCheck },
 ];
 
+/** Renders or coordinates safety preview for this frontend module. */
 export default function SafetyPreview() {
   return (
     <SectionShell
@@ -41,3 +42,4 @@ export default function SafetyPreview() {
     </SectionShell>
   );
 }
+/** Previews the safety-information experience available in the application. */

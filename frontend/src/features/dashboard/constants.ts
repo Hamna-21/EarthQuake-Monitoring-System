@@ -1,5 +1,6 @@
 import { Clock3, Flame, Globe2, MapPin, Radio, Ruler, Waves } from 'lucide-react';
 
+/** Renders or coordinates tier accent for this frontend module. */
 export function tierAccent(magnitude: number) {
   if (magnitude >= 6) return { text: 'text-rose-600', border: 'border-l-rose-500', chip: 'bg-rose-50 text-rose-600' };
   if (magnitude >= 5) return { text: 'text-amber-600', border: 'border-l-amber-400', chip: 'bg-amber-50 text-amber-600' };
@@ -15,6 +16,7 @@ const statusPalette = [
   'bg-fuchsia-50 text-fuchsia-700 ring-fuchsia-200',
 ];
 
+/** Renders or coordinates status tone for this frontend module. */
 export function statusTone(status: string) {
   let hash = 0;
   for (let index = 0; index < status.length; index++) {
@@ -33,3 +35,4 @@ export const tableColumns = [
   { key: 'tsunami', head: 'Tsunami', icon: Waves, tone: 'text-blue-400' },
   { key: 'status', head: 'Status', icon: Radio, tone: 'text-fuchsia-400' },
 ] as const;
+/** Dashboard thresholds and shared display constants used by overview sections. */

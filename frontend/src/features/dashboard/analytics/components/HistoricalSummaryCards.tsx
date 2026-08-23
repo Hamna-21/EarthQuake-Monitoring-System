@@ -4,6 +4,7 @@ import type { HistoricalAnalyticsResponse } from '@/features/dashboard/analytics
 
 const f = (value: number | null | undefined, digits = 1) => Number.isFinite(value) ? Number(value).toFixed(digits) : '-';
 
+/** Displays summary statistics returned by the same historical analytics query as the charts. */
 export default function HistoricalSummaryCards({ data }: { data: HistoricalAnalyticsResponse }) {
   const s = data.summary;
   const cards = [

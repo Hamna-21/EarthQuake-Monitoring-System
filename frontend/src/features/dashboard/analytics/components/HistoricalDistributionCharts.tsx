@@ -10,6 +10,7 @@ const magColors = ['#38bdf8', '#22d3ee', '#facc15', '#fb923c', '#ef4444', '#991b
 const depthColors = ['#86efac', '#4ade80', '#22c55e', '#14b8a6', '#0ea5e9', '#6366f1'];
 const chartMargin = { top: 18, right: 28, left: 42, bottom: 42 };
 
+/** Renders aligned magnitude/depth distributions from server-provided historical bins. */
 export default function HistoricalDistributionCharts({ magnitudeRows, depthRows }: { magnitudeRows: HistoricalRow[]; depthRows: HistoricalRow[] }) {
   const mags = orderedRows(magnitudeRows, magLabels);
   const depths = orderedRows(depthRows, depthLabels);
@@ -21,6 +22,7 @@ export default function HistoricalDistributionCharts({ magnitudeRows, depthRows 
   );
 }
 
+/** Renders or coordinates distribution for this frontend module. */
 function Distribution({ title, subtitle, insight, data, colors, yTitle }: { title: string; subtitle: string; insight: string; data: Array<{ label: string; count: number }>; colors: string[]; yTitle: string }) {
   const peak = peakRow(data);
   return (

@@ -5,6 +5,7 @@ import HistoricalChartCard from '@/features/dashboard/analytics/components/Histo
 import { ChartTooltip, axis, grid, labelStyle, margin } from '@/features/dashboard/analytics/components/HistoricalRechartBase';
 import { fmt, peakRow, tickYears } from '@/features/dashboard/analytics/components/historicalChartData';
 
+/** Shows yearly historical counts with a highlighted peak and optional expanded chart view. */
 export default function HistoricalYearlyChart({ rows }: { rows: HistoricalRow[] }) {
   const data = rows.map((row) => ({ year: row.year, count: row.count }));
   const peak = peakRow(data);

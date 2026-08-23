@@ -2,6 +2,7 @@ import { Earthquake } from '@/types';
 import { markerColor } from '@/features/dashboard/map/components/mapStyles';
 import { fmtDate } from '@/features/dashboard/utils/data';
 
+/** Renders or coordinates live timeline for this frontend module. */
 export default function LiveTimeline({ events }: { events: Earthquake[] }) {
   return (
     <aside className="relative h-fit overflow-hidden rounded-xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur xl:sticky xl:top-4">
@@ -32,3 +33,4 @@ export default function LiveTimeline({ events }: { events: Earthquake[] }) {
     </aside>
   );
 }
+/** Renders the chronological summary of recent live earthquake activity. */

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import * as THREE from 'three';
 
+/** Creates a memoized rim-glow shader so the atmosphere material is not rebuilt on each render. */
 export default function Atmosphere() {
   const material = useMemo(
     () =>

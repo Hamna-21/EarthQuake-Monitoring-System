@@ -6,6 +6,7 @@ const labels = {
   terrain: 'Terrain',
   night: 'Night',
 } satisfies Record<'satellite' | 'terrain' | 'night', string>;
+/** Compact selector for the shared globe's stable local Earth texture modes. */
 export default function GlobeViewControls({
   view,
   onChange,

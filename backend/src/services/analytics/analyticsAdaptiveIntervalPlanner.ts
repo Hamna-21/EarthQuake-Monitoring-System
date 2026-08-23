@@ -18,6 +18,7 @@ const dayMs = 86_400_000;
 const validInt = (value: number) => Number.isInteger(value) && value > 0;
 const validDate = (date: Date) => date instanceof Date && Number.isFinite(date.getTime());
 
+/** Validates validate before the operation continues. */
 function validate(input: AnalyticsAdaptiveIntervalPlanInput) {
   if (!validDate(input.interval.startDate) || !validDate(input.interval.endDate)) throw new Error('Adaptive interval dates must be valid.');
   if (input.interval.startDate >= input.interval.endDate) throw new Error('Adaptive interval must have positive duration.');
@@ -25,6 +26,7 @@ function validate(input: AnalyticsAdaptiveIntervalPlanInput) {
   if (!Number.isInteger(input.maximumDepth) || input.maximumDepth < 0 || !validInt(input.maximumRequests)) throw new Error('Adaptive request limits are invalid.');
 }
 
+/** Coordinates node for this module. */
 function node(interval: AnalyticsBackfillPlanInterval, level: number): AnalyticsAdaptiveIntervalNode {
   const request = createUsgsRequestForPlannedInterval(interval);
   return {
@@ -37,6 +39,7 @@ function node(interval: AnalyticsBackfillPlanInterval, level: number): Analytics
 
 const classify = (count: number, threshold: number): AnalyticsIntervalSafety =>
   count === 0 ? 'zero-events' : count <= threshold ? 'safe' : 'split-required';
+/** Builds the classify node result used by the surrounding workflow. */
 async function classifyNode(
   current: AnalyticsAdaptiveIntervalNode, source: AnalyticsBackfillPlanInterval,
   input: AnalyticsAdaptiveIntervalPlanInput, state: { requests: number; exhausted: boolean },
@@ -71,12 +74,14 @@ async function classifyNode(
   current.countDiscrepancy = current.eventCount !== null && sum !== null ? current.eventCount - sum : null;
 }
 
+/** Coordinates leaves for this module. */
 function leaves(root: AnalyticsAdaptiveIntervalNode) {
   const all: AnalyticsAdaptiveIntervalNode[] = [];
   const visit = (item: AnalyticsAdaptiveIntervalNode) => item.children.length ? item.children.forEach(visit) : all.push(item);
   visit(root);
   return all;
 }
+/** Builds the create adaptive interval plan result used by the surrounding workflow. */
 export async function createAdaptiveIntervalPlan(input: AnalyticsAdaptiveIntervalPlanInput, dependencies: AnalyticsAdaptiveIntervalDependencies = {}): Promise<AnalyticsAdaptiveIntervalPlan> {
   // Probe interval risk and recursively split busy periods until each planned request is safe to fetch.
   validate(input);

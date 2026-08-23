@@ -18,6 +18,7 @@ interface GeoBotContext {
   };
 }
 
+/** Renders or coordinates stream chat response for this frontend module. */
 export async function streamChatResponse(
   message: string,
   history: ChatMessage[],

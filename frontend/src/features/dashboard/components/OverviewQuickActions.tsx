@@ -7,6 +7,7 @@ const ACTIONS = [
   { page: 'alerts' as DashboardPage, icon: Bell, label: 'Alerts', tone: 'text-rose-200 border-rose-300/25 bg-rose-500/10 hover:bg-rose-500/20' },
 ];
 
+/** Renders or coordinates overview quick actions for this frontend module. */
 export default function OverviewQuickActions({ openPage }: { openPage: (page: DashboardPage) => void }) {
   return (
     <div className="flex items-center justify-end gap-2">
@@ -24,3 +25,4 @@ export default function OverviewQuickActions({ openPage }: { openPage: (page: Da
     </div>
   );
 }
+/** Provides shortcut actions from the dashboard overview. */

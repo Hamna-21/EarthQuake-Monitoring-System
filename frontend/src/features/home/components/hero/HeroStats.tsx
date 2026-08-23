@@ -8,6 +8,7 @@ const stats = [
   { label: 'Coverage', value: 'Global', tone: 'text-red-200' },
 ];
 
+/** Renders or coordinates hero stats for this frontend module. */
 export default function HeroStats({ earthquakesCount }: HeroStatsProps) {
   const liveStats = [
     { label: 'Live Events', value: earthquakesCount, tone: 'text-red-300' },
@@ -27,3 +28,4 @@ export default function HeroStats({ earthquakesCount }: HeroStatsProps) {
     </div>
   );
 }
+/** Displays the high-level earthquake statistics featured in the hero. */

@@ -6,6 +6,7 @@ import GlobeViewControls from '@/features/dashboard/map/components/GlobeViewCont
 import type { View } from '@/features/dashboard/map/components/globeData';
 import GlobalMapAnalytics from '@/features/dashboard/map/components/GlobalMapAnalytics';
 
+/** Keeps the globe as the visual hero and places shared view controls and analytics beneath it. */
 export default function GlobalCommandCenter({ events, onSelect, onDetails }: { events: Earthquake[]; onSelect: (event: Earthquake) => void; onDetails: (event: Earthquake) => void; lastUpdated?: number | null }) {
   const [view, setView] = useState<View>('night');
   return (

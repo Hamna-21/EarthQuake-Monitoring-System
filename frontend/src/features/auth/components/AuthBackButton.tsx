@@ -1,5 +1,6 @@
 import { Globe } from 'lucide-react';
 
+/** Renders or coordinates auth back button for this frontend module. */
 export default function AuthBackButton({ onBackToHome }: { onBackToHome: () => void }) {
   return (
     <button
@@ -12,3 +13,4 @@ export default function AuthBackButton({ onBackToHome }: { onBackToHome: () => v
   );
 }
 
+/** Provides the shared back-navigation action for authentication screens. */

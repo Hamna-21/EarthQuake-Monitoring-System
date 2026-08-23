@@ -14,10 +14,12 @@ export async function postAuth(path: string, body: Record<string, unknown>) {
   return response.json();
 }
 
+/** Renders or coordinates login request for this frontend module. */
 export function loginRequest(email: string, password: string) {
   return postAuth('/api/auth/login', { email, password });
 }
 
+/** Renders or coordinates register request for this frontend module. */
 export function registerRequest(values: {
   email: string;
   password: string;
@@ -28,6 +30,7 @@ export function registerRequest(values: {
   return postAuth('/api/auth/register', values);
 }
 
+/** Renders or coordinates google sandbox request for this frontend module. */
 export function googleSandboxRequest(values: {
   email: string;
   name: string;

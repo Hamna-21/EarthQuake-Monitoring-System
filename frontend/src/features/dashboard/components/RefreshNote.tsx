@@ -2,6 +2,7 @@ import { AlertTriangle, Clock, Wifi } from 'lucide-react';
 import GeoPulseMascot from '@/features/dashboard/components/GeoPulseMascot';
 import { ds } from '@/features/dashboard/utils/designSystem';
 
+/** Renders or coordinates refresh note for this frontend module. */
 export default function RefreshNote({
   isLoading,
   error,
@@ -43,3 +44,4 @@ export default function RefreshNote({
     </div>
   );
 }
+/** Displays the last-refresh or data-freshness note for dashboard data. */

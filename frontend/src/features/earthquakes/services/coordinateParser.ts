@@ -1,6 +1,7 @@
 export type GeoPoint = { longitude: number; latitude: number; depth: number | null };
 
 /** USGS GeoJSON order is [longitude, latitude, depth]. */
+// Parse USGS GeoJSON coordinates in [longitude, latitude, depth] order and reject invalid geographic values.
 export function parseUsgsCoordinates(value: unknown): GeoPoint | null {
   if (!Array.isArray(value)) return null;
   const longitude = Number(value[0]);

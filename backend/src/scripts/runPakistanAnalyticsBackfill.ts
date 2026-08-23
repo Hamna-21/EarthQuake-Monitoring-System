@@ -9,6 +9,7 @@ const maxArg = process.argv.slice(2).find((arg) => arg.startsWith('--max-interva
 const maxIntervals = maxArg ? Number(maxArg.split('=')[1]) : undefined;
 const dryRun = args.has('--dry-run') || (!args.has('--run-all') && maxIntervals === undefined);
 
+// CLI entry point for previewing, resuming, or running the MongoDB analytics backfill.
 async function main() {
   if (maxIntervals !== undefined && (!Number.isInteger(maxIntervals) || maxIntervals < 1)) {
     throw new Error('--max-intervals must be a positive integer.');

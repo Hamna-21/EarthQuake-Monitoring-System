@@ -10,6 +10,7 @@ const checks = [
   'Save local emergency numbers offline',
 ];
 
+/** Renders or coordinates safety checklist for this frontend module. */
 export default function SafetyChecklist() {
   return (
     <SafetyCard>
@@ -36,3 +37,4 @@ export default function SafetyChecklist() {
   );
 }
 
+/** Renders the actionable earthquake-preparedness checklist. */

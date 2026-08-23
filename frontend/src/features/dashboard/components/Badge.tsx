@@ -5,6 +5,7 @@ interface BadgeProps {
   className?: string;
 }
 
+/** Renders or coordinates badge for this frontend module. */
 export default function Badge({ children, className = '' }: BadgeProps) {
   return (
     <span className={`${ds.badge} ${className}`}>
@@ -12,3 +13,4 @@ export default function Badge({ children, className = '' }: BadgeProps) {
     </span>
   );
 }
+/** Provides the shared compact status badge used across dashboard panels. */

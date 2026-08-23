@@ -1,6 +1,7 @@
 import { DashboardProps } from '@/features/dashboard/types';
 import HistoryPageShell from '@/features/dashboard/historical/components/HistoryPageShell';
 
+/** Renders or coordinates history page for this frontend module. */
 export default function HistoryPage(props: DashboardProps) {
   return (
     <HistoryPageShell
@@ -14,3 +15,4 @@ export default function HistoryPage(props: DashboardProps) {
     />
   );
 }
+/** Hosts the historical records page, filters, map, and pagination state. */

@@ -9,6 +9,7 @@ interface MapAuxiliaryLayersProps {
   searchPin?: SearchPin | null;
 }
 
+/** Adds optional tectonic lines, user-position accuracy, and searched-place context to the base map. */
 export default function MapAuxiliaryLayers({ plates, userPosition, searchPin }: MapAuxiliaryLayersProps) {
   return (
     <>

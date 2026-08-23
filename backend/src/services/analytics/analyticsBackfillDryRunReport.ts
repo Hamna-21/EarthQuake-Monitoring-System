@@ -7,6 +7,7 @@ const intervalSummary = (interval: AnalyticsBackfillPlan['firstInterval']) => ({
   endDate: interval.endDateIso,
 });
 
+// Summarize a validated plan without making network calls or modifying MongoDB.
 export function createAnalyticsBackfillDryRunReport(plan: AnalyticsBackfillPlan): AnalyticsBackfillDryRunReport {
   validateAnalyticsBackfillPlan(plan);
   const warnings = [

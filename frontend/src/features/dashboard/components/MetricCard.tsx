@@ -36,6 +36,7 @@ const TONE_STYLES: Record<Tone, { label: string; iconBg: string; iconHover: stri
   },
 };
 
+/** Renders or coordinates metric card for this frontend module. */
 export default function MetricCard({
   label,
   value,
@@ -67,3 +68,4 @@ export default function MetricCard({
     </article>
   );
 }
+/** Displays one reusable dashboard metric with label, value, and trend content. */

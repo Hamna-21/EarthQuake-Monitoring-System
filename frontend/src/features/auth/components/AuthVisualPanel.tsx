@@ -2,6 +2,7 @@ import { Activity } from 'lucide-react';
 import AuthStats from '@/features/auth/components/AuthStats';
 import earthTexture from '@/assets/images/earth/earth-day.jpg';
 
+/** Renders or coordinates auth visual panel for this frontend module. */
 export default function AuthVisualPanel() {
   return (
     <aside className="relative z-10 hidden w-1/2 flex-col justify-between border-r border-white/10 bg-white/[0.04] p-14 backdrop-blur-xl lg:flex">

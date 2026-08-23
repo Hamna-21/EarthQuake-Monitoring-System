@@ -9,6 +9,7 @@ import FeedHeader from '@/features/dashboard/components/FeedHeader';
 import FeedFilters from '@/features/dashboard/components/FeedFilters';
 import { useDashboardPageState } from '@/features/dashboard/hooks/DashboardStateContext';
 
+/** Filters and sorts live events, then keeps cards, timeline, status, and CSV export in sync. */
 export default function FeedPage({ earthquakes, isLoading, dataError, lastUpdated, setSelectedId, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
   const [filters, setFilters] = useDashboardPageState<EventFilters>('feed-filters', defaultFilters, true);
   const [sort, setSort] = useDashboardPageState<SortState>('feed-sort', { key: 'time', direction: 'desc' }, true);
@@ -18,6 +19,7 @@ export default function FeedPage({ earthquakes, isLoading, dataError, lastUpdate
   const events = useMemo(() => sortEvents(filterEvents(byCountry, filters), sort), [byCountry, filters, sort]);
 
   const update = (patch: Partial<EventFilters>) => setFilters((c) => ({ ...c, ...patch }));
+  // Propagate the dashboard-wide search into the feed filter without replacing other feed selections.
   useEffect(() => { if (globalSearch) setFilters((c) => ({ ...c, query: globalSearch })); }, [globalSearch, setFilters]);
 
   const select = (id: string) => { setSelectedId(id); openPage('details'); };

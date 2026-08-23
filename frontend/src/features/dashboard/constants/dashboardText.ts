@@ -10,3 +10,4 @@ export const DASHBOARD_STATUS_LABELS = {
   loading: 'Loading',
   noResults: 'No matching results found.',
 } as const;
+/** Centralizes reusable dashboard labels and user-facing explanatory text. */

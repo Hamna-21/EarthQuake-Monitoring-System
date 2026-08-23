@@ -9,6 +9,7 @@ const validCoordinates = (event: Earthquake) =>
   event.longitude >= -180 &&
   event.longitude <= 180;
 
+/** Renders or coordinates validation issues for this frontend module. */
 export function validationIssues(event: Earthquake) {
   const issues: string[] = [];
   if (!event.id) issues.push('missing unique API id');
@@ -22,6 +23,7 @@ export function validationIssues(event: Earthquake) {
   return issues;
 }
 
+/** Renders or coordinates clean earthquakes for this frontend module. */
 export function cleanEarthquakes(events: Earthquake[], source: string) {
   // Drop malformed or duplicate events before they reach maps, records, or analytics.
   const seen = new Set<string>();

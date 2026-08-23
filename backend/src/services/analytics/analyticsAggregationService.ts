@@ -12,6 +12,7 @@ const yearRange = (start: Date, end: Date) => Array.from({ length: end.getUTCFul
 const magLabel = (mag: number | null) => mag === null ? null : mag < 4 ? magBins[0] : mag < 5 ? magBins[1] : mag < 6 ? magBins[2] : mag < 7 ? magBins[3] : mag < 8 ? magBins[4] : magBins[5];
 const depthLabel = (depth: number | null) => depth === null ? null : depth <= 10 ? depthBins[0] : depth <= 30 ? depthBins[1] : depth <= 70 ? depthBins[2] : depth <= 150 ? depthBins[3] : depth <= 300 ? depthBins[4] : depthBins[5];
 
+/** Builds the match result used by the surrounding workflow. */
 function match(options: AnalyticsDashboardOptions): Filter<AnalyticsEarthquakeDocument> {
   const filter: Filter<AnalyticsEarthquakeDocument> = { occurredAt: { $gte: options.startDate, $lte: options.endDate } };
   if (options.minMagnitude !== null) filter.magnitude = { ...(filter.magnitude as Document), $gte: options.minMagnitude };
@@ -21,21 +22,25 @@ function match(options: AnalyticsDashboardOptions): Filter<AnalyticsEarthquakeDo
   return filter;
 }
 
+/** Builds the fill years result used by the surrounding workflow. */
 function fillYears(rows: Document[], years: number[]) {
   const map = new Map(rows.map((row) => [Number(row._id), Number(row.count)]));
   return years.map((year) => ({ year, count: map.get(year) ?? 0 }));
 }
 
+/** Builds the fill calendar result used by the surrounding workflow. */
 function fillCalendar(rows: Document[]) {
   const map = new Map(rows.map((row) => [Number(row._id), Number(row.count)]));
   return months.map((month, index) => ({ month, count: map.get(index + 1) ?? 0 }));
 }
 
+/** Builds the fill bins result used by the surrounding workflow. */
 function fillBins(rows: Document[], labels: string[]) {
   const map = new Map(rows.map((row) => [String(row._id), Number(row.count)]));
   return labels.map((label) => ({ label, count: map.get(label) ?? 0 }));
 }
 
+/** Coordinates heatmap for this module. */
 function heatmap(rows: Document[], years: number[]) {
   const map = new Map(rows.map((row) => [`${row._id.year}-${row._id.month}`, Number(row.count)]));
   return years.flatMap((year) => months.map((month, index) => ({ year, month: index + 1, label: month, count: map.get(`${year}-${index + 1}`) ?? 0 })));

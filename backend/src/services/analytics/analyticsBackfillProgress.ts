@@ -29,6 +29,7 @@ const copy = (date: Date) => new Date(date.getTime());
 const day = (date: Date) => validDate(date) && date ? date.toISOString().slice(0, 10) : fail('Date must be valid.');
 const none = (value: number | null) => value === null ? 'none' : String(value);
 
+/** Builds the create analytics backfill job key result used by the surrounding workflow. */
 export function createAnalyticsBackfillJobKey(input: InitialAnalyticsBackfillInput): string {
   return [
     'analytics-backfill:v1', input.region, day(input.startDate), day(input.endDate),
@@ -37,6 +38,7 @@ export function createAnalyticsBackfillJobKey(input: InitialAnalyticsBackfillInp
   ].join(':');
 }
 
+/** Builds the planned intervals result used by the surrounding workflow. */
 function plannedIntervals(input: InitialAnalyticsBackfillInput) {
   return input.granularity === 'year'
     ? createYearIntervals(input.startDate, input.endDate)
@@ -70,11 +72,13 @@ const finite = (value: number | null, field: string) => {
   if (value !== null && !Number.isFinite(value)) fail(`${field} must be finite when present.`);
 };
 
+/** Validates optional date before the operation continues. */
 function validateOptionalDate(date: Date | null, field: string, document: AnalyticsBackfillProgressDocument) {
   if (!validDate(date)) fail(`${field} must be valid when present.`);
   if (date && (date < document.startDate || date > document.endDate)) fail(`${field} must be within the requested date range.`);
 }
 
+/** Validates last error before the operation continues. */
 function validateLastError(document: AnalyticsBackfillProgressDocument) {
   if (document.status === 'failed' && !document.lastError) fail('Failed progress requires lastError.');
   if (!document.lastError) return;
@@ -83,6 +87,7 @@ function validateLastError(document: AnalyticsBackfillProgressDocument) {
   if (!validDate(document.lastError.occurredAt)) fail('lastError.occurredAt must be valid.');
 }
 
+/** Validates analytics backfill progress before the operation continues. */
 export function validateAnalyticsBackfillProgress(document: AnalyticsBackfillProgressDocument): void {
   if (!document.jobKey.trim()) fail('jobKey is required.');
   if (!regions.has(document.region)) fail('Unsupported backfill region.');

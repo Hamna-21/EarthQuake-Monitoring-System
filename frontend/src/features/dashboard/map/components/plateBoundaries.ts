@@ -5,3 +5,4 @@ export const plateLines = [
   { name: 'African', points: [[35, -20], [5, 20], [-35, 35]] as [number, number][] },
   { name: 'Americas', points: [[60, -125], [20, -105], [-20, -75], [-55, -70]] as [number, number][] },
 ];
+/** Defines tectonic plate boundary geometry used by the optional map overlay. */

@@ -5,6 +5,7 @@ type PageBackButtonProps = {
   onClick: () => void;
 };
 
+/** Renders or coordinates page back button for this frontend module. */
 export default function PageBackButton({ label = 'Back', onClick }: PageBackButtonProps) {
   return (
     <button
@@ -17,3 +18,4 @@ export default function PageBackButton({ label = 'Back', onClick }: PageBackButt
     </button>
   );
 }
+/** Provides the overview-specific back-navigation action. */

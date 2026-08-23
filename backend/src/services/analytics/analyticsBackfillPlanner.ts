@@ -23,11 +23,13 @@ const nextBoundary = (date: Date, granularity: 'year' | 'month') => granularity 
   ? new Date(Date.UTC(date.getUTCFullYear() + 1, 0, 1))
   : new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 1));
 
+/** Coordinates duration days for this module. */
 function durationDays(startDate: Date, endDate: Date) {
   const days = Math.floor((utcDayStart(endDate) - utcDayStart(startDate)) / dayMs);
   return Math.max(1, boundary(endDate) && endDate > startDate ? days : days + 1);
 }
 
+/** Validates input before the operation continues. */
 function validateInput(input: AnalyticsBackfillPlanInput, generatedAt: Date) {
   if (!regions.has(input.region) || !granularities.has(input.granularity)) fail('Unsupported region or granularity.');
   if (!validDate(input.startDate) || !validDate(input.endDate) || !validDate(generatedAt)) fail('Plan dates must be valid.');
@@ -39,6 +41,7 @@ function validateInput(input: AnalyticsBackfillPlanInput, generatedAt: Date) {
   if (input.minDepth !== null && input.maxDepth !== null && input.minDepth > input.maxDepth) fail('Depth range is invalid.');
 }
 
+/** Checks whether natural for the surrounding workflow. */
 function isNatural(input: AnalyticsBackfillPlanInput, startDate: Date, endDate: Date) {
   const naturalStart = input.granularity === 'year'
     ? startDate.getUTCMonth() === 0 && startDate.getUTCDate() === 1 && boundary(startDate)
@@ -47,12 +50,14 @@ function isNatural(input: AnalyticsBackfillPlanInput, startDate: Date, endDate: 
   return naturalStart && (endDate.getTime() === naturalEnd.getTime() || endDate.getTime() === naturalEnd.getTime() - 1);
 }
 
+/** Coordinates interval risk for this module. */
 function intervalRisk(input: AnalyticsBackfillPlanInput, startDate: Date, endDate: Date): AnalyticsBackfillIntervalRisk {
   const days = durationDays(startDate, endDate);
   if ((input.granularity === 'year' && days > 366) || (input.granularity === 'month' && days > 31)) return 'large-date-span';
   return isNatural(input, startDate, endDate) ? 'standard' : 'partial-boundary';
 }
 
+/** Builds the create interval result used by the surrounding workflow. */
 function createInterval(input: AnalyticsBackfillPlanInput, jobKey: string, startDate: Date, endDate: Date, index: number, total: number): AnalyticsBackfillPlanInterval {
   const start = copy(startDate), end = copy(endDate);
   const keyIndex = String(index).padStart(4, '0');
@@ -65,6 +70,7 @@ function createInterval(input: AnalyticsBackfillPlanInput, jobKey: string, start
   };
 }
 
+/** Builds the create analytics backfill plan result used by the surrounding workflow. */
 export function createAnalyticsBackfillPlan(input: AnalyticsBackfillPlanInput, generatedAt: Date = new Date()): AnalyticsBackfillPlan {
   // Produce deterministic intervals and risk metadata for a resumable analytics backfill job.
   validateInput(input, generatedAt);
@@ -88,6 +94,7 @@ export function createAnalyticsBackfillPlan(input: AnalyticsBackfillPlanInput, g
   return plan;
 }
 
+/** Validates analytics backfill plan before the operation continues. */
 export function validateAnalyticsBackfillPlan(plan: AnalyticsBackfillPlan): void {
   if (plan.planVersion !== 1 || !plan.jobKey.trim() || !validDate(plan.generatedAt)) fail('Plan header is invalid.');
   validateInput({ region: plan.region, startDate: plan.requestedStartDate, endDate: plan.requestedEndDate, minMagnitude: plan.minMagnitude, maxMagnitude: plan.maxMagnitude, minDepth: plan.minDepth, maxDepth: plan.maxDepth, granularity: plan.granularity }, plan.generatedAt);

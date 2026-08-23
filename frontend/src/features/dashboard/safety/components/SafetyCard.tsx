@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 
+/** Renders or coordinates safety card for this frontend module. */
 export default function SafetyCard({
   children,
   className = '',
@@ -14,3 +15,4 @@ export default function SafetyCard({
   );
 }
 
+/** Displays one focused safety recommendation in the safety page. */

@@ -11,6 +11,7 @@ import { ALERT_RULES_KEY, Rule, loadRules, matchingRecords } from '@/features/da
 import BackButton from '@/features/dashboard/components/common/BackButton';
 import PageTitle from '@/features/dashboard/components/common/PageTitle';
 
+/** Stores user alert rules locally and derives matching current events for the alert report list. */
 export default function AlertsPage({ earthquakes, setSelectedId, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
   const [rules, setRules] = useState<Rule[]>(() => loadRules());
   const [name, setName] = useState('Magnitude watch');
@@ -25,6 +26,7 @@ export default function AlertsPage({ earthquakes, setSelectedId, openPage, globa
     });
   }, [earthquakes, rules, globalSearch]);
 
+  // Persist rule changes, while allowing the alert page to remain usable when browser storage is unavailable.
   useEffect(() => {
     try {
       localStorage.setItem(ALERT_RULES_KEY, JSON.stringify(rules));

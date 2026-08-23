@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 
+/** Renders or coordinates historical chart card for this frontend module. */
 export default function HistoricalChartCard({
   title,
   subtitle,
@@ -27,3 +28,4 @@ export default function HistoricalChartCard({
     </section>
   );
 }
+/** Provides a consistent glass frame and title area for historical charts. */

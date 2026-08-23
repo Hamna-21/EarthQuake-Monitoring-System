@@ -17,6 +17,7 @@ type Props = {
   onSubmit: () => void;
 };
 
+/** Renders or coordinates dashboard search for this frontend module. */
 export default function DashboardSearch({ value, suggestions, onChange, onClear, onOpen, onSubmit }: Props) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
@@ -77,3 +78,4 @@ export default function DashboardSearch({ value, suggestions, onChange, onClear,
     </div>
   );
 }
+/** Provides the global dashboard search input and suggestion interactions. */

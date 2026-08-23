@@ -14,6 +14,7 @@ interface RegisterPasswordFieldsProps {
   isLoading: boolean;
 }
 
+/** Renders or coordinates register password fields for this frontend module. */
 export default function RegisterPasswordFields(props: RegisterPasswordFieldsProps) {
   return (
     <>
@@ -38,3 +39,4 @@ export default function RegisterPasswordFields(props: RegisterPasswordFieldsProp
     </>
   );
 }
+/** Renders and validates the password fields used during registration. */

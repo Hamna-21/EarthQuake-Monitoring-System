@@ -1,3 +1,4 @@
+// Generate the small CommonJS launcher used by the production start command.
 const fs = require('fs');
 
 fs.mkdirSync('dist', { recursive: true });

@@ -16,6 +16,7 @@ const bars = {
 
 type Labels = Partial<Record<'records' | 'strongest' | 'countries' | 'tsunami', string>>;
 
+/** Renders or coordinates history metrics for this frontend module. */
 export default function HistoryMetrics({ records, strongest, countries, tsunami, labels = {} }: { records: number; strongest: string; countries: number; tsunami: number; labels?: Labels; }) {
   const cards = [
     [labels.records ?? 'Records Found', String(records), 'Current results', Search, tones.cyan, bars.cyan],
@@ -45,3 +46,4 @@ export default function HistoryMetrics({ records, strongest, countries, tsunami,
     </section>
   );
 }
+/** Displays summary metrics for the currently filtered historical records. */

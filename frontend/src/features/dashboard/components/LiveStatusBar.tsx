@@ -7,6 +7,7 @@ const STATUSES = (count: number, connected: boolean, isLoading: boolean) => [
   { icon: RadioTower, label: 'Monitoring', value: isLoading ? 'Refreshing' : 'Live', gradient: 'from-cyan-400 to-blue-500', tone: 'text-cyan-200', pulse: isLoading },
 ];
 
+/** Renders or coordinates live status bar for this frontend module. */
 export default function LiveStatusBar({ count, isLoading, error }: { count: number; isLoading: boolean; error: string | null }) {
   return (
     <section className="grid gap-2 rounded-xl border border-white/10 bg-white/[0.06] p-3 font-serif backdrop-blur-xl md:grid-cols-4">
@@ -25,3 +26,4 @@ export default function LiveStatusBar({ count, isLoading, error }: { count: numb
     </section>
   );
 }
+/** Displays connection and freshness status for live earthquake data. */

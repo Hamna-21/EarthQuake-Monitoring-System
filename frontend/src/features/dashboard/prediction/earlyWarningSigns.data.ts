@@ -34,3 +34,4 @@ export const facts = [
   { icon: Timer, label: 'Warning window', value: 'Seconds', hint: 'Early-warning systems can give seconds to tens of seconds notice, not days', color: 'text-amber-200', bg: 'from-amber-400/20' },
   { icon: Info, label: 'Reliable prediction', value: 'None', hint: 'No method today reliably predicts the exact time, place, and size of an earthquake', color: 'text-rose-200', bg: 'from-rose-400/20' },
 ];
+/** Curated early-warning indicators used by the prediction guidance UI. */

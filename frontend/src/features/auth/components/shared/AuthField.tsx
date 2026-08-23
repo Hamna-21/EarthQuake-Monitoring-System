@@ -11,6 +11,7 @@ interface AuthFieldProps {
   labelClassName?: string;
 }
 
+/** Renders or coordinates auth field for this frontend module. */
 export default function AuthField({
   label,
   value,
@@ -41,3 +42,4 @@ export default function AuthField({
   );
 }
 
+/** Provides the shared labeled input control used by authentication forms. */

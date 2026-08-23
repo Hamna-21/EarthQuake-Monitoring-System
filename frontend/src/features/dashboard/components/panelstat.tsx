@@ -1,3 +1,4 @@
+/** Renders or coordinates panel for this frontend module. */
 export function Panel({ children }: { children: React.ReactNode }) {
   return (
     <aside className="rounded-2xl border border-cyan-400/20 bg-gradient-to-br from-slate-950/90 via-slate-900/85 to-cyan-950/40 p-5 text-white shadow-2xl shadow-cyan-900/20 backdrop-blur">
@@ -6,6 +7,7 @@ export function Panel({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** Renders or coordinates panel header for this frontend module. */
 export function PanelHeader({
   icon,
   accent,
@@ -29,9 +31,11 @@ export function PanelHeader({
   );
 }
 
+/** Renders or coordinates divider for this frontend module. */
 export function Divider() {
   return (
     <div className="my-4 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
   );
 }
 
+/** Defines the compact statistic panel used by dashboard visualizations. */

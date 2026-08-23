@@ -31,3 +31,4 @@ export interface RegisterFormProps {
   onGoogleFailure: (err: unknown) => void;
   onNavigateToLogin: () => void;
 }
+/** Authentication form and session types shared across auth components. */

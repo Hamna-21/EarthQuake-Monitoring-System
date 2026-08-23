@@ -8,6 +8,7 @@ const tips = [
   'Hold on until shaking fully stops.',
 ];
 
+/** Renders or coordinates safety assistant panel for this frontend module. */
 export default function SafetyAssistantPanel() {
   return (
     <SafetyCard className="h-full bg-gradient-to-br from-orange-500/10 via-white/[0.04] to-transparent">
@@ -37,3 +38,4 @@ export default function SafetyAssistantPanel() {
   );
 }
 
+/** Provides the GeoBot safety-assistance panel for earthquake preparedness. */

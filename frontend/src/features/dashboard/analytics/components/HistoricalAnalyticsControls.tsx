@@ -6,6 +6,7 @@ const years = Array.from({ length: new Date().getUTCFullYear() - 1975 + 1 }, (_,
 const currentYear = String(new Date().getUTCFullYear());
 const endDate = (year: string) => year === currentYear ? new Date().toISOString().slice(0, 10) : `${year}-12-31`;
 
+/** Holds draft analytics filters locally until the user explicitly applies a new request. */
 export default function HistoricalAnalyticsControls({ draft, setDraft, onApply, onReset, isLoading, showLocation }: Props) {
   const startYear = draft.startDate.slice(0, 4), endYear = draft.endDate.slice(0, 4);
   const setStart = (year: string) => setDraft({ startDate: `${year}-01-01` });
@@ -22,6 +23,7 @@ export default function HistoricalAnalyticsControls({ draft, setDraft, onApply, 
   </form>;
 }
 
+/** Renders or coordinates field for this frontend module. */
 function Field({ label, children }: { label: string; children: ReactElement<{ className?: string }> }) {
   return <label className="space-y-1 text-[9px] font-black uppercase tracking-[0.16em] text-slate-400"><span>{label}</span>{cloneElement(children, { className: 'h-9 w-full rounded-xl border border-white/10 bg-slate-950/70 px-2.5 text-xs font-black text-white outline-none focus:border-orange-300/60' })}</label>;
 }

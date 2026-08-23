@@ -8,6 +8,7 @@ interface EarthquakePulseProps {
   magnitude: number;
 }
 
+/** Handles get pulse color and keeps the related frontend state or data flow consistent. */
 function getPulseColor(magnitude: number) {
   if (magnitude >= 7) return '#ef4444';
   if (magnitude >= 6) return '#f97316';
@@ -15,6 +16,7 @@ function getPulseColor(magnitude: number) {
   return '#22c55e';
 }
 
+// Convert geographic coordinates to the same sphere axes used by the Three.js Earth mesh.
 function latLngToVector3(lat: number, lng: number, radius: number) {
   const phi = (90 - lat) * (Math.PI / 180);
   const theta = (lng + 180) * (Math.PI / 180);
@@ -25,6 +27,7 @@ function latLngToVector3(lat: number, lng: number, radius: number) {
   );
 }
 
+/** Draws one magnitude-colored pulse anchored to an exact point on the illustrative globe. */
 export default function EarthquakePulse({ lat, lng, magnitude }: EarthquakePulseProps) {
   const ring = useRef<THREE.Mesh>(null);
   const color = getPulseColor(magnitude);

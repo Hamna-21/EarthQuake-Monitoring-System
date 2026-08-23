@@ -9,6 +9,7 @@ interface AlertMatchesProps {
   highlightedEventId?: string | null;
 }
 
+/** Renders or coordinates alert matches for this frontend module. */
 export default function AlertMatches({ matches, onOpen, highlightedEventId }: AlertMatchesProps) {
   if (!matches.length) {
     return (
@@ -41,3 +42,4 @@ export default function AlertMatches({ matches, onOpen, highlightedEventId }: Al
     </div>
   );
 }
+/** Lists earthquake events that match the user's configured alert rules. */

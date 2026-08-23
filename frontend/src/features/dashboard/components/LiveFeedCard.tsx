@@ -3,6 +3,7 @@ import { Earthquake } from '@/types';
 import { markerColor } from '@/features/dashboard/map/components/mapStyles';
 import { countryOf, fmtDate } from '@/features/dashboard/utils/data';
 
+/** Renders or coordinates live feed card for this frontend module. */
 export default function LiveFeedCard({
   event,
   onDetails,

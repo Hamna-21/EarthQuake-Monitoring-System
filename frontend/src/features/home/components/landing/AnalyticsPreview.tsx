@@ -7,6 +7,7 @@ interface AnalyticsPreviewProps {
   earthquakes: Earthquake[];
 }
 
+/** Renders or coordinates analytics preview for this frontend module. */
 export default function AnalyticsPreview({
   earthquakes,
 }: AnalyticsPreviewProps) {

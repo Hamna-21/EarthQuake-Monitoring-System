@@ -11,12 +11,14 @@ export type AnalyticsInterval = {
 
 const copy = (date: Date) => new Date(date);
 
+/** Coordinates label for this module. */
 function label(date: Date, granularity: AnalyticsGranularity) {
   const year = date.getUTCFullYear();
   const month = String(date.getUTCMonth() + 1).padStart(2, '0');
   return granularity === 'year' ? String(year) : `${year}-${month}`;
 }
 
+/** Coordinates next boundary for this module. */
 function nextBoundary(date: Date, granularity: AnalyticsGranularity) {
   const year = date.getUTCFullYear();
   const month = date.getUTCMonth();
@@ -24,6 +26,7 @@ function nextBoundary(date: Date, granularity: AnalyticsGranularity) {
   return new Date(Date.UTC(year, month + 1, 1));
 }
 
+/** Builds the create intervals result used by the surrounding workflow. */
 function createIntervals(startDate: Date, endDate: Date, granularity: AnalyticsGranularity) {
   const intervals: AnalyticsInterval[] = [];
   let cursor = copy(startDate);
@@ -37,14 +40,17 @@ function createIntervals(startDate: Date, endDate: Date, granularity: AnalyticsG
   return intervals;
 }
 
+/** Builds the create year intervals result used by the surrounding workflow. */
 export function createYearIntervals(startDate: Date, endDate: Date) {
   return createIntervals(startDate, endDate, 'year');
 }
 
+/** Builds the create month intervals result used by the surrounding workflow. */
 export function createMonthIntervals(startDate: Date, endDate: Date) {
   return createIntervals(startDate, endDate, 'month');
 }
 
+/** Builds the plan analytics intervals result used by the surrounding workflow. */
 export function planAnalyticsIntervals(query: ValidatedAnalyticsQuery, granularity: AnalyticsGranularity = 'year') {
   // Turn a date range into contiguous provider-safe intervals for backfills and historical fetches.
   return granularity === 'year'

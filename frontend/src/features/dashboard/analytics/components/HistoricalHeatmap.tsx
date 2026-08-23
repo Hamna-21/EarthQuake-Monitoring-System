@@ -11,6 +11,7 @@ const tone = (count: number, max: number) => {
   return 'bg-red-600';
 };
 
+/** Maps year/month counts to intensity classes while keeping zero-activity cells visible. */
 export default function HistoricalHeatmap({ rows }: { rows: HistoricalRow[] }) {
   const years = [...new Set(rows.map((row) => row.year).filter(Boolean))] as number[];
   const max = Math.max(1, ...rows.map((row) => row.count));

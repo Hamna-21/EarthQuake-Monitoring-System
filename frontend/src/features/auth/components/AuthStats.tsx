@@ -7,6 +7,7 @@ const stats = [
   { label: 'Core Status', value: 'Nominal', icon: Cpu },
 ];
 
+/** Renders or coordinates auth stats for this frontend module. */
 export default function AuthStats() {
   return (
     <div className="grid grid-cols-2 gap-4">
@@ -23,3 +24,4 @@ export default function AuthStats() {
   );
 }
 
+/** Presents the short informational statistics shown beside auth forms. */

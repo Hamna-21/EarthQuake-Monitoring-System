@@ -38,6 +38,7 @@ export async function getLatestEarthquakes(args: { minMagnitude?: number; limit?
   }
 }
 
+/** Handles the get safety guide operation and returns its normalized result. */
 export function getSafetyGuide(args: { phase: 'before' | 'during' | 'after' | 'all' }) {
   const phase = args.phase;
   const guides = {
@@ -49,6 +50,7 @@ export function getSafetyGuide(args: { phase: 'before' | 'during' | 'after' | 'a
   return { guide: guides[phase] || guides.all };
 }
 
+/** Handles the get dashboard statistics operation and returns its normalized result. */
 export async function getDashboardStatistics() {
   try {
     const url = `https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&limit=50`;

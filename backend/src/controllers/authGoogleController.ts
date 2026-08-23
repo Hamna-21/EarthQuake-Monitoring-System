@@ -113,6 +113,7 @@ export const getGoogleSandbox = (req: Request, res: Response) => {
       </div>
 
       <script>
+/** Coordinates select account for this module. */
         function selectAccount(email, name, country) {
           if (window.opener) {
             window.opener.postMessage({

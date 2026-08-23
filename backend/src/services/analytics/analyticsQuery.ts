@@ -32,10 +32,12 @@ export const createDefaultAnalyticsEndDate = (now = new Date()) => new Date(now)
 
 const dateOnly = /^\d{4}-\d{2}-\d{2}$/;
 
+/** Coordinates fail for this module. */
 function fail(message: string, code?: string): never {
   throw new AnalyticsValidationError(message, code);
 }
 
+/** Parses and normalizes date for the module's data flow. */
 function parseDate(value: unknown, boundary: 'start' | 'end') {
   if (value instanceof Date) return new Date(value);
   if (typeof value !== 'string' || !value.trim()) fail('Date must be a valid YYYY-MM-DD or ISO value.', 'invalid_date');
@@ -53,6 +55,7 @@ function parseDate(value: unknown, boundary: 'start' | 'end') {
   return parsed;
 }
 
+/** Parses and normalizes number for the module's data flow. */
 function readNumber(input: AnalyticsQueryInput, key: string, fallback: number | null) {
   const raw = input[key];
   if (raw === undefined || raw === null || raw === '') return fallback;
@@ -62,16 +65,19 @@ function readNumber(input: AnalyticsQueryInput, key: string, fallback: number | 
   return value;
 }
 
+/** Parses and normalizes region for the module's data flow. */
 function readRegion(input: AnalyticsQueryInput): AnalyticsRegion {
   const region = String(input.region ?? input.mode ?? 'global').trim().toLowerCase();
   if (region === 'pakistan' || region === 'global') return region;
   fail('Region must be either pakistan or global.', 'invalid_region');
 }
 
+/** Coordinates utc day for this module. */
 function utcDay(date: Date) {
   return date.toISOString().slice(0, 10);
 }
 
+/** Validates analytics query before the operation continues. */
 export function validateAnalyticsQuery(input: AnalyticsQueryInput = {}, now = new Date()): ValidatedAnalyticsQuery {
   // Normalize dates and numeric bounds once so every analytics controller applies identical validation.
   const safeNow = Number.isFinite(now.getTime()) ? new Date(now) : new Date();

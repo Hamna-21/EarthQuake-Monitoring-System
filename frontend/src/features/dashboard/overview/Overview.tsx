@@ -32,6 +32,7 @@ const matchesOverviewSearch = (event: DashboardProps['earthquakes'][number], que
   return text.includes(query);
 };
 
+/** Filters the live dataset for the overview and composes summary cards, charts, and GeoBot context. */
 export default function OverviewPage({ earthquakes, isLoading, dataError, lastUpdated, openPage, searchQuery = '', userName, userEmail, selectedEvent }: Props) {
   const query = searchQuery.trim().toLowerCase();
   const visibleEarthquakes = useMemo(() => query ? earthquakes.filter((event) => matchesOverviewSearch(event, query)) : earthquakes, [earthquakes, query]);

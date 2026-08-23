@@ -11,6 +11,7 @@ const modules = [
   { title: 'Live Feed', text: 'Fresh records with filtering and actions.', icon: ListChecks },
 ];
 
+/** Renders or coordinates dashboard preview for this frontend module. */
 export default function DashboardPreview() {
   return (
     <SectionShell
@@ -36,3 +37,4 @@ export default function DashboardPreview() {
     </SectionShell>
   );
 }
+/** Shows a static preview of the dashboard experience on the landing page. */

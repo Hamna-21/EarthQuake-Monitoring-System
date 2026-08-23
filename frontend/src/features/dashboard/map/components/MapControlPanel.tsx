@@ -29,6 +29,7 @@ interface MapControlPanelProps {
   onFullscreenMap: () => void;
 }
 
+/** Connects search, magnitude filtering, tile selection, overlays, reset, and fullscreen actions. */
 export default function MapControlPanel(props: MapControlPanelProps) {
   return (
     <Panel>
@@ -62,10 +63,12 @@ export default function MapControlPanel(props: MapControlPanelProps) {
   );
 }
 
+/** Renders or coordinates section for this frontend module. */
 function Section({ label, icon, trailing, tint, border, className, children }: { label?: string; icon?: React.ReactNode; trailing?: React.ReactNode; tint?: string; border?: string; className?: string; children: React.ReactNode; }) {
   return <div className={`rounded-2xl border ${border ?? 'border-white/10'} bg-gradient-to-br ${tint ?? 'from-white/5 to-white/0'} p-3 ${className ?? ''}`}>{label && <div className="mb-2 flex items-center justify-between"><span className="flex items-center gap-1.5 font-serif text-[11px] font-bold uppercase tracking-wide text-slate-300">{icon}{label}</span>{trailing}</div>}{children}</div>;
 }
 
+/** Renders or coordinates map button for this frontend module. */
 function MapButton({ icon, label, onClick }: { icon: React.ReactNode; label: string; onClick: () => void }) {
   return <button type="button" onClick={onClick} className="flex items-center justify-center gap-1.5 rounded-2xl bg-white/8 px-2 py-2.5 font-serif text-xs font-black text-cyan-100 transition hover:bg-cyan-400/15">{icon}{label}</button>;
 }

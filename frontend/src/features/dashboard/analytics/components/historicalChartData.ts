@@ -5,6 +5,7 @@ export const monthFull = ['January', 'February', 'March', 'April', 'May', 'June'
 export const fmt = (value: number) => value.toLocaleString();
 export const safeCount = (row?: HistoricalRow) => Number(row?.count ?? 0);
 
+// Normalize month labels and numeric month values so charts share one calendar order.
 export function readMonth(row: HistoricalRow, index: number) {
   if (typeof row.month === 'number') return row.month === 0 ? 1 : row.month;
   const text = String(row.label ?? '').toLowerCase();
@@ -12,6 +13,7 @@ export function readMonth(row: HistoricalRow, index: number) {
   return hit >= 0 ? hit + 1 : index + 1;
 }
 
+/** Renders or coordinates calendar rows for this frontend module. */
 export function calendarRows(rows: HistoricalRow[]) {
   const byMonth = new Map(rows.map((row, index) => [readMonth(row, index), safeCount(row)]));
   return monthShort.map((label, index) => ({
@@ -22,6 +24,7 @@ export function calendarRows(rows: HistoricalRow[]) {
   }));
 }
 
+// Match API-provided labels to the chart's fixed display labels while preserving counts.
 export function orderedRows(rows: HistoricalRow[], labels: string[]) {
   const clean = (value: string) => value.replaceAll('–', '-').replaceAll('—', '-').replaceAll(' km', '').toLowerCase();
   return labels.map((label, index) => {
@@ -30,6 +33,7 @@ export function orderedRows(rows: HistoricalRow[], labels: string[]) {
   });
 }
 
+/** Renders or coordinates tick years for this frontend module. */
 export function tickYears(rows: HistoricalRow[], desired: number) {
   const years = rows.map((row) => Number(row.year)).filter(Number.isFinite);
   if (!years.length) return [];
@@ -38,12 +42,14 @@ export function tickYears(rows: HistoricalRow[], desired: number) {
   return [...new Set([first, ...years.filter((year) => (year - first) % step === 0), last])];
 }
 
+/** Renders or coordinates monthly labels for this frontend module. */
 export function monthlyLabels(rows: HistoricalRow[], desired = 10) {
   const step = Math.max(1, Math.ceil(rows.length / desired));
   return rows.filter((_, index) => index === 0 || index === rows.length - 1 || index % step === 0)
     .map((row) => row.label ?? `${monthShort[(row.month ?? 1) - 1]} ${row.year}`);
 }
 
+/** Renders or coordinates peak row for this frontend module. */
 export function peakRow<T extends { count: number }>(rows: T[]) {
   return rows.reduce<T | null>((best, row) => !best || row.count > best.count ? row : best, null);
 }

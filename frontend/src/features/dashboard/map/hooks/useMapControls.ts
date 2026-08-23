@@ -5,6 +5,7 @@ import { FlyTarget, SearchPin, UserPosition } from '@/features/dashboard/map/com
 import { MapTileKey } from '@/features/dashboard/map/components/mapStyles';
 import { useDashboardPageState } from '@/features/dashboard/hooks/DashboardStateContext';
 
+/** Handles use map controls and keeps the related frontend state or data flow consistent. */
 export function useMapControls(earthquakes: Earthquake[], globalSearch: string, setSelectedId: (id: string | null) => void) {
   const [query, setQuery] = useDashboardPageState('map-query', '', true);
   const [minMag, setMinMag] = useDashboardPageState('map-min-magnitude', 0, true);

@@ -53,6 +53,7 @@ export async function fetchHistoricalAnalytics(filters = createDefaultAnalyticsF
   } finally { if (responseRequests.get(key) === request) responseRequests.delete(key); }
 }
 
+/** Parses and formats map historical events for the surrounding UI or data flow. */
 export function mapHistoricalEvents(events: HistoricalMapEvent[]): Earthquake[] {
   // Convert analytics map coordinates through the same parser used by live and historical earthquake data.
   return events.flatMap((event) => {

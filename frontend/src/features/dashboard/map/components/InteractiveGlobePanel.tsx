@@ -28,6 +28,7 @@ const stablePolygonCapColor = () => 'rgba(14, 165, 233, .18)';
 const stablePolygonSideColor = () => 'rgba(2, 6, 23, .28)';
 const stablePolygonStrokeColor = () => 'rgba(226, 232, 240, .22)';
 
+/** Renders or coordinates interactive globe panel for this frontend module. */
 export default function InteractiveGlobePanel({ events, onSelect, onDetails, autoRotate = true, focusLocation, focusLabel, popupMode = 'compact', view: externalView, onViewChange, legendOutside = false, bare = false, compact = false, globeHeight }: { events: Earthquake[]; onSelect: (event: Earthquake) => void; onDetails: (event: Earthquake) => void; autoRotate?: boolean; focusLocation?: { lat: number; lng: number; altitude?: number } | null; focusLabel?: string; popupMode?: 'compact' | 'historical'; view?: View; onViewChange?: (view: View) => void; legendOutside?: boolean; bare?: boolean; compact?: boolean; globeHeight?: number }) {
   const host = useRef<HTMLDivElement | null>(null);
   const globe = useRef<any>(null);
@@ -87,10 +88,12 @@ export default function InteractiveGlobePanel({ events, onSelect, onDetails, aut
   </section>;
 }
 
+/** Renders or coordinates setup controls for this frontend module. */
 function setupControls(controls: any, autoRotate: boolean) { if (!controls) return; controls.autoRotate = autoRotate; controls.autoRotateSpeed = 0.18; controls.enableDamping = true; controls.dampingFactor = 0.08; controls.minDistance = 90; controls.maxDistance = 500; }
 // In development, round-trip known coordinates through the globe library to catch axis/sign mistakes early.
 function verifyCoordinates(instance: any) { if (!import.meta.env.DEV || !instance?.getCoords || !instance?.toGeoCoords) return; const failed = groundTruthCoordinates.filter((item) => { const point = instance.toGeoCoords(instance.getCoords(item.lat, item.lng, 0)); return Math.abs(point.lat - item.lat) > 0.0001 || Math.abs(point.lng - item.lng) > 0.0001; }); if (failed.length) console.warn('Globe coordinate verification failed:', failed.map((item) => item.name)); }
 
+/** Renders or coordinates limit globe events for this frontend module. */
 function limitGlobeEvents(events: Earthquake[], limit: number) {
   if (events.length <= limit) return events;
   const ranked = [...events].sort((a, b) => b.magnitude - a.magnitude || Date.parse(b.time) - Date.parse(a.time));
@@ -100,6 +103,7 @@ function limitGlobeEvents(events: Earthquake[], limit: number) {
   return [...important, ...remaining.filter((_, index) => index % step === 0)].slice(0, limit);
 }
 
+/** Renders or coordinates globe legend for this frontend module. */
 export function GlobeLegend({ outside = false }: { outside?: boolean }) {
   const items = [['< M3', 2], ['M3-3.9', 3], ['M4-4.9', 4], ['M5-5.9', 5], ['M6-6.9', 6], ['M7+', 7]] as const;
   return <div className={`${outside ? 'relative' : 'pointer-events-none absolute bottom-3 left-3 z-20'} flex max-w-full flex-wrap gap-2 rounded-xl border border-white/10 bg-slate-950/80 px-3 py-2 text-[10px] font-bold text-slate-300 shadow-xl backdrop-blur-xl`}>

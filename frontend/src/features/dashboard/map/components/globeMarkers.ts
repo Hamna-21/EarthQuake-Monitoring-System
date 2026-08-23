@@ -5,6 +5,7 @@ import { globeMarkerScale, markerColor as colorForMagnitude } from './markerDesi
 const textureCache = new Map<string, THREE.CanvasTexture>();
 const materialCache = new Map<string, THREE.SpriteMaterial>();
 
+/** Renders or coordinates marker color for this frontend module. */
 export function markerColor(magnitude: number) {
   return colorForMagnitude(magnitude);
 }
@@ -27,6 +28,7 @@ export function createGlobeMarker(event: Earthquake, selected: boolean, stronges
   return sprite;
 }
 
+/** Renders or coordinates tack texture for this frontend module. */
 function tackTexture(color: string, strong: boolean) {
   const key = `${color}-${strong ? 'strong' : 'normal'}`;
   const cached = textureCache.get(key);
@@ -67,6 +69,7 @@ function tackTexture(color: string, strong: boolean) {
   return texture;
 }
 
+/** Renders or coordinates stem gradient for this frontend module. */
 function stemGradient(ctx: CanvasRenderingContext2D) {
   const gradient = ctx.createLinearGradient(58, 58, 70, 168);
   gradient.addColorStop(0, '#f8fafc');
@@ -75,6 +78,7 @@ function stemGradient(ctx: CanvasRenderingContext2D) {
   return gradient;
 }
 
+/** Renders or coordinates shade for this frontend module. */
 function shade(color: string) {
   return color === '#fde047' ? '#a16207' : color === '#38d9f3' ? '#0369a1' : color === '#2563eb' ? '#1e3a8a' : color === '#8b5cf6' ? '#4c1d95' : color === '#f97316' ? '#9a3412' : '#991b1b';
 }

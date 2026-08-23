@@ -3,6 +3,7 @@ import { Activity, Heart } from 'lucide-react';
 import FooterLinksGroup from '@/components/shared/Footer/components/FooterLinksGroup';
 import SystemStatusBox from '@/components/shared/Footer/components/SystemStatusBox';
 
+/** Renders or coordinates footer for this frontend module. */
 export default function Footer() {
   const navigationLinks = [
     { label: 'Home', href: '#' },

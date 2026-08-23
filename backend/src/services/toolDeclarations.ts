@@ -1,3 +1,4 @@
+// Declare the provider tools GeoBot may call; implementations live separately from model-facing schemas.
 export const earthquakeTools = {
   functionDeclarations: [
     {

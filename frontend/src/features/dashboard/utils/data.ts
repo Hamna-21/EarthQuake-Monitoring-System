@@ -59,6 +59,7 @@ export const statsFor = (events: Earthquake[]) => {
 export const significant = (events: Earthquake[]) =>
   [...events].filter((e) => e.magnitude >= 4.5 || e.alert || e.tsunami).sort((a, b) => (b.sig ?? 0) - (a.sig ?? 0));
 
+// Calculate great-circle distance because nearby earthquakes are measured over the Earth's surface.
 export const haversineKm = (a: { lat: number; lon: number }, b: { lat: number; lon: number }) => {
   const r = 6371;
   const dLat = ((b.lat - a.lat) * Math.PI) / 180;

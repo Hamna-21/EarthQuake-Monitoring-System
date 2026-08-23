@@ -15,6 +15,7 @@ class PreviewError extends Error {
 const sendError = (res: Response, status: number, code: string, message: string) =>
   res.status(status).json({ success: false, error: { code, message } });
 
+/** Parses and normalizes single for the module's data flow. */
 function readSingle(value: unknown, field: string) {
   if (value === undefined) return undefined;
   if (Array.isArray(value)) throw new PreviewError(400, 'REPEATED_QUERY_VALUE', `${field} accepts only one value.`);
@@ -24,6 +25,7 @@ function readSingle(value: unknown, field: string) {
 
 const utcDayStart = (date: Date) => Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
 
+/** Parses and normalizes preview query for the module's data flow. */
 function readPreviewQuery(query: Request['query']) {
   const cleaned: Record<string, string> = {};
   for (const field of fields) {
@@ -37,6 +39,7 @@ function readPreviewQuery(query: Request['query']) {
   return validated;
 }
 
+/** Coordinates geographic scope for this module. */
 function geographicScope(region: 'pakistan' | 'global') {
   const pakistan = region === 'pakistan';
   return {
@@ -46,6 +49,7 @@ function geographicScope(region: 'pakistan' | 'global') {
   };
 }
 
+/** Handles handle error for the surrounding request flow. */
 function handleError(error: unknown, res: Response) {
   if (error instanceof PreviewError) return sendError(res, error.status, error.code, error.message);
   if (error instanceof AnalyticsValidationError) return sendError(res, 400, error.code.toUpperCase(), error.message);
@@ -54,6 +58,7 @@ function handleError(error: unknown, res: Response) {
   return sendError(res, 500, 'ANALYTICS_PREVIEW_FAILED', 'Analytics preview could not be generated.');
 }
 
+/** Coordinates analytics preview handler for this module. */
 export async function analyticsPreviewHandler(req: Request, res: Response) {
   try {
     const query = readPreviewQuery(req.query);
@@ -69,3 +74,4 @@ export async function analyticsPreviewHandler(req: Request, res: Response) {
     return handleError(error, res);
   }
 }
+/** Builds preview responses for the historical analytics endpoints. */

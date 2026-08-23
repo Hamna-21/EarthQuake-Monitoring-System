@@ -3,6 +3,7 @@ import { useDashboardPageState } from '@/features/dashboard/hooks/DashboardState
 import { createDefaultAnalyticsFilters, type AnalyticsFilters } from '@/features/dashboard/analytics/types';
 import { fetchHistoricalAnalytics, type HistoricalAnalyticsResponse } from '@/features/dashboard/analytics/services/historicalAnalyticsService';
 
+/** Handles use historical analytics and keeps the related frontend state or data flow consistent. */
 export function useHistoricalAnalytics() {
   const region: AnalyticsFilters['region'] = 'global';
   const [filters, setFilters] = useDashboardPageState('analytics-filters:global', createDefaultAnalyticsFilters(region), true);

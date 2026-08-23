@@ -9,16 +9,19 @@ export type UserLocation = {
   label: string;
 };
 
+/** Parses and formats direction from user for the surrounding UI or data flow. */
 export function directionFromUser(latDelta: number, lonDelta: number) {
   if (Math.abs(latDelta) > Math.abs(lonDelta)) return latDelta >= 0 ? 'North' : 'South';
   return lonDelta >= 0 ? 'East' : 'West';
 }
 
+/** Parses and formats place parts for the surrounding UI or data flow. */
 export function placeParts(place: string) {
   const parts = place.split(',').map((p) => p.trim()).filter(Boolean);
   return { city: parts[0] || 'Unknown region', country: countryOf(place) };
 }
 
+/** Renders or coordinates reverse location for this frontend module. */
 export async function reverseLocation(lat: number, lon: number): Promise<UserLocation> {
   const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&addressdetails=1&zoom=14`;
 

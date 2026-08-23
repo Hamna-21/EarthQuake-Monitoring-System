@@ -21,6 +21,7 @@ const magBins: HistogramBin[] = [
   { key: '7-7.9', label: '7.0–7.9', count: 0 },
   { key: '8-plus', label: '8.0+', count: 0 },
 ];
+/** Builds the build yearly frequency result used by the surrounding component. */
 export function buildYearlyFrequency(events: readonly Earthquake[], startDate: string, endDate: string): YearlyFrequencyPoint[] {
   // Transform event timestamps into complete chart series, including zero-count periods in the selected range.
   const range = readDateRange(startDate, endDate);
@@ -28,6 +29,7 @@ export function buildYearlyFrequency(events: readonly Earthquake[], startDate: s
   eventsInRange(events, startDate, endDate).forEach(({ date }) => counts.set(date.getUTCFullYear(), (counts.get(date.getUTCFullYear()) ?? 0) + 1));
   return Array.from({ length: range.endYear - range.startYear + 1 }, (_, index) => ({ year: range.startYear + index, count: counts.get(range.startYear + index) ?? 0 }));
 }
+/** Builds the build monthly timeline result used by the surrounding component. */
 export function buildMonthlyTimeline(events: readonly Earthquake[], startDate: string, endDate: string): MonthlyFrequencyPoint[] {
   const range = readDateRange(startDate, endDate);
   const counts = new Map<string, number>();
@@ -36,11 +38,13 @@ export function buildMonthlyTimeline(events: readonly Earthquake[], startDate: s
   forEachMonth(range.startYear, range.startMonth, range.endYear, range.endMonth, (year, month) => rows.push({ key: monthKey(year, month), label: monthLabel(year, month), year, month, count: counts.get(monthKey(year, month)) ?? 0 }));
   return rows;
 }
+/** Builds the build calendar month frequency result used by the surrounding component. */
 export function buildCalendarMonthFrequency(events: readonly Earthquake[], startDate: string, endDate: string): CalendarMonthFrequencyPoint[] {
   const counts = Array(12).fill(0) as number[];
   eventsInRange(events, startDate, endDate).forEach(({ date }) => { counts[date.getUTCMonth()] += 1; });
   return counts.map((count, index) => ({ month: index + 1, shortLabel: monthShortLabels[index], fullLabel: monthFullLabels[index], count }));
 }
+/** Builds the build depth distribution result used by the surrounding component. */
 export function buildDepthDistribution(events: readonly Earthquake[], startDate: string, endDate: string): DepthDistribution {
   // Bin valid depths while tracking missing values so chart totals remain explainable.
   const bins = depthBins.map((bin) => ({ ...bin }));
@@ -54,6 +58,7 @@ export function buildDepthDistribution(events: readonly Earthquake[], startDate:
   });
   return { bins, validDepthCount, missingDepthCount, shallowEventCount };
 }
+/** Builds the build magnitude distribution result used by the surrounding component. */
 export function buildMagnitudeDistribution(events: readonly Earthquake[], startDate: string, endDate: string): MagnitudeDistribution {
   const bins = magBins.map((bin) => ({ ...bin }));
   let validMagnitudeCount = 0, missingMagnitudeCount = 0;
@@ -65,12 +70,14 @@ export function buildMagnitudeDistribution(events: readonly Earthquake[], startD
   });
   return { bins, validMagnitudeCount, missingMagnitudeCount };
 }
+/** Builds the build year month heatmap result used by the surrounding component. */
 export function buildYearMonthHeatmap(events: readonly Earthquake[], startDate: string, endDate: string): HeatmapCell[] {
   const range = readDateRange(startDate, endDate);
   const counts = new Map<string, number>();
   eventsInRange(events, startDate, endDate).forEach(({ date }) => inc(counts, monthKey(date.getUTCFullYear(), date.getUTCMonth() + 1)));
   return Array.from({ length: range.endYear - range.startYear + 1 }).flatMap((_, yearIndex) => monthShortLabels.map((monthLabelText, monthIndex) => ({ year: range.startYear + yearIndex, month: monthIndex + 1, monthLabel: monthLabelText, count: counts.get(monthKey(range.startYear + yearIndex, monthIndex + 1)) ?? 0 })));
 }
+/** Builds the build magnitude groups result used by the surrounding component. */
 export function buildMagnitudeGroups(events: readonly Earthquake[], startDate: string, endDate: string): MagnitudeGroups {
   const groups = emptyGroups();
   eventsInRange(events, startDate, endDate).forEach(({ event }) => {
@@ -81,6 +88,7 @@ export function buildMagnitudeGroups(events: readonly Earthquake[], startDate: s
   Object.values(groups).forEach((items) => items.sort((a, b) => Date.parse(b.time) - Date.parse(a.time)));
   return groups;
 }
+/** Builds the calculate analytics summary result used by the surrounding component. */
 export function calculateAnalyticsSummary(events: readonly Earthquake[], startDate: string, endDate: string): AnalyticsSummary {
   const timed = eventsInRange(events, startDate, endDate);
   const inRange = timed.map(({ event }) => event);

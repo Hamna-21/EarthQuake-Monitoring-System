@@ -2,6 +2,7 @@ import { Globe2 } from 'lucide-react';
 import type { DashboardProps } from '@/features/dashboard/types';
 import HistoryPageShell from '@/features/dashboard/historical/components/HistoryPageShell';
 
+/** Renders or coordinates historical maps page for this frontend module. */
 export default function HistoricalMapsPage(props: DashboardProps) {
   return (
     <section className="space-y-5">
@@ -20,3 +21,4 @@ export default function HistoricalMapsPage(props: DashboardProps) {
     </section>
   );
 }
+/** Connects historical earthquake data to the shared map presentation. */

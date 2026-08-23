@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { SeismicFilters, Earthquake } from '@/types';
 import { fetchEarthquakes } from '@/features/earthquakes/services/earthquakeApi';
 
+/** Handles use earthquakes and keeps the related frontend state or data flow consistent. */
 export function useEarthquakes() {
   const [filters, setFilters] = useState<SeismicFilters>({
     viewType: "live",

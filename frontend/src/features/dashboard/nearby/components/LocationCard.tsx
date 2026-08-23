@@ -2,6 +2,7 @@ import { LocateFixed, MapPin } from 'lucide-react';
 import { UserLocation } from '@/features/dashboard/nearby/utils/nearbyUtils';
 import GlassCard from '@/components/ui/GlassCard';
 
+/** Renders or coordinates location card for this frontend module. */
 export default function LocationCard({ location, error, locating, onLocate }: { location: UserLocation | null; error: string | null; locating: boolean; onLocate: () => void }) {
   const title = location?.label || [location?.city, location?.country].filter(Boolean).join(', ');
 
@@ -30,3 +31,4 @@ export default function LocationCard({ location, error, locating, onLocate }: { 
     </GlassCard>
   );
 }
+/** Displays the user's resolved location used as the nearby-search origin. */

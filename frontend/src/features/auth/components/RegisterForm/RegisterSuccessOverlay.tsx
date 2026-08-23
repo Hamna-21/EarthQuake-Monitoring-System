@@ -5,6 +5,7 @@ interface RegisterSuccessOverlayProps {
   fullName: string;
 }
 
+/** Renders or coordinates register success overlay for this frontend module. */
 export default function RegisterSuccessOverlay({ fullName }: RegisterSuccessOverlayProps) {
   return (
     <div className="absolute inset-0 bg-[#120B0A]/95 z-50 flex flex-col items-center justify-center p-6 text-center animate-fade-in">
@@ -23,3 +24,4 @@ export default function RegisterSuccessOverlay({ fullName }: RegisterSuccessOver
     </div>
   );
 }
+/** Displays the confirmation state after a new account is created. */

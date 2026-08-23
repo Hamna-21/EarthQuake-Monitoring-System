@@ -1,5 +1,6 @@
 import { LucideIcon } from 'lucide-react';
 
+/** Renders or coordinates overview stat card for this frontend module. */
 export default function OverviewStatCard({ label, caption, value, icon: Icon, gradient, glow, toneChip, tag, bars }: { label: string; caption: string; value: string | number; icon: LucideIcon; gradient: string; glow: string; toneChip: string; tag: string; bars: number[]; }) {
   return (
     <article className={`geo-kpi-card geo-card-hover group relative mb-4 overflow-hidden p-3.5 pb-4 ring-1 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${glow}`}>
@@ -15,3 +16,4 @@ export default function OverviewStatCard({ label, caption, value, icon: Icon, gr
     </article>
   );
 }
+/** Displays one overview statistic with its supporting label and icon. */

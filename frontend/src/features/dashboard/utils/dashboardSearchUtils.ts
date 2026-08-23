@@ -39,6 +39,7 @@ export const earthquakeSearchText = (event: Earthquake) =>
     fmtDate(event.time, 'UTC'),
   ].join(' ').toLowerCase();
 
+// Merge page, recent-search, location, and event suggestions while preserving a small predictable result set.
 export const buildSuggestions = (earthquakes: Earthquake[], query: string, recentSearches: string[]): SearchSuggestion[] => {
   const q = query.trim().toLowerCase();
   if (!q) return [];

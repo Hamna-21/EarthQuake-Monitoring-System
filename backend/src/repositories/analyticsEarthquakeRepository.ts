@@ -11,15 +11,18 @@ export class AnalyticsEarthquakeRepositoryError extends Error {
   }
 }
 
+/** Validates id before the operation continues. */
 function validateId(usgsId: string) {
   if (!usgsId.trim()) throw new AnalyticsEarthquakeRepositoryError('USGS ID is required.');
 }
 
+/** Coordinates writable fields for this module. */
 function writableFields(document: AnalyticsEarthquakeDocument) {
   const { createdAt, ...fields } = document;
   return fields;
 }
 
+/** Validates unique batch before the operation continues. */
 function assertUniqueBatch(documents: readonly AnalyticsEarthquakeDocument[]) {
   const seen = new Set<string>();
   for (const document of documents) {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+/** Handles use auth session and keeps the related frontend state or data flow consistent. */
 export function useAuthSession() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);

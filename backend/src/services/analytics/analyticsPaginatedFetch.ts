@@ -6,6 +6,7 @@ const PAGE_SIZE = 1000;
 const MAX_PAGES = 20;
 const PAGE_CONCURRENCY = 4;
 
+/** Coordinates newest for this module. */
 function newest(current: AnalyticsEarthquake | undefined, incoming: AnalyticsEarthquake) {
   if (!current) return incoming;
   const currentTime = current.updatedAt ? Date.parse(current.updatedAt) : -Infinity;
@@ -15,6 +16,7 @@ function newest(current: AnalyticsEarthquake | undefined, incoming: AnalyticsEar
 
 type RequestBudget = { consume: () => void };
 
+/** Handles the fetch analytics pages operation and returns its normalized result. */
 export async function fetchAnalyticsPages(query: ValidatedAnalyticsQuery, budget?: RequestBudget, expectedCount?: number) {
   // Page through an upstream interval, deduplicating event ids before returning a complete normalized set.
   const events = new Map<string, AnalyticsEarthquake>();

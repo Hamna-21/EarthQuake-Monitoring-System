@@ -2,6 +2,7 @@ interface HeroButtonsProps {
   onExecuteSearch: () => void;
 }
 
+/** Renders or coordinates hero buttons for this frontend module. */
 export default function HeroButtons({ onExecuteSearch }: HeroButtonsProps) {
   return (
     <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -22,3 +23,4 @@ export default function HeroButtons({ onExecuteSearch }: HeroButtonsProps) {
     </div>
   );
 }
+/** Renders the hero calls to action and their navigation behavior. */

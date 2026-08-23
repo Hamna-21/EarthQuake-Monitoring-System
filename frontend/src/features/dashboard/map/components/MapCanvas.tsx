@@ -17,6 +17,7 @@ interface MapCanvasProps {
   popupMode?: 'compact' | 'historical'; focusTarget?: FlyTarget | null; focusBounds?: { south: number; north: number; west: number; east: number } | null; markerMode?: 'pin' | 'flat';
 }
 
+/** Shared Leaflet map surface that filters invalid coordinates and wires layers, popups, and camera movement. */
 export default function MapCanvas(props: MapCanvasProps) {
   const selectedEvent = useMemo(() => props.events.find((event) => event.id === props.selectedId), [props.events, props.selectedId]);
   const mappableEvents = useMemo(() => props.events.filter((event) => Number.isFinite(event.latitude) && Number.isFinite(event.longitude)), [props.events]);
@@ -44,6 +45,7 @@ export default function MapCanvas(props: MapCanvasProps) {
   );
 }
 
+/** Renders or coordinates map legend for this frontend module. */
 function MapLegend() {
   const items = [['< M3', 2], ['M3-3.9', 3], ['M4-4.9', 4], ['M5-5.9', 5], ['M6-6.9', 6], ['M7+', 7]] as const;
   return <div className="pointer-events-none absolute bottom-3 left-3 z-[900] max-w-[calc(100%-1.5rem)] overflow-x-auto rounded-xl border border-white/10 bg-slate-950/85 p-2 font-serif text-white shadow-2xl backdrop-blur-xl">
@@ -51,6 +53,7 @@ function MapLegend() {
   </div>;
 }
 
+/** Renders or coordinates legend item for this frontend module. */
 function LegendItem({ color, label, strong = false }: { color: string; label: string; strong?: boolean }) {
   return <div className={`flex items-center gap-1 text-[10px] font-bold ${strong ? 'text-red-100' : 'text-slate-200'}`}><span className={`block h-2.5 w-2.5 rounded-full border ${strong ? 'border-white shadow-[0_0_8px_#ef4444]' : 'border-white/90'}`} style={{ background: color }} />{label}</div>;
 }

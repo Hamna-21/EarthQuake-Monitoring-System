@@ -7,6 +7,7 @@ interface NavbarActionsProps {
   onOpenWarningHub: () => void;
 }
 
+/** Renders or coordinates navbar actions for this frontend module. */
 export default function NavbarActions({
   userEmail,
   onLogin,
@@ -37,3 +38,4 @@ export default function NavbarActions({
   );
 }
 
+/** Renders authentication and utility actions shown in the shared navbar. */

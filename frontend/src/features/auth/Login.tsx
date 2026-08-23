@@ -11,6 +11,9 @@ interface LoginProps {
   onBackToHome: () => void;
 }
 
+/**
+ * Coordinates the login form, password-reset view, Google OAuth messages, and success transition.
+ */
 export default function Login({ onSuccess, onNavigateToRegister, onBackToHome }: LoginProps) {
   const loginState = useLogin({ onSuccess });
 

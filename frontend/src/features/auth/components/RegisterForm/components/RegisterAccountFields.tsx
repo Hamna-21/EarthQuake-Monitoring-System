@@ -14,6 +14,7 @@ interface RegisterAccountFieldsProps {
   isLoading: boolean;
 }
 
+/** Renders or coordinates register account fields for this frontend module. */
 export default function RegisterAccountFields(props: RegisterAccountFieldsProps) {
   return (
     <>
@@ -40,3 +41,4 @@ export default function RegisterAccountFields(props: RegisterAccountFieldsProps)
   );
 }
 
+/** Renders the account identity fields used by the registration form. */

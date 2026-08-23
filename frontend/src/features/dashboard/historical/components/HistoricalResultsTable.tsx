@@ -7,6 +7,7 @@ import { formatAlert, formatDepth, formatMagnitude, formatPlace, formatTsunami, 
 
 const headers = ['Date & Time', 'Magnitude', 'Location', 'Depth', 'Alert', 'Tsunami', 'Details'];
 
+/** Renders the same filtered historical events as the map and exposes row selection/export actions. */
 export default function HistoricalResultsTable({ events, loading, onSelect, csvFilename = 'geopulse-earthquakes-filtered-results.csv' }: { events: Earthquake[]; loading: boolean; onSelect: (event: Earthquake) => void; csvFilename?: string; }) {
   if (loading && !events.length) return <LoadingTable />;
   return (
@@ -27,6 +28,7 @@ export default function HistoricalResultsTable({ events, loading, onSelect, csvF
   );
 }
 
+/** Renders or coordinates table title for this frontend module. */
 function TableTitle({ events, csvFilename }: { events: Earthquake[]; csvFilename: string }) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-500 px-6 py-4">
@@ -36,6 +38,7 @@ function TableTitle({ events, csvFilename }: { events: Earthquake[]; csvFilename
   );
 }
 
+/** Renders or coordinates event row for this frontend module. */
 function EventRow({ event, onSelect }: { event: Earthquake; onSelect: (event: Earthquake) => void; }) {
   return (
     <tr onClick={() => onSelect(event)} className={`cursor-pointer transition hover:bg-cyan-400/10 ${rowTone(event.magnitude)}`}>
@@ -50,41 +53,49 @@ function EventRow({ event, onSelect }: { event: Earthquake; onSelect: (event: Ea
   );
 }
 
+/** Renders or coordinates loading table for this frontend module. */
 function LoadingTable() {
   return <div className="rounded-2xl border border-cyan-300/15 bg-slate-950/75 p-6 shadow-2xl shadow-cyan-950/20"><p className="font-serif text-lg font-black text-white">Loading earthquake records...</p><div className="mt-4 space-y-3">{Array.from({ length: 5 }).map((_, index) => <div key={index} className="h-12 animate-pulse rounded-xl bg-white/10" />)}</div></div>;
 }
 
+/** Renders or coordinates row tone for this frontend module. */
 function rowTone(mag: number) {
   if (mag >= 6) return 'bg-red-500/[0.07]';
   if (mag >= 5) return 'bg-amber-500/[0.07]';
   return 'odd:bg-white/[0.035]';
 }
 
+/** Renders or coordinates width for for this frontend module. */
 function widthFor(header: string) {
   return header === 'Location' ? 'w-[30%]' : header === 'Date & Time' ? 'w-[18%]' : header === 'Magnitude' ? 'w-[13%]' : 'w-[9.75%]';
 }
 
+/** Renders or coordinates mag badge for this frontend module. */
 function MagBadge({ mag }: { mag: number }) {
   const tone = mag >= 6 ? 'bg-red-100 text-red-600 ring-red-300/40' : mag >= 5 ? 'bg-amber-100 text-orange-600 ring-amber-300/40' : 'bg-cyan-100 text-cyan-700 ring-cyan-300/40';
   return <span className={`inline-flex whitespace-nowrap rounded-xl px-3 py-1.5 font-serif text-base font-black shadow-lg ring-1 ${tone}`}>{formatMagnitude(mag)} <span className="ml-1 text-[10px]">MAG</span></span>;
 }
 
+/** Renders or coordinates depth badge for this frontend module. */
 function DepthBadge({ depth }: { depth: number }) {
   const tone = depth >= 300 ? 'bg-fuchsia-300/12 text-fuchsia-100 ring-fuchsia-200/25' : depth >= 70 ? 'bg-violet-300/12 text-violet-100 ring-violet-200/25' : 'bg-emerald-300/12 text-emerald-100 ring-emerald-200/25';
   return <span className={`inline-flex min-w-[74px] justify-center whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-bold ring-1 ${tone}`}>{formatDepth(depth)}</span>;
 }
 
+/** Renders or coordinates alert badge for this frontend module. */
 function AlertBadge({ alert }: { alert: Earthquake['alert'] }) {
   const tone = alert === 'red' ? 'bg-red-300/15 text-red-100 ring-red-200/25' : alert ? 'bg-amber-300/12 text-amber-100 ring-amber-200/25' : 'bg-slate-300/10 text-slate-200 ring-white/15';
   return <span className={`inline-flex whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-black ring-1 ${tone}`}>{formatAlert(alert)}</span>;
 }
 
+/** Renders or coordinates tsunami badge for this frontend module. */
 function TsunamiBadge({ event }: { event: Earthquake }) {
   const label = formatTsunami(event);
   const tone = label === 'Yes' ? 'bg-fuchsia-300/15 text-fuchsia-100 ring-fuchsia-200/25' : 'bg-slate-300/10 text-slate-200 ring-white/15';
   return <span className={`inline-flex whitespace-nowrap rounded-full px-2.5 py-1 text-[10px] font-black ring-1 ${tone}`}>{label}</span>;
 }
 
+/** Renders or coordinates details button for this frontend module. */
 function DetailsButton({ event, onSelect }: { event: Earthquake; onSelect: (event: Earthquake) => void; }) {
   return <button onClick={(click) => { click.stopPropagation(); onSelect(event); }} className="rounded-xl bg-gradient-to-r from-red-700 via-orange-500 to-amber-400 px-4 py-2 text-xs font-black text-white shadow-md shadow-orange-950/30 transition hover:brightness-110">Details</button>;
 }

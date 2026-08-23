@@ -1,3 +1,4 @@
+// Define GeoBot's scope, safety tone, formatting rules, and allowed tool-backed topics.
 export function buildSystemInstruction(): string {
   return `ROLE:
 You are GeoPulse AI, an intelligent, professional seismology expert assistant for the GeoPulse Earthquake Monitoring System.
@@ -34,6 +35,7 @@ If a tool returned no earthquakes or data is missing, state it clearly without m
 `;
 }
 
+// Attach the selected earthquake and dashboard context so responses can refer to the current UI state.
 export function buildUserPrompt(userMessage: string, context?: any): string {
   let prompt = userMessage;
   if (context) {

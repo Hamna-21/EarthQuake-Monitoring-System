@@ -11,6 +11,7 @@ interface ForgotPasswordFormProps {
   onBackToLogin: () => void;
 }
 
+/** Renders or coordinates forgot password form for this frontend module. */
 export default function ForgotPasswordForm({
   resetEmail,
   setResetEmail,
@@ -82,3 +83,4 @@ export default function ForgotPasswordForm({
     </div>
   );
 }
+/** Collects and submits the account-recovery request from the auth flow. */

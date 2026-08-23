@@ -13,6 +13,7 @@ export type AnalyticsStorageInitializationResult = {
   progressCollection: AnalyticsStorageCollectionResult;
 };
 
+/** Coordinates collection result for this module. */
 async function collectionResult(db: Db, name: string): Promise<AnalyticsStorageCollectionResult> {
   const collection = db.collection(name);
   const indexes = await collection.indexes();
@@ -23,6 +24,7 @@ async function collectionResult(db: Db, name: string): Promise<AnalyticsStorageC
   };
 }
 
+/** Handles the initialize analytics storage operation and returns its normalized result. */
 export async function initializeAnalyticsStorage(db: Db): Promise<AnalyticsStorageInitializationResult> {
   // Create analytics collections and indexes before dashboard queries or backfills use MongoDB.
   await createAnalyticsEarthquakeRepository(db).ensureIndexes();

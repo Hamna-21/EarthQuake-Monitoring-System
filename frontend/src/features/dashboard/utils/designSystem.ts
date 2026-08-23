@@ -27,3 +27,4 @@ export const palette = {
   neutral: 'slate',
 };
 
+/** Reusable visual tokens and class helpers for dashboard components. */

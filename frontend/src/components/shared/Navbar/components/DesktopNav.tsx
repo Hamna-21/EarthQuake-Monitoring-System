@@ -13,6 +13,7 @@ interface DesktopNavProps {
   handleLinkClick: (href: string) => void;
 }
 
+/** Renders or coordinates desktop nav for this frontend module. */
 export default function DesktopNav({ navLinks, handleLinkClick }: DesktopNavProps) {
   return (
     <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-white/80 tracking-wide">
@@ -54,3 +55,4 @@ export default function DesktopNav({ navLinks, handleLinkClick }: DesktopNavProp
   );
 }
 
+/** Renders the desktop navigation links for the shared application navbar. */

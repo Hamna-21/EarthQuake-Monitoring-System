@@ -4,6 +4,7 @@ import DataTableHeader from '@/features/dashboard/components/DataTableHeader';
 import DataTableRow from '@/features/dashboard/components/DataTableRow';
 import EmptyState from '@/features/dashboard/components/EmptyState';
 
+/** Renders or coordinates data table for this frontend module. */
 export default function DataTable({
   events,
   onSelect,
@@ -49,3 +50,4 @@ export default function DataTable({
 }
 
 
+/** Renders the reusable table shell for earthquake records and results. */

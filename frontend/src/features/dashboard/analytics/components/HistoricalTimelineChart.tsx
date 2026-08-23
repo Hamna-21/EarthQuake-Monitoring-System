@@ -4,6 +4,7 @@ import type { HistoricalAnalyticsResponse } from '@/features/dashboard/analytics
 import { ChartTooltip, axis, grid, labelStyle, margin } from '@/features/dashboard/analytics/components/HistoricalRechartBase';
 import { fmt, monthFull, monthShort, monthlyLabels, peakRow } from '@/features/dashboard/analytics/components/historicalChartData';
 
+/** Provides an expandable monthly timeline so long historical ranges remain readable. */
 export default function HistoricalTimelineChart({ data }: { data: HistoricalAnalyticsResponse }) {
   const [open, setOpen] = useState(false);
   const rows = data.monthlyTimeline.map((row) => ({ ...row, label: `${monthShort[(row.month ?? 1) - 1]} ${row.year}` }));

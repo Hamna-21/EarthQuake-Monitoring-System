@@ -7,6 +7,7 @@ const tiers = [
   { max: 101, label: 'EXTREME', word: 'Critical', ring: '#dc2626', text: 'text-red-700', chip: 'bg-red-50 text-red-700 border-red-200', glow: 'rgba(220,38,38,0.2)' },
 ];
 
+/** Renders or coordinates activity summary for this frontend module. */
 export default function ActivitySummary({ earthquakes }: { earthquakes: Earthquake[] }) {
   const highRisk = earthquakes.filter((event) => event.magnitude >= 5 || event.alert).length;
   const total = Math.max(earthquakes.length, 1);
@@ -74,3 +75,4 @@ export default function ActivitySummary({ earthquakes }: { earthquakes: Earthqua
     </article>
   );
 }
+/** Displays compact activity totals used on the dashboard overview. */

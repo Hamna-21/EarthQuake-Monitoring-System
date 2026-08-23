@@ -12,6 +12,7 @@ import NearbySummaryCard from '@/features/dashboard/nearby/components/NearbySumm
 import BackButton from '@/features/dashboard/components/common/BackButton';
 import { useDashboardPageState } from '@/features/dashboard/hooks/DashboardStateContext';
 
+/** Resolves the user's location, computes distances/bearings, and filters nearby events by radius/search. */
 export default function NearbyPage({ earthquakes, setSelectedId, openPage, globalSearch = '', highlightedEventId }: DashboardProps) {
   const [location, setLocation] = useDashboardPageState<UserLocation | null>('nearby-location', null);
   const [radius, setRadius] = useDashboardPageState('nearby-radius', 250, true);
@@ -45,6 +46,7 @@ export default function NearbyPage({ earthquakes, setSelectedId, openPage, globa
     );
   };
 
+  // Request geolocation once when no location is remembered so the page can calculate nearby distances.
   useEffect(() => { if (!location) locate(); }, []);
 
   const nearby = useMemo(() => {

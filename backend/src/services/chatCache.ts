@@ -5,6 +5,7 @@ interface CacheEntry {
 
 const cache = new Map<string, CacheEntry>();
 
+// Return only unexpired responses; cache keys are normalized so equivalent questions share a result.
 export function getCachedResponse(message: string): string | null {
   const cleanMsg = message.trim().toLowerCase();
   const entry = cache.get(cleanMsg);
@@ -15,6 +16,7 @@ export function getCachedResponse(message: string): string | null {
   return null;
 }
 
+/** Coordinates set cached response for this module. */
 export function setCachedResponse(message: string, response: string, ttlMs: number = 3600000) {
   const cleanMsg = message.trim().toLowerCase();
   cache.set(cleanMsg, {
@@ -33,6 +35,7 @@ const GENERAL_QA_KEYWORDS = [
   'how are earthquakes measured',
 ];
 
+/** Checks whether cacheable for the surrounding workflow. */
 export function isCacheable(message: string): boolean {
   const cleanMsg = message.trim().toLowerCase();
   return GENERAL_QA_KEYWORDS.some((kw) => cleanMsg.includes(kw));

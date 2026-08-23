@@ -26,6 +26,7 @@ if (fs.existsSync(JSON_DB_PATH)) {
   }
 }
 
+/** Handles the get db operation and returns its normalized result. */
 export async function getDb(): Promise<Db | null> {
   const uri = process.env.MONGODB_URI?.trim();
   if (!uri) {
@@ -83,6 +84,7 @@ async function connectMongo(uri: string): Promise<Db | null> {
   }
 }
 
+/** Handles the save local db operation and returns its normalized result. */
 export function saveLocalDb(): void {
   try {
     fs.writeFileSync(JSON_DB_PATH, JSON.stringify(memoryUsers, null, 2), 'utf-8');

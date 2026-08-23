@@ -14,6 +14,7 @@ interface LandingPageBodyProps {
   onLaunch: () => void;
 }
 
+/** Orders the landing sections while passing the live dataset only to previews that need it. */
 export default function LandingPageBody({ earthquakes, onLaunch }: LandingPageBodyProps) {
   return (
     <main id="dashboard-deck" className="relative z-10">

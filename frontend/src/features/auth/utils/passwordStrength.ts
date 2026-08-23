@@ -1,3 +1,4 @@
+/** Builds the calculate password strength result used by the surrounding component. */
 export function calculatePasswordStrength(password: string) {
   if (!password) return { score: 0, text: 'No password', color: 'bg-red-900/20' };
 
@@ -12,3 +13,4 @@ export function calculatePasswordStrength(password: string) {
   if (score === 2) return { score, text: 'Medium', color: 'bg-orange-500' };
   return { score, text: 'Weak', color: 'bg-red-600' };
 }
+/** Computes the user-facing password-strength guidance for registration. */

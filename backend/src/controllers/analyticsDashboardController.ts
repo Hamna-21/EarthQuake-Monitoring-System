@@ -14,11 +14,13 @@ class QueryError extends Error {
 const sendError = (res: Response, status: number, code: string, message: string) =>
   res.status(status).json({ success: false, error: { code, message } });
 
+/** Checks whether upstream timeout for the surrounding workflow. */
 function isUpstreamTimeout(error: unknown) {
   if (error instanceof DOMException && (error.name === 'TimeoutError' || error.name === 'AbortError')) return true;
   return error instanceof Error && /timeout|timed out|etimedout/i.test(error.message);
 }
 
+/** Parses and normalizes single for the module's data flow. */
 function readSingle(value: unknown, field: string) {
   if (value === undefined) return undefined;
   if (Array.isArray(value)) throw new QueryError(400, 'REPEATED_QUERY_VALUE', `${field} accepts only one value.`);
@@ -29,10 +31,12 @@ function readSingle(value: unknown, field: string) {
 const DEFAULT_RANGE_DAYS = 30;
 const MAX_EXPLICIT_RANGE_DAYS = 10 * 366;
 
+/** Coordinates date only for this module. */
 function dateOnly(value: Date) {
   return value.toISOString().slice(0, 10);
 }
 
+/** Parses and normalizes dashboard query for the module's data flow. */
 function readDashboardQuery(req: Request) {
   const now = new Date();
   const hasStartDate = req.query.startDate !== undefined;

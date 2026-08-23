@@ -4,6 +4,7 @@ import { countryOf } from '@/features/dashboard/utils/data';
 export type Row = { label: string; value: number; color?: string; help?: string };
 export type Point = { x: number; y: number; label: string; color: string };
 
+// Transform normalized events into fixed bins consumed by the dashboard chart components.
 export const magnitudeRows = (events: Earthquake[]): Row[] => [
   ['Small', 0, 4, '#22d3ee', 'Usually felt lightly or not at all'],
   ['Light', 4, 5, '#34d399', 'Often felt, but usually limited damage'],

@@ -5,6 +5,7 @@ const eventTimeMs = (time: string) => {
   return Number.isFinite(value) ? value : 0;
 };
 
+// Apply magnitude, time-window, alert, tsunami, and text filters before newest-first sorting.
 export function filterAndSortEarthquakes(quakes: Earthquake[], filters: SeismicFilters) {
   let result = quakes.filter((quake) => quake.magnitude >= filters.minMagnitude);
   const now = Date.now();
@@ -28,12 +29,14 @@ export function filterAndSortEarthquakes(quakes: Earthquake[], filters: SeismicF
   return result.sort((a, b) => eventTimeMs(b.time) - eventTimeMs(a.time));
 }
 
+/** Builds the filter historical by query result used by the surrounding component. */
 export function filterHistoricalByQuery(events: Earthquake[], query?: string) {
   if (!query?.trim()) return events;
   const search = query.toLowerCase().trim();
   return events.filter((event) => event.place.toLowerCase().includes(search));
 }
 
+/** Builds the filter pakistan events result used by the surrounding component. */
 export function filterPakistanEvents(events: Earthquake[]) {
   const outside = /afghanistan|tajikistan|india|iran|china|kyrgyzstan|jurm|bazarak/i;
   return events.filter((event) => {

@@ -2,6 +2,7 @@ import React from 'react';
 import { SearchX } from 'lucide-react';
 import { ds } from '@/features/dashboard/utils/designSystem';
 
+/** Renders or coordinates empty state for this frontend module. */
 export default function EmptyState({
   title,
   text,
@@ -22,3 +23,4 @@ export default function EmptyState({
 
 
 
+/** Renders the dashboard-wide empty-state presentation for missing data. */

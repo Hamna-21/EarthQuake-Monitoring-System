@@ -8,6 +8,7 @@ interface UseRegisterProps {
   onSuccess: (email: string, token: string, name?: string) => void;
 }
 
+/** Validates register before the UI action continues. */
 function validateRegister(values: {
   fullName: string;
   email: string;
@@ -23,6 +24,7 @@ function validateRegister(values: {
   return '';
 }
 
+/** Handles use register and keeps the related frontend state or data flow consistent. */
 export function useRegister({ onSuccess }: UseRegisterProps) {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');

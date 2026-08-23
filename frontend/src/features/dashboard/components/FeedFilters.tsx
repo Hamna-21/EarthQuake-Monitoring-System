@@ -3,6 +3,7 @@ import { EventFilters, SortState } from '@/features/dashboard/types';
 
 const inputCls = 'w-full rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-xs text-white outline-none transition focus:border-cyan-400';
 
+/** Renders or coordinates feed filters for this frontend module. */
 export default function FeedFilters({ filters, sort, onFilter, onSort, onExport, disabled }: { filters: EventFilters; sort: SortState; onFilter: (patch: Partial<EventFilters>) => void; onSort: (sort: SortState) => void; onExport: () => void; disabled: boolean }) {
   return (
     <section className="rounded-xl border border-white/10 bg-white/[0.06] p-3 backdrop-blur">
@@ -38,3 +39,4 @@ const Select = ({ value, onChange, options }: { value: string; onChange: (v: str
     {options.map((o) => <option key={o} value={o}>{o}</option>)}
   </select>
 );
+/** Provides filters used to narrow the live earthquake feed. */

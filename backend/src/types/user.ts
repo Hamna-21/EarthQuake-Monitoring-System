@@ -1,3 +1,4 @@
+// Shared persisted profile shape for local-password and Google-authenticated accounts.
 export interface User {
   email: string;
   password?: string;

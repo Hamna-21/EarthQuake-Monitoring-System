@@ -38,3 +38,4 @@ export type AnalyticsAdaptiveIntervalPlan = {
   requestBudgetExhausted: boolean;
   warnings: string[];
 };
+/** Types describing adaptive interval planning for large analytics requests. */

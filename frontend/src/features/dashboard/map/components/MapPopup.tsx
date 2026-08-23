@@ -10,6 +10,7 @@ interface MapPopupProps {
   mode?: 'compact' | 'historical';
 }
 
+/** Builds the split date time result used by the surrounding component. */
 function splitDateTime(time: string) {
   const parsed = Date.parse(time);
   if (!Number.isFinite(parsed)) return { date: 'Unavailable', clock: 'Unavailable' };
@@ -20,6 +21,7 @@ function splitDateTime(time: string) {
   };
 }
 
+/** Shared earthquake detail content used by both Leaflet and globe popups. */
 export default function MapPopup({ event, isStrongest = false, onSelect, onDetails, mode }: MapPopupProps) {
   const { date, clock } = splitDateTime(event.time);
   void mode;
@@ -43,6 +45,7 @@ export default function MapPopup({ event, isStrongest = false, onSelect, onDetai
   );
 }
 
+/** Renders or coordinates info row for this frontend module. */
 function InfoRow({ icon, label, children }: { icon: React.ReactElement; label: string; children: React.ReactNode }) {
   return <div className="flex min-h-[32px] items-center justify-between gap-1 rounded-md bg-white/[0.06] px-1.5 py-1"><span className="flex min-w-0 items-center gap-1 text-[8px] font-black uppercase tracking-[0.1em] text-slate-400"><span className="text-slate-500 [&>svg]:h-3 [&>svg]:w-3">{icon}</span>{label}</span><span className="shrink-0 text-[10px] font-black text-slate-100">{children}</span></div>;
 }

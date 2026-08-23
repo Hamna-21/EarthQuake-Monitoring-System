@@ -10,6 +10,7 @@ const buckets = [
   ['7+', 7, 10, 'Major', '#f43f5e'],
 ] as const;
 
+/** Renders or coordinates magnitude distribution for this frontend module. */
 export default function MagnitudeDistribution({ earthquakes }: { earthquakes: Earthquake[] }) {
   const counts = useMemo(() => buckets.map(([, min, max]) => earthquakes.filter((e) => e.magnitude >= min && e.magnitude < max).length), [earthquakes]);
   const total = earthquakes.length;
@@ -83,3 +84,4 @@ export default function MagnitudeDistribution({ earthquakes }: { earthquakes: Ea
     </section>
   );
 }
+/** Visualizes the current earthquake count across magnitude bands. */

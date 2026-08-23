@@ -3,6 +3,7 @@ import type { Earthquake } from '@/types';
 import MapCanvas from '@/features/dashboard/map/components/MapCanvas';
 import { mapTiles, type MapTileKey } from '@/features/dashboard/map/components/mapStyles';
 
+/** Displays the filtered historical events on the shared map/globe and forwards marker selection. */
 export default function HistoryMapSection({
   title,
   description,

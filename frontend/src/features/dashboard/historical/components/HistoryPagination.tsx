@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+/** Renders or coordinates history pagination for this frontend module. */
 export default function HistoryPagination({
   page,
   count,
@@ -32,3 +33,4 @@ export default function HistoryPagination({
     </div>
   );
 }
+/** Provides pagination controls for the filtered historical earthquake records. */

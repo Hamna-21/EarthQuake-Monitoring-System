@@ -17,6 +17,7 @@ const quakeLocations = [
   { lat: 37.7749, lng: -122.4194, magnitude: 4.8 },
 ];
 
+/** Renders the landing-page Earth, reusing stable textures and placing illustrative seismic pulses by lat/lng. */
 export default function Earth() {
   const group = useRef<THREE.Group>(null);
   const [dayMap, nightMap, topologyMap, waterMap] = useTexture([
@@ -26,6 +27,7 @@ export default function Earth() {
     waterMapSrc,
   ]);
 
+  // Configure texture color space and filtering once assets are available to prevent per-frame material work.
   useEffect(() => {
     dayMap.colorSpace = THREE.SRGBColorSpace;
     nightMap.colorSpace = THREE.SRGBColorSpace;

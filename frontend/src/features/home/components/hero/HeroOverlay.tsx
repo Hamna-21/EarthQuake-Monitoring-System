@@ -1,3 +1,4 @@
+/** Renders or coordinates hero overlay for this frontend module. */
 export default function HeroOverlay() {
   return (
     <>
@@ -7,3 +8,4 @@ export default function HeroOverlay() {
     </>
   );
 }
+/** Adds the visual overlay that keeps hero content readable over the Earth scene. */

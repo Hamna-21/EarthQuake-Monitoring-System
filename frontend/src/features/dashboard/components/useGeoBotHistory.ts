@@ -7,6 +7,7 @@ const readChats = (key: string): GeoBotChat[] => {
   try { return JSON.parse(localStorage.getItem(key) || '[]') as GeoBotChat[]; } catch { return []; }
 };
 
+/** Handles use geo bot history and keeps the related frontend state or data flow consistent. */
 export function useGeoBotHistory(key: string) {
   const [chats, setChats] = useState<GeoBotChat[]>(() => readChats(key));
   const [activeId, setActiveId] = useState<string | null>(null);

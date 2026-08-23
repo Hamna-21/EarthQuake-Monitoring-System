@@ -1,5 +1,6 @@
 import { Activity } from 'lucide-react';
 
+/** Renders or coordinates hero badge for this frontend module. */
 export default function HeroBadge() {
   return (
     <div className="mb-6 inline-flex max-w-[min(100%,24rem)] items-center justify-center gap-2 border border-cyan-300/20 bg-cyan-400/10 px-3 py-2 text-center backdrop-blur-xl shadow-lg shadow-cyan-900/20 sm:px-5">
@@ -10,3 +11,4 @@ export default function HeroBadge() {
     </div>
   );
 }
+/** Displays the compact trust or status badge in the landing-page hero. */

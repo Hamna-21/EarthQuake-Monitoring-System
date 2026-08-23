@@ -5,6 +5,7 @@ interface LoginSuccessOverlayProps {
   message?: string;
 }
 
+/** Renders or coordinates login success overlay for this frontend module. */
 export default function LoginSuccessOverlay({ 
   message = "Synchronizing secure seismic keys. Welcome back to Command Center." 
 }: LoginSuccessOverlayProps) {
@@ -25,3 +26,4 @@ export default function LoginSuccessOverlay({
     </div>
   );
 }
+/** Displays the success state after login credentials are accepted. */

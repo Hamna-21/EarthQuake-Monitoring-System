@@ -9,6 +9,7 @@ interface WarningHubProps {
   onClose: () => void;
 }
 
+/** Modal safety center containing preparedness guidance, video, assistant help, and acknowledgement action. */
 export default function WarningHub({ isOpen, onClose }: WarningHubProps) {
   if (!isOpen) return null;
 

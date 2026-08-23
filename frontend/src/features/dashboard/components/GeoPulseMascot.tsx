@@ -7,6 +7,7 @@ interface GeoPulseMascotProps {
 
 const sizes = { sm: 'h-9 w-9', md: 'h-14 w-14', lg: 'h-28 w-28' };
 
+/** Renders or coordinates geo pulse mascot for this frontend module. */
 export default function GeoPulseMascot({ size = 'md', className = '' }: GeoPulseMascotProps) {
   return (
     <span className={`relative inline-grid place-items-center ${sizes[size]} ${className}`}>
@@ -21,3 +22,4 @@ export default function GeoPulseMascot({ size = 'md', className = '' }: GeoPulse
     </span>
   );
 }
+/** Renders the decorative Earthquake Monitoring System mascot artwork. */

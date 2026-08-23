@@ -22,6 +22,7 @@ const finiteOrNull = (value: number | null, field: string) => {
   return value;
 };
 
+/** Parses and normalizes required date for the module's data flow. */
 function parseRequiredDate(value: string, field: string) {
   const date = new Date(value);
   if (!validDate(date)) fail(`${field} must be a valid timestamp.`);
@@ -31,11 +32,13 @@ function parseRequiredDate(value: string, field: string) {
 const parseOptionalDate = (value: string | null, field: string) =>
   value ? parseRequiredDate(value, field) : null;
 
+/** Validates coordinates before the operation continues. */
 function validateCoordinates(longitude: number, latitude: number) {
   if (!Number.isFinite(longitude) || longitude < -180 || longitude > 180) fail('Longitude must be between -180 and 180.');
   if (!Number.isFinite(latitude) || latitude < -90 || latitude > 90) fail('Latitude must be between -90 and 90.');
 }
 
+/** Validates analytics earthquake document before the operation continues. */
 export function validateAnalyticsEarthquakeDocument(document: AnalyticsEarthquakeDocument): void {
   if (!document.usgsId.trim()) fail('USGS ID is required.');
   if (!validDate(document.occurredAt)) fail('occurredAt must be a valid Date.');

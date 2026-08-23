@@ -19,6 +19,7 @@ const faqs = [
   ['Does Earthquake Monitoring System cover Pakistan?', 'Yes. Earthquake Monitoring System includes global seismic information with dedicated views for Pakistan.'],
 ];
 
+/** Maintains one open FAQ answer at a time so the landing content stays compact. */
 export default function FaqSection() {
   const [open, setOpen] = useState<number | null>(null);
 

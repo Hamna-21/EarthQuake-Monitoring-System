@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import * as THREE from 'three';
 import cloudsMapSrc from '@/assets/images/earth/clouds-2048.png';
 
+/** Adds a translucent independently rotating cloud shell around the textured Earth. */
 export default function Clouds() {
   const clouds = useRef<THREE.Mesh>(null);
   const cloudsMap = useTexture(cloudsMapSrc);

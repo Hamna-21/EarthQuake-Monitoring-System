@@ -13,6 +13,7 @@ interface AlertRuleFormProps {
   addRule: () => void;
 }
 
+/** Renders or coordinates alert rule form for this frontend module. */
 export default function AlertRuleForm(props: AlertRuleFormProps) {
   return (
     <div className="aspect-square flex flex-col rounded-lg border border-white/10 bg-white/[0.05] p-2.5 shadow-sm backdrop-blur-md">
@@ -46,6 +47,7 @@ export default function AlertRuleForm(props: AlertRuleFormProps) {
   );
 }
 
+/** Renders or coordinates slider for this frontend module. */
 function Slider({ label, value, icon, children }: { label: string; value: string; icon: React.ReactNode; children: React.ReactNode }) {
   return (
     <label className="mt-1.5 block text-[10px] font-bold text-slate-300">

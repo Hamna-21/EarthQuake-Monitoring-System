@@ -7,6 +7,7 @@ import {defineConfig} from 'vite';
 const configDirectory = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig(() => {
+  // Keep frontend aliases and development server settings centralized for Vite and TypeScript resolution.
   return {
     plugins: [react(), tailwindcss()],
     resolve: {

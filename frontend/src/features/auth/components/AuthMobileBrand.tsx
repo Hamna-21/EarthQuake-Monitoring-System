@@ -1,5 +1,6 @@
 import { Activity } from 'lucide-react';
 
+/** Renders or coordinates auth mobile brand for this frontend module. */
 export default function AuthMobileBrand() {
   return (
     <div className="mb-10 mt-6 flex flex-col items-center text-center lg:hidden">
@@ -13,3 +14,4 @@ export default function AuthMobileBrand() {
     </div>
   );
 }
+/** Displays the compact authentication branding on small screens. */

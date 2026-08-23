@@ -6,6 +6,7 @@ import { spark, toneStyles, topActiveCountry } from '@/features/dashboard/compon
 
 type CardTone = keyof typeof toneStyles;
 
+/** Renders or coordinates overview stat grid for this frontend module. */
 export default function OverviewStatGrid({ earthquakes }: { earthquakes: Earthquake[] }) {
   const stats = statsFor(earthquakes);
   const topCountry = topActiveCountry(earthquakes);
@@ -45,3 +46,4 @@ export default function OverviewStatGrid({ earthquakes }: { earthquakes: Earthqu
     </section>
   );
 }
+/** Arranges the overview metrics into the responsive dashboard stat grid. */

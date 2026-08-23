@@ -28,6 +28,7 @@ const safeError = (error: unknown) => ({
   occurredAt: new Date(),
 });
 
+/** Coordinates stable plan for this module. */
 async function stablePlan(db: Db, now: Date) {
   const progressRepo = createAnalyticsBackfillProgressRepository(db);
   const draft = input(now);
@@ -36,6 +37,7 @@ async function stablePlan(db: Db, now: Date) {
   return { plan: createAnalyticsBackfillPlan(planInput, now), progressRepo };
 }
 
+/** Coordinates ensure progress for this module. */
 async function ensureProgress(db: Db, now: Date) {
   const { plan, progressRepo } = await stablePlan(db, now);
   const initial = createInitialBackfillProgress(input(plan.requestedEndDate), now);
@@ -45,6 +47,7 @@ async function ensureProgress(db: Db, now: Date) {
   return { plan, progressRepo, progress };
 }
 
+/** Coordinates mark running for this module. */
 async function markRunning(progressRepo: ReturnType<typeof createAnalyticsBackfillProgressRepository>, progress: AnalyticsBackfillProgressDocument) {
   if (progress.status === 'completed' || progress.status === 'running') return progress;
   await progressRepo.markStatus(progress.jobKey, progress.revision, { status: 'running', updatedAt: new Date() });
@@ -53,6 +56,7 @@ async function markRunning(progressRepo: ReturnType<typeof createAnalyticsBackfi
   return updated;
 }
 
+/** Handles the run pakistan analytics backfill operation and returns its normalized result. */
 export async function runPakistanAnalyticsBackfill(db: Db, options: AnalyticsBackfillRunOptions = {}) {
   // Execute planned intervals with revision-checked progress updates and idempotent document writes.
   const now = options.now ?? new Date();

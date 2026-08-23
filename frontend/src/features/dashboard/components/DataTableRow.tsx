@@ -11,6 +11,7 @@ interface DataTableRowProps {
   highlighted?: boolean;
 }
 
+/** Renders or coordinates data table row for this frontend module. */
 export default function DataTableRow({ event, index, onSelect, highlighted = false }: DataTableRowProps) {
   const accent = tierAccent(event.magnitude);
 
@@ -45,3 +46,4 @@ export default function DataTableRow({ event, index, onSelect, highlighted = fal
 }
 
 
+/** Renders one normalized earthquake record inside the data table. */

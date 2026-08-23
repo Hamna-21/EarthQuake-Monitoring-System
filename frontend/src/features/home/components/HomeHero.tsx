@@ -10,6 +10,7 @@ interface HomeHeroProps {
   onExecuteSearch: () => void;
 }
 
+/** Renders or coordinates home hero for this frontend module. */
 export default function HomeHero({
   earthquakesCount,
   onExecuteSearch,
@@ -31,3 +32,4 @@ export default function HomeHero({
     </header>
   );
 }
+/** Composes the landing-page hero scene, messaging, actions, and statistics. */

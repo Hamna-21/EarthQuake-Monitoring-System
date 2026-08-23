@@ -16,6 +16,7 @@ export function getTimeRangeParams(timeframe: string): { starttime: string } {
   return { starttime: new Date(now.getTime() - msAgo).toISOString() };
 }
 
+/** Builds the build live query result used by the surrounding component. */
 export function buildLiveQuery(filters: SeismicFilters) {
   return new URLSearchParams({
     timeframe: filters.timeframe,
@@ -25,6 +26,7 @@ export function buildLiveQuery(filters: SeismicFilters) {
   });
 }
 
+/** Builds the build historical query result used by the surrounding component. */
 export function buildHistoricalQuery(params: {
   startDate: string;
   endDate: string;

@@ -1,6 +1,7 @@
 import { Activity, Radio } from 'lucide-react';
 import PageTitle from '@/features/dashboard/components/common/PageTitle';
 
+/** Renders or coordinates overview hero for this frontend module. */
 export default function OverviewHero() {
   return <PageTitle
       eyebrow={<><span className="relative flex h-1.5 w-1.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" /><span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-red-500" /></span>Overview</>}
@@ -11,6 +12,7 @@ export default function OverviewHero() {
     />;
 }
 
+/** Renders or coordinates chip for this frontend module. */
 function Chip({ icon, label, tone }: { icon?: React.ReactNode; label: string; tone: 'cyan' | 'violet' | 'red' }) {
   const styles = {
     cyan: 'border-cyan-400/20 bg-cyan-400/10 text-cyan-200',
@@ -19,3 +21,4 @@ function Chip({ icon, label, tone }: { icon?: React.ReactNode; label: string; to
   };
   return <span className={`flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10px] font-bold ${styles[tone]}`}>{icon}{label}</span>;
 }
+/** Renders the overview hero content and its primary dashboard context. */

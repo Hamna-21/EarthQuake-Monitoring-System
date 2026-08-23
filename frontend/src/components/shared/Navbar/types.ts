@@ -6,3 +6,4 @@ export interface NavLink {
   disabled?: boolean;
   icon?: LucideIcon;
 }
+/** Shared prop and navigation types used by navbar components. */

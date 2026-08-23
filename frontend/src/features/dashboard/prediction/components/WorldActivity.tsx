@@ -52,6 +52,7 @@ const riskStyle: Record<Zone['risk'], { badge: string; icon: typeof Flame; dot: 
   },
 };
 
+/** Renders or coordinates world activity for this frontend module. */
 export default function WorldActivity() {
   return (
     <section className="relative overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-white/[0.09] via-white/[0.04] to-transparent p-5 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-2xl">
@@ -115,3 +116,4 @@ export default function WorldActivity() {
     </section>
   );
 }
+/** Displays the global activity context used alongside prediction results. */

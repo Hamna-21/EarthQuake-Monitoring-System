@@ -21,6 +21,10 @@ type Props = DashboardProps & {
   metricLabels?: Partial<Record<'countries', string>>;
 };
 
+/**
+ * Shared historical page composition: filters drive one dataset used by the map,
+ * metrics, records table, pagination, and searched-place focus.
+ */
 export default function HistoryPageShell(props: Props) {
   const history = useHistoricalSearch(props.scope, props.locationLocked ? '' : props.globalSearch ?? '');
   const { startDate, endDate, minMag, query, searchedQuery, events, page, hasMore, loading, error } = history;

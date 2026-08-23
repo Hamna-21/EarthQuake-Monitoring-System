@@ -10,6 +10,7 @@ const Dot = (props: any) => {
   return <circle cx={cx} cy={cy} r={4} fill={colors[index % colors.length]} stroke="#0f172a" strokeWidth={1.5} />;
 };
 
+/** Renders or coordinates active regions for this frontend module. */
 export default function ActiveRegions({ earthquakes }: { earthquakes: Earthquake[] }) {
   const regions = [...earthquakes.reduce((map, event) => {
     const country = countryOf(event.place); map.set(country, (map.get(country) || 0) + 1); return map;
@@ -49,3 +50,4 @@ export default function ActiveRegions({ earthquakes }: { earthquakes: Earthquake
     </> : <p className="mt-4 text-center text-xs font-semibold text-slate-400">No regional activity to report.</p>}
   </section>;
 }
+/** Summarizes the regions contributing the most current earthquake activity. */

@@ -24,6 +24,7 @@ type Feature = {
   geometry?: { coordinates?: number[] };
 };
 
+/** Validates feature collection before the UI action continues. */
 export function assertFeatureCollection(data: unknown, label: string): asserts data is { features: Feature[] } {
   if (!data || typeof data !== 'object' || !('features' in data) || !Array.isArray(data.features)) {
     throw new Error(`${label} returned an invalid response`);

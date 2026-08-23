@@ -75,6 +75,7 @@ export type MagnitudeDistribution = {
 
 export type MagnitudeGroups = Record<MagnitudeGroupKey, Earthquake[]>;
 
+/** Builds the create default analytics filters result used by the surrounding component. */
 export function createDefaultAnalyticsFilters(region: AnalyticsFilters['region'] = 'global'): AnalyticsFilters {
   const now = new Date();
   const year = now.getUTCFullYear();
@@ -89,3 +90,4 @@ export function createDefaultAnalyticsFilters(region: AnalyticsFilters['region']
     maxDepth: null,
   };
 }
+/** Analytics row and filter types shared by historical chart components. */

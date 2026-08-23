@@ -10,6 +10,7 @@ interface AuthPasswordFieldProps {
   action?: React.ReactNode;
 }
 
+/** Renders or coordinates auth password field for this frontend module. */
 export default function AuthPasswordField(props: AuthPasswordFieldProps) {
   return (
     <label className="block">
@@ -42,3 +43,4 @@ export default function AuthPasswordField(props: AuthPasswordFieldProps) {
   );
 }
 
+/** Provides an auth password input with visibility and validation affordances. */

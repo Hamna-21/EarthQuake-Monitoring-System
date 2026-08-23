@@ -4,6 +4,7 @@ type Cache = Record<string, unknown>;
 type Store = { cache: Cache; save: (key: string, value: unknown) => void };
 const DashboardStateContext = createContext<Store | null>(null);
 
+/** Renders or coordinates dashboard state provider for this frontend module. */
 export function DashboardStateProvider({ children }: { children: ReactNode }) {
   // Share page state across lazy dashboard pages and optionally persist filter state for the current session.
   const [cache, setCache] = useState<Cache>({});
@@ -11,6 +12,7 @@ export function DashboardStateProvider({ children }: { children: ReactNode }) {
   return <DashboardStateContext.Provider value={{ cache, save }}>{children}</DashboardStateContext.Provider>;
 }
 
+/** Handles use dashboard page state and keeps the related frontend state or data flow consistent. */
 export function useDashboardPageState<T>(key: string, initial: T, persist = false): [T, Dispatch<SetStateAction<T>>] {
   const store = useContext(DashboardStateContext);
   if (!store) throw new Error('DashboardStateProvider is required.');
@@ -24,12 +26,14 @@ export function useDashboardPageState<T>(key: string, initial: T, persist = fals
   return [value, update];
 }
 
+/** Parses and formats read for the surrounding UI or data flow. */
 function read<T>(key: string, cached: unknown, initial: T, persist: boolean) {
   if (cached !== undefined) return cached as T;
   if (!persist) return initial;
   try { return JSON.parse(sessionStorage.getItem(`geopulse:${key}`) || 'null') ?? initial; } catch { return initial; }
 }
 
+/** Renders or coordinates write for this frontend module. */
 function write(key: string, value: unknown, persist: boolean) {
   if (!persist) return;
   try { sessionStorage.setItem(`geopulse:${key}`, JSON.stringify(value)); } catch { /* storage is optional */ }

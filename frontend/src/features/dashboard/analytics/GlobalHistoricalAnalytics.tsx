@@ -20,8 +20,10 @@ import { usePlaceFocus } from '@/features/dashboard/map/hooks/usePlaceFocus';
 import PageTitle from '@/features/dashboard/components/common/PageTitle';
 
 type Props = DashboardProps;
+/** Renders or coordinates global historical analytics page for this frontend module. */
 export default function GlobalHistoricalAnalyticsPage(props: DashboardProps) { return <HistoricalAnalyticsPanel {...props} />; }
 
+/** Combines historical filters, server analytics, the shared globe, and chart panels in one page. */
 export function HistoricalAnalyticsPanel(props: Props) {
   const { filters, applyFilters, reset, data, error, isLoading } = useHistoricalAnalytics();
   const [draft, setDraft] = useState<AnalyticsFilters>(filters);
@@ -41,4 +43,5 @@ export function HistoricalAnalyticsPanel(props: Props) {
   </div>;
 }
 
+/** Renders or coordinates state for this frontend module. */
 function State({ title, text, action }: { title: string; text: string; action?: () => void }) { return <div className="historical-analytics-state"><h2 className="font-serif text-xl font-black text-white">{title}</h2><p className="mt-2 text-sm font-semibold text-slate-400">{text}</p>{action && <button onClick={action} className="mt-4 rounded-xl bg-gradient-to-r from-rose-600 via-orange-500 to-amber-400 px-4 py-2 text-xs font-black text-white">Reset filters</button>}</div>; }

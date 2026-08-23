@@ -1,3 +1,4 @@
+/** Supplies the ambient, directional, and accent lights used by the landing Earth materials. */
 export default function Lighting() {
   return (
     <>

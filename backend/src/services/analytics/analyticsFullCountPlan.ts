@@ -37,6 +37,7 @@ const startDate = new Date('1975-01-01T00:00:00.000Z');
 const classify = (count: number): AnalyticsIntervalSafety =>
   count === 0 ? 'zero-events' : count <= threshold ? 'safe' : 'split-required';
 
+// Count each planned Pakistan interval first, identifying safe, empty, and split-required years before fetching records.
 export async function createPakistanYearlyFullCountPlan(options: AnalyticsFullCountPlanOptions = {}): Promise<AnalyticsFullCountPlan> {
   const now = options.now ? new Date(options.now.getTime()) : new Date();
   const maximumRequests = options.maximumRequests ?? 60;

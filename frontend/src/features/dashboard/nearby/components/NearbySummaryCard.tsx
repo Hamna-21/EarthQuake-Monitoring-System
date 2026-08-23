@@ -1,3 +1,4 @@
+/** Renders or coordinates nearby summary card for this frontend module. */
 export default function NearbySummaryCard({ icon, label, value, gradient, border }: { icon: React.ReactNode; label: string; value: string | number; gradient: string; tint?: string; border: string }) {
   return (
     <article className={`rounded-xl border ${border} bg-white/[0.06] p-3 backdrop-blur-xl`}>
@@ -9,3 +10,4 @@ export default function NearbySummaryCard({ icon, label, value, gradient, border
     </article>
   );
 }
+/** Summarizes nearby earthquake counts and the selected search radius. */

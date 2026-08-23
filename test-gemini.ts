@@ -1,6 +1,8 @@
+/** Small manual Gemini connectivity check used during local development. */
 import { GoogleGenAI } from '@google/genai';
 import 'dotenv/config';
 
+/** Renders or coordinates test for this frontend module. */
 async function test() {
   const apiKey = process.env.GEMINI_API_KEY;
   const ai = new GoogleGenAI({ apiKey });

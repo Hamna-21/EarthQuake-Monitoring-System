@@ -15,6 +15,7 @@ interface MapEventLayersProps {
   markerMode?: 'pin' | 'flat';
 }
 
+/** Renders or coordinates map event layers for this frontend module. */
 function MapEventLayers({ events, strongestIds, heat, onSelect, onDetails, popupMode, markerMode = 'pin' }: MapEventLayersProps) {
   // Render every map event from the normalized dataset so marker clicks and popup records cannot diverge.
   return (
@@ -49,6 +50,7 @@ interface EventPopupProps {
   popupMode?: 'compact' | 'historical';
 }
 
+/** Renders or coordinates event popup for this frontend module. */
 function EventPopup({ event, isStrongest, onSelect, onDetails, popupMode }: EventPopupProps) {
   return (
     <Popup
@@ -66,6 +68,7 @@ function EventPopup({ event, isStrongest, onSelect, onDetails, popupMode }: Even
   );
 }
 
+/** Renders or coordinates marker tooltip for this frontend module. */
 function MarkerTooltip({ event }: { event: Earthquake }) {
   const depth = Number.isFinite(event.depth) ? `${event.depth.toFixed(1)} km` : 'Unknown';
   return <div className="min-w-[190px] font-serif text-xs text-slate-200">

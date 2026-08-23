@@ -8,6 +8,7 @@ interface AuthLayoutProps {
   onBackToHome: () => void;
 }
 
+/** Provides the shared glass authentication frame and responsive visual/brand panels. */
 export default function AuthLayout({ children, onBackToHome }: AuthLayoutProps) {
   return (
     <div className="relative flex min-h-screen w-full overflow-hidden bg-[#050814] text-white">

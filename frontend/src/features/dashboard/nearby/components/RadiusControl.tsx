@@ -8,6 +8,7 @@ const RADII = [
   { km: 1000, tone: 'bg-rose-500/20 text-rose-100 border-rose-400/30' },
 ];
 
+/** Renders or coordinates radius control for this frontend module. */
 export default function RadiusControl({ radius, onChange }: { radius: number; onChange: (r: number) => void }) {
   return (
     <GlassCard className="p-3">
@@ -28,3 +29,4 @@ export default function RadiusControl({ radius, onChange }: { radius: number; on
     </GlassCard>
   );
 }
+/** Provides the radius selector used to constrain nearby earthquake results. */
