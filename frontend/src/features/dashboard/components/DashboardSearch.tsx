@@ -35,8 +35,8 @@ export default function DashboardSearch({ value, suggestions, onChange, onClear,
   };
 
   return (
-    <div className="relative hidden md:block">
-      <label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-black/20 px-4 py-2 transition hover:border-cyan-300/25">
+    <div className="relative hidden min-w-0 flex-1 md:flex">
+      <label className="flex w-full items-center gap-2 rounded-2xl border border-white/10 bg-black/20 px-3 py-2 transition hover:border-cyan-300/25 sm:gap-3 sm:px-4">
         <Search className="h-4 w-4 text-cyan-200" />
         <input
           value={value}
@@ -49,7 +49,7 @@ export default function DashboardSearch({ value, suggestions, onChange, onClear,
             if (event.key === 'Escape') { event.preventDefault(); onClear(); setOpen(false); }
           }}
           placeholder="Search earthquakes, pages, countries"
-          className="w-72 bg-transparent text-sm font-semibold text-slate-100 outline-none placeholder:text-slate-400"
+          className="min-w-0 flex-1 bg-transparent text-sm font-semibold text-slate-100 outline-none placeholder:text-slate-400"
           aria-label="Global dashboard search"
           role="combobox"
           aria-expanded={open}

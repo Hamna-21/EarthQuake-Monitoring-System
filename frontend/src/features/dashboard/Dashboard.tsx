@@ -7,6 +7,7 @@ import { buildSuggestions, readRecentSearches, syncSearchParam, writeRecentSearc
 import DashboardPageSwitch from '@/features/dashboard/DashboardPageSwitch';
 import { normalizeDashboardPath, pageFromPath, pathForPage } from '@/features/dashboard/utils/dashboardRoutes';
 import { DashboardStateProvider } from '@/features/dashboard/hooks/DashboardStateContext';
+import WarningHub from '@/features/dashboard/safety/Safety';
 
 interface UserDashboardProps {
   userEmail: string | null;
@@ -14,6 +15,8 @@ interface UserDashboardProps {
   onLogout: () => void;
   earthquakes: Earthquake[];
   onOpenWarningHub: () => void;
+  isWarningHubOpen: boolean;
+  onCloseWarningHub: () => void;
   isLoading: boolean;
   dataError: string | null;
   lastUpdated: number | null;
@@ -91,6 +94,7 @@ export default function Dashboard(props: UserDashboardProps) {
   };
 
   return (
+    <>
     <Shell
       page={page}
       setPage={openPage}
@@ -112,6 +116,8 @@ export default function Dashboard(props: UserDashboardProps) {
       </div>
       <DashboardStateProvider><DashboardPageSwitch page={page} pageProps={pageProps} userName={props.userName} userEmail={props.userEmail} search={globalSearch} /></DashboardStateProvider>
     </Shell>
+    <WarningHub isOpen={props.isWarningHubOpen} onClose={props.onCloseWarningHub} />
+    </>
   );
 }
 

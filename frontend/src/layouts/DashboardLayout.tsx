@@ -102,13 +102,15 @@ export default function Shell(props: Props) {
           <button onClick={props.onLogout} className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-sm font-bold text-white transition hover:border-red-300/30 hover:bg-red-500/10"><LogOut className="h-4 w-4" /> Logout</button>
         </div>
       </aside>
-      <div className={`transition-all ${collapsed ? 'lg:pl-32' : 'lg:pl-[336px]'}`}>
-        <header className="sticky top-3 z-20 mx-3 mt-3 flex min-h-16 items-center gap-3 rounded-2xl border border-white/12 bg-white/[0.07] px-3 shadow-[0_18px_60px_rgba(0,0,0,0.28)] backdrop-blur-2xl sm:mx-4 sm:mt-4 sm:px-4 md:px-6">
+      <div className={`min-w-0 w-full transition-all ${collapsed ? 'lg:pl-32' : 'lg:pl-[336px]'}`}>
+        <header className="sticky top-3 z-20 mx-3 mt-3 flex min-h-16 w-auto items-center justify-between gap-2 rounded-2xl border border-white/12 bg-white/[0.07] px-3 shadow-[0_18px_60px_rgba(0,0,0,0.28)] backdrop-blur-2xl sm:mx-4 sm:mt-4 sm:gap-3 sm:px-4 md:px-5">
           <button type="button" onClick={() => setMobileOpen(true)} className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/10 bg-white/[0.06] text-white lg:hidden" aria-label="Open dashboard navigation"><Menu className="h-5 w-5" /></button>
           <div className="flex min-w-0 flex-1 items-center gap-2 lg:hidden"><Activity className="h-5 w-5 shrink-0 text-red-400" /><span className="max-w-[11rem] text-[10px] font-black uppercase leading-tight tracking-[0.1em] text-white sm:max-w-[15rem] sm:text-xs">Earthquake Monitoring System</span></div>
           <DashboardSearch value={props.searchValue} suggestions={props.suggestions} onChange={props.onSearchChange} onClear={props.onSearchClear} onOpen={props.onSearchOpen} onSubmit={props.onSearchSubmit} />
-          <div className="hidden items-center gap-3 sm:flex"><Globe2 className="h-5 w-5 text-red-400" /><span className="text-sm font-black text-white">Online</span><Clock className="h-4 w-4 text-slate-400" /><span className="text-sm font-semibold text-slate-300">{new Date().toLocaleTimeString()}</span></div>
-          <button onClick={props.onOpenWarningHub} className="flex shrink-0 items-center gap-2 rounded-xl bg-gradient-to-r from-red-700 via-orange-500 to-amber-400 px-3 py-2 text-xs font-bold text-white shadow-lg shadow-red-500/25 transition hover:-translate-y-0.5 hover:brightness-110 sm:rounded-2xl sm:px-4 sm:text-sm"><ShieldAlert className="h-4 w-4" /> Safety</button>
+          <div className="ml-auto flex w-auto shrink-0 items-center justify-end gap-2 sm:gap-3">
+            <div className="hidden items-center gap-2 border-l border-white/10 pl-3 sm:flex md:gap-3 md:pl-4"><Globe2 className="h-5 w-5 text-red-400" /><span className="text-sm font-black text-white">Online</span><Clock className="h-4 w-4 text-slate-400" /><span className="text-sm font-semibold text-slate-300">{new Date().toLocaleTimeString()}</span></div>
+            <button type="button" onClick={props.onOpenWarningHub} aria-label="Open Warning Hub" className="relative z-10 flex shrink-0 cursor-pointer items-center gap-2 rounded-xl bg-gradient-to-r from-red-700 via-orange-500 to-amber-400 px-3 py-2 text-xs font-bold text-white shadow-lg shadow-red-500/25 transition hover:-translate-y-0.5 hover:brightness-110 sm:rounded-2xl sm:px-4 sm:text-sm"><ShieldAlert className="h-4 w-4" /> Safety</button>
+          </div>
         </header>
         <main className="mx-auto max-w-[1500px] px-4 py-6 md:px-8">{props.children}</main>
       </div>

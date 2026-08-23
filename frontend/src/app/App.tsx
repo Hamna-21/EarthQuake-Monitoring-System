@@ -57,6 +57,8 @@ export default function App() {
         onLogout={handleLogout}
         earthquakes={earthquakes}
         onOpenWarningHub={() => setIsWarningHubOpen(true)}
+        isWarningHubOpen={isWarningHubOpen}
+        onCloseWarningHub={() => setIsWarningHubOpen(false)}
         isLoading={isSearching}
         dataError={dataError}
         lastUpdated={lastUpdated}
