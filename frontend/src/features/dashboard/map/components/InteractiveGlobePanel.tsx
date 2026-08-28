@@ -62,7 +62,7 @@ export default function InteractiveGlobePanel({ events, onSelect, onDetails, aut
   const assets = useMemo(() => globeAssets(view), [view]);
 
   // Resize once per container change and keep rotation/focus effects independent from marker rendering.
-  useEffect(() => { if (!host.current) return undefined; const resize = () => setWidth(Math.max(280, host.current?.clientWidth ?? 720)); resize(); const observer = new ResizeObserver(resize); observer.observe(host.current); return () => observer.disconnect(); }, []);
+  useEffect(() => { if (!host.current) return undefined; const resize = () => { const next = Math.max(280, host.current?.clientWidth ?? 720); setWidth((current) => Math.abs(current - next) < 1 ? current : next); }; resize(); const observer = new ResizeObserver(resize); observer.observe(host.current); return () => observer.disconnect(); }, []);
   useEffect(() => {
     if (!host.current || typeof IntersectionObserver === 'undefined') return undefined;
     const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.05 });

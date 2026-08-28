@@ -21,14 +21,17 @@ export function useEarthquakes() {
   const [searchValue, setSearchValue] = useState("");
   const requestRef = useRef<AbortController | null>(null);
   const requestId = useRef(0);
+  const filtersRef = useRef(filters);
+  filtersRef.current = filters;
 
-  const loadSeismicData = useCallback(async (activeFilters: SeismicFilters) => {
+  const loadSeismicData = useCallback(async (activeFilters: SeismicFilters, options?: { silent?: boolean }) => {
     // Abort prior work and guard by request id so a slower response cannot replace newer filters.
+    const silent = options?.silent === true;
     requestRef.current?.abort();
     const controller = new AbortController();
     requestRef.current = controller;
     const id = ++requestId.current;
-    setIsSearching(true);
+    if (!silent) setIsSearching(true);
     setDataError(null);
 
     try {
@@ -47,7 +50,7 @@ export function useEarthquakes() {
       console.error(err);
       setDataError(err instanceof Error ? err.message : "Unable to fetch earthquake data.");
     } finally {
-      if (id === requestId.current) setIsSearching(false);
+      if (id === requestId.current && !silent) setIsSearching(false);
     }
   }, []);
 
@@ -57,13 +60,14 @@ export function useEarthquakes() {
     loadSeismicData(filters);
   }, [filters.timeframe, filters.minMagnitude, loadSeismicData]);
 
+  // Poll with the latest filters without resetting the timer on unrelated filter edits, and refresh silently.
   useEffect(() => {
     const interval = window.setInterval(() => {
-      loadSeismicData(filters);
+      loadSeismicData(filtersRef.current, { silent: true });
     }, 60000);
 
     return () => window.clearInterval(interval);
-  }, [filters, loadSeismicData]);
+  }, [loadSeismicData]);
 
   useEffect(() => {
     setSearchValue(filters.region);

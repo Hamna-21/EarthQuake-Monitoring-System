@@ -3,6 +3,10 @@ import type { Earthquake, EarthquakeAlert } from '../types/earthquake';
 const USGS_URL = 'https://earthquake.usgs.gov/fdsnws/event/1/query';
 const ranges: Record<string, number> = { '24h': 24 * 60 * 60 * 1000, '7d': 7 * 24 * 60 * 60 * 1000, '30d': 30 * 24 * 60 * 60 * 1000 };
 
+// Short server-side TTL so repeated client polls share one upstream USGS fetch instead of each hitting USGS.
+const LIVE_CACHE_TTL_MS = 30_000;
+const liveCache = new Map<string, { fetchedAt: number; records: EarthquakeRecord[] }>();
+
 type UsgsFeature = { id: string; properties?: Record<string, any>; geometry?: { coordinates?: number[] } };
 
 export type EarthquakeRecord = Earthquake & {
@@ -79,14 +83,25 @@ export async function fetchRealtimeEarthquakes(query: Record<string, any>) {
   const timeframe = String(query.timeframe ?? '24h');
   const minMagnitude = String(query.minMagnitude ?? query.minmagnitude ?? 4);
   const limit = String(query.limit ?? 150);
-  const starttime = new Date(Date.now() - (ranges[timeframe] ?? ranges['24h'])).toISOString();
-  const params = new URLSearchParams({ format: 'geojson', starttime, minmagnitude: minMagnitude, limit, orderby: 'time' });
-  const response = await fetch(`${USGS_URL}?${params.toString()}`);
+  const cacheKey = `${timeframe}|${minMagnitude}|${limit}`;
 
-  if (!response.ok) throw new Error(`USGS request failed with status ${response.status}`);
-  const data = await response.json();
-  const features = Array.isArray(data.features) ? data.features : [];
-  const earthquakes = applyQueryFilters(features.map(mapUsgsFeature), query);
+  let records: EarthquakeRecord[];
+  const cached = liveCache.get(cacheKey);
+  if (cached && Date.now() - cached.fetchedAt < LIVE_CACHE_TTL_MS) {
+    records = cached.records;
+  } else {
+    const starttime = new Date(Date.now() - (ranges[timeframe] ?? ranges['24h'])).toISOString();
+    const params = new URLSearchParams({ format: 'geojson', starttime, minmagnitude: minMagnitude, limit, orderby: 'time' });
+    const response = await fetch(`${USGS_URL}?${params.toString()}`);
+
+    if (!response.ok) throw new Error(`USGS request failed with status ${response.status}`);
+    const data = await response.json();
+    const features = Array.isArray(data.features) ? data.features : [];
+    records = features.map(mapUsgsFeature);
+    liveCache.set(cacheKey, { fetchedAt: Date.now(), records });
+  }
+
+  const earthquakes = applyQueryFilters(records, query);
 
   return {
     success: true,

@@ -4,12 +4,17 @@ import { useEffect, useState } from 'react';
 export function useAuthSession() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
+  const [isRestoring, setIsRestoring] = useState(true);
+  const [sessionExpired, setSessionExpired] = useState(false);
 
   useEffect(() => {
     // Revalidate the stored token on startup instead of trusting stale client-side session state.
     const restoreSession = async () => {
       const token = localStorage.getItem('geopulse_token');
-      if (!token) return;
+      if (!token) {
+        setIsRestoring(false);
+        return;
+      }
 
       try {
         const response = await fetch('/api/auth/me', {
@@ -18,6 +23,8 @@ export function useAuthSession() {
 
         if (!response.ok) {
           localStorage.removeItem('geopulse_token');
+          setSessionExpired(true);
+          setIsRestoring(false);
           return;
         }
 
@@ -26,6 +33,8 @@ export function useAuthSession() {
         setUserName(data.user.name);
       } catch (err) {
         console.error('Failed to auto-verify session:', err);
+      } finally {
+        setIsRestoring(false);
       }
     };
 
@@ -55,7 +64,8 @@ export function useAuthSession() {
     localStorage.removeItem('geopulse_token');
     setUserEmail(null);
     setUserName(null);
+    setSessionExpired(false);
   };
 
-  return { userEmail, userName, handleAuthSuccess, handleLogout };
+  return { userEmail, userName, isRestoring, sessionExpired, handleAuthSuccess, handleLogout };
 }

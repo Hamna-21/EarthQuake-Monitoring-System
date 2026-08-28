@@ -11,7 +11,7 @@ const Dashboard = lazy(() => import('@/features/dashboard/Dashboard'));
 // Coordinate authentication, live data loading, and the lightweight public/private view switch.
 export default function App() {
   const [currentView, setCurrentView] = useState<AppView>(DEFAULT_APP_VIEW);
-  const { userEmail, userName, handleAuthSuccess, handleLogout } = useAuthSession();
+  const { userEmail, userName, isRestoring, sessionExpired, handleAuthSuccess, handleLogout } = useAuthSession();
 
   const {
     earthquakes,
@@ -29,6 +29,26 @@ export default function App() {
     await handleAuthSuccess(email, token, name);
     setCurrentView('home');
   };
+
+  // While a stored token is being revalidated, show a lightweight splash instead of flashing the landing page.
+  if (isRestoring) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#050814]">
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-cyan-400/30 border-t-cyan-400" aria-label="Restoring session" />
+      </div>
+    );
+  }
+
+  // A stored token that failed revalidation means the session expired; go straight to Login.
+  if (sessionExpired && !userEmail) {
+    return (
+      <Login
+        onSuccess={handleLoginSuccess}
+        onNavigateToRegister={() => setCurrentView('register')}
+        onBackToHome={() => setCurrentView('home')}
+      />
+    );
+  }
 
   if (currentView === 'login' && !userEmail) {
     return (
