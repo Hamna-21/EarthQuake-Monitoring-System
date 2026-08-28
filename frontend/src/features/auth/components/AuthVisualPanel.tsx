@@ -7,12 +7,9 @@ export default function AuthVisualPanel() {
   return (
     <aside className="auth-visual">
       <div className="auth-visual__brand">
-        <Activity className="h-9 w-9 animate-pulse text-cyan-200" />
+        <Activity className="h-8 w-8 animate-pulse text-cyan-200" />
         <div>
           <p className="auth-visual__brand-title">Earthquake Monitoring System</p>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-            
-          </p>
         </div>
       </div>
 

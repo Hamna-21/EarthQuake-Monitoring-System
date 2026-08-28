@@ -29,7 +29,7 @@ export default function LoginForm(props: LoginFormProps) {
     <div>
       <AuthLead title="Welcome back" text="View earthquake activity and safety information." />
       <AuthError error={props.error} />
-      <form onSubmit={props.onSubmit} className="space-y-5">
+      <form onSubmit={props.onSubmit} className="space-y-4">
         <AuthField
           label="Email address"
           value={props.email}
@@ -50,7 +50,7 @@ export default function LoginForm(props: LoginFormProps) {
             <button
               type="button"
               onClick={props.onForgotPasswordClick}
-              className="text-[10px] font-black uppercase tracking-[0.16em] text-cyan-200 hover:text-white"
+              className="auth-forgot"
             >
               Key Lost?
             </button>

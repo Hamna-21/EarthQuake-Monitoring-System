@@ -41,7 +41,7 @@ export default function GoogleLoginButton({ onStart, onSuccess, onFailure }: Goo
     <button
       type="button"
       onClick={handleGoogleLogin}
-      className="w-full py-3 border border-red-900/30 bg-white/5 hover:bg-white/10 text-white font-semibold text-xs uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer rounded-none"
+      className="w-full py-3 border border-red-900/30 bg-white/5 hover:bg-white/10 text-white font-semibold text-xs uppercase tracking-widest transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer rounded-xl"
     >
       <svg className="h-4 w-4" viewBox="0 0 24 24">
         <path

@@ -27,7 +27,7 @@ export default function AuthPasswordField(props: AuthPasswordFieldProps) {
           value={props.value}
           onChange={(event) => props.onChange(event.target.value)}
           placeholder="••••••••••••"
-          className="w-full rounded-none border border-white/10 bg-black/25 py-3.5 pl-12 pr-12 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300 focus:ring-4 focus:ring-cyan-300/10"
+          className="w-full rounded-[.625rem] border border-white/10 bg-black/25 py-3 pl-12 pr-12 text-[.8125rem] text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300 focus:ring-4 focus:ring-cyan-300/10"
           disabled={props.disabled}
         />
         <button
