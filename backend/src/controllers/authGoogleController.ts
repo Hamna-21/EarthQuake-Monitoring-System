@@ -159,7 +159,7 @@ export const googleSandboxCallback = async (req: Request, res: Response) => {
     const token = jwt.sign(
       { email: user.email, name: user.name, country: user.country },
       getJwtSecret(),
-      { expiresIn: "7d" }
+      { expiresIn: "24h" }
     );
 
     res.json({
@@ -257,7 +257,7 @@ export const googleCallback = async (req: Request, res: Response) => {
     const token = jwt.sign(
       { email: user.email, name: user.name, country: user.country },
       getJwtSecret(),
-      { expiresIn: "7d" }
+      { expiresIn: "24h" }
     );
 
     res.send(`

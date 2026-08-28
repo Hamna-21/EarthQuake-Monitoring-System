@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import Login from "@/features/auth/Login";
 import Register from "@/features/auth/Register";
 import Home from "@/features/home/Home";
-import Dashboard from "@/features/dashboard/Dashboard";
 import { useAuthSession } from "@/features/auth/hooks/useAuthSession";
 import { useEarthquakes } from "@/features/earthquakes/hooks/useEarthquakes";
 import { DEFAULT_APP_VIEW, type AppView } from '@/app/router';
+
+const Dashboard = lazy(() => import('@/features/dashboard/Dashboard'));
 
 // Coordinate authentication, live data loading, and the lightweight public/private view switch.
 export default function App() {
@@ -51,19 +52,21 @@ export default function App() {
 
   if (userEmail) {
     return (
-      <Dashboard 
-        userEmail={userEmail}
-        userName={userName}
-        onLogout={handleLogout}
-        earthquakes={earthquakes}
-        onOpenWarningHub={() => setIsWarningHubOpen(true)}
-        isWarningHubOpen={isWarningHubOpen}
-        onCloseWarningHub={() => setIsWarningHubOpen(false)}
-        isLoading={isSearching}
-        dataError={dataError}
-        lastUpdated={lastUpdated}
-        onRefresh={() => loadSeismicData(filters)}
-      />
+      <Suspense fallback={null}>
+        <Dashboard
+          userEmail={userEmail}
+          userName={userName}
+          onLogout={handleLogout}
+          earthquakes={earthquakes}
+          onOpenWarningHub={() => setIsWarningHubOpen(true)}
+          isWarningHubOpen={isWarningHubOpen}
+          onCloseWarningHub={() => setIsWarningHubOpen(false)}
+          isLoading={isSearching}
+          dataError={dataError}
+          lastUpdated={lastUpdated}
+          onRefresh={() => loadSeismicData(filters)}
+        />
+      </Suspense>
     );
   }
 

@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import './Overview.css';
 import { DashboardProps } from '@/features/dashboard/types';
 import { countryOf } from '@/features/dashboard/utils/data';
 import { RefreshNote } from '@/layouts/DashboardLayout';
@@ -10,6 +9,7 @@ import OverviewHero from '@/features/dashboard/components/OverviewHero';
 import OverviewStatGrid from '@/features/dashboard/components/OverviewStatGrid';
 import OverviewQuickActions from '@/features/dashboard/components/OverviewQuickActions';
 import GeoBotCard from '@/features/dashboard/components/GeoBotCard';
+import OverviewEmptyState from '@/features/dashboard/components/OverviewEmptyState';
 
 type Props = DashboardProps & {
   searchQuery?: string;
@@ -46,14 +46,7 @@ export default function OverviewPage({ earthquakes, isLoading, dataError, lastUp
       {query && <p className="text-sm font-semibold text-slate-300">
         Showing {visibleEarthquakes.length} of {earthquakes.length} overview results for “{searchQuery.trim()}”.
       </p>}
-      {hasNoMatches ? (
-        <div className="rounded-2xl border border-white/12 bg-white/[0.07] p-10 text-center shadow-sm backdrop-blur">
-          <p className="font-serif text-2xl font-black text-white">No matching earthquakes found</p>
-          <p className="mt-2 text-sm font-semibold text-slate-400">
-            Try a country, location, magnitude, alert level, status, or event ID.
-          </p>
-        </div>
-      ) : (
+      {hasNoMatches ? <OverviewEmptyState /> : (
         <>
           <div className="mb-3 xl:mb-4"><OverviewStatGrid earthquakes={visibleEarthquakes} /></div>
           <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">

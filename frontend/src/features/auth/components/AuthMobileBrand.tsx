@@ -3,12 +3,12 @@ import { Activity } from 'lucide-react';
 /** Renders or coordinates auth mobile brand for this frontend module. */
 export default function AuthMobileBrand() {
   return (
-    <div className="mb-10 mt-6 flex flex-col items-center text-center lg:hidden">
+    <div className="auth-mobile-brand">
       <Activity className="mb-3 h-10 w-10 animate-pulse text-cyan-200" />
-      <h1 className="max-w-[18rem] text-xl font-black uppercase leading-tight tracking-[0.12em] text-white sm:text-2xl">
+      <h1 className="auth-mobile-brand__title">
         Earthquake Monitoring System
       </h1>
-      <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+      <p className="auth-mobile-brand__subtitle">
         Monitoring and safety information
       </p>
     </div>

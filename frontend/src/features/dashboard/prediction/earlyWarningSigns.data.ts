@@ -21,17 +21,17 @@ export const signs: Sign[] = [
   { tier: 'unreliable', text: '"Earthquake weather" - the idea that certain temperatures or calm skies precede earthquakes - is not supported by data.' },
 ];
 
-export const tiers: Record<Reliability, { label: string; hint: string; icon: typeof Activity; dot: string; text: string; ring: string; from: string; via: string; badge: string }> = {
-  measured: { label: 'Instrument-detectable', hint: 'Tracked by seismic, geodetic, or hydrological sensors', icon: Activity, dot: 'bg-emerald-400 shadow-[0_0_10px_2px_rgba(52,211,153,0.7)]', text: 'text-emerald-200', ring: 'ring-emerald-400/25', from: 'from-emerald-400/15', via: 'via-emerald-400/[0.04]', badge: 'bg-emerald-400/15 text-emerald-200 border-emerald-300/30' },
-  reported: { label: 'Resident-reported', hint: 'Anecdotal patterns near fault zones, not independently verified', icon: Users, dot: 'bg-amber-400 shadow-[0_0_10px_2px_rgba(251,191,36,0.7)]', text: 'text-amber-200', ring: 'ring-amber-400/25', from: 'from-amber-400/15', via: 'via-amber-400/[0.04]', badge: 'bg-amber-400/15 text-amber-200 border-amber-300/30' },
-  unreliable: { label: 'Studied, not reliable', hint: 'Investigated by researchers but lacks predictive value', icon: FlaskConical, dot: 'bg-rose-400 shadow-[0_0_10px_2px_rgba(251,113,133,0.7)]', text: 'text-rose-200', ring: 'ring-rose-400/25', from: 'from-rose-400/15', via: 'via-rose-400/[0.04]', badge: 'bg-rose-400/15 text-rose-200 border-rose-300/30' },
+export const tiers: Record<Reliability, { label: string; hint: string; icon: typeof Activity }> = {
+  measured: { label: 'Instrument-detectable', hint: 'Tracked by seismic, geodetic, or hydrological sensors', icon: Activity },
+  reported: { label: 'Resident-reported', hint: 'Anecdotal patterns near fault zones, not independently verified', icon: Users },
+  unreliable: { label: 'Studied, not reliable', hint: 'Investigated by researchers but lacks predictive value', icon: FlaskConical },
 };
 
 export const order: Reliability[] = ['measured', 'reported', 'unreliable'];
 export const facts = [
-  { icon: Globe2, label: 'Daily activity', value: '~20K+', hint: 'Earthquakes detected worldwide per year by global seismic networks (mostly minor)', color: 'text-cyan-200', bg: 'from-cyan-400/20' },
-  { icon: TrendingUp, label: 'Aftershock odds', value: 'High', hint: 'Most large earthquakes are followed by aftershocks, sometimes for months', color: 'text-indigo-200', bg: 'from-indigo-400/20' },
-  { icon: Timer, label: 'Warning window', value: 'Seconds', hint: 'Early-warning systems can give seconds to tens of seconds notice, not days', color: 'text-amber-200', bg: 'from-amber-400/20' },
-  { icon: Info, label: 'Reliable prediction', value: 'None', hint: 'No method today reliably predicts the exact time, place, and size of an earthquake', color: 'text-rose-200', bg: 'from-rose-400/20' },
+  { icon: Globe2, label: 'Daily activity', value: '~20K+', hint: 'Earthquakes detected worldwide per year by global seismic networks (mostly minor)', tone: 'cyan' },
+  { icon: TrendingUp, label: 'Aftershock odds', value: 'High', hint: 'Most large earthquakes are followed by aftershocks, sometimes for months', tone: 'indigo' },
+  { icon: Timer, label: 'Warning window', value: 'Seconds', hint: 'Early-warning systems can give seconds to tens of seconds notice, not days', tone: 'amber' },
+  { icon: Info, label: 'Reliable prediction', value: 'None', hint: 'No method today reliably predicts the exact time, place, and size of an earthquake', tone: 'rose' },
 ];
 /** Curated early-warning indicators used by the prediction guidance UI. */

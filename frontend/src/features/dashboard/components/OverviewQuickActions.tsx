@@ -1,4 +1,5 @@
 import { Bell, ChevronRight, LocateFixed, Siren } from 'lucide-react';
+import { Button } from 'antd';
 import { DashboardPage } from '@/features/dashboard/types';
 
 const ACTIONS = [
@@ -12,15 +13,16 @@ export default function OverviewQuickActions({ openPage }: { openPage: (page: Da
   return (
     <div className="flex items-center justify-end gap-2">
       {ACTIONS.map(({ page, icon: Icon, label, tone }) => (
-        <button
+        <Button
           key={page}
+          type="default"
           onClick={() => openPage(page)}
-          className={`group flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-bold backdrop-blur transition ${tone}`}
+          className={`overview-action overview-action--${page} ${tone}`}
         >
-          <Icon className="h-3.5 w-3.5" />
+          <Icon />
           {label}
-          <ChevronRight className="h-3 w-3 opacity-60 transition group-hover:translate-x-0.5 group-hover:opacity-100" />
-        </button>
+          <ChevronRight />
+        </Button>
       ))}
     </div>
   );

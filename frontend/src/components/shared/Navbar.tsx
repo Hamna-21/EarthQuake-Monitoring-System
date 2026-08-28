@@ -50,7 +50,7 @@ export default function Navbar({
     <>
       <nav
         id="top-navbar"
-        className="relative top-6 z-40 flex items-center justify-between border-b border-white/10 bg-black/40 px-6 py-5 shadow-lg shadow-red-900/10 backdrop-blur-2xl md:px-12"
+        className="landing-navbar"
       >
         <DesktopNav navLinks={navLinks} handleLinkClick={handleLinkClick} />
         <button

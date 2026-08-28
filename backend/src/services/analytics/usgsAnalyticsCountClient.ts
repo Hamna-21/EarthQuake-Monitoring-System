@@ -36,8 +36,17 @@ export function buildUsgsAnalyticsCountParams(request: UsgsAnalyticsCountRequest
 /** Parses and normalizes count for the module's data flow. */
 function readCount(text: string, status?: number) {
   const trimmed = text.trim();
-  if (!/^\d+$/.test(trimmed)) throw new UsgsAnalyticsError('USGS count response was not a non-negative integer.', status);
-  const count = Number(trimmed);
+  let rawCount: unknown = trimmed;
+  if (!/^\d+$/.test(trimmed)) {
+    try {
+      const parsed = JSON.parse(trimmed) as { count?: unknown };
+      rawCount = parsed?.count;
+    } catch {
+      rawCount = undefined;
+    }
+  }
+  const count = Number(rawCount);
+  if (!Number.isInteger(count) || count < 0) throw new UsgsAnalyticsError('USGS count response was not a non-negative integer.', status);
   if (!Number.isSafeInteger(count) || count < 0) throw new UsgsAnalyticsError('USGS count response was outside the safe integer range.', status);
   return count;
 }

@@ -23,18 +23,18 @@ export default function AuthField({
   labelClassName = '',
 }: AuthFieldProps) {
   return (
-    <label className="block">
-      <span className={`mb-2 block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ${labelClassName}`}>
+    <label className="auth-field">
+      <span className={`auth-field__label ${labelClassName}`}>
         {label}
       </span>
-      <span className="relative block">
-        <Icon className="absolute left-4 top-3.5 h-4 w-4 text-cyan-100/50" />
+      <span className="auth-field__control">
+        <Icon className="auth-field__icon" />
         <input
           type={type}
           value={value}
           onChange={(event) => onChange(event.target.value)}
           placeholder={placeholder}
-          className="w-full rounded-none border border-white/10 bg-black/25 py-3.5 pl-12 pr-4 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300 focus:ring-4 focus:ring-cyan-300/10"
+          className="auth-field__input"
           disabled={disabled}
         />
       </span>

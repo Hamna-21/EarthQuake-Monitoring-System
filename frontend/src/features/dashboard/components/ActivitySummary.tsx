@@ -1,78 +1,47 @@
+import { memo, useMemo } from 'react';
 import { Earthquake } from '@/types';
 
 const tiers = [
-  { max: 10, label: 'LOW', word: 'Calm', ring: '#10b981', text: 'text-emerald-600', chip: 'bg-emerald-50 text-emerald-700 border-emerald-200', glow: 'rgba(16,185,129,0.18)' },
-  { max: 25, label: 'MODERATE', word: 'Watchful', ring: '#f59e0b', text: 'text-amber-600', chip: 'bg-amber-50 text-amber-700 border-amber-200', glow: 'rgba(245,158,11,0.18)' },
-  { max: 45, label: 'HIGH', word: 'Elevated', ring: '#f97316', text: 'text-orange-600', chip: 'bg-orange-50 text-orange-700 border-orange-200', glow: 'rgba(249,115,22,0.18)' },
-  { max: 101, label: 'EXTREME', word: 'Critical', ring: '#dc2626', text: 'text-red-700', chip: 'bg-red-50 text-red-700 border-red-200', glow: 'rgba(220,38,38,0.2)' },
+  { max: 10, label: 'LOW', word: 'Calm', ring: '#10b981', chip: 'bg-emerald-50 text-emerald-700 border-emerald-200', glow: 'rgba(16,185,129,0.18)' },
+  { max: 25, label: 'MODERATE', word: 'Watchful', ring: '#f59e0b', chip: 'bg-amber-50 text-amber-700 border-amber-200', glow: 'rgba(245,158,11,0.18)' },
+  { max: 45, label: 'HIGH', word: 'Elevated', ring: '#f97316', chip: 'bg-orange-50 text-orange-700 border-orange-200', glow: 'rgba(249,115,22,0.18)' },
+  { max: 101, label: 'EXTREME', word: 'Critical', ring: '#dc2626', chip: 'bg-red-50 text-red-700 border-red-200', glow: 'rgba(220,38,38,0.2)' },
 ];
 
-/** Renders or coordinates activity summary for this frontend module. */
-export default function ActivitySummary({ earthquakes }: { earthquakes: Earthquake[] }) {
-  const highRisk = earthquakes.filter((event) => event.magnitude >= 5 || event.alert).length;
-  const total = Math.max(earthquakes.length, 1);
-  const score = Math.min(100, Math.round((highRisk / total) * 100));
-  const tier = tiers.find((t) => score < t.max)!;
+/** Summarizes the current risk level and highlights high-magnitude events. */
+function ActivitySummary({ earthquakes }: { earthquakes: Earthquake[] }) {
+  const { highRisk, score, tier } = useMemo(() => {
+    const highRiskCount = earthquakes.filter((event) => event.magnitude >= 5 || event.alert).length;
+    const eventTotal = Math.max(earthquakes.length, 1);
+    const riskScore = Math.min(100, Math.round((highRiskCount / eventTotal) * 100));
+    return { highRisk: highRiskCount, score: riskScore, tier: tiers.find((item) => riskScore < item.max)! };
+  }, [earthquakes]);
 
   return (
-    <article className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-white/12 bg-white/[0.07] p-5 shadow-sm backdrop-blur">
-      <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full blur-3xl" style={{ background: tier.glow }} />
-      <div className="pointer-events-none absolute -left-16 -bottom-20 h-64 w-64 rounded-full blur-3xl opacity-60" style={{ background: tier.glow }} />
-
-      <div className="relative flex flex-col items-center text-center">
-        <p
-          className="flex items-center gap-2 font-serif text-[10px] font-bold uppercase tracking-[0.3em]"
-          style={{ color: tier.ring }}
-        >
-          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: tier.ring }} />
+    <article className="activity-summary">
+      <div className="activity-summary__glow activity-summary__glow--top" style={{ background: tier.glow }} />
+      <div className="activity-summary__glow activity-summary__glow--bottom" style={{ background: tier.glow }} />
+      <div className="activity-summary__content">
+        <p className="activity-summary__risk-label" style={{ color: tier.ring }}>
+          <span className="activity-summary__risk-dot" style={{ backgroundColor: tier.ring }} />
           Risk Index
-          <span className={`ml-1 rounded-full border px-2 py-0.5 font-serif text-[10px] font-bold ${tier.chip}`}>
-            {tier.word}
-          </span>
+          <span className={`activity-summary__risk-chip activity-summary__risk-chip--${tier.label.toLowerCase()}`}>{tier.word}</span>
         </p>
-
-        <div className="relative mt-4">
-          <div
-            className="grid h-28 w-28 place-items-center rounded-full p-2 transition-all duration-700"
-            style={{
-              background: `conic-gradient(${tier.ring} ${score}%, rgba(15,23,42,0.08) 0)`,
-              boxShadow: `0 0 28px ${tier.glow}`,
-            }}
-          >
-            <div className="grid h-full w-full place-items-center rounded-full bg-white shadow-inner">
-              <strong className="font-serif text-3xl font-black text-slate-900">{score}</strong>
-              <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400">of 100</span>
-            </div>
+        <div className="activity-summary__ring-wrap">
+          <div className="activity-summary__ring" style={{ background: `conic-gradient(${tier.ring} ${score}%, rgba(15,23,42,0.08) 0)`, boxShadow: `0 0 28px ${tier.glow}` }}>
+            <div className="activity-summary__ring-inner"><strong>{score}</strong><span>of 100</span></div>
           </div>
         </div>
-
-        <h2 className="mt-3 font-serif text-2xl font-black tracking-tight" style={{ color: tier.ring }}>
-          {tier.label}
-        </h2>
-        <p className="mt-2 max-w-sm text-sm leading-relaxed text-slate-500">
-          <span className="font-bold text-red-900">{highRisk}</span> of{' '}
-          <span className="font-bold text-red-900">{earthquakes.length}</span> events flagged
-          as high-magnitude or alerted.
-        </p>
-
-        <div className="relative mt-4 w-full max-w-md">
-          <div className="flex h-2 overflow-hidden rounded-full bg-slate-100 ring-1 ring-inset ring-slate-200/60">
-            <div className="h-full flex-1 bg-emerald-400" />
-            <div className="h-full flex-1 bg-amber-400" />
-            <div className="h-full flex-1 bg-orange-400" />
-            <div className="h-full flex-1 bg-red-500" />
-          </div>
-          <div
-            className="relative -mt-[9px] h-4 w-4 rounded-full border-2 border-white shadow-sm transition-all duration-700"
-            style={{ marginLeft: `calc(${score}% - 8px)`, backgroundColor: tier.ring, boxShadow: `0 0 8px 2px ${tier.glow}` }}
-          />
-          <div className="mt-2 flex items-center justify-between font-serif text-[10px] font-bold uppercase tracking-wide text-slate-400">
-            <span>Calm</span>
-            <span>Critical</span>
-          </div>
+        <h2 className="activity-summary__tier" style={{ color: tier.ring }}>{tier.label}</h2>
+        <p className="activity-summary__copy"><strong>{highRisk}</strong> of <strong>{earthquakes.length}</strong> events flagged as high-magnitude or alerted.</p>
+        <div className="activity-summary__scale">
+          <div className="activity-summary__scale-bar"><div className="activity-summary__scale-segment activity-summary__scale-segment--calm" /><div className="activity-summary__scale-segment activity-summary__scale-segment--moderate" /><div className="activity-summary__scale-segment activity-summary__scale-segment--high" /><div className="activity-summary__scale-segment activity-summary__scale-segment--extreme" /></div>
+          <div className="activity-summary__scale-marker" style={{ marginLeft: `calc(${score}% - 8px)`, backgroundColor: tier.ring, boxShadow: `0 0 8px 2px ${tier.glow}` }} />
+          <div className="activity-summary__scale-labels"><span>Calm</span><span>Critical</span></div>
         </div>
       </div>
     </article>
   );
 }
-/** Displays compact activity totals used on the dashboard overview. */
+
+export default memo(ActivitySummary);

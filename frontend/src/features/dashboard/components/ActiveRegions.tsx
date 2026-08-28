@@ -1,3 +1,4 @@
+import { memo, useMemo } from 'react';
 import { MapPin } from 'lucide-react';
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer, Tooltip } from 'recharts';
 import type { Earthquake } from '@/types';
@@ -11,23 +12,23 @@ const Dot = (props: any) => {
 };
 
 /** Renders or coordinates active regions for this frontend module. */
-export default function ActiveRegions({ earthquakes }: { earthquakes: Earthquake[] }) {
-  const regions = [...earthquakes.reduce((map, event) => {
+function ActiveRegions({ earthquakes }: { earthquakes: Earthquake[] }) {
+  const regions = useMemo(() => [...earthquakes.reduce((map, event) => {
     const country = countryOf(event.place); map.set(country, (map.get(country) || 0) + 1); return map;
-  }, new Map<string, number>()).entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
+  }, new Map<string, number>()).entries()].sort((a, b) => b[1] - a[1]).slice(0, 5), [earthquakes]);
   const total = earthquakes.length;
-  const chartData = regions.map(([country, count], index) => ({ country, count, share: total ? Math.round((count / total) * 100) : 0, fill: colors[index] }));
+  const chartData = useMemo(() => regions.map(([country, count], index) => ({ country, count, share: total ? Math.round((count / total) * 100) : 0, fill: colors[index] })), [regions, total]);
 
-  return <section className="mt-8 rounded-xl border border-white/12 bg-white/[0.07] p-5 shadow-sm backdrop-blur">
-    <div className="flex items-start justify-between gap-3">
+  return <section className="active-regions">
+    <div className="active-regions__header">
       <div>
-        <p className="font-serif text-[9px] font-bold uppercase tracking-[0.25em] text-red-400">Seismic Analysis</p>
-        <h2 className="mt-1 font-serif text-base font-black tracking-tight text-white">Most Active Regions</h2>
+        <p className="active-regions__eyebrow">Seismic Analysis</p>
+        <h2>Most Active Regions</h2>
       </div>
-      <span className="rounded-full border border-cyan-300/20 bg-cyan-400/10 px-1.5 py-0.5 text-[9px] font-black text-cyan-100">{total} events</span>
+      <span className="active-regions__badge">{total} events</span>
     </div>
     {regions.length ? <>
-      <div className="mt-4 h-40 rounded-xl border border-cyan-300/15 bg-slate-950/55 p-2">
+      <div className="active-regions__chart">
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart data={chartData} outerRadius="70%">
             <PolarGrid stroke="rgba(148,163,184,.28)" />
@@ -37,17 +38,19 @@ export default function ActiveRegions({ earthquakes }: { earthquakes: Earthquake
           </RadarChart>
         </ResponsiveContainer>
       </div>
-      <div className="mt-4 grid grid-cols-2 gap-2.5">
+      <div className="active-regions__list">
         {chartData.map((item) => (
-          <div key={item.country} className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.06] px-2.5 py-2">
-            <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: item.fill }} />
-            <MapPin className="h-3 w-3 shrink-0 text-slate-400" />
-            <span className="min-w-0 flex-1 truncate text-[11px] font-bold text-white">{item.country}</span>
-            <span className="rounded-full px-1.5 py-0.5 text-[10px] font-black" style={{ backgroundColor: `${item.fill}26`, color: item.fill }}>{item.share}%</span>
+          <div key={item.country} className="active-regions__item">
+            <span className="active-regions__dot" style={{ backgroundColor: item.fill }} />
+            <MapPin className="active-regions__pin" />
+            <span className="active-regions__country">{item.country}</span>
+            <span className="active-regions__share" style={{ backgroundColor: `${item.fill}26`, color: item.fill }}>{item.share}%</span>
           </div>
         ))}
       </div>
-    </> : <p className="mt-4 text-center text-xs font-semibold text-slate-400">No regional activity to report.</p>}
+    </> : <p className="active-regions__empty">No regional activity to report.</p>}
   </section>;
 }
+
+export default memo(ActiveRegions);
 /** Summarizes the regions contributing the most current earthquake activity. */

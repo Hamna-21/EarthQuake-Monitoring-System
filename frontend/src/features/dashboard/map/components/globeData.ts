@@ -25,6 +25,23 @@ export const groundTruthCoordinates = [
   { name: 'Santiago', lat: -33.4489, lng: -70.6693 },
 ];
 
+const countryAliases: Record<string, string> = {
+  usa: 'united states',
+  'united states of america': 'united states',
+  uk: 'united kingdom',
+  'great britain': 'united kingdom',
+};
+
+export function uniqueCountryLabels(labels: Array<{ text: string; lat: number; lng: number }>) {
+  const unique = new Map<string, { text: string; lat: number; lng: number }>();
+  labels.forEach((label) => {
+    const normalized = label.text.trim().toLowerCase().replace(/\s+/g, ' ');
+    const key = countryAliases[normalized] ?? normalized;
+    if (key && !unique.has(key)) unique.set(key, label);
+  });
+  return [...unique.values()];
+}
+
 // Select stable local assets for each globe mode; terrain adds a bump map while night uses a separate night texture.
 export function globeAssets(view: View) {
   return {
@@ -35,6 +52,11 @@ export function globeAssets(view: View) {
 
 // Reject invalid coordinates before they reach the 3D renderer or its popup positioning logic.
 export function validEvents(events: Earthquake[]) {
-  return events.filter((event) => Number.isFinite(event.latitude) && Number.isFinite(event.longitude)
-    && event.latitude >= -90 && event.latitude <= 90 && event.longitude >= -180 && event.longitude <= 180);
+  const unique = new Map<string, Earthquake>();
+  events.forEach((event) => {
+    if (!Number.isFinite(event.latitude) || !Number.isFinite(event.longitude) || event.latitude < -90 || event.latitude > 90 || event.longitude < -180 || event.longitude > 180) return;
+    const key = event.id || `${event.time}:${event.latitude}:${event.longitude}`;
+    if (!unique.has(key)) unique.set(key, event);
+  });
+  return [...unique.values()];
 }

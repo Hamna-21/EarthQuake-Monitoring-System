@@ -29,7 +29,6 @@ function readSingle(value: unknown, field: string) {
 }
 
 const DEFAULT_RANGE_DAYS = 30;
-const MAX_EXPLICIT_RANGE_DAYS = 10 * 366;
 
 /** Coordinates date only for this module. */
 function dateOnly(value: Date) {
@@ -39,7 +38,6 @@ function dateOnly(value: Date) {
 /** Parses and normalizes dashboard query for the module's data flow. */
 function readDashboardQuery(req: Request) {
   const now = new Date();
-  const hasStartDate = req.query.startDate !== undefined;
   const hasEndDate = req.query.endDate !== undefined;
   const defaultStart = new Date(now.getTime() - DEFAULT_RANGE_DAYS * 24 * 60 * 60 * 1000);
   const query = validateAnalyticsQuery({
@@ -52,9 +50,6 @@ function readDashboardQuery(req: Request) {
     maxDepth: readSingle(req.query.maxDepth, 'maxDepth'),
     location: readSingle(req.query.location, 'location') ?? '',
   });
-  if (hasStartDate && hasEndDate && (query.endDate.getTime() - query.startDate.getTime()) > MAX_EXPLICIT_RANGE_DAYS * 24 * 60 * 60 * 1000) {
-    throw new AnalyticsRequestBudgetError();
-  }
   return query;
 }
 

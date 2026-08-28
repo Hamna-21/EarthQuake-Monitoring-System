@@ -11,7 +11,7 @@ const metrics = [
 /** Renders or coordinates safety metric grid for this frontend module. */
 export default function SafetyMetricGrid() {
   return (
-    <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+    <div className="safety-metric-grid">
       {metrics.map(({ label, value, icon: Icon, tone }) => (
         <SafetyCard key={label} className="transition hover:-translate-y-0.5 hover:border-orange-300/20">
           <Icon className={`h-6 w-6 ${tone}`} />

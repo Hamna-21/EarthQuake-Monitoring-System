@@ -1,0 +1,20 @@
+/* Controlled Ant Design integration. GeoPulse Tailwind and glass styling remain the visual source of truth. */
+
+.ant-dropdown .ant-dropdown-menu {
+  background: rgb(2 6 23 / .96);
+  border: 1px solid rgb(255 255 255 / .1);
+  border-radius: .5rem;
+  padding: .25rem;
+}
+
+.ant-dropdown .ant-dropdown-menu-item {
+  color: #cbd5e1;
+  font-family: inherit;
+  font-size: 11px;
+}
+
+.ant-dropdown .ant-dropdown-menu-item:hover,
+.ant-dropdown .ant-dropdown-menu-item-selected {
+  background: rgb(255 255 255 / .1);
+  color: #ffedd5;
+}

@@ -18,7 +18,7 @@ export default function AnalyticsStatCard({
   glow: string;
 }) {
   return (
-    <AppCard variant="glass" className="geo-kpi-card geo-card-hover group relative overflow-hidden p-3.5 transition-transform hover:-translate-y-0.5">
+    <AppCard variant="glass" className="geo-kpi-card analytics-stat-card group">
       <div className={`pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br ${gradient} opacity-20 blur-2xl transition-opacity group-hover:opacity-30`} />
       <div className="relative flex items-center gap-2">
         <span className={`grid h-8 w-8 flex-shrink-0 place-items-center rounded-xl bg-gradient-to-br ${gradient} text-white shadow-lg ${glow}`}>

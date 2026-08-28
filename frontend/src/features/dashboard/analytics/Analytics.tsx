@@ -73,24 +73,24 @@ export function LiveAnalyticsContent({
     : earthquakes, [earthquakes, q]);
   const stats = useMemo(() => statsFor(events), [events]);
   const stronger = useMemo(() => significant(events).filter((event) => event.magnitude >= 5).length, [events]);
-  const cards = [
+  const cards = useMemo(() => [
     [<Gauge className="h-5 w-5" />, 'Average Strength', stats.avgMag.toFixed(2), 'Typical magnitude', 'from-cyan-400 via-sky-500 to-blue-600', 'shadow-cyan-900/30'],
     [<AlertTriangle className="h-5 w-5" />, 'Stronger Earthquakes', String(stronger), 'Magnitude 5.0+', 'from-amber-400 via-orange-500 to-rose-500', 'shadow-orange-900/30'],
     [<ShieldCheck className="h-5 w-5" />, 'Checked Reports', String(stats.reviewed), 'Reviewed records', 'from-emerald-400 via-teal-500 to-cyan-500', 'shadow-emerald-900/30'],
     [<Layers className="h-5 w-5" />, 'Deepest Earthquake', `${stats.maxDepth.toFixed(0)} km`, 'Maximum depth', 'from-violet-400 via-purple-500 to-fuchsia-600', 'shadow-purple-900/30'],
     [<Activity className="h-5 w-5" />, 'Highest Alerts', String(stats.red), 'Red alert records', 'from-rose-500 via-red-500 to-rose-700', 'shadow-rose-900/30'],
-  ] as const;
+  ] as const, [stats.avgMag, stronger, stats.reviewed, stats.maxDepth, stats.red]);
 
   if (variant === 'overview') {
     return (
-      <section className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
-        <div className="flex items-center justify-between gap-4">
+      <section className="analytics-overview">
+        <div className="analytics-overview__header">
           <div>
-            <h2 className="text-base font-semibold text-white">Live Seismic Analytics</h2>
-            <p className="mt-1 text-xs text-white/45">{liveAnalyticsSummary(events)}</p>
+            <h2 className="analytics-overview__title">Live Seismic Analytics</h2>
+            <p className="analytics-overview__summary">{liveAnalyticsSummary(events)}</p>
           </div>
           {openPage ? (
-            <button type="button" onClick={() => openPage('analytics')} className="group inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-cyan-300/20 bg-cyan-500/10 px-3 py-1.5 text-xs font-semibold text-cyan-100 transition hover:bg-cyan-500/20">
+            <button type="button" onClick={() => openPage('analytics')} className="analytics-link">
               View charts <ChevronRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
             </button>
           ) : null}
@@ -100,26 +100,26 @@ export function LiveAnalyticsContent({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="analytics-page">
       <PageTitle title="Live Seismic Analytics" subtitle="Live earthquake patterns and seismic activity" actions={openPage ? (
           <button type="button" onClick={() => openPage('overview')} aria-label="Close analytics" title="Close analytics" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.05] text-white/60 transition hover:border-red-400/30 hover:bg-red-500/10 hover:text-red-300">
             <X className="h-4 w-4" />
           </button>
         ) : null} />
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      <div className="analytics-grid">
         {cards.map(([icon, label, value, help, gradient, glow]) => <AnalyticsStatCard key={label} icon={icon} label={label} value={value} help={help} gradient={gradient} glow={glow} />)}
       </div>
-      <section className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
-        <div className="mb-3">
-          <h2 className="text-base font-semibold text-white">Recent Earthquake Activity</h2>
-          <p className="mt-0.5 text-xs text-white/45">Hover over chart points to view earthquake counts</p>
+      <section className="analytics-section">
+        <div className="analytics-section__heading">
+          <h2 className="analytics-section__title">Recent Earthquake Activity</h2>
+          <p className="analytics-section__subtitle">Hover over chart points to view earthquake counts</p>
         </div>
         <TimelineChart events={events} />
       </section>
-      <section className="rounded-2xl border border-white/10 bg-white/[0.035] p-4">
-        <div className="mb-3">
-          <h2 className="text-base font-semibold text-white">Earthquake Depth</h2>
-          <p className="mt-0.5 text-xs text-white/45">Distribution by depth below the surface</p>
+      <section className="analytics-section">
+        <div className="analytics-section__heading">
+          <h2 className="analytics-section__title">Earthquake Depth</h2>
+          <p className="analytics-section__subtitle">Distribution by depth below the surface</p>
         </div>
         <DepthChart events={events} />
       </section>

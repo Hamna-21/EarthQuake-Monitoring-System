@@ -1,0 +1,6 @@
+/* Central application stylesheet. Feature CSS remains colocated for route-level loading. */
+@import 'antd/dist/reset.css';
+@import './globals.css';
+@import './antd-overrides.css';
+@import './geopulse.css';
+@import '../../../node_modules/leaflet/dist/leaflet.css';

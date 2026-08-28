@@ -21,7 +21,7 @@ export default function MapPage({ earthquakes, setSelectedId, openPage, isLoadin
 
       <RefreshNote isLoading={isLoading} error={dataError} lastUpdated={lastUpdated} />
       <div className="rounded-2xl border border-white/10 bg-slate-950 p-1.5 sm:p-2">
-        <GlobalCommandCenter events={earthquakes} onSelect={select} onDetails={openDetails} lastUpdated={lastUpdated} />
+        <GlobalCommandCenter events={earthquakes} onSelect={select} onDetails={openDetails} globalSearch={globalSearch} lastUpdated={lastUpdated} />
       </div>
     </section>
   );

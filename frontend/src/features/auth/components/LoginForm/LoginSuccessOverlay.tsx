@@ -21,7 +21,7 @@ export default function LoginSuccessOverlay({
         {message}
       </p>
       <div className="w-48 h-1 bg-red-950/60 mt-6 relative overflow-hidden">
-        <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-red-600 to-orange-400 w-1/2 animate-shimmer" style={{ animationDuration: '1.2s' }} />
+        <div className="auth-shimmer absolute top-0 left-0 h-full bg-gradient-to-r from-red-600 to-orange-400 w-1/2 animate-shimmer" />
       </div>
     </div>
   );

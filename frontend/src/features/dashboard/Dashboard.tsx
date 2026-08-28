@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { Earthquake } from '@/types';
 import Shell from '@/layouts/DashboardLayout';
 import { DashboardPage } from '@/features/dashboard/types';
@@ -7,7 +7,7 @@ import { buildSuggestions, readRecentSearches, syncSearchParam, writeRecentSearc
 import DashboardPageSwitch from '@/features/dashboard/DashboardPageSwitch';
 import { normalizeDashboardPath, pageFromPath, pathForPage } from '@/features/dashboard/utils/dashboardRoutes';
 import { DashboardStateProvider } from '@/features/dashboard/hooks/DashboardStateContext';
-import WarningHub from '@/features/dashboard/safety/Safety';
+const WarningHub = lazy(() => import('@/features/dashboard/safety/Safety'));
 
 interface UserDashboardProps {
   userEmail: string | null;
@@ -116,7 +116,7 @@ export default function Dashboard(props: UserDashboardProps) {
       </div>
       <DashboardStateProvider><DashboardPageSwitch page={page} pageProps={pageProps} userName={props.userName} userEmail={props.userEmail} search={globalSearch} /></DashboardStateProvider>
     </Shell>
-    <WarningHub isOpen={props.isWarningHubOpen} onClose={props.onCloseWarningHub} />
+    {props.isWarningHubOpen && <Suspense fallback={null}><WarningHub isOpen onClose={props.onCloseWarningHub} /></Suspense>}
     </>
   );
 }

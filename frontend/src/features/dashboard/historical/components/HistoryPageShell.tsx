@@ -58,7 +58,7 @@ export default function HistoryPageShell(props: Props) {
         onSearch={() => history.search(1)}
         onReset={history.reset}
       />
-      <HistoryMapSection title={props.mapTitle} description={props.mapDescription} events={events} loading={loading} onSelect={select} onDetails={openDetails} focusLocation={focusPlace} />
+      <HistoryMapSection title={props.mapTitle} description={props.mapDescription} events={events} loading={loading} searched={history.searched} onSelect={select} onDetails={openDetails} focusLocation={focusPlace} />
       <HistoryPagination page={page} count={events.length} limit={50} hasMore={hasMore} loading={loading} onPage={history.search} />
       <HistoricalResultsTable events={events} loading={loading} onSelect={openDetails} csvFilename={getEarthquakeCsvFilename({ query: props.locationLocked ? props.locationValue ?? 'Pakistan' : searchedQuery || query, startDate, endDate })} />
     </>

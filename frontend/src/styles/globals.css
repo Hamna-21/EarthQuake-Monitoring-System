@@ -1,6 +1,46 @@
 @import "tailwindcss";
 
 /* ==========================================
+   SHARED GEO-PULSE CONTROLS
+   Used by: reusable buttons and glass surfaces
+   Purpose: Keep repeated static presentation in one place
+   ========================================== */
+.geopulse-primary-button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  border-radius: 0;
+  background: linear-gradient(to right, #dc2626, #f97316);
+  padding: 1rem;
+  color: #fff;
+  font-size: .75rem;
+  font-weight: 900;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  box-shadow: 0 20px 25px -5px rgb(185 28 28 / .25);
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+.geopulse-primary-button:hover { transform: translateY(-.125rem); }
+.geopulse-primary-button:disabled { opacity: .5; }
+
+.geopulse-icon-button {
+  border-radius: 9999px;
+  background: rgb(255 255 255 / .1);
+  padding: .5rem;
+  color: #fff;
+}
+
+.geopulse-glass-card {
+  border: 1px solid rgb(255 255 255 / .1);
+  border-radius: .75rem;
+  background: rgb(255 255 255 / .06);
+  backdrop-filter: blur(24px);
+}
+
+/* ==========================================
    GLOBAL APP BASE
    Used by: Entire frontend
    Purpose: Tailwind entry point and shared application styles

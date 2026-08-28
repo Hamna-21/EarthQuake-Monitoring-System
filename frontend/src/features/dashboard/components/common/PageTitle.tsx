@@ -1,5 +1,4 @@
 import type { ComponentType, ReactNode } from 'react';
-import './dashboardCommon.css';
 
 type PageTitleProps = {
   eyebrow?: ReactNode;

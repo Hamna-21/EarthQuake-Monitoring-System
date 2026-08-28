@@ -8,10 +8,11 @@ export type HistoricalSummary = {
   mostActiveYear: { year: number; count: number } | null; mostActiveMonth: { year: number; month: number; label: string; count: number } | null;
 };
 export type HistoricalMapEvent = { usgsId: string; magnitude: number | null; place: string; occurredAt: string; depth: number | null; coordinates: [number, number] };
+export type HistoricalLocation = { query: string; kind: 'city' | 'country' | 'region'; latitude: number | null; longitude: number | null; bounds: { minLatitude: number; maxLatitude: number; minLongitude: number; maxLongitude: number } | null };
 export type HistoricalAnalyticsResponse = {
-  success: true; summary: HistoricalSummary; yearlyFrequency: HistoricalRow[]; monthlyTimeline: HistoricalRow[];
+  success: true; location: HistoricalLocation | null; summary: HistoricalSummary; yearlyFrequency: HistoricalRow[]; monthlyTimeline: HistoricalRow[];
   calendarMonthFrequency: HistoricalRow[]; magnitudeDistribution: HistoricalRow[]; depthDistribution: HistoricalRow[];
-  yearMonthHeatmap: HistoricalRow[]; magnitudeGroups: HistoricalRow[]; mapEvents: HistoricalMapEvent[];
+  yearMonthHeatmap: HistoricalRow[]; magnitudeGroups: HistoricalRow[]; events?: HistoricalMapEvent[]; mapEvents: HistoricalMapEvent[];
   metadata: { region: AnalyticsFilters['region']; generatedAt: string; documentCount: number; geographicClassification: string; pointInPolygonApplied: boolean; usgsCount?: number; rawFeatureCount?: number; uniqueEventCount?: number; validEventCount?: number; pages?: number; chunks?: number; duplicateCount?: number };
 };
 

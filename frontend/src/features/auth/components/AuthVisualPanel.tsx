@@ -5,36 +5,36 @@ import earthTexture from '@/assets/images/earth/earth-day.jpg';
 /** Renders or coordinates auth visual panel for this frontend module. */
 export default function AuthVisualPanel() {
   return (
-    <aside className="relative z-10 hidden w-1/2 flex-col justify-between border-r border-white/10 bg-white/[0.04] p-14 backdrop-blur-xl lg:flex">
-      <div className="flex items-center gap-3">
+    <aside className="auth-visual">
+      <div className="auth-visual__brand">
         <Activity className="h-9 w-9 animate-pulse text-cyan-200" />
         <div>
-          <p className="max-w-[18rem] text-lg font-black uppercase leading-tight tracking-[0.14em] text-white xl:text-xl">Earthquake Monitoring System</p>
+          <p className="auth-visual__brand-title">Earthquake Monitoring System</p>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
             
           </p>
         </div>
       </div>
 
-      <div className="relative mx-auto grid h-[420px] w-[420px] place-items-center">
+      <div className="auth-visual__earth">
   {/* ambient glow — matches orbit 2's size */}
-  <div className="absolute h-[340px] w-[340px] rounded-full border border-cyan-300/10 bg-cyan-300/[0.03] blur-sm" />
+  <div className="auth-visual__ambient-orbit" />
 
   {/* orbit 1 — cyan satellite */}
-  <div className="orbit-ring absolute z-20 h-[320px] w-[320px] rounded-full border border-cyan-300/10">
-    <span className="satellite absolute h-2 w-2 rounded-full bg-cyan-300 shadow-[0_0_3px_1px_rgba(34,211,238,0.4)]" />
+  <div className="auth-orbit auth-orbit--cyan">
+    <span className="auth-satellite h-2 w-2 bg-cyan-300 shadow-[0_0_3px_1px_rgba(34,211,238,0.4)]" />
   </div>
 
   {/* orbit 2 — red satellite */}
-  <div className="orbit-ring orbit-ring-reverse absolute z-20 h-[340px] w-[340px] rounded-full border border-red-400/10">
-    <span className="satellite absolute h-1.5 w-1.5 rounded-full bg-red-400 shadow-[0_0_2px_1px_rgba(248,113,113,0.4)]" />
+  <div className="auth-orbit auth-orbit--red">
+    <span className="auth-satellite h-1.5 w-1.5 bg-red-400 shadow-[0_0_2px_1px_rgba(248,113,113,0.4)]" />
   </div>
 
   {/* the earth itself */}
-  <div className="earth-sphere relative z-10 h-72 w-72 overflow-hidden rounded-full shadow-[0_0_60px_rgba(14,165,233,0.35)]">
+  <div className="auth-earth">
     <div className="earth-texture absolute inset-0" />
-    <div className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_32%_30%,rgba(255,255,255,0.35),transparent_45%),radial-gradient(circle_at_70%_75%,rgba(0,0,0,0.55),transparent_60%)]" />
-    <div className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-cyan-200/20" />
+    <div className="auth-earth__overlay" />
+    <div className="auth-earth__ring" />
   </div>
 </div>
 

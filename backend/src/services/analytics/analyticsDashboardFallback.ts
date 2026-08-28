@@ -64,7 +64,20 @@ export async function getAnalyticsDashboardFallback(query: ValidatedAnalyticsQue
   const depths = events.map((event) => event.depth).filter((value): value is number => value !== null);
   const mostActiveYear = [...yearlyFrequency].sort((a, b) => b.count - a.count || a.year - b.year)[0] ?? null;
   const mostActiveMonth = [...monthlyTimeline].sort((a, b) => b.count - a.count || a.year - b.year || a.month - b.month)[0] ?? null;
+  const exactBoundaryApplied = Boolean(query.locationPolygons?.length && query.locationKind !== 'city');
+  const location = query.location ? {
+    query: query.location,
+    kind: query.locationKind ?? 'region',
+    latitude: query.locationCenter?.latitude ?? null,
+    longitude: query.locationCenter?.longitude ?? null,
+    bounds: query.bounds ?? null,
+  } : null;
+  const mapEvents = events.map((event) => ({
+    usgsId: event.usgsId, magnitude: event.magnitude, place: event.place,
+    occurredAt: event.time, updatedAt: event.updatedAt, depth: event.depth, coordinates: [event.longitude, event.latitude] as [number, number],
+  }));
   return {
+    location,
     summary: {
       totalEvents: events.length, strongestMagnitude: magnitudes.length ? Math.max(...magnitudes) : null,
       averageMagnitude: avg(magnitudes), averageDepth: avg(depths),
@@ -76,10 +89,8 @@ export async function getAnalyticsDashboardFallback(query: ValidatedAnalyticsQue
     depthDistribution: fillBins(events, depthBins, (event) => depthLabel(event.depth)),
     yearMonthHeatmap: monthlyTimeline,
     magnitudeGroups: fillBins(events, magBins, (event) => magLabel(event.magnitude)),
-    mapEvents: events.map((event) => ({
-      usgsId: event.usgsId, magnitude: event.magnitude, place: event.place,
-      occurredAt: event.time, updatedAt: event.updatedAt, depth: event.depth, coordinates: [event.longitude, event.latitude],
-    })),
-    metadata: { region: query.region, dataMode: 'historical' as const, source: 'USGS' as const, geographicClassification: query.region === 'pakistan' ? 'Pakistan boundary' : 'global', pointInPolygonApplied: query.region === 'pakistan', generatedAt: new Date().toISOString(), documentCount: events.length, usgsCount: response.expectedCount, rawFeatureCount: response.rawFeatureCount, uniqueEventCount: response.events.length, validEventCount: events.length, pages: response.pages, chunks: response.chunks, duplicateCount: response.duplicateCount },
+    // Keep the complete filtered collection available to every frontend consumer.
+    events: mapEvents, mapEvents,
+    metadata: { region: query.region, dataMode: 'historical' as const, source: 'USGS' as const, geographicClassification: query.region === 'pakistan' ? 'Pakistan boundary' : query.location ? (query.locationKind === 'city' ? 'resolved city radius' : 'resolved location boundary') : 'global', pointInPolygonApplied: query.region === 'pakistan' || exactBoundaryApplied, generatedAt: new Date().toISOString(), documentCount: events.length, usgsCount: response.expectedCount, rawFeatureCount: response.rawFeatureCount, uniqueEventCount: response.events.length, validEventCount: events.length, pages: response.pages, chunks: response.chunks, duplicateCount: response.duplicateCount },
   };
 }

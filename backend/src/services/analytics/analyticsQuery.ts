@@ -16,6 +16,9 @@ export type ValidatedAnalyticsQuery = {
   location: string;
   bounds?: { minLatitude: number; maxLatitude: number; minLongitude: number; maxLongitude: number };
   locationPolygons?: AnalyticsLocationPolygon[];
+  locationKind?: 'city' | 'country' | 'region';
+  locationCenter?: { latitude: number; longitude: number };
+  locationRadiusKm?: number;
 };
 
 export const ANALYTICS_START_DATE = '1975-01-01';

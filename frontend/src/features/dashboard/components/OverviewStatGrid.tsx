@@ -1,4 +1,5 @@
 import { AlertTriangle, Globe2, MapPin, RadioTower, TrendingUp, Waves } from 'lucide-react';
+import { Col, Row } from 'antd';
 import { Earthquake } from '@/types';
 import { statsFor } from '@/features/dashboard/utils/data';
 import OverviewStatCard from '@/features/dashboard/components/OverviewStatCard';
@@ -21,28 +22,17 @@ export default function OverviewStatGrid({ earthquakes }: { earthquakes: Earthqu
 
   return (
     <section>
-      <div className="mb-3 flex items-baseline justify-between">
+      <div className="overview-section-heading">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-red-700">Situation Room</p>
-          <h2 className="mt-0.5 font-serif text-lg font-black tracking-tight text-white">Global Pulse, at a Glance</h2>
+          <p className="overview-section-heading__eyebrow">Situation Room</p>
+          <h2>Global Pulse, at a Glance</h2>
         </div>
       </div>
-      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+      <Row className="overview-stat-grid" gutter={[12, 12]}>
         {cards.map(([label, caption, value, icon, gradient, glow, tone, tag, seed]) => (
-          <OverviewStatCard
-            key={label}
-            label={label}
-            caption={caption}
-            value={value}
-            icon={icon}
-            gradient={gradient}
-            glow={glow}
-            toneChip={toneStyles[tone as CardTone].chip}
-            tag={tag}
-            bars={spark(seed)}
-          />
+          <Col key={label} xs={24} md={12} xl={8}><OverviewStatCard label={label} caption={caption} value={value} icon={icon} gradient={gradient} glow={glow} toneChip={toneStyles[tone as CardTone].chip} tag={tag} bars={spark(seed)} /></Col>
         ))}
-      </div>
+      </Row>
     </section>
   );
 }

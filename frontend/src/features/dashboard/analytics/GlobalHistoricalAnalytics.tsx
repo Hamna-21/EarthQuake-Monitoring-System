@@ -29,8 +29,14 @@ export function HistoricalAnalyticsPanel(props: Props) {
   const [draft, setDraft] = useState<AnalyticsFilters>(filters);
   const [view, setView] = useState<View>('night');
   useEffect(() => setDraft(filters), [filters]);
-  const events = useMemo(() => data ? mapHistoricalEvents(data.mapEvents) : [], [data]);
-  const { place: focusPlace } = usePlaceFocus(filters.location);
+  // Prefer the complete event collection, while retaining mapEvents for older API responses.
+  const events = useMemo(() => data ? mapHistoricalEvents(data.events ?? data.mapEvents) : [], [data]);
+  const { place: geocodedFocusPlace } = usePlaceFocus(filters.location);
+  const responseLocation = data?.location;
+  const searchedLocation = responseLocation?.query ?? filters.location.trim();
+  const focusPlace = responseLocation && responseLocation.latitude !== null && responseLocation.longitude !== null
+    ? { lat: responseLocation.latitude, lng: responseLocation.longitude, bounds: responseLocation.bounds ? { south: responseLocation.bounds.minLatitude, north: responseLocation.bounds.maxLatitude, west: responseLocation.bounds.minLongitude, east: responseLocation.bounds.maxLongitude } : undefined }
+    : geocodedFocusPlace;
   const select = (event: Earthquake) => props.setSelectedEvent ? props.setSelectedEvent(event) : props.setSelectedId(event.id);
   const details = (event: Earthquake) => { select(event); props.openPage('details'); };
   const resetAll = () => { const defaults = createDefaultAnalyticsFilters('global'); setDraft(defaults); reset(); };
@@ -38,8 +44,8 @@ export function HistoricalAnalyticsPanel(props: Props) {
   const mapTitle = 'Global Historical Earthquake Map';
   return <div className="space-y-4"><PageTitle eyebrow="Historical earthquake data" title={name} subtitle="Choose filters, then search the historical earthquake data." /><HistoricalAnalyticsControls draft={draft} setDraft={(patch) => setDraft((current) => ({ ...current, ...patch }))} onApply={() => applyFilters(draft)} onReset={resetAll} isLoading={isLoading} showLocation />
     {isLoading && !data ? <State title="Loading historical earthquakes..." text="Fetching historical earthquake data." /> : null}{error ? <State title="Historical analytics could not load." text={error} action={() => applyFilters(filters)} /> : null}{!data && !isLoading && !error ? <State title="Ready to search" text="Set a year range and minimum magnitude, then select Search." /> : null}
-    {data && <><HistoricalFilterSummary filters={filters} data={data} /><HistoricalSummaryCards data={data} /><section className="space-y-2"><div className="flex flex-wrap items-start justify-between gap-2"><div><h2 className="font-serif text-lg font-black text-white">{mapTitle}</h2><p className="text-sm font-medium text-slate-300">Interactive historical earthquake activity with the same filtered dataset as the analytics.</p></div><GlobeViewControls view={view} onChange={setView} /></div><InteractiveGlobePanel events={events} onSelect={select} onDetails={details} autoRotate={false} focusLocation={focusPlace} focusLabel={focusPlace?.label} popupMode="historical" compact bare view={view} onViewChange={setView} legendOutside /><GlobeLegend outside /></section>
-      {data.summary.totalEvents ? <><HistoricalMonthChart rows={data.calendarMonthFrequency} /><HistoricalDistributionCharts magnitudeRows={data.magnitudeDistribution} depthRows={data.depthDistribution} /><HistoricalHeatmap rows={data.yearMonthHeatmap} /><HistoricalTimelineChart data={data} /><HistoricalYearlyChart rows={data.yearlyFrequency} /></> : <State title="No matching earthquakes found." text="Try a longer period or lower minimum magnitude." action={resetAll} />}</>}
+    {data && <><HistoricalFilterSummary filters={filters} data={data} /><HistoricalSummaryCards data={data} /><section className="space-y-2"><div className="flex flex-wrap items-start justify-between gap-2"><div><h2 className="font-serif text-lg font-black text-white">{mapTitle}</h2><p className="text-sm font-medium text-slate-300">Interactive historical earthquake activity with the same filtered dataset as the analytics.</p></div><GlobeViewControls view={view} onChange={setView} /></div><InteractiveGlobePanel events={events} onSelect={select} onDetails={details} autoRotate={false} focusLocation={focusPlace} focusLabel={responseLocation?.query ?? geocodedFocusPlace?.label} popupMode="historical" compact bare view={view} onViewChange={setView} legendOutside /><GlobeLegend outside /></section>
+      {data.summary.totalEvents ? <><HistoricalMonthChart rows={data.calendarMonthFrequency} /><HistoricalDistributionCharts magnitudeRows={data.magnitudeDistribution} depthRows={data.depthDistribution} /><HistoricalHeatmap rows={data.yearMonthHeatmap} /><HistoricalTimelineChart data={data} /><HistoricalYearlyChart rows={data.yearlyFrequency} /></> : <State title={searchedLocation ? `No matching earthquakes found for ${searchedLocation}.` : 'No matching earthquakes found.'} text="The location is valid, but no earthquakes match the selected date and magnitude filters." action={resetAll} />}</>}
   </div>;
 }
 

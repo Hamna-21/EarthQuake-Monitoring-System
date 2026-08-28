@@ -1,12 +1,15 @@
 import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
+import {ConfigProvider} from 'antd';
 import App from '@/app/App.tsx';
-import '@/styles/globals.css';
-import "leaflet/dist/leaflet.css";
+import {geoPulseAntdTheme} from '@/theme/antdTheme';
+import '@/styles/app.css';
 
 // Mount the single application root and keep React's development checks enabled.
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <ConfigProvider theme={geoPulseAntdTheme}>
+      <App />
+    </ConfigProvider>
   </StrictMode>,
 );

@@ -1,13 +1,14 @@
 import { tableColumns } from '@/features/dashboard/constants';
+import { memo } from 'react';
 
 /** Renders or coordinates data table header for this frontend module. */
-export default function DataTableHeader() {
+function DataTableHeader() {
   return (
-    <thead className="sticky top-0 z-10 bg-gradient-to-r from-cyan-500/15 via-sky-500/10 to-red-500/10 shadow-sm backdrop-blur">
-      <tr className="text-[11px] font-black uppercase tracking-[0.14em] text-cyan-100">
+    <thead className="dashboard-data-table__head">
+      <tr className="dashboard-data-table__head-row">
         {tableColumns.map(({ key, head, icon: Icon, tone }) => (
-          <th key={key} className="whitespace-nowrap px-6 py-4">
-            <span className="flex items-center gap-1.5">
+          <th key={key} className="dashboard-data-table__head-cell">
+            <span className="dashboard-data-table__head-label">
               <Icon className={`h-3.5 w-3.5 ${tone}`} />
               {head}
             </span>
@@ -17,4 +18,6 @@ export default function DataTableHeader() {
     </thead>
   );
 }
+
+export default memo(DataTableHeader);
 /** Renders the column headings for the reusable earthquake data table. */

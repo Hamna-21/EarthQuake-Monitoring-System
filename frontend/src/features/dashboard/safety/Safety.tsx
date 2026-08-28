@@ -14,14 +14,14 @@ export default function WarningHub({ isOpen, onClose }: WarningHubProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 p-2 backdrop-blur-xl sm:p-3">
+    <div className="safety-hub-overlay">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(239,68,68,0.18),transparent_34%),radial-gradient(circle_at_85%_20%,rgba(249,115,22,0.14),transparent_32%)]" />
       <section
         id="safety-hub"
-        className="relative z-10 max-h-[96vh] w-full max-w-6xl overflow-y-auto rounded-3xl border border-white/15 bg-slate-950/75 text-white shadow-2xl shadow-black/50 backdrop-blur-2xl"
+        className="safety-hub-panel"
       >
        
-        <header className="sticky top-0 z-20 flex items-start justify-between gap-3 overflow-hidden border-b border-white/10 bg-slate-950/90 p-4 backdrop-blur-xl sm:p-5">
+        <header className="safety-hub-header">
           <div className="relative min-w-0">
             <div className="pointer-events-none absolute -left-12 -top-20 h-44 w-44 rounded-full bg-orange-500/20 blur-3xl" />
             <p className="relative flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-orange-200">
@@ -39,7 +39,7 @@ export default function WarningHub({ isOpen, onClose }: WarningHubProps) {
             <X className="h-5 w-5" />
           </button>
         </header>
-        <div className="space-y-5 p-4 md:p-5">
+        <div className="safety-hub-body">
           <SafetyMetricGrid />
           <div className="grid gap-3 lg:grid-cols-[1.15fr_0.85fr]">
             <SafetyHubVideo />

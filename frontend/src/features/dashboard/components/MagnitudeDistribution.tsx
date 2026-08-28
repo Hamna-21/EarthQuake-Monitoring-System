@@ -19,31 +19,31 @@ export default function MagnitudeDistribution({ earthquakes }: { earthquakes: Ea
 
   return (
     <section
-      className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-3.5 shadow-[0_12px_32px_rgba(0,0,0,0.18)] backdrop-blur-xl"
+      className="magnitude-card"
     >
       <div
-        className="pointer-events-none absolute -right-10 -top-16 h-40 w-40 rounded-full blur-3xl opacity-25"
+        className="magnitude-card__glow"
         style={{ background: dominantColor }}
       />
 
-      <div className="relative flex items-start justify-between gap-3">
+      <div className="magnitude-card__header">
         <div>
-          <p className="font-serif text-[10px] font-bold uppercase tracking-[0.17em] text-cyan-300">Seismic Analysis</p>
-          <h3 className="mt-0.5 font-serif text-base font-bold text-white">Magnitude Distribution</h3>
+          <p className="magnitude-card__eyebrow">Seismic Analysis</p>
+          <h3>Magnitude Distribution</h3>
         </div>
-        <div className="text-right">
-          <p className="font-serif text-lg font-black leading-none text-white">{total}</p>
-          <p className="font-serif text-[10px] font-bold uppercase tracking-wide text-slate-500">events</p>
+        <div className="magnitude-card__total-block">
+          <span className="magnitude-card__total">{total}</span>
+          <span>events</span>
         </div>
       </div>
 
-      <div className="relative mt-2.5 flex h-2 overflow-hidden rounded-full bg-white/10">
+      <div className="magnitude-card__bar">
         {buckets.map(([label, , , , color], i) => {
           const width = total > 0 ? Math.max(counts[i] > 0 ? 3 : 0, (counts[i] / total) * 100) : 100 / buckets.length;
           return width > 0 ? (
             <div
               key={label}
-              className={`h-full transition-all duration-700 ease-out ${i > 0 ? 'ml-px' : ''}`}
+              className="magnitude-card__bar-segment"
               style={{ width: `${width}%`, backgroundColor: color, opacity: total > 0 ? undefined : 0.15, boxShadow: `0 0 8px ${color}80` }}
             />
           ) : null;
@@ -51,7 +51,7 @@ export default function MagnitudeDistribution({ earthquakes }: { earthquakes: Ea
       </div>
 
       {total > 0 ? (
-        <div className="relative mt-2.5 space-y-1">
+        <div className="magnitude-card__rows">
           {buckets.map(([label, , , severity, color], i) => {
             const count = counts[i];
             const pct = total > 0 ? Math.round((count / total) * 100) : 0;
@@ -60,26 +60,26 @@ export default function MagnitudeDistribution({ earthquakes }: { earthquakes: Ea
             return (
               <div
                 key={label}
-                className="flex items-center gap-2 rounded-lg border px-2 py-1.5 backdrop-blur-sm transition-colors"
+                className="magnitude-card__row"
                 style={{
                   backgroundColor: `${color}${isDominant ? '22' : '0d'}`,
                   borderColor: `${color}${isDominant ? '55' : '20'}`,
                 }}
               >
                 <span
-                  className="h-2.5 w-2.5 shrink-0 rounded-full"
+                  className="magnitude-card__dot"
                   style={{ backgroundColor: color, boxShadow: `0 0 6px ${color}` }}
                 />
-                <span className="font-serif text-[13px] font-black text-white">M{label}</span>
-                <span className="font-serif text-[11px] font-bold" style={{ color }}>{severity}</span>
-                <span className="ml-auto font-serif text-[13px] font-black text-white">{count}</span>
-                <span className="w-9 text-right font-serif text-[11px] font-bold" style={{ color }}>{pct}%</span>
+                <span className="magnitude-card__label">M{label}</span>
+                <span className="magnitude-card__severity" style={{ color }}>{severity}</span>
+                <span className="magnitude-card__count">{count}</span>
+                <span className="magnitude-card__percent" style={{ color }}>{pct}%</span>
               </div>
             );
           })}
         </div>
       ) : (
-        <p className="mt-4 text-center font-serif text-sm font-semibold text-slate-400">No seismic events recorded in this window.</p>
+        <p className="magnitude-card__empty">No seismic events recorded in this window.</p>
       )}
     </section>
   );

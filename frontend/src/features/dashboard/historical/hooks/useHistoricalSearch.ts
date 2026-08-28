@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Earthquake } from '@/types';
 import { fetchHistoricalEarthquakePage } from '@/features/earthquakes/services/earthquakeApi';
 import { useDashboardPageState } from '@/features/dashboard/hooks/DashboardStateContext';
+import { resolvePlace } from '@/features/dashboard/map/services/placeSearch';
 
 /** Handles use historical search and keeps the related frontend state or data flow consistent. */
 export function useHistoricalSearch(mode: 'global' | 'pakistan', globalSearch = '') {
@@ -50,7 +51,19 @@ export function useHistoricalSearch(mode: 'global' | 'pakistan', globalSearch = 
     try {
       const cleanQuery = mode === 'pakistan' && current.query.trim().toLowerCase() === 'pakistan' ? '' : current.query.trim();
       if (nextPage === 1) setSearchedQuery(cleanQuery);
-      const result = await fetchHistoricalEarthquakePage({ startDate: current.startDate, endDate: current.endDate, minMagnitude: current.minMag, query: cleanQuery, mode, page: nextPage, limit: 50, signal: controller.signal });
+      const place = cleanQuery ? await resolvePlace(cleanQuery, controller.signal) : null;
+      if (cleanQuery && !place) throw new Error(`Location was not found for "${cleanQuery}".`);
+      const result = await fetchHistoricalEarthquakePage({
+        startDate: current.startDate,
+        endDate: current.endDate,
+        minMagnitude: current.minMag,
+        query: cleanQuery,
+        mode,
+        page: nextPage,
+        limit: 50,
+        signal: controller.signal,
+        locationBounds: place?.bounds,
+      });
       if (id !== requestId.current) return;
       setEvents(result.earthquakes);
       setPage(result.page);

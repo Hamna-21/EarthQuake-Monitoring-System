@@ -35,8 +35,8 @@ export default function DashboardSearch({ value, suggestions, onChange, onClear,
   };
 
   return (
-    <div className="relative hidden min-w-0 flex-1 md:flex">
-      <label className="flex w-full items-center gap-2 rounded-2xl border border-white/10 bg-black/20 px-3 py-2 transition hover:border-cyan-300/25 sm:gap-3 sm:px-4">
+    <div className="dashboard-search">
+      <label className="dashboard-search__field">
         <Search className="h-4 w-4 text-cyan-200" />
         <input
           value={value}
@@ -49,31 +49,31 @@ export default function DashboardSearch({ value, suggestions, onChange, onClear,
             if (event.key === 'Escape') { event.preventDefault(); onClear(); setOpen(false); }
           }}
           placeholder="Search earthquakes, pages, countries"
-          className="min-w-0 flex-1 bg-transparent text-sm font-semibold text-slate-100 outline-none placeholder:text-slate-400"
+          className="dashboard-search__input"
           aria-label="Global dashboard search"
           role="combobox"
           aria-expanded={open}
         />
-        {hasQuery && <button type="button" onClick={onClear} className="rounded-full p-1 text-slate-300 transition hover:bg-white/10 hover:text-white" aria-label="Clear dashboard search">
+        {hasQuery && <button type="button" onClick={onClear} className="dashboard-search__clear" aria-label="Clear dashboard search">
           <X className="h-3.5 w-3.5" />
         </button>}
       </label>
 
-      {open && hasQuery && <div className="absolute left-0 top-[calc(100%+10px)] z-50 w-[420px] overflow-hidden rounded-2xl border border-white/12 bg-slate-950/95 p-2 shadow-2xl backdrop-blur-2xl">
+      {open && hasQuery && <div className="dashboard-search__results">
         {suggestions.length ? grouped.map(([group, items]) => (
-          <div key={group} className="py-1">
-            <p className="px-3 py-1 text-[10px] font-black uppercase tracking-[0.22em] text-slate-500">{group}</p>
+          <div key={group} className="dashboard-search__group">
+            <p className="dashboard-search__group-title">{group}</p>
             {items.map((item) => {
               const index = suggestions.findIndex((candidate) => candidate.id === item.id);
               return (
-                <button key={item.id} type="button" onMouseDown={(event) => event.preventDefault()} onClick={() => choose(item)} className={`w-full rounded-xl px-3 py-2 text-left transition ${active === index ? 'bg-cyan-400/15 text-white' : 'text-slate-200 hover:bg-white/10'}`}>
+                <button key={item.id} type="button" onMouseDown={(event) => event.preventDefault()} onClick={() => choose(item)} className={`dashboard-search__result ${active === index ? 'dashboard-search__result--active' : ''}`}>
                   <span className="block text-sm font-black">{item.label}</span>
                   {item.detail && <span className="block truncate text-xs font-semibold text-slate-400">{item.detail}</span>}
                 </button>
               );
             })}
           </div>
-        )) : <p className="px-4 py-6 text-center text-sm font-semibold text-slate-400">No matching results found.</p>}
+        )) : <p className="dashboard-search__empty">No matching results found.</p>}
       </div>}
     </div>
   );

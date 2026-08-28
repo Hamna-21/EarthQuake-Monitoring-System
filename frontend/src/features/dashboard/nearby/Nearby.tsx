@@ -74,21 +74,21 @@ export default function NearbyPage({ earthquakes, setSelectedId, openPage, globa
   ];
 
   return (
-    <section className="space-y-4">
-      <div className="flex justify-end">
+    <section className="nearby-page">
+      <div className="nearby-page__close">
         <BackButton label="Close" onClick={() => openPage('overview')} />
       </div>
       <LocationCard location={location} error={error} locating={locating} onLocate={locate} />
       <RadiusControl radius={radius} onChange={setRadius} />
 
-      <div className="grid gap-3 md:grid-cols-3">
+      <div className="nearby-summary-grid">
         {summary.map((s) => <NearbySummaryCard key={s.label} {...s} />)}
       </div>
 
       {!nearby.length ? (
         <EmptyState title="No Nearby Earthquakes" text="No loaded earthquake records fall inside the selected radius." />
       ) : (
-        <div className="grid gap-3 lg:grid-cols-2 2xl:grid-cols-3">
+        <div className="nearby-events-grid">
           {nearby.map((event) => <NearbyEarthquakeCard key={event.id} event={event} highlighted={event.id === highlightedEventId} onSelect={select} />)}
         </div>
       )}
