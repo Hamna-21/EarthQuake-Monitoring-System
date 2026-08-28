@@ -25,8 +25,8 @@ export default function MobileNav({
   if (!isMobileMenuOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-30 md:hidden bg-black/95 backdrop-blur-lg flex flex-col justify-center px-10 py-20 animate-fade-in">
-      <div className="flex flex-col space-y-6 text-xl font-light text-white/80">
+    <div className="fixed inset-0 z-30 md:hidden bg-black/95 backdrop-blur-lg flex flex-col overflow-y-auto px-10 py-20 animate-fade-in">
+      <div className="my-auto flex flex-col space-y-6 text-xl font-light text-white/80">
         {navLinks.map((link) => (
           <button
             key={link.href}
