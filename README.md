@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,30&height=220&section=header&text=🌍%20GeoPulse&desc=Real-Time%20Earthquake%20Monitoring%20%26%20Seismic%20Analytics&fontSize=60&fontColor=ffffff&animation=fadeIn" width="100%" alt="GeoPulse banner"/>
+<img width="947" height="402" alt="image" src="https://github.com/user-attachments/assets/6b974e22-2f07-4f39-af91-56306d306ca6" />
 
 **A full-stack, real-time earthquake monitoring platform** — live USGS feeds, interactive 2D/3D globe visualization, deep historical analytics, a Gemini-powered AI assistant, and personalized alerts. One codebase, end to end.
 
