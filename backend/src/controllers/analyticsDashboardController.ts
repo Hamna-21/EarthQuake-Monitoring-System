@@ -30,6 +30,21 @@ function readSingle(value: unknown, field: string) {
 
 const DEFAULT_RANGE_DAYS = 30;
 
+// Short TTL cache + in-flight dedupe so repeated dashboard views don't re-fetch/re-aggregate history.
+const ANALYTICS_CACHE_TTL_MS = 60_000;
+const analyticsCache = new Map<string, { at: number; body: Record<string, unknown> }>();
+const analyticsInflight = new Map<string, Promise<Record<string, unknown>>>();
+
+function analyticsCacheKey(query: Record<string, any>) {
+  return [
+    query.region,
+    query.startDate instanceof Date ? query.startDate.toISOString() : query.startDate,
+    query.endDate instanceof Date ? query.endDate.toISOString() : query.endDate,
+    query.minMagnitude, query.maxMagnitude, query.minDepth, query.maxDepth,
+    query.location ?? '',
+  ].join('|');
+}
+
 /** Coordinates date only for this module. */
 function dateOnly(value: Date) {
   return value.toISOString().slice(0, 10);
@@ -57,7 +72,23 @@ function readDashboardQuery(req: Request) {
 export async function analyticsDashboardHandler(req: Request, res: Response) {
   try {
     const query = await resolveAnalyticsLocation(readDashboardQuery(req));
-    return res.json({ success: true, ...(await getAnalyticsDashboardFallback(query)) });
+    const key = analyticsCacheKey(query as unknown as Record<string, any>);
+
+    const hit = analyticsCache.get(key);
+    if (hit && Date.now() - hit.at < ANALYTICS_CACHE_TTL_MS) {
+      return res.json({ success: true, ...hit.body });
+    }
+
+    const pending = analyticsInflight.get(key) ?? getAnalyticsDashboardFallback(query);
+    analyticsInflight.set(key, pending);
+    try {
+      const body = await pending;
+      if (analyticsCache.size > 24) analyticsCache.delete(analyticsCache.keys().next().value as string);
+      analyticsCache.set(key, { at: Date.now(), body });
+      return res.json({ success: true, ...body });
+    } finally {
+      if (analyticsInflight.get(key) === pending) analyticsInflight.delete(key);
+    }
   } catch (error) {
     if (error instanceof QueryError) return sendError(res, error.status, error.code, error.message);
     if (error instanceof AnalyticsValidationError) return sendError(res, 400, error.code.toUpperCase(), error.message);
