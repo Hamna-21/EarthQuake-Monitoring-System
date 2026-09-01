@@ -1,193 +1,503 @@
+# 🌍 Earthquake Monitoring System
+
 <div align="center">
 
-<img width="947" height="402" alt="image" src="https://github.com/user-attachments/assets/6b974e22-2f07-4f39-af91-56306d306ca6" />
+<img width="947" height="402" alt="Earthquake Monitoring System" src="https://github.com/user-attachments/assets/6b974e22-2f07-4f39-af91-56306d306ca6" />
 
-**A full-stack, real-time earthquake monitoring platform** — live USGS feeds, interactive 2D/3D globe visualization, deep historical analytics, a Gemini-powered AI assistant, and personalized alerts. One codebase, end to end.
+### Real-Time Monitoring • Interactive Maps • Historical Analytics • AI
 
-[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black&style=for-the-badge)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white&style=for-the-badge)](https://www.typescriptlang.org)
-[![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white&style=for-the-badge)](https://vite.dev)
-[![Express](https://img.shields.io/badge/Express-4-000000?logo=express&logoColor=white&style=for-the-badge)](https://expressjs.com)
-[![MongoDB](https://img.shields.io/badge/MongoDB-7-47A248?logo=mongodb&logoColor=white&style=for-the-badge)](https://www.mongodb.com)
-[![Three.js](https://img.shields.io/badge/Three.js-3D_Globe-000000?logo=threedotjs&logoColor=white&style=for-the-badge)](https://threejs.org)
-[![Gemini AI](https://img.shields.io/badge/Google%20Gemini-AI_Assistant-8E75FF?logo=googlegemini&logoColor=white&style=for-the-badge)](https://ai.google.dev)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white&style=for-the-badge)](https://tailwindcss.com)
-[![USGS Data](https://img.shields.io/badge/USGS-FDSN_API-EA574B?style=for-the-badge)](https://earthquake.usgs.gov/fdsnws/event/1/)
+**A full-stack earthquake monitoring platform built to turn live and historical seismic data into clear, interactive, and useful insights.**
+
+<br />
+
+<a href="#-features">
+<img src="https://img.shields.io/badge/Features-Explore-6A11CB?style=for-the-badge" />
+</a>
+
+<a href="#-technology-stack">
+<img src="https://img.shields.io/badge/Stack-Full--Stack-2575FC?style=for-the-badge" />
+</a>
+
+<a href="#-getting-started">
+<img src="https://img.shields.io/badge/Setup-Get%20Started-00A8FF?style=for-the-badge" />
+</a>
 
 </div>
 
 ---
 
-## 🎯 Why this project exists
+## 🌎 About the Project
 
-Earthquakes strike without warning, and public seismic data — while freely available from agencies like the USGS — is scattered, raw, and hard for ordinary people to interpret. **GeoPulse turns that raw feed into a single, live, visual command center**:
+The **Earthquake Monitoring System** is a full-stack web application designed to make earthquake information easier to monitor, explore, and understand.
 
-| 👥 Audience | 💡 What GeoPulse gives them |
-|---|---|
-| 🏠 **The public** | An at-a-glance dashboard answering *"Is there seismic activity near me right now, and should I be concerned?"* — with a dedicated **Safety Hub** for preparedness guidance and a **Nearby** view for earthquakes close to the user |
-| 📊 **Analysts & students** | Deep **historical analytics** — yearly/monthly frequency trends, magnitude & depth distributions, calendar heatmaps, and region-scoped statistics (global 🌐, Pakistan 🇵🇰 boundary-filtered, or any searched location 📍) computed from complete USGS datasets |
-| 🤖 **The curious** | **GeoBot** — a Gemini-powered AI assistant embedded in the app that answers questions about earthquakes, safety, and seismic science in context |
+Instead of presenting raw seismic data, the system transforms earthquake events into **interactive maps, visual analytics, historical insights, alerts, and AI-assisted information.**
 
-The system ingests live USGS data, caches and normalizes it server-side, persists users and alert rules in MongoDB, and renders everything through a polished dark-themed React interface with an animated 3D globe.
+It combines real-time data processing, geographic visualization, analytics, authentication, and AI into a single platform.
 
 ---
 
-## ✨ Key Features
+## ✨ Features
 
-### 🔴 Real-time Monitoring
-- 📡 **Live earthquake feed** from the USGS FDSN API with magnitude, depth, time, and place filters
-- 🔄 **Silent 60-second polling** — the feed stays fresh without flickering or loading spinners
-- 🗺️ **Interactive map** (react-leaflet) with magnitude-scaled markers and popups
-- 🌍 **3D globe** (react-globe.gl + three.js) plotting seismic events on a rotating Earth
+<table>
+<tr>
+<td width="50%">
 
-### 📈 Dashboard & Analytics
-- 🎛️ **Overview dashboard** — KPI cards, active summary, magnitude distribution charts (recharts)
-- 📅 **Historical analytics** — yearly frequency, monthly timelines, calendar-month heatmaps, magnitude/depth distributions, strongest-event and most-active-period summaries
-- 🎯 **Region scoping** — global, Pakistan (point-in-polygon boundary filtering against a real geographic boundary), or any geocoded location with radius/bounds filtering
-- 🏛️ **Historical explorer & maps** — search decades of earthquakes and visualize them by era and magnitude
-- 🔮 **Predictions page** — statistical trend exploration over historical data
+### 🌐 Live Earthquake Monitoring
 
-### 🛡️ Safety & Alerts
-- 🆘 **Safety Hub** — earthquake preparedness instructions and emergency guidance
-- 🔔 **Alert rules** — user-defined magnitude/region thresholds persisted per account
-- 📍 **Nearby** — earthquakes closest to the user
+Monitor recent earthquake activity using live seismic data and automatically updated feeds.
 
-### 🤖 AI Assistant
-- 💬 **GeoBot** — Google Gemini-powered chat with markdown + math (KaTeX) rendering, wired through a dedicated backend chat API
+</td>
 
-### 🔐 Authentication
-- ✉️ Email/password **registration & login** with JWT (24h tokens)
-- 🇬 **Google OAuth** flow with server-side callback handling
-- ⚡ Session **restore with splash screen** — returning users land directly in the dashboard; expired sessions route cleanly back to login
-- 🍃 User accounts stored in **MongoDB**
+<td width="50%">
+
+### 🗺️ Interactive Global Map
+
+Explore earthquake locations, magnitude, depth, and geographic distribution through an interactive map.
+
+</td>
+</tr>
+
+<tr>
+<td width="50%">
+
+### 🌍 3D Earth Visualization
+
+Visualize global seismic activity through an interactive 3D globe.
+
+</td>
+
+<td width="50%">
+
+### 📊 Historical Analytics
+
+Analyze earthquake activity across different dates, magnitudes, depths, and regions.
+
+</td>
+</tr>
+
+<tr>
+<td width="50%">
+
+### 🇵🇰 Pakistan Analytics
+
+Explore historical earthquake activity specifically across Pakistan.
+
+</td>
+
+<td width="50%">
+
+### 📍 Location Analysis
+
+Investigate earthquake activity for selected geographic locations and regions.
+
+</td>
+</tr>
+
+<tr>
+<td width="50%">
+
+### 🤖 GeoBot AI Assistant
+
+An AI-powered assistant that helps users understand earthquake information and seismic concepts.
+
+</td>
+
+<td width="50%">
+
+### 🚨 Alerts & Safety
+
+Highlight important seismic events and provide earthquake preparedness and safety information.
+
+</td>
+</tr>
+</table>
 
 ---
 
-## 🏗️ Architecture
+## 🧠 How It Works
 
+```text
+                 🌎 EARTHQUAKE DATA
+                        │
+                        ▼
+              ┌───────────────────┐
+              │   Data Ingestion   │
+              └─────────┬─────────┘
+                        │
+                        ▼
+              ┌───────────────────┐
+              │ Data Processing & │
+              │   Normalization   │
+              └─────────┬─────────┘
+                        │
+                        ▼
+              ┌───────────────────┐
+              │ Cache & Request   │
+              │    Optimization   │
+              └─────────┬─────────┘
+                        │
+             ┌──────────┴──────────┐
+             ▼                     ▼
+       ┌─────────────┐       ┌─────────────┐
+       │ REST API    │       │  Analytics  │
+       │   Backend   │       │   Services  │
+       └──────┬──────┘       └──────┬──────┘
+              │                     │
+              └──────────┬──────────┘
+                         ▼
+               ┌───────────────────┐
+               │ React + TypeScript│
+               │     Frontend      │
+               └─────────┬─────────┘
+                         │
+          ┌──────────────┼──────────────┐
+          ▼              ▼              ▼
+       Live Feed       Maps          Analytics
+          │              │              │
+          └──────────────┼──────────────┘
+                         ▼
+                  🤖 GeoBot + Alerts
 ```
-🌍 GeoPulse (monorepo)
-├── 🖥️ backend/            # Express + TypeScript API server (port 3000)
-│   ├── server.ts          # Vite middleware in dev, static SPA in production
-│   └── src/
-│       ├── routes/        # /api/auth, /api/analytics, /api/chat, /api/earthquakes
-│       ├── controllers/   # request handling, validation, error mapping
-│       ├── services/      # USGS client, analytics pipeline, Gemini, boundary math
-│       │   └── analytics/ # query validation, location resolution, complete-fetch, aggregation
-│       ├── database/      # MongoDB connection & collections
-│       └── config/        # JWT config
-└── 🎨 frontend/           # React 19 + Vite 6 SPA
-    └── src/
-        ├── app/           # App shell, routing between landing/auth/dashboard
-        ├── features/      # feature-sliced domains
-        │   ├── auth/      # login, register, Google OAuth, session hook
-        │   ├── dashboard/ # overview, feed, map, analytics, historical, alerts, nearby, prediction
-        │   └── earthquakes/ # live-data hooks & filtering logic
-        ├── components/    # shared UI (navbar, search, GeoBot panel)
-        └── styles/        # geopulse.css — central design system
+
+---
+
+## 🏗️ System Architecture
+
+The application follows a full-stack architecture separating the frontend, backend, data services, analytics, and visualization layers.
+
+```text
+┌────────────────────────────────────────────────────┐
+│                  FRONTEND                          │
+│                                                    │
+│ React • TypeScript • Vite • Ant Design • Tailwind │
+│ Leaflet • React Globe • Recharts • Framer Motion  │
+└───────────────────────┬────────────────────────────┘
+                        │
+                        ▼
+┌────────────────────────────────────────────────────┐
+│                   BACKEND                          │
+│                                                    │
+│ Node.js • Express • REST APIs • Authentication    │
+│ Caching • Request Optimization • Data Services   │
+└───────────────────────┬────────────────────────────┘
+                        │
+                        ▼
+┌────────────────────────────────────────────────────┐
+│                 DATA LAYER                         │
+│                                                    │
+│ USGS Earthquake Data • MongoDB • Analytics        │
+└────────────────────────────────────────────────────┘
 ```
 
-**🔀 One server, two modes:** in development the Express server mounts Vite's middleware for HMR; in production the same server serves the built SPA with immutable, year-cached static assets while keeping all API routes live.
+---
+
+## ⚡ Engineering Highlights
+
+### 🚀 Performance Optimization
+
+The system was designed to avoid unnecessary API traffic and expensive frontend operations.
+
+* Response caching
+* Request deduplication
+* Request-budget protection
+* Silent background polling
+* Optimized API communication
+* Reusable data services
+* Route-level code splitting
 
 ---
 
-## 🚀 Engineering Highlights
+### 🌐 Advanced Visualization
 
-### ⚡ Performance
+The system combines multiple visualization techniques to make seismic information easier to understand.
 
-| Optimization | Impact |
-|---|---|
-| 🗄️ **30s TTL cache** on live USGS feed (per filter combo) | ⏱️ measured **1173ms cold → ~0ms warm** |
-| 🧠 **60s analytics cache + in-flight dedupe** | 🔁 concurrent identical requests collapse onto **one** upstream fetch |
-| 💰 **Request-budget guard** on the complete-fetch pipeline | 🛑 overly broad queries rejected with a clean `400` — the USGS API is never hammered |
-| 👻 **Silent polling** | ✨ background refreshes skip loading states — zero UI flicker |
-| 📦 **Route-level code splitting** (`React.lazy` on every page) | 🪶 small initial bundle |
-| 🌐 **Resize-guarded 3D globe** (`ResizeObserver` dedupe + ref-based intervals) | 🎞️ no render storms on window resize |
-| 🏷️ **Stable API error taxonomy** | 🎯 every failure (validation, timeout, USGS outage, geocoding) maps to a distinct status + code |
-
-### 🎨 Resilient, zoom-proof UI
-- 📐 Fully responsive from mobile to **300% browser zoom** — fluid `clamp()`/`min()` sizing, viewport-capped globe, internal-scroll cards, wrapping grids: **content never disappears or becomes unreachable**
-- 🐛 Root-caused and fixed a **Chromium `backdrop-filter` mis-rasterization bug** that painted blank bands over charts at non-100% zoom, via a resolution-gated guard — glassmorphism design preserved at standard zoom
-- 🖥️ **Single-viewport auth screens** — forms fit one screen at 100% zoom while staying readable and accessible at high zoom
+* Interactive 2D maps
+* 3D Earth visualization
+* Earthquake markers
+* Magnitude visualization
+* Depth visualization
+* Historical charts
+* Regional analytics
 
 ---
 
-## 🧰 Tech Stack
+### 📱 Responsive & Zoom-Resilient UI
 
-| Layer | Technologies |
-|---|---|
-| 🎨 **Frontend** | React 19 · TypeScript 5.8 · Vite 6 · Tailwind CSS v4 · Ant Design v6 · Framer Motion · GSAP |
-| 🌐 **Visualization** | react-leaflet + Leaflet · react-globe.gl · three.js · @react-three/fiber · recharts |
-| 🖥️ **Backend** | Node.js · Express 4 · TypeScript (tsx runtime) · esbuild production bundling |
-| 💾 **Data** | USGS FDSN earthquake API (live + historical) · MongoDB 7 |
-| 🤖 **AI** | Google Gemini (@google/genai) · react-markdown + remark/rehype (GFM, math) · KaTeX |
-| 🔐 **Auth** | JWT (jsonwebtoken) · Google OAuth 2.0 |
+The interface was engineered to remain usable across different screen sizes and browser zoom levels.
+
+Special handling was added for:
+
+* Browser zoom up to **300%**
+* Responsive layouts
+* Content overflow
+* Card and grid wrapping
+* Map resizing
+* 3D globe resizing
+* Modal viewport containment
+* Chromium backdrop-filter rendering issues
 
 ---
 
-## 🏁 Getting Started
+## 🤖 AI-Powered GeoBot
 
-### 📋 Prerequisites
-- ✅ Node.js 20+
-- ✅ A MongoDB instance (local or Atlas)
-- ✅ API keys: Google OAuth credentials, Gemini API key
+**GeoBot** brings an intelligent layer to the Earthquake Monitoring System.
 
-### 🔑 Environment variables
-Create a `.env` file in the project root:
+It helps users understand:
+
+* 🌋 Earthquake terminology
+* 📊 Magnitude and depth
+* 🌎 Seismic patterns
+* 🛡️ Earthquake safety
+* 📍 Monitoring information
+* 🧠 General earthquake concepts
+
+The purpose is simple:
+
+> **Make complex earthquake information easier to understand.**
+
+---
+
+## 🛡️ Safety Hub
+
+The Safety Hub provides practical earthquake preparedness information.
+
+### Before an Earthquake
+
+* Prepare emergency supplies
+* Identify safe areas
+* Create an emergency plan
+
+### During an Earthquake
+
+* Drop
+* Cover
+* Hold On
+* Stay away from dangerous objects and structures
+
+### After an Earthquake
+
+* Check for injuries
+* Expect possible aftershocks
+* Avoid damaged buildings
+* Follow official emergency information
+
+---
+
+## 🛠️ Technology Stack
+
+<div align="center">
+
+### Frontend
+
+<img src="https://skillicons.dev/icons?i=react,ts,js,html,css,tailwind,vite" />
+
+### Backend & Database
+
+<img src="https://skillicons.dev/icons?i=nodejs,express,mongodb,mysql" />
+
+### Visualization
+
+<img src="https://skillicons.dev/icons?i=threejs" />
+
+### Tools & Development
+
+<img src="https://skillicons.dev/icons?i=git,github,docker,postman" />
+
+</div>
+
+### Core Technologies
+
+| Layer              | Technologies                        |
+| ------------------ | ----------------------------------- |
+| **Frontend**       | React, TypeScript, JavaScript, Vite |
+| **UI**             | Ant Design, Tailwind CSS            |
+| **Backend**        | Node.js, Express                    |
+| **Database**       | MongoDB                             |
+| **Maps**           | Leaflet, React Leaflet              |
+| **3D**             | React Globe GL, Three.js            |
+| **Charts**         | Recharts                            |
+| **Animation**      | Framer Motion, GSAP                 |
+| **Authentication** | JWT, Google OAuth                   |
+| **AI**             | Google Gemini                       |
+| **Development**    | Git, GitHub, Docker, Postman        |
+
+---
+
+## 📂 Project Structure
+
+```text
+Earthquake-Monitoring-System/
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── hooks/
+│   │   ├── utils/
+│   │   ├── types/
+│   │   └── styles/
+│   │
+│   └── ...
+│
+├── backend/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   ├── middleware/
+│   │   ├── models/
+│   │   └── utils/
+│   │
+│   └── ...
+│
+└── README.md
+```
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone <YOUR_REPOSITORY_URL>
+cd Earthquake-Monitoring-System
+```
+
+### 2. Install Dependencies
+
+```bash
+cd frontend
+npm install
+```
+
+```bash
+cd ../backend
+npm install
+```
+
+### 3. Configure Environment Variables
+
+Create the required `.env` files for the frontend and backend.
+
+Example:
 
 ```env
-MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/geopulse
-JWT_SECRET=<your-secret>
-GOOGLE_CLIENT_ID=<your-google-client-id>
-GOOGLE_CLIENT_SECRET=<your-google-client-secret>
-APP_URL=http://localhost:3000
-GEMINI_API_KEY=<your-gemini-api-key>
+PORT=3000
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+GOOGLE_CLIENT_ID=your_google_client_id
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
-### 🏃 Run in development
+> ⚠️ Never commit API keys, database credentials, JWT secrets, or other sensitive values to GitHub.
+
+### 4. Run the Application
+
+Start the backend:
+
 ```bash
-npm install
-npm run dev        # 🚀 Express + Vite HMR on http://localhost:3000
+npm run dev
 ```
 
-### 📦 Production build
-```bash
-npm run build      # 🏗️ builds the SPA (Vite) and bundles the server (esbuild)
-npm start          # 🌐 serves the built app + API on port 3000
-```
+Start the frontend:
 
-### 🔍 Quality checks
 ```bash
-npm run lint       # ✔️ TypeScript type checking (tsc --noEmit)
-npm run build      # ✔️ full frontend + backend production build
+npm run dev
 ```
 
 ---
 
-## 🔌 API Overview
+## 🌎 Data Source
 
-| Endpoint group | Purpose |
-|---|---|
-| 🔐 `POST /api/auth/*` | Register, login, session restore (`/me`), logout |
-| 🇬 `GET /auth/callback` | Google OAuth redirect handler |
-| 📡 `GET /api/earthquakes/*` | Live feed with timeframe/magnitude/limit filters *(30s cache)* |
-| 📊 `GET /api/analytics/dashboard` | Historical analytics for a region/date range/location *(60s cache + dedupe)* |
-| 🤖 `POST /api/chat` | GeoBot conversation via Gemini |
+The primary earthquake data source used by the system is the **USGS Earthquake Hazards Program**.
+
+The platform processes publicly available seismic information and transforms it into a format suitable for:
+
+* Monitoring
+* Visualization
+* Historical analysis
+* Geographic exploration
+* User-friendly interpretation
+
+> **Disclaimer:** This project is intended for educational, research, and informational purposes. It is **not an official earthquake warning or emergency-response system.**
+
+For emergencies, always rely on official local authorities and emergency-management organizations.
 
 ---
 
-## 🌎 Data Source & Disclaimer
+## 🎯 What This Project Demonstrates
 
-All seismic data is sourced from the **USGS Earthquake Hazards Program FDSN API** 🇺🇸 — GeoPulse respects upstream rate limits through caching, request budgets, and deduplication. Predictive/trend views are statistical explorations of historical data and are **not** operational earthquake forecasts. ⚠️
+This project brings together several areas of modern software engineering:
+
+* Full-stack web development
+* REST API architecture
+* Real-time data handling
+* Geographic information visualization
+* Data analytics
+* Interactive mapping
+* 3D WebGL visualization
+* AI integration
+* Authentication & OAuth
+* API caching
+* Request optimization
+* Responsive UI engineering
+* Performance optimization
+* Component-based architecture
+
+---
+
+## 🔮 Future Improvements
+
+* 📱 Progressive Web App support
+* 🔔 Advanced alert subscriptions
+* 📍 Personalized location monitoring
+* 📡 Additional seismic data sources
+* 🧠 More advanced AI analytics
+* 📊 Advanced seismic trend analysis
+* 🛰️ Additional geospatial datasets
+* 📲 Push notifications
+* 🗺️ Advanced earthquake risk visualization
+
+---
+
+## 💡 Why This Project?
+
+The goal wasn't simply to display earthquake data.
+
+The goal was to answer a bigger question:
+
+> **How can raw seismic data become information that people can actually understand and use?**
+
+The Earthquake Monitoring System approaches that problem through:
+
+```text
+RAW DATA
+   ↓
+PROCESSING
+   ↓
+VISUALIZATION
+   ↓
+ANALYTICS
+   ↓
+INTELLIGENCE
+   ↓
+BETTER UNDERSTANDING
+```
 
 ---
 
 <div align="center">
 
-**💙 Built end to end** — API integration, caching architecture, geospatial filtering, 3D visualization, auth, and a zoom-resilient design system — as a demonstration of full-stack engineering depth.
+## 🌍 Earthquake Monitoring System
 
-⭐ If this project interests you, give it a star!
+### Turning seismic data into understandable insights.
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=0,30&height=120&section=footer&animation=fadeIn" width="100%" alt="footer wave"/>
+**Built with React • TypeScript • Node.js • MongoDB • Data Visualization • AI**
+
+<br />
+
+⭐ **If you found this project interesting, consider giving it a star!**
 
 </div>
